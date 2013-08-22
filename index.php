@@ -12,9 +12,7 @@
 <body>
 	<div id="pageColumn">
 		<div id="banner">
-			<h1>
-			Yo, I'm a banner.
-			</h1>
+			<img src="img/title.png" alt="Squared" />
 		</div>
 
 		<canvas id="gameCanvas"></canvas>
