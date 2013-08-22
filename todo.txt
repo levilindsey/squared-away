@@ -6,6 +6,10 @@
 
 - have circular progress indicators around the borders of the preview windows which indicate how soon it will be before the shown block is dropped
 
+- add the shimmer animation to the tiles
+    - make this a regularly occurring thing for each entire BLOCK
+	- make this a completely randomly occuring thing for each stationary SQUARE
+
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //
@@ -42,3 +46,70 @@
     - New music?
 
 - say at the bottom of the info bit that the site uses cookies?
+
+----
+----
+----
+-- FROM GIT:
+----
+
+- Plan the exact user input/controls for playing the game
+- Think through all possible details of the game playing behavior
+    - How do completed layers collapse?
+- Plan the layout of the main game area, the preview windows for each side, the banner, the description below.
+    - Be minimalistic!  (have content dynamically display if the user asks (taps) for it?)
+- Plan the art and all small animation details
+- Plan music and SFX (i.e., ask Alden when the game is demoable)
+- Plan how to create accounts and log in on the screen
+- Plan how to show personal history
+- Plan how to show community history (how many users, high scores)
+- Plan SQL database:
+    - How to save user profiles (name, email, username, all score/time/actions history, devices)
+	- How to save gameplays (start time, end time, tiles given (when/where/what), action history)
+	- How to save current state (so the user can come back to continue later)
+	- How to save login visits (which device, when opened, when closed, when went idle, ...)
+- Plan unlockables/achievements:
+    - When getting past certain difficulty levels (from the very start)
+    - When playing quickly enough
+    - New tile/GUI art
+    - New music?
+
+Most of the main game logic in place:
+	Tile behavior:
+		Tiles of the right shape are previewed and then fall
+		Tiles fall from all sides
+		Tiles fall with randomized times within windows according to current difficulty
+		Tiles are rendered with simple rect drawing to canvas
+		Tiles fall gradually to the center
+		Tiles spawn and come to rest
+		Tile fall rate and spawn rate increases
+		Collapse of complete layers is implemented
+	User input:
+		Actually capture the mouse tap and button press events on PCs and the finger tap and swipe events on mobile devices
+		All user controls and actions are implemented
+
+Tiles
+Phantom line/position markings
+Play area background
+Surrounding area background
+Borders
+Create a pictoral description of how to play the game (for internationalization)
+	But do also include a button in a corner with the i in a circle which represents info or more help
+
+The code for animating all of the block behavior:
+	Rotating
+	Sliding both sideways and down
+	Switching fall directions/sides
+	Periodic "shimmers"
+	Complete layer collapse disintegration effect
+	Rendering of phantom lines/positions for user tile-movement events
+Displaying time and current difficulty level
+Miscellaneous aesthetic touches
+
+SFX events triggered
+Sound overlaying/interacting behavior figured out
+Music looping behavior
+Music switching behavior
+Sound controls (with icons):
+	Toggle music
+	Toggle SFX
