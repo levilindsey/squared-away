@@ -1,0 +1,44 @@
+// ------------------------------------------------------------------------- //
+// ---------- SOON
+// ------------------------------------------------------------------------- //
+
+- add the guts to the different game-logic JS prototypes
+
+- have circular progress indicators around the borders of the preview windows which indicate how soon it will be before the shown block is dropped
+
+// ------------------------------------------------------------------------- //
+// ---------- EVENTUALLY
+// ------------------------------------------------------------------------- //
+
+- Time functions:
+	- USE PHP to get the login/logoff/visit times that are saved for each user
+	- USE JS to get the machine's local time at start and for calculating durations and whatnot
+- Cookies:
+	- store the username for auto-filling login info
+
+// ------------------------------------------------------------------------- //
+// ---------- PLANNING
+// ------------------------------------------------------------------------- //
+
+- Plan the exact user input/controls for playing the game
+- Think through all possible details of the game playing behavior
+    - How do completed layers collapse?
+- Plan the layout of the main game area, the preview windows for each side, the banner, the description below.
+    - Be minimalistic!  (have content dynamically display if the user asks (taps) for it?)
+- Plan the art and all small animation details
+- Plan music and SFX (i.e., ask Alden when the game is demoable)
+- Plan how to create accounts and log in on the screen
+- Plan how to show personal history
+- Plan how to show community history (how many users, high scores)
+- Plan SQL database:
+    - How to save user profiles (name, email, username, all score/time/actions history, devices)
+	- How to save gameplays (start time, end time, tiles given (when/where/what), action history)
+	- How to save current state (so the user can come back to continue later)
+	- How to save login visits (which device, when opened, when closed, when went idle, ...)
+- Plan unlockables/achievements:
+    - When getting past certain difficulty levels (from the very start)
+    - When playing quickly enough
+    - New tile/GUI art
+    - New music?
+
+- say at the bottom of the info bit that the site uses cookies?
