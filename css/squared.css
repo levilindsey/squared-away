@@ -11,9 +11,9 @@ body {
 	font-size: 12pt;
 }
 
-h1, h2 {
-	text-align: center;
+h1, h2, h3 {
 	font-weight: bold;
+	text-align: center;
 }
 
 h1 {
@@ -26,25 +26,31 @@ h2 {
 	font-size: 18pt;
 }
 
+h3 {
+	color: #CACAEA;
+	font-size: 20pt;
+}
+
 #banner {
 	background-color: rgba(2,2,2,0.8);
-	padding: 10px;
-	width: 500px;
+	padding: 10px 0px;
+	width: 520px;
 }
 
 #banner img {
-	margin: 0px 125px;
-	width: 250px;
+	display: block;
+	margin: 0px auto;
+	width: 260px;
 }
 
 #gameCanvas {
-	height: 500px;
-	width: 500px;
+	height: 520px;
+	width: 520px;
 }
 
 #infoArea {
 	background-color: #FFFFFF22;
-	width: 500px;
+	width: 520px;
 }
 
 #pageColumn {
@@ -56,7 +62,38 @@ h2 {
 	width: 520px;
 }
 
+#pauseScreen {
+	position: absolute;
+	background-color: rgba(15,15,15,0.7);
+	margin: 0px auto;
+	left: 0px;
+	top: 0px;
+	width: 520px;
+}
+
+#pauseScreenTitle {
+	margin: 10px auto;
+	width: 300px;
+}
+
+#playArea {
+	position: relative;
+	left: 0px;
+	margin: 10px 0px;
+	top: 0px;
+	width: 520px;
+}
+
 #problemArea {
 	color: #EACACA;
 	text-align: center;
+}
+
+#statsTable {
+	margin: 10px auto;
+	width: 300px;
+}
+
+#statsTable>td {
+	width: 150px;
 }

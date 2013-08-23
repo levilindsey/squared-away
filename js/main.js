@@ -21,18 +21,28 @@ var squared = {
 // Preload all required resources and call init when done
 window.resources.onready = init;
 window.resources.load([
-    // TODO: add all image and audio files here (but they should be sprite image files which each have lots of sub-images)
+    "img/sprites.png"
 ]);
 
 // We should not need to wait for window.load to complete, because this file 
 // should be the last part to load
 function init() {
 	var canvas = document.getElementById("gameCanvas");
+
 	squared.game = new Game(canvas);
+	
+	// Hook up the event handlers
+	// TODO: start game button, pause button, the various game mode radio button groups (three groups of two), error handlers, 
 }
 
-window.onresize = function(event) {
-	// TODO: 
+function playGame() {
+	squared.game.play();
+	hideNonCanvasAreas();
+}
+
+function pauseGame() {
+	squared.game.play();
+	
 }
 
 // Handle exceptions or other miscellaneous problems

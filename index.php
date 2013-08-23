@@ -15,7 +15,27 @@
 			<img src="img/title.png" alt="Squared" />
 		</div>
 
-		<canvas id="gameCanvas"></canvas>
+		<div id ="playArea">
+			<canvas id="gameCanvas"></canvas>
+
+			<div id="pauseScreen">
+				<h3 id="pauseScreenTitle">Game Paused</h3>
+				<table id="statsTable">
+					<tr>
+						<td>Score:</td>
+						<td id="scoreData"></td>
+					</tr>
+					<tr>
+						<td>Level:</td>
+						<td id="levelData"></td>
+					</tr>
+					<tr>
+						<td>Time:</td>
+						<td id="timeData"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 
 		<div id="problemArea">
 			<p>
