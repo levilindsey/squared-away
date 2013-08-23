@@ -32,7 +32,7 @@
 		}
 
 		// Set up a new game
-		var _setUpNewGame = function(squareMode, canSwitchDirections, startingLevel) {
+		var _reset = function(squareMode, canSwitchDirections, startingLevel) {
 			// TODO: 
 		}
 

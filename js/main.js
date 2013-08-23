@@ -14,58 +14,109 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-var squared = {
-	game: null
-};
+(function() {
+	var game = null;
 
-// Preload all required resources and call init when done
-window.resources.onready = init;
-window.resources.load([
-    "img/sprites.png"
-]);
+	// Preload all required resources and call init when done
+	window.resources.onready = init;
+	window.resources.load([
+		"img/sprites.png"
+	]);
 
-// We should not need to wait for window.load to complete, because this file 
-// should be the last part to load
-function init() {
-	var canvas = document.getElementById("gameCanvas");
+	// We should not need to wait for window.load to complete, because this file 
+	// should be the last part to load
+	function init() {
+		var canvas = document.getElementById("gameCanvas");
 
-	squared.game = new Game(canvas);
-	
-	// Hook up the event handlers
-	// TODO: start game button, pause button, the various game mode radio button groups (three groups of two), error handlers, 
-}
+		game = new Game(canvas);
+		
+		// Hook up the event handlers
+		var unpauseButton = document.getElementById("unpauseButton");
+		unpauseButton.addEventListener("click", onPauseEvent, false);
+		
+		// TODO: start game button, pause button, the various game mode radio button groups (three groups of two), error handlers, 
+	}
 
-function playGame() {
-	squared.game.play();
-	hideNonCanvasAreas();
-}
+	function resetGame() {
+		game.reset();
+	}
 
-function pauseGame() {
-	squared.game.play();
-	
-}
+	function playGame() {
+		// Set up the pause screen content
+		var pauseScreen = document.getElementById("pauseScreen");
+		pauseScreen.style.display = "none";
+		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
+		pauseScreenTitle.style.display = "block";
+		pauseScreenTitle.innerHtml = "Game Paused";
+		var unpauseButton = document.getElementById("unpauseButton");
+		unpauseButton.style.marginTop = "0px";
+		unpauseButton.innerHtml = "Unpause";
+		var statsTable = document.getElementById("statsTable");
+		statsTable.style.display = "block";
 
-// Handle exceptions or other miscellaneous problems
-function handleProblem(message) {
-	// TODO: show problemArea and hide all others; add message
-}
+		hideNonCanvasAreas();
+		game.play();
+	}
 
-function setupDOMForJavascript() {
-	// TODO: show all of the content of the page that is normally hidden in case the visitor does not have Javascript enabled
-}
+	function pauseGame() {
+		var pauseScreen = document.getElementById("pauseScreen");
+		pauseScreen.style.display = "block";
+		
+		populateStatsTable();
+		game.pause();
+	}
 
-function showNonCanvasAreas() {
-	// TODO: show; animate
-}
+	function endGame() {
+		// Set up the game over screen content
+		var pauseScreen = document.getElementById("pauseScreen");
+		pauseScreen.style.display = "block";
+		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
+		pauseScreenTitle.innerHtml = "Game Over";
+		var unpauseButton = document.getElementById("unpauseButton");
+		unpauseButton.innerHtml = "Play Again";
 
-function hideNonCanvasAreas() {
-	// TODO: hide; animate
-}
+		populateStatsTable();
+		game.reset();
+	};
 
-function expandInfoArea() {
-	// TODO: switch divs; animate
-}
+	function onPauseEvent(event) {
+		if () {
+			
+		}
+	};
 
-function collapseInfoArea() {
-	// TODO: switch divs; animate
-}
+	function populateStatsTable() {
+		// Populate the stats table
+		var scoreData = document.getElementById("scoreData");
+		scoreData.innerHtml = ;
+		var levelData = document.getElementById("levelData");
+		levelData.innerHtml = ;
+		var timeData = document.getElementById("timeData");
+		timeData.innerHtml = ;
+	}
+
+	// Handle exceptions or other miscellaneous problems
+	function handleProblem(message) {
+		// TODO: show problemArea and hide all others; add message
+	}
+
+	function setupDOMForJavascript() {
+		// TODO: show all of the content of the page that is normally hidden in case the visitor does not have Javascript enabled
+	}
+
+	function showNonCanvasAreas() {
+		// TODO: show; animate
+	}
+
+	function hideNonCanvasAreas() {
+		// TODO: hide; animate
+	}
+
+	function expandInfoArea() {
+		// TODO: switch divs; animate
+	}
+
+	function collapseInfoArea() {
+		// TODO: switch divs; animate
+	}
+})();

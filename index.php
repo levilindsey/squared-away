@@ -20,6 +20,7 @@
 
 			<div id="pauseScreen">
 				<h3 id="pauseScreenTitle">Game Paused</h3>
+				<button id="unpauseButton">Play Game</button>
 				<table id="statsTable">
 					<tr>
 						<td>Score:</td>

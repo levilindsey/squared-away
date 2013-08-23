@@ -65,6 +65,7 @@ h3 {
 #pauseScreen {
 	position: absolute;
 	background-color: rgba(15,15,15,0.7);
+	height: 520px;
 	margin: 0px auto;
 	left: 0px;
 	top: 0px;
@@ -72,12 +73,14 @@ h3 {
 }
 
 #pauseScreenTitle {
-	margin: 10px auto;
+	display: none;
+	margin: 180px auto 10px auto;
 	width: 300px;
 }
 
 #playArea {
 	position: relative;
+	height: 520px;
 	left: 0px;
 	margin: 10px 0px;
 	top: 0px;
@@ -90,10 +93,19 @@ h3 {
 }
 
 #statsTable {
+	display: none;
 	margin: 10px auto;
 	width: 300px;
 }
 
 #statsTable>td {
 	width: 150px;
+}
+
+#unpauseButton {
+	display: block;
+	font-size: 18pt;
+	height: 42px;
+	margin: 239px auto 0px auto;
+	width: 136px;
 }
