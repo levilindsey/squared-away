@@ -66,10 +66,42 @@
 
 		// Update the game state for the current frame
 		update(deltaTime);
-		render();
+		draw();
 
 		// Go to the next frame
 		prevTime = currTime;
 		myRequestAnimationFrame(main);
 	};
+
+	// TODO: 
+	function draw() {
+		// Clean the canvas
+		context.clearRect(_canvas.width, _canvas.height);
+
+		// Draw each of the falling blocks
+		// TODO: 
+
+		// Draw each of the stationary squares
+		// TODO: 
+
+		// Check whether a block is selected
+		if () {
+			// Draw horizontal and vertical guide lines
+			// TODO: 
+
+			// Draw an enlarged version of the selected block
+			// TODO: (this should include a light-neon-blue border (i.e., a slightly larger programmatical rectangle rendered behind each of the block's foreground squares))
+		}
+
+		// Check whether there are currently any disintigrating sections
+		if () {
+			// Draw the disintigrating sections
+			// TODO: ?????
+		}
+	}
+
+	// TODO: 
+	function update() {
+		// TODO: 
+	}
 })();

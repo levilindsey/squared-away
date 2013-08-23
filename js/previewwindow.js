@@ -10,12 +10,60 @@
 // 
 // Dependencies:
 //		- window.Sprite
+//		- window.Block
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
 (function() {
 	function PreviewWindow() {
+		// ----------------------------------------------------------------- //
+		// -- 
+
+		var _baseCoolDownPeriod = 100000; // 10 sec
+		var _actualCoolDownPeriod = 100000; // 10 sec
+		var _startTime = 0;
+		var _currentBlock = null;
+
 		// TODO: 
+		var _createNewBlock = function(currentTime) {
+			// Change the current block to be a new block of some random type 
+			// (from 1 to 7)
+			// TODO: 
+
+			// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
+			_startTime = currentTime;
+			// TODO: 
+		}
+
+		// Set the base cool-down period to be the given time (in millis).
+		var _setCoolDownPeriod = function(period) {
+			_coolDownPeriod = period;
+		}
+
+		// TODO: 
+		var _getCurrentBlock = function() {
+			return _currentBlock;
+		}
+
+		// TODO: 
+		var _isCoolDownFinished = function() {
+			// TODO: 
+		}
+
+		// TODO: 
+		var _draw = function() {
+			// TODO: 
+		}
+
+		// ----------------------------------------------------------------- //
+		// -- 
+
+		// TODO: 
+
+		this.createNewBlock = _createNewBlock;
+		this. = _;
+		this. = _;
+		this. = _;
 	};
 
 	// --------------------------------------------------------------------- //

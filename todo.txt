@@ -24,6 +24,10 @@
 // ---------- PLANNING
 // ------------------------------------------------------------------------- //
 
+- ASK JUSTIN AND ALDEN FOR FEEDBACK!
+    - and music (Justin's bro's band; Alden for original stuff)
+	- OR, just make something easy from one of my ideas on my phone (or from long ago compositions)
+
 - Plan the exact user input/controls for playing the game
 - Think through all possible details of the game playing behavior
     - How do completed layers collapse?
