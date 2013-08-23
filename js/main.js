@@ -31,18 +31,6 @@ function init() {
 	squared.game = new Game(canvas);
 }
 
-function getWindowWidth() {
-	return window.innerWidth ||					// for good browsers
-		document.documentElement.clientWidth ||	// for IE
-		document.body.clientWidth;				// for IE
-}
-
-function getWindowHeight() {
-	return window.innerHeight ||				// for good browsers
-		document.documentElement.clientHeight ||// for IE
-		document.body.clientHeight;				// for IE
-}
-
 window.onresize = function(event) {
 	// TODO: 
 }
@@ -52,7 +40,7 @@ function handleProblem(message) {
 	// TODO: show problemArea and hide all others; add message
 }
 
-function setupContentForJavascript() {
+function setupDOMForJavascript() {
 	// TODO: show all of the content of the page that is normally hidden in case the visitor does not have Javascript enabled
 }
 

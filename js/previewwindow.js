@@ -61,9 +61,10 @@
 		// TODO: 
 
 		this.createNewBlock = _createNewBlock;
-		this. = _;
-		this. = _;
-		this. = _;
+		this.setCoolDownPeriod = _setCoolDownPeriod;
+		this.getCurrentBlock = _getCurrentBlock;
+		this.isCoolDownFinished = _isCoolDownFinished;
+		this.draw = _draw;
 	};
 
 	// --------------------------------------------------------------------- //
