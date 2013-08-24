@@ -33,27 +33,27 @@
 			// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
 			_startTime = currentTime;
 			// TODO: 
-		}
+		};
 
 		// Set the base cool-down period to be the given time (in millis).
 		var _setCoolDownPeriod = function(period) {
 			_coolDownPeriod = period;
-		}
+		};
 
 		// TODO: 
 		var _getCurrentBlock = function() {
 			return _currentBlock;
-		}
+		};
 
 		// TODO: 
 		var _isCoolDownFinished = function() {
 			// TODO: 
-		}
+		};
 
 		// TODO: 
 		var _draw = function() {
 			// TODO: 
-		}
+		};
 
 		// ----------------------------------------------------------------- //
 		// -- 

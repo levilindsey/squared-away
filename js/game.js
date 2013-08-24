@@ -26,30 +26,16 @@
 		var _prevTime = // TODO; ;
 		var _blocksOnMap = // TODO: ;
 
+		var _isPaused = true;
+		var _isEnded = true;
+
 		// Finishing setting up game logic
 		var _init = function() {
 			// TODO: 
-		}
-
-		// Set up a new game
-		var _reset = function(squareMode, canSwitchDirections, startingLevel) {
-			// TODO: 
-		}
-
-		var _play = function() {
-			// TODO: unpause basically
-		}
-
-		var _pause = function() {
-			// TODO: (display a slightly transparent grey rectangle over the whole play area (ACTUALLY, don't. main will do that))
-		}
-		
-		var _end = function() {
-			// TODO: (show a game over message, show a restart button, leave the old game state on the play area, grey everything out like with pause, ...)
-		}
+		};
 
 		// The game loop drives the progression of frames and game logic
-		function gameLoop() {
+		var _gameLoop = function() {
 			// Get the timing of the current frame
 			var currTime = Date.now();
 			var deltaTime = currTime - _prevTime;
@@ -60,7 +46,12 @@
 
 			// Go to the next frame
 			_prevTime = currTime;
-			window.utils.myRequestAnimationFrame(main);
+			window.utils.myRequestAnimationFrame(_gameLoop);
+		};
+
+		// TODO: 
+		var _update = function() {
+			// TODO: 
 		};
 
 		// TODO: 
@@ -88,17 +79,69 @@
 				// Draw the disintigrating sections
 				// TODO: ?????
 			}
-		}
+		};
 
-		// TODO: 
-		function _update() {
+		// Set up a new game
+		var _reset = function(squareMode, canSwitchDirections, startingLevel) {
 			// TODO: 
-		}
+		};
+
+		var _play = function() {
+			// Reset game state if a game is not currently in progress
+			if (_isEnded) {
+				_reset();
+				_isEnded = false;
+			}
+
+			// TODO: unpause basically
+		};
+
+		var _pause = function() {
+			_isPaused = true;
+			// TODO: 
+		};
+
+		var _unpause = function() {
+			_isPaused = false;
+			// TODO: 
+		};
+
+		var _getIsPaused() {
+			return _isPaused;
+		};
+
+		var _getIsEnded() {
+			return _isEnded;
+		};
+
+		var _getScore = function() {
+			// TODO: 
+		};
+
+		var _getLevel = function() {
+			// TODO: 
+		};
+
+		var _getTime = function() {
+			// TODO: 
+		};
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
 		this.init = _init;
+		this.draw = _draw;
+		this.update = _update;
+		this.reset = _reset;
+		this.play = _play;
+		this.pause = _pause;
+		this.unpause = _unpause;
+		this.getIsPaused = _getIsPaused;
+		this.getIsEnded = _getIsEnded;
+		this.getScore = _getScore;
+		this.getLevel = _getLevel;
+		this.getTime = _getTime;
+
 		// TODO: 
 		//		- set up each of the preview windows (create initial blocks, set up their cooldowns, etc.)
 		//		- 

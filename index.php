@@ -15,6 +15,13 @@
 			<img src="img/title.png" alt="Squared" />
 		</div>
 
+		<div id="noJavaScriptArea">
+			<p>
+			Hey!  This spiffy web app needs JavaScript in order to run.  
+			Please come back with a browser that has JavaScript turned on!
+			</p>
+		</div>
+
 		<div id ="playArea">
 			<canvas id="gameCanvas"></canvas>
 
@@ -36,12 +43,12 @@
 					</tr>
 				</table>
 			</div>
-		</div>
 
-		<div id="problemArea">
-			<p>
-			Well, that's not good.
-			</p>
+			<div id="problemScreen">
+				<p id="problemText">
+				Bummer dude.  The code died.
+				</p>
+			</div>
 		</div>
 
 		<div id="infoArea">

@@ -9,11 +9,11 @@
 
 (function() {
 	// Return a new object which whose prototype is the given old object.
-	function _object(o) {
+	var _object = function(o) {
 		function F() {}
 		F.prototype = o;
 		return new F();
-	}
+	};
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -27,22 +27,22 @@
 			window.setTimeout(callback, 16); // 60fps
 		};
 
-	function _getWindowWidth() {
+	var _getWindowWidth = function() {
 		return window.innerWidth || // for good browsers
 			document.documentElement.clientWidth || // for IE
 			document.body.clientWidth; // for IE
-	}
+	};
 
-	function _getWindowHeight() {
+	var _getWindowHeight = function() {
 		return window.innerHeight || // for good browsers
 			document.documentElement.clientHeight || // for IE
 			document.body.clientHeight; // for IE
-	}
+	};
 
 	window.utils = {
 		object: _object,
 		myRequestAnimationFrame: _myRequestAnimationFrame,
 		getWindowWidth: _getWindowWidth,
-		getWindowHeight: _getWindowHeight,
+		getWindowHeight: _getWindowHeight
 	};
 })();

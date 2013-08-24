@@ -23,6 +23,8 @@
 		"img/sprites.png"
 	]);
 
+	setupDOMForJavascript();
+
 	// We should not need to wait for window.load to complete, because this file 
 	// should be the last part to load
 	function init() {
@@ -35,10 +37,6 @@
 		unpauseButton.addEventListener("click", onPauseEvent, false);
 		
 		// TODO: start game button, pause button, the various game mode radio button groups (three groups of two), error handlers, 
-	}
-
-	function resetGame() {
-		game.reset();
 	}
 
 	function playGame() {
@@ -55,6 +53,7 @@
 		statsTable.style.display = "block";
 
 		hideNonCanvasAreas();
+
 		game.play();
 	}
 
@@ -63,6 +62,7 @@
 		pauseScreen.style.display = "block";
 		
 		populateStatsTable();
+		
 		game.pause();
 	}
 
@@ -76,40 +76,60 @@
 		unpauseButton.innerHtml = "Play Again";
 
 		populateStatsTable();
-		game.reset();
-	};
+	}
 
 	function onPauseEvent(event) {
 		if () {
 			
 		}
-	};
+	}
 
 	function populateStatsTable() {
-		// Populate the stats table
 		var scoreData = document.getElementById("scoreData");
-		scoreData.innerHtml = ;
+		scoreData.innerHtml = game.getScore();
+
 		var levelData = document.getElementById("levelData");
-		levelData.innerHtml = ;
+		levelData.innerHtml = game.getLevel();
+
 		var timeData = document.getElementById("timeData");
-		timeData.innerHtml = ;
+		timeData.innerHtml = game.getTime();
 	}
 
 	// Handle exceptions or other miscellaneous problems
 	function handleProblem(message) {
-		// TODO: show problemArea and hide all others; add message
+		// Show the problem area and hide the others
+		hideNonCanvasAreas();
+		var problemScreen = document.getElementById("problemScreen");
+		problemScreen.style.display = "block";
+
+		// Add the error message
+		var problemText = problemScreen.getElementById("problemText");
+		problemText.innerHtml = message;
 	}
 
 	function setupDOMForJavascript() {
-		// TODO: show all of the content of the page that is normally hidden in case the visitor does not have Javascript enabled
+		var noJavaScriptArea = document.getElementById("noJavaScriptArea");
+		noJavaScriptArea.style.display = "none";
+		var playArea = document.getElementById("playArea");
+		playArea.style.display = "block";
+		var infoArea = document.getElementById("infoArea");
+		infoArea.style.display = "block";
 	}
 
 	function showNonCanvasAreas() {
-		// TODO: show; animate
+		var banner = document.getElementById("problemArea");
+		banner.style.visibility = "visible";
+		var infoArea = document.getElementById("infoArea");
+		infoArea.style.visibility = "visible";
+		// TODO: animate
 	}
 
 	function hideNonCanvasAreas() {
-		// TODO: hide; animate
+		var banner = document.getElementById("problemArea");
+		banner.style.visibility = "hidden";
+		var infoArea = document.getElementById("infoArea");
+		infoArea.style.visibility = "hidden";
+		// TODO: animate
 	}
 
 	function expandInfoArea() {

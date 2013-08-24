@@ -36,7 +36,7 @@
 					_currentSourceX, _sourceRect.y, 
 					_sourceRect.width, _sourceRect.height, 
 					canvasRect.x, canvasRect.y);
-		}
+		};
 
 		// TODO: 
 		var _updateSprite = function(currentTime) {
@@ -64,38 +64,38 @@
 			} else {
 				_currentSourceX = _sourceRect.x;
 			}
-		}
+		};
 
 		var _setURL = function(url) {
 			_url = url;
-		}
+		};
 
 		var _setSourceRect = function(x, y, width, height) {
 			_sourceRect.x = x;
 			_sourceRect.y = y;
 			_sourceRect.width = width;
 			_sourceRect.height = height;
-		}
+		};
 
 		var _setLoopFrameAnimation = function(loopFrameAnimation) {
 			_loopFrameAnimation = loopFrameAnimation;
-		}
+		};
 
 		var _setAnimatingFrames = function(animatingFrames) {
 			_animatingFrames = animatingFrames;
-		}
+		};
 
 		var _setFrameAnimationPeriod = function(frameAnimationPeriod) {
 			_frameAnimationPeriod = frameAnimationPeriod;
-		}
+		};
 
 		var _setFrameAnimationStartTime = function(frameAnimationStartTime) {
 			_frameAnimationStartTime = frameAnimationStartTime;
-		}
+		};
 
 		var _setFrames = function(frames) {
 			_frames = frames;
-		}
+		};
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

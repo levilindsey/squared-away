@@ -49,8 +49,24 @@ h3 {
 }
 
 #infoArea {
-	background-color: #FFFFFF22;
+	background-color: rgba(2,2,2,0.7);
+	padding: 1px 0px;
 	width: 520px;
+}
+
+#infoArea>* {
+	margin: 10px;
+}
+
+#noJavaScriptArea {
+	background-color: rgba(2,2,2,0.7);
+	margin: 10px 0px;
+	padding: 1px 0px;
+	width: 520px;
+}
+
+#noJavaScriptArea>* {
+	margin: 10px;
 }
 
 #pageColumn {
@@ -64,7 +80,7 @@ h3 {
 
 #pauseScreen {
 	position: absolute;
-	background-color: rgba(15,15,15,0.7);
+	background-color: rgba(2,2,2,0.7);
 	height: 520px;
 	margin: 0px auto;
 	left: 0px;
@@ -87,9 +103,24 @@ h3 {
 	width: 520px;
 }
 
-#problemArea {
-	color: #EACACA;
+#problemScreen {
+	display: none;
+	position: absolute;
+	background-color: rgba(0,0,0,0.7);
+	height: 520px;
+	margin: 0px auto;
+	left: 0px;
+	top: 0px;
+	width: 520px;
+}
+
+#problemText {
+	color: #DD0000;
+	font-size: 20pt;
+	height: 100%;
+	margin-top: 20px;
 	text-align: center;
+	width: 100%;
 }
 
 #statsTable {
