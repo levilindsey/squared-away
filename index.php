@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Squared</title>
+	<title>Squared Away</title>
 	
 	<meta charset="utf-8">
     <meta name="description" content="A tile-matching puzzle game">
     <meta name="viewport" content="width=device-width">
 	
-	<link rel="stylesheet" href="css/squared.css">
+	<link rel="stylesheet" href="css/squaredaway.css">
 </head>
 <body>
 	<div id="pageColumn">
 		<div id="banner">
-			<img src="img/title.png" alt="Squared" />
+			<img src="img/title.png" alt="Squared Away" />
 		</div>
 
 		<div id="noJavaScriptArea">
