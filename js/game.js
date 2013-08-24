@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- window.Game
 // ------------------------------------------------------------------------- //
-// For use with the Squared web app.
+// For use with the Squared Away web app.
 // 
 // All of the overall Game logic is encapsulated in this anonymous function.  
 // This is then stored in the window.Game property.  This has the effect of 

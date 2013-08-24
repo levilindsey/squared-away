@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- window.resources
 // ------------------------------------------------------------------------- //
-// This file provides logic for preloading resources for the Squared web app.
+// This file provides logic for preloading resources for the Squared Away web app.
 // 
 // This is based off of code by James Long 
 // (http://jlongster.com/Making-Sprite-based-Games-with-Canvas)

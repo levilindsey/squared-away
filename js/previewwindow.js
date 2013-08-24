@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- window.PreviewWindow
 // ------------------------------------------------------------------------- //
-// For use with the Squared web app.
+// For use with the Squared Away web app.
 // 
 // All of the PreviewWindow logic is encapsulated in this anonymous function.  
 // This is then stored in the window.PreviewWindow property.  This has the 

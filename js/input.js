@@ -2,7 +2,7 @@
 // -- window.ui
 // ------------------------------------------------------------------------- //
 // This file provides most of the logic for manipulating the ui for the 
-// Squared web app.
+// Squared Away web app.
 // 
 // Dependencies:
 //		- window.Game

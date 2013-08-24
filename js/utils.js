@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- window.utils
 // ------------------------------------------------------------------------- //
-// For use with the Squared web app.
+// For use with the Squared Away web app.
 // 
 // Dependencies:
 //		- <none>

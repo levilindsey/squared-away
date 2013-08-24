@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- window.Block
 // ------------------------------------------------------------------------- //
-// For use with the Squared web app.
+// For use with the Squared Away web app.
 // 
 // All of the Block logic is encapsulated in this anonymous function.  This is 
 // then stored in the window.Block property.  This has the effect of 

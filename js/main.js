@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- //
 // -- main
 // ------------------------------------------------------------------------- //
-// This file provides the main driving logic for the Squared web app.
+// This file provides the main driving logic for the Squared Away web app.
 // 
 // Dependencies:
 //		- window.Game
