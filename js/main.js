@@ -31,12 +31,13 @@
 		var canvas = document.getElementById("gameCanvas");
 
 		game = new Game(canvas);
-		
+
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", onPauseEvent, false);
-		
-		// TODO: start game button, pause button, the various game mode radio button groups (three groups of two), error handlers, 
+		window.addEventListener("keypress", onKeyPress, false);
+
+		// TODO: hook up the error handlers
 	}
 
 	function playGame() {
@@ -54,15 +55,27 @@
 
 		hideNonCanvasAreas();
 
+		// If we are starting a new game, then adjust the game parameters to 
+		// match the selected input options
+		var mode1 = document.getElementById("mode1");
+		game.setMode1(mode1.checked);
+		var mode2 = document.getElementById("mode2");
+		game.setMode2(mode2.checked);
+		var mode3 = document.getElementById("mode3");
+		game.setMode3(mode3.checked);
+		var centerSquareSize = document.getElementById("centerSquareSize");
+		var size = parseInt(centerSquareSize.options[centerSquareSize.selectedIndex].value);
+		game.setCenterSquareSize(size);
+
 		game.play();
 	}
 
 	function pauseGame() {
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "block";
-		
+
 		populateStatsTable();
-		
+
 		game.pause();
 	}
 
@@ -79,8 +92,23 @@
 	}
 
 	function onPauseEvent(event) {
-		if () {
-			
+		if (game.isPaused()) {
+			playGame();
+		} else {
+			pauseGame();
+		}
+	}
+	
+	function onKeyPress(event) {
+        var keyCode = event.keyCode;
+		var key = window.utils.translateKeyCode(keyCode);
+
+		switch(key) {
+		case "ESCAPE": pauseGame(); break; // pause only
+		case "ENTER": playGame(); break; // play only
+		case "SPACE": onPauseEvent(event); break; // toggle play/pause
+		// TODO: look for other key-press events?
+		default: break;
 		}
 	}
 

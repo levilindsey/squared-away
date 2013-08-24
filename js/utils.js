@@ -39,10 +39,34 @@
 			document.body.clientHeight; // for IE
 	};
 
+	var _translateKeyCode = function(keyCode) {
+        var key;
+
+        switch(keyCode) {
+        case 32: key = "SPACE"; break;
+        case 37: key = "LEFT"; break;
+        case 38: key = "UP"; break;
+        case 39: key = "RIGHT"; break;
+        case 40: key = "DOWN"; break;
+        case  8: key = "BACKSPACE"; break;
+        case  9: key = "TAB"; break;
+        case 13: key = "ENTER"; break;
+        case 16: key = "SHIFT"; break;
+        case 17: key = "CTRL"; break;
+        case 18: key = "ALT"; break;
+        case 27: key = "ESCAPE"; break;
+        case 46: key = "DELETE"; break;
+        default: key = String.fromCharCode(keyCode).toUpperCase(); break;
+        }
+
+		return key;
+	}
+
 	window.utils = {
 		object: _object,
 		myRequestAnimationFrame: _myRequestAnimationFrame,
 		getWindowWidth: _getWindowWidth,
-		getWindowHeight: _getWindowHeight
+		getWindowHeight: _getWindowHeight,
+		translateKeyCode: _translateKeyCode
 	};
 })();

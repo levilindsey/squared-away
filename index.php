@@ -56,10 +56,31 @@
 			<p>
 			Directions for the game go here.
 			</p>
-			
+
 			<hr/>
-			
-			<h2>Info</h2>
+
+			<h2>Options</h2>
+			<p>
+			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked>Completing squares instead of lines</label><br/>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Blocks are allowed to fall past the center</label><br/>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Able to change falling direction of blocks</label><br/>
+			The size of the center square:
+			<select id="centerSquareSize">
+				<option value="2">2</option>
+				<option value="4">4</option>
+				<option value="6" selected>6</option>
+				<option value="8">8</option>
+				<option value="12">12</option>
+				<option value="14">14</option>
+				<option value="16">16</option>
+				<option value="18">18</option>
+				<option value="20">20</option>
+			</select>
+			</p>
+
+			<hr/>
+
+			<h2>About</h2>
 			<p>
 			Misc info goes here.
 			</p>

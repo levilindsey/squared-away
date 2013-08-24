@@ -141,6 +141,10 @@
 		this.getScore = _getScore;
 		this.getLevel = _getLevel;
 		this.getTime = _getTime;
+		this.setMode1 = _setMode1;
+		this.setMode2 = _setMode2;
+		this.setMode3 = _setMode3;
+		this.setCenterSquareSize = _setCenterSquareSize;
 
 		// TODO: 
 		//		- set up each of the preview windows (create initial blocks, set up their cooldowns, etc.)
