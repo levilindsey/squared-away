@@ -63,7 +63,7 @@
 			<p>
 			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked>Completing squares instead of lines</label><br/>
 			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Blocks are allowed to fall past the center</label><br/>
-			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Able to change falling direction of blocks</label><br/>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2">Able to change falling direction of blocks</label><br/>
 			The size of the center square:
 			<select id="centerSquareSize">
 				<option value="2">2</option>
@@ -74,6 +74,21 @@
 				<option value="14">14</option>
 				<option value="16">16</option>
 				<option value="18">18</option>
+				<option value="20">20</option>
+			</select>
+			The starting level:
+			<select id="startingLevel">
+				<option value="1" selected>1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
 				<option value="20">20</option>
 			</select>
 			</p>

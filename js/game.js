@@ -29,10 +29,15 @@
 		var _isPaused = true;
 		var _isEnded = true;
 
-		// Finishing setting up game logic
-		var _init = function() {
-			// TODO: 
-		};
+		var _mode1On = true;
+		var _mode2On = true;
+		var _mode3On = false;
+		var _centerSquareSize = 6;
+		var _startingLevel = 1;
+
+		var _score = 0;
+		var _level = _startingLevel;
+		var _gameTime = 0;
 
 		// The game loop drives the progression of frames and game logic
 		var _gameLoop = function() {
@@ -82,7 +87,14 @@
 		};
 
 		// Set up a new game
-		var _reset = function(squareMode, canSwitchDirections, startingLevel) {
+		var _reset = function() {
+			_score = 0;
+			_level = _startingLevel;
+			_gameTime = 0;
+			_isPaused = true;
+			_isEnded = true;
+			_blocksOnMap = // TODO: ;
+			_prevTime = // TODO: ;
 			// TODO: 
 		};
 
@@ -115,21 +127,40 @@
 		};
 
 		var _getScore = function() {
-			// TODO: 
+			return _score;
 		};
 
 		var _getLevel = function() {
-			// TODO: 
+			return _level;
 		};
 
 		var _getTime = function() {
-			// TODO: 
+			return _gameTime;
+		};
+
+		var _setMode1 = function(isEnabled) {
+			_mode1On = isEnabled;
+		};
+
+		var _setMode2 = function(isEnabled) {
+			_mode2On = isEnabled;
+		};
+
+		var _setMode3 = function(isEnabled) {
+			_mode3On = isEnabled;
+		};
+
+		var _setCenterSquareSize = function(size) {
+			_centerSquareSize = size;
+		};
+
+		var _setStartingLevel = function(level) {
+			_startingLevel = level;
 		};
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
-		this.init = _init;
 		this.draw = _draw;
 		this.update = _update;
 		this.reset = _reset;
@@ -145,6 +176,7 @@
 		this.setMode2 = _setMode2;
 		this.setMode3 = _setMode3;
 		this.setCenterSquareSize = _setCenterSquareSize;
+		this.setStartingLevel = _setStartingLevel;
 
 		// TODO: 
 		//		- set up each of the preview windows (create initial blocks, set up their cooldowns, etc.)

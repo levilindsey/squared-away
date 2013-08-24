@@ -57,15 +57,9 @@
 
 		// If we are starting a new game, then adjust the game parameters to 
 		// match the selected input options
-		var mode1 = document.getElementById("mode1");
-		game.setMode1(mode1.checked);
-		var mode2 = document.getElementById("mode2");
-		game.setMode2(mode2.checked);
-		var mode3 = document.getElementById("mode3");
-		game.setMode3(mode3.checked);
-		var centerSquareSize = document.getElementById("centerSquareSize");
-		var size = parseInt(centerSquareSize.options[centerSquareSize.selectedIndex].value);
-		game.setCenterSquareSize(size);
+		if (game.getIsEnded()) {
+			setGameParameters();
+		}
 
 		game.play();
 	}
@@ -110,6 +104,22 @@
 		// TODO: look for other key-press events?
 		default: break;
 		}
+	}
+
+	// Adjust the game parameters to match the selected input options
+	function setGameParameters() {
+		var mode1 = document.getElementById("mode1");
+		game.setMode1(mode1.checked);
+		var mode2 = document.getElementById("mode2");
+		game.setMode2(mode2.checked);
+		var mode3 = document.getElementById("mode3");
+		game.setMode3(mode3.checked);
+		var centerSquareSize = document.getElementById("centerSquareSize");
+		var size = parseInt(centerSquareSize.options[centerSquareSize.selectedIndex].value);
+		game.setCenterSquareSize(size);
+		var startingLevel = document.getElementById("startingLevel");
+		var level = parseInt(startingLevel.options[startingLevel.selectedIndex].value);
+		game.setStartingLevel(level);
 	}
 
 	function populateStatsTable() {
