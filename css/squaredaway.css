@@ -46,6 +46,7 @@ h3 {
 #gameCanvas {
 	height: 520px;
 	width: 520px;
+	z-index: 1;
 }
 
 #infoArea {
@@ -86,6 +87,7 @@ h3 {
 	left: 0px;
 	top: 0px;
 	width: 520px;
+	z-index: 3;
 }
 
 #pauseScreenTitle {
@@ -112,6 +114,7 @@ h3 {
 	left: 0px;
 	top: 0px;
 	width: 520px;
+	z-index: 4;
 }
 
 #problemText {
@@ -131,6 +134,28 @@ h3 {
 
 #statsTable>td {
 	width: 150px;
+}
+
+#topLevelDisplayArea {
+	position: absolute;
+	color: #FFFFFF;
+	font-size: 14pt;
+	left: 10px;
+	text-align: left;
+	top: 10px;
+	width: 500px;
+	z-index: 2;
+}
+
+#topScoreDisplayArea {
+	position: absolute;
+	color: #FFFFFF;
+	font-size: 14pt;
+	left: 10px;
+	text-align: right;
+	top: 10px;
+	width: 500px;
+	z-index: 2;
 }
 
 #unpauseButton {

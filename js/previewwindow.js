@@ -15,29 +15,44 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
-	function PreviewWindow() {
+	function PreviewWindow(x, y, size) {
 		// ----------------------------------------------------------------- //
-		// -- 
+		// -- Private members
+
+		var _position = { x: x, y: y }; // in pixels
+		var _size = size; // in pixels
 
 		var _baseCoolDownPeriod = 100000; // 10 sec
 		var _actualCoolDownPeriod = 100000; // 10 sec
-		var _startTime = 0;
+		var _elapsedTime = 0;
 		var _currentBlock = null;
 
 		// TODO: 
-		var _createNewBlock = function(currentTime) {
+		var _update = function(deltaTime) {
+			_elapsedTime += deltaTime;
+
+			// TODO: 
+		};
+
+		// TODO: 
+		var _draw = function(context) {
+			// TODO: 
+		};
+
+		// TODO: 
+		var _startNewBlock = function() {
 			// Change the current block to be a new block of some random type 
 			// (from 1 to 7)
 			// TODO: 
 
 			// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
-			_startTime = currentTime;
+			_elapsedTime = 0;
 			// TODO: 
 		};
 
 		// Set the base cool-down period to be the given time (in millis).
 		var _setCoolDownPeriod = function(period) {
-			_coolDownPeriod = period;
+			_baseCoolDownPeriod = period;
 		};
 
 		// TODO: 
@@ -50,21 +65,17 @@
 			// TODO: 
 		};
 
-		// TODO: 
-		var _draw = function() {
-			// TODO: 
-		};
-
 		// ----------------------------------------------------------------- //
-		// -- 
+		// -- Privileged members
 
-		// TODO: 
-
-		this.createNewBlock = _createNewBlock;
+		this.startNewBlock = _startNewBlock;
 		this.setCoolDownPeriod = _setCoolDownPeriod;
 		this.getCurrentBlock = _getCurrentBlock;
 		this.isCoolDownFinished = _isCoolDownFinished;
+		this.update = _update;
 		this.draw = _draw;
+
+		// TODO: 
 	};
 
 	// --------------------------------------------------------------------- //

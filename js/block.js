@@ -40,8 +40,7 @@
 	// --------------------------------------------------------------------- //
 	// -- Private static members
 
-	var _mapWidth;
-	var _mapHeight;
+	var _squareSize;
 
 	// Constructor
 	// type: which type of block this is (0-6)
@@ -53,10 +52,25 @@
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
-		_type = type;
-		_position = { x: x, y: y };
-		_orientation = orientation;
-		_fallDirection = fallDirection;
+		var _type = type;
+		var _position = { x: x, y: y }; // column and row indices
+		var _orientation = orientation;
+		var _fallDirection = fallDirection;
+		var _elapsedTime = 0;
+
+		// TODO: 
+		var _update = function(deltaTime) {
+			_elapsedTime += deltaTime;
+
+			// TODO: 
+		};
+
+		// Render this block on the given drawing context.  The context should 
+		// be transforme beforehand in order to place the origin at the 
+		// top-left corner of the play area.
+		var _draw = function(context) {
+			// TODO: (_squareSize, _position)
+		};
 
 		// Rotate this block clockwise 90 degrees.
 		var _rotate = function() {
@@ -72,12 +86,7 @@
 		// Return true if this block has collided with a stationary square on 
 		// the given map and is therefore done falling.  Non-negative values 
 		// in the map should represent cells containing squares.
-		var _checkForCollision = function(blocksOnMap) {
-			// TODO: 
-		};
-
-		// Render this block on the given drawing context.
-		var _draw = function(context) {
+		var _checkForCollision = function(squaresOnMap) {
 			// TODO: 
 		};
 		
@@ -85,7 +94,7 @@
 		// values in the map represent cells which do not contain squares.  When a 
 		// cell does contain a square, the color of the square is determined by 
 		// the positive number of the corresponding block type.
-		var _addSquaresToMap = function(blocksOnMap) {
+		var _addSquaresToMap = function(squaresOnMap) {
 			// TODO: (use _getSquarePositions)
 		};
 
@@ -98,21 +107,21 @@
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestLeftAvailable = function(blocksOnMap) {
+		var _getFarthestLeftAvailable = function(squaresOnMap) {
 			// TODO: 
 		};
 
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestRightAvailable = function(blocksOnMap) {
+		var _getFarthestRightAvailable = function(squaresOnMap) {
 			// TODO: 
 		};
 
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		var _getFarthestDownwardAvailable = function(blocksOnMap) {
+		var _getFarthestDownwardAvailable = function(squaresOnMap) {
 			// TODO: 
 		};
 
@@ -122,6 +131,7 @@
 		this.rotate = _rotate;
 		this.checkForCollision = _checkForCollision;
 		this.fall = _fall;
+		this.update = _update;
 		this.draw = _draw;
 		this.addSquaresToMap = _addSquaresToMap;
 		this.getSquarePositions = _getSquarePositions;
@@ -137,9 +147,8 @@
 	Block.prototype = window.utils.object(Sprite);
 
 	// This should be called once at the start of the program
-	Block.prototype.setMapDimensions = function(mapWidth, mapHeight) {
-		_mapWidth = mapWidth;
-		_mapHeight = mapHeight;
+	Block.prototype.setSquareSize = function(size) {
+		_squareSize = size;
 	};
 
 	// Make Block available to the rest of the program

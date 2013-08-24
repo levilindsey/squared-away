@@ -29,13 +29,16 @@
 	// should be the last part to load
 	function init() {
 		var canvas = document.getElementById("gameCanvas");
+		var levelDisplay = document.getElementById("topLevelDisplayData");
+		var scoreDisplay = document.getElementById("topScoreDisplayData");
 
-		game = new Game(canvas);
+		game = new Game(canvas, levelDisplay, scoreDisplay);
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", onPauseEvent, false);
 		window.addEventListener("keypress", onKeyPress, false);
+		window.addEventListener("blur", pauseGame, false);
 
 		// TODO: hook up the error handlers
 	}
@@ -114,12 +117,15 @@
 		game.setMode2(mode2.checked);
 		var mode3 = document.getElementById("mode3");
 		game.setMode3(mode3.checked);
-		var centerSquareSize = document.getElementById("centerSquareSize");
-		var size = parseInt(centerSquareSize.options[centerSquareSize.selectedIndex].value);
-		game.setCenterSquareSize(size);
-		var startingLevel = document.getElementById("startingLevel");
-		var level = parseInt(startingLevel.options[startingLevel.selectedIndex].value);
-		game.setStartingLevel(level);
+		var gameAreaSizeElem = document.getElementById("gameAreaSize");
+		var gameAreaSize = parseInt(gameAreaSizeElem.options[gameAreaSizeElem.selectedIndex].value);
+		game.setGameAreaSize(gameAreaSize);
+		var centerSquareSizeElem = document.getElementById("centerSquareSize");
+		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value);
+		game.setCenterSquareSize(centerSquareSize);
+		var startingLevelElem = document.getElementById("startingLevel");
+		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value);
+		game.setStartingLevel(startingLevel);
 	}
 
 	function populateStatsTable() {

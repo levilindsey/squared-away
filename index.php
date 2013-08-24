@@ -12,7 +12,7 @@
 <body>
 	<div id="pageColumn">
 		<div id="banner">
-			<img src="img/title.png" alt="Squared Away" />
+			<img src="img/title.png" alt="Squared Away">
 		</div>
 
 		<div id="noJavaScriptArea">
@@ -24,6 +24,14 @@
 
 		<div id ="playArea">
 			<canvas id="gameCanvas"></canvas>
+
+			<div id="topLevelDisplayArea">
+				Level: <span id="topLevelDisplayData"></span>
+			</div>
+
+			<div id="topScoreDisplayArea">
+				Score: <span id="topScoreDisplayData"></span>
+			</div>
 
 			<div id="pauseScreen">
 				<h3 id="pauseScreenTitle">Game Paused</h3>
@@ -57,14 +65,24 @@
 			Directions for the game go here.
 			</p>
 
-			<hr/>
+			<hr>
 
 			<h2>Options</h2>
 			<p>
-			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked>Completing squares instead of lines</label><br/>
-			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Blocks are allowed to fall past the center</label><br/>
-			<label><input type="checkbox" name="mode2" id="mode2" value="mode2">Able to change falling direction of blocks</label><br/>
-			The size of the center square:
+			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked>Completing squares instead of lines</label><br>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Blocks are allowed to fall past the center</label><br>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2">Able to change falling direction of blocks</label><br>
+			Size of game area:
+			<select id="gameAreaSize">
+				<option value="80">80</option>
+				<option value="100" selected>100</option>
+				<option value="120">120</option>
+				<option value="140">140</option>
+				<option value="160">160</option>
+				<option value="180">180</option>
+				<option value="200">200</option>
+			</select>
+			Size of center square:
 			<select id="centerSquareSize">
 				<option value="2">2</option>
 				<option value="4">4</option>
@@ -76,7 +94,7 @@
 				<option value="18">18</option>
 				<option value="20">20</option>
 			</select>
-			The starting level:
+			Starting level:
 			<select id="startingLevel">
 				<option value="1" selected>1</option>
 				<option value="2">2</option>
@@ -93,7 +111,7 @@
 			</select>
 			</p>
 
-			<hr/>
+			<hr>
 
 			<h2>About</h2>
 			<p>
