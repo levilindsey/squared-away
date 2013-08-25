@@ -19,6 +19,7 @@
 	- USE JS to get the machine's local time at start and for calculating durations and whatnot
 - Cookies:
 	- store the username for auto-filling login info
+- re-factor the Block code to only use one manner of position information
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

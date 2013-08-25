@@ -16,7 +16,9 @@
 
 (function() {
 	// --------------------------------------------------------------------- //
-	// -- Private static members
+	// -- Private, static members
+
+	var _SOURCE_SQUARE_SIZE = 16; // in pixels
 
 	var _gameAreaSize = 100;
 

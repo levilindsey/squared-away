@@ -19,8 +19,6 @@
 	// --------------------------------------------------------------------- //
 	// -- Private, static members
 
-	var _SOURCE_SQUARE_SIZE = 16; // in pixels
-
 	var _GAME_AREA_SIZE_RATIO = 0.85; // a ratio of overall canvas size
 	var _PREVIEW_WINDOW_SIZE_RATIO = 0.10; // a ratio of overall canvas size
 
@@ -152,8 +150,8 @@
 
 			// Draw each of the stationary squares
 			for (int i = 0; i < _squaresOnMap.length; ++i) {
-				_drawSquare(context, _squaresOnMap[i], 
-							i % _gameAreaSize, i / _gameAreaSize);
+				window.Block._drawSquare(context, _squaresOnMap[i], 
+										 i % _gameAreaSize, i / _gameAreaSize);
 			}
 
 			// Check whether a block is selected
@@ -173,17 +171,6 @@
 
 			context.restore();
 		};
-
-		var _drawSquare = function(context, squareType, x, y) {
-			if (squareType >= 0) {
-				var sourceY = squareType * _SOURCE_SQUARE_SIZE;
-
-				context.drawImage(resources.get("img/sprites.png"), 
-						0, sourceY, 
-						_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
-						x, y);
-			}
-		}
 
 		// Set up a new game
 		var _reset = function() {
