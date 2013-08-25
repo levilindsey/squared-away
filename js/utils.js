@@ -62,8 +62,19 @@
 		return key;
 	}
 
+	var _initializeArray = function(length, initialValue) {
+		var array = new Array();
+
+		for (int i = 0; i < length; ++i) {
+			array[i] = initalValue;
+		}
+
+		return array;
+	}
+
 	window.utils = {
 		object: _object,
+		initializeArray: _initializeArray,
 		myRequestAnimationFrame: _myRequestAnimationFrame,
 		getWindowWidth: _getWindowWidth,
 		getWindowHeight: _getWindowHeight,

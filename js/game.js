@@ -180,7 +180,8 @@
 			_isPaused = true;
 			_isEnded = true;
 			_blocksOnMap = new Array();
-			_squaresOnMap = new Array();
+			_squaresOnMap = window.utils._initializeArray(
+									_setGameAreaSize * _setGameAreaSize, -1);
 			_prevTime = 0;
 
 			_setLevel(_startingLevel);

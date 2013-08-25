@@ -257,6 +257,20 @@
 		];
 	};
 
+	var _positionToIndex = function(position) {
+		return position.y * _gameAreaIndexSize + position.x;
+	}
+
+	var _positionsToIndices = function(positions) {
+		var indices = new Array();
+
+		for (int i = 0; i < positions.length; ++i) {
+			indices[i] = _positionToIndex(positions[i]);
+		}
+
+		return indices;
+	}
+
 	// Constructor
 	// type: which type of block this is (0-6)
 	// x: the x-coordinate of this block's initial position (in pixels)
@@ -328,10 +342,10 @@
 		// the positive number of the corresponding block type.
 		var _addSquaresToMap = function(squaresOnMap) {
 			var positions = _getSquareIndexPositions();
+			var indices = _positionsToIndices(positions);
 
 			for (int i = 0; i < positions.length; ++i) {
-				squaresOnMap[positions.y * _gameAreaIndexSize + positions.x] = 
-						_type;
+				squaresOnMap[indices[i]] = _type;
 			}
 		};
 
@@ -353,15 +367,114 @@
 		// Move this block down by 1 square according to its current fall 
 		// direction.
 		var _fall = function() {
-			// TODO: (_positionIndex, _positionPixels)
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaY = -1;
+				break;
+			case _LEFT:
+				deltaX = -1;
+				break;
+			case _UP:
+				deltaY = 1;
+				break;
+			case _RIGHT:
+				deltaX = 1;
+				break;
+			default:
+				return;
+			}
+
+			_positionIndex.x += deltaX;
+			_positionIndex.y += deltaY;
+			_positionPixels.x += deltaX * _squareSize;
+			_positionPixels.y += deltaY * _squareSize;
 		};
 
 		// Return true if this block has collided with a stationary square on 
 		// the given map and is therefore done falling.  Non-negative values 
 		// in the map should represent cells containing squares.
 		var _checkForCollision = function(squaresOnMap) {
-			// TODO: 
+			// First, check that this block is not colliding with the edge of 
+			// the game area
+			if (_checkForCollisionWithGameAreaEdge()) { // TODO: remove this check and instead do the check from whomever calls this function
+				return true;
+			}
+
+			var deltaI;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaI = _gameAreaIndexSize;
+				break;
+			case _LEFT:
+				deltaI = -1;
+				break;
+			case _UP:
+				deltaI = -_gameAreaIndexSize;
+				break;
+			case _RIGHT:
+				deltaI = 1;
+				break;
+			default:
+				return;
+			}
+
+			var positions = _getSquareIndexPositions();
+			var indices = _positionsToIndices(positions);
+			var neighborIndex;
+
+			for (int i = 0; i < indices.length; ++i) {
+				neighborIndex = indices[i] + deltaI;
+
+				if (squaresOnMap[neighborIndex] > -1) {
+					return true;
+				}
+			}
+
+			return false;
 		};
+
+		var _checkForCollisionWithGameAreaEdge = function() {
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaX = 0;
+				deltaY = 1;
+				break;
+			case _LEFT:
+				deltaX = -1;
+				deltaY = 0;
+				break;
+			case _UP:
+				deltaX = 0;
+				deltaY = -1;
+				break;
+			case _RIGHT:
+				deltaX = 1;
+				deltaY = 0;
+				break;
+			default:
+				return;
+			}
+
+			var positions = _getSquareIndexPositions();
+
+			for (int i = 0; i < indices.length; ++i) {
+				if (positions[i].x + deltaX > _gameAreaIndexSize || 
+						positions[i].x + deltaX < 0 || 
+						positions[i].y + deltaY > _gameAreaIndexSize || 
+						positions[i].y + deltaY < 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
@@ -395,6 +508,7 @@
 		this.rotate = _rotate;
 		this.switchFallDirection = _switchFallDirection;
 		this.checkForCollision = _checkForCollision;
+		this.checkForCollisionWithGameAreaEdge = _checkForCollisionWithGameAreaEdge;
 		this.fall = _fall;
 		this.update = _update;
 		this.draw = _draw;
