@@ -62,16 +62,21 @@
 		<div id="infoArea">
 			<h2>Directions</h2>
 			<p>
-			Directions for the game go here.
+			Just, like, be awesome.  And win.
 			</p>
 
 			<hr>
 
 			<h2>Options</h2>
 			<p>
-			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked>Completing squares instead of lines</label><br>
-			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked>Blocks are allowed to fall past the center</label><br>
-			<label><input type="checkbox" name="mode2" id="mode2" value="mode2">Able to change falling direction of blocks</label><br>
+			<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked> Completing squares instead of lines</label>
+			<br>
+			<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked> Blocks are allowed to fall past the center</label>
+			<br>
+			<label><input type="checkbox" name="mode3" id="mode3" value="mode3"> Able to change falling direction of blocks</label>
+			<br>
+			<label><input type="checkbox" name="mode4" id="mode4" value="mode4"> Changing direction moves block to next quadrant</label>
+			<br>
 			Size of game area:
 			<select id="gameAreaSize">
 				<option value="80">80</option>
@@ -82,6 +87,7 @@
 				<option value="180">180</option>
 				<option value="200">200</option>
 			</select>
+			<br>
 			Size of center square:
 			<select id="centerSquareSize">
 				<option value="2">2</option>
@@ -94,6 +100,7 @@
 				<option value="18">18</option>
 				<option value="20">20</option>
 			</select>
+			<br>
 			Starting level:
 			<select id="startingLevel">
 				<option value="1" selected>1</option>
@@ -115,7 +122,11 @@
 
 			<h2>About</h2>
 			<p>
-			Misc info goes here.
+			This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
+			<br><br>
+			The code is open source and you can find it on GitHub at <a href="https://github.com/levisl176/squared_away">https://github.com/levisl176/squared_away</a>.
+			<br><br>
+			Also, this app is coming soon to the Android marketplace.
 			</p>
 		</div>
 	</div>

@@ -52,6 +52,7 @@
 		var _mode1On = true;
 		var _mode2On = true;
 		var _mode3On = false;
+		var _mode4On = false;
 		var _gameAreaSize = 100; // in number of squares
 		var _centerSquareSize = 6; // in number of squares
 		var _startingLevel = 1;
@@ -294,10 +295,16 @@
 			_mode3On = isEnabled;
 		};
 
+		var _setMode4 = function(isEnabled) {
+			_mode4On = isEnabled;
+		};
+
 		var _setGameAreaSize = function(gameAreaSize) {
 			_gameAreaSize = gameAreaSize;
 			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
+
 			window.Block.setSquareSize(_squareSizePixels);
+			window.Block.setGameAreaIndexSize(_gameAreaSize);
 			window.PreviewWindow.setGameAreaSize(_gameAreaSize);
 		};
 
@@ -325,6 +332,7 @@
 		this.setMode1 = _setMode1;
 		this.setMode2 = _setMode2;
 		this.setMode3 = _setMode3;
+		this.setMode4 = _setMode4;
 		this.setGameAreaSize = _setGameAreaSize;
 		this.setCenterSquareSize = _setCenterSquareSize;
 		this.setStartingLevel = _setStartingLevel;

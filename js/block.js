@@ -38,6 +38,224 @@
 	var _RIGHT = 3;
 
 	var _squareSize;
+	var _gameAreaIndexSize;
+
+	// Return an array of position objects which represent the positions 
+	// of this block's constituent squares relative to this block's 
+	// position.
+	var _getSquareIndexPositionsRelativeToBlockPosition = function(type, orientation) {
+		var square1X;
+		var square1Y;
+		var square2X;
+		var square2Y;
+		var square3X;
+		var square3Y;
+		var square4X;
+		var square4Y;
+
+		// Compute the constituent square positions
+		switch (type) { // TODO: refactor this to only have the default orientation hard-coded and to instead automatically compute the square positions for the rotations
+		case _RED: // S-shaped block
+			if (orientation === _DEG0 || orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 1;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 1;
+				square3Y = 0;
+				square4X = 2;
+				square4Y = 0;
+			} else {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 1;
+				square3Y = 1;
+				square4X = 1;
+				square4Y = 2;
+			}
+			break;
+		case _GREEN: // Z-shaped block
+			if (orientation === _DEG0 || orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 1;
+				square3Y = 1;
+				square4X = 2;
+				square4Y = 1;
+			} else {
+				square1X = 1;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 0;
+				square3Y = 1;
+				square4X = 0;
+				square4Y = 2;
+			}
+			break;
+		case _PURPLE: // L-shaped block
+			if (orientation === _DEG0) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 0;
+				square3Y = 2;
+				square4X = 1;
+				square4Y = 2;
+			} else if (orientation === _DEG90) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 1;
+				square3Y = 0;
+				square4X = 2;
+				square4Y = 0;
+			} else if (orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 1;
+				square3Y = 1;
+				square4X = 1;
+				square4Y = 2;
+			} else { // orientation === _DEG270
+				square1X = 0;
+				square1Y = 1;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 2;
+				square3Y = 1;
+				square4X = 2;
+				square4Y = 0;
+			}
+			break;
+		case _YELLOW: // J-shaped block
+			if (orientation === _DEG0) {
+				square1X = 1;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 1;
+				square3Y = 2;
+				square4X = 0;
+				square4Y = 2;
+			} else if (orientation === _DEG90) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 1;
+				square3Y = 1;
+				square4X = 2;
+				square4Y = 1;
+			} else if (orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 0;
+				square3Y = 1;
+				square4X = 0;
+				square4Y = 2;
+			} else { // orientation === _DEG270
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 2;
+				square3Y = 0;
+				square4X = 2;
+				square4Y = 1;
+			}
+			break;
+		case _BLUE: // Square-shaped block
+			square1X = 0;
+			square1Y = 0;
+			square2X = 1;
+			square2Y = 0;
+			square3X = 1;
+			square3Y = 1;
+			square4X = 0;
+			square4Y = 1;
+			break;
+		case _ORANGE: // Line-shaped block (defaults to vertical orientation)
+			if (orientation === _DEG0 || orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 0;
+				square3Y = 2;
+				square4X = 0;
+				square4Y = 3;
+			} else {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 2;
+				square3Y = 0;
+				square4X = 3;
+				square4Y = 0;
+			}
+			break;
+		case _GREY: // T-shaped block
+			if (orientation === _DEG0) {
+				square1X = 0;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 0;
+				square3X = 2;
+				square3Y = 0;
+				square4X = 1;
+				square4Y = 1;
+			} else if (orientation === _DEG90) {
+				square1X = 1;
+				square1Y = 0;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 0;
+				square3Y = 1;
+				square4X = 1;
+				square4Y = 2;
+			} else if (orientation === _DEG180) {
+				square1X = 0;
+				square1Y = 1;
+				square2X = 1;
+				square2Y = 1;
+				square3X = 2;
+				square3Y = 1;
+				square4X = 1;
+				square4Y = 0;
+			} else { // orientation === _DEG270
+				square1X = 0;
+				square1Y = 0;
+				square2X = 0;
+				square2Y = 1;
+				square3X = 0;
+				square3Y = 2;
+				square4X = 1;
+				square4Y = 1;
+			}
+			break;
+		default:
+			return;
+		}
+
+		return [
+			{ x: square1X, y: square1Y }, 
+			{ x: square2X, y: square2Y }, 
+			{ x: square3X, y: square3Y }, 
+			{ x: square4X, y: square4Y }
+		];
+	};
 
 	// Constructor
 	// type: which type of block this is (0-6)
@@ -54,7 +272,7 @@
 		// -- Private members
 
 		var _type = type;
-		var _positionPixels = { x: x, y: y }; // pixels
+		var _positionPixels = { x: x, y: y }; // pixels // TODO: refactor this to need only one position representation
 		var _positionIndex = { x: -1, y: -1 }; // column and row indices
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
@@ -71,216 +289,27 @@
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		var _draw = function(context) {
-			var square1X;
-			var square1Y;
-			var square2X;
-			var square2Y;
-			var square3X;
-			var square3Y;
-			var square4X;
-			var square4Y;
+			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
+									_type, _orientation);
 
-			// Compute the constituent square positions
-			switch (_type) {
-			case _RED: // S-shaped block
-				if (_orientation === _DEG0 || _orientation === _DEG180) {
-					square1X = _positionPixels.x;
-					square1Y = _positionPixels.y + _squareSize;
-					square2X = _positionPixels.x + _squareSize;
-					square2Y = _positionPixels.y + _squareSize;
-					square3X = _positionPixels.x + _squareSize;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x + (_squareSize * 2);
-					square4Y = _positionPixels.y;
-				} else {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				}
-				break;
-			case _GREEN: // Z-shaped block
-				if (_orientation === _DEG0 || _orientation === _DEG180) {
-					square1X = _positionPixels.x;
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x + _squareSize;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x + _squareSize;
-					square3Y = _positionPixels.y + _squareSize;
-					square4X = _positionPixels.x + (_squareSize * 2);
-					square4Y = _positionPixels.y + _squareSize;
-				} else {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				}
-				break;
-			case _PURPLE: // L-shaped block
-				if (_orientation === _DEG0) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else if (_orientation === _DEG90) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else if (_orientation === _DEG180) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else { // _orientation === _DEG270
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				}
-				break;
-			case _YELLOW: // J-shaped block
-				if (_orientation === _DEG0) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else if (_orientation === _DEG90) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else if (_orientation === _DEG180) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else { // _orientation === _DEG270
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				}
-				break;
-			case _BLUE: // Square-shaped block
-				square1X = _positionPixels.x;
-				square1Y = _positionPixels.y;
-				square2X = _positionPixels.x + _squareSize;
-				square2Y = _positionPixels.y;
-				square3X = _positionPixels.x + _squareSize;
-				square3Y = _positionPixels.y + _squareSize;
-				square4X = _positionPixels.x;
-				square4Y = _positionPixels.y + _squareSize;
-				break;
-			case _ORANGE: // Line-shaped block (defaults to vertical orientation)
-				if (_orientation === _DEG0 || _orientation === _DEG180) {
-					square1X = _positionPixels.x;
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y + _squareSize;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y + (_squareSize * 2);
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y + (_squareSize * 3);
-				} else {
-					square1X = _positionPixels.x;
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x + _squareSize;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x + (_squareSize * 2);
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x + (_squareSize * 3);
-					square4Y = _positionPixels.y;
-				}
-				break;
-			case _GREY: // T-shaped block
-				if (_orientation === _DEG0) {
-					square1X = _positionPixels.x;
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x + _squareSize;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x + (_squareSize * 2);
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x + _squareSize;
-					square4Y = _positionPixels.y + _squareSize;
-				} else if (_orientation === _DEG90) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else if (_orientation === _DEG180) {
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				} else { // _orientation === _DEG270
-					square1X = _positionPixels.x;// TODO: ****
-					square1Y = _positionPixels.y;
-					square2X = _positionPixels.x;
-					square2Y = _positionPixels.y;
-					square3X = _positionPixels.x;
-					square3Y = _positionPixels.y;
-					square4X = _positionPixels.x;
-					square4Y = _positionPixels.y;
-				}
-				break;
-			default:
-				return;
+			// Translate the square positions from block index space to canvas 
+			// pixel space
+			for (int i = 0; i < positions.length; ++i) {
+				positions[i].x = _positionPixels.x + 
+								(positions[i].x * _squareSize);
+				positions[i].y = _positionPixels.y + 
+								(positions[i].y * _squareSize);
 			}
 
 			// Draw the constituent squares
-			window.Block.drawSquare(context, _type, square1X, square1Y);
-			window.Block.drawSquare(context, _type, square2X, square2Y);
-			window.Block.drawSquare(context, _type, square3X, square3Y);
-			window.Block.drawSquare(context, _type, square4X, square4Y);
+			window.Block.drawSquare(context, _type, 
+									positions[0].x, positions[0].y);
+			window.Block.drawSquare(context, _type, 
+									positions[1].x, positions[1].y);
+			window.Block.drawSquare(context, _type, 
+									positions[2].x, positions[2].y);
+			window.Block.drawSquare(context, _type, 
+									positions[3].x, positions[3].y);
 		};
 
 		// Rotate the orientation of this block clockwise 90 degrees.
@@ -291,6 +320,34 @@
 		// Rotate the fall direction of this block clockwise 90 degrees.
 		var _switchFallDirection = function() {
 			_fallDirection = (_fallDirection + 1) % 4;
+		};
+		
+		// Add the squares that comprise this block to the given map.  Negative 
+		// values in the map represent cells which do not contain squares.  When a 
+		// cell does contain a square, the color of the square is determined by 
+		// the positive number of the corresponding block type.
+		var _addSquaresToMap = function(squaresOnMap) {
+			var positions = _getSquareIndexPositions();
+
+			for (int i = 0; i < positions.length; ++i) {
+				squaresOnMap[positions.y * _gameAreaIndexSize + positions.x] = 
+						_type;
+			}
+		};
+
+		// Return an array of position objects which represent the cells in 
+		// the map which are occupied by this block.
+		var _getSquareIndexPositions = function() {
+			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
+									_type, _orientation);
+
+			// Translate the square positions from block space to canvas space
+			for (int i = 0; i < positions.length; ++i) {
+				positions[i].x += _positionIndex.x;
+				positions[i].y += _positionIndex.y;
+			}
+
+			return positions;
 		};
 
 		// Move this block down by 1 square according to its current fall 
@@ -303,20 +360,6 @@
 		// the given map and is therefore done falling.  Non-negative values 
 		// in the map should represent cells containing squares.
 		var _checkForCollision = function(squaresOnMap) {
-			// TODO: 
-		};
-		
-		// Add the squares that comprise this block to the given map.  Negative 
-		// values in the map represent cells which do not contain squares.  When a 
-		// cell does contain a square, the color of the square is determined by 
-		// the positive number of the corresponding block type.
-		var _addSquaresToMap = function(squaresOnMap) {
-			// TODO: (use _getSquarePositions)
-		};
-
-		// Return an array of position objects which represent the cells in 
-		// the map which are occupied by this block.
-		var _getSquarePositions = function() {
 			// TODO: 
 		};
 
@@ -356,7 +399,7 @@
 		this.update = _update;
 		this.draw = _draw;
 		this.addSquaresToMap = _addSquaresToMap;
-		this.getSquarePositions = _getSquarePositions;
+		this.getSquareIndexPositions = _getSquareIndexPositions;
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
@@ -364,7 +407,7 @@
 	};
 
 	// --------------------------------------------------------------------- //
-	// -- Public (non-privileged) members
+	// -- Public (non-privileged) static members
 
 	// Block inherits from Sprite
 	Block.prototype = window.utils.object(Sprite);
@@ -376,6 +419,10 @@
 
 	Block.prototype.getSquareSize = function() {
 		return _squareSize;
+	};
+
+	Block.prototype.setGameAreaIndexSize = function(size) {
+		_gameAreaIndexSize = size;
 	};
 
 	Block.prototype.drawSquare = function(context, squareType, x, y) {
