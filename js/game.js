@@ -104,8 +104,7 @@
 			// block to the play area and start a new block in preview window
 			for (int i = 0; i < 4; ++i) {
 				if (_previewWindows[i].isCoolDownFinished()) {
-					var blockType = _previewWindows[i].getCurrentBlock();
-					var block = _createNewBlock(blockType, i);
+					var block = _previewWindows[i].getCurrentBlock();
 					_blocksOnMap.push(block);
 					_previewWindows[i].startNewBlock();
 				}
@@ -174,36 +173,6 @@
 
 			context.restore();
 		};
-		
-		var _createNewBlock = function(blockType, previewWindowIndex) {
-			var x;
-			var y;
-			var orientation = previewWindowIndex;
-			var fallDirection = previewWindowIndex;
-
-			switch (previewWindowIndex) {
-			case 0:
-				x = _gameAreaSize/2;
-				y = 0;
-				break;
-			case 1:
-				x = _gameAreaSize - 1;
-				y = _gameAreaSize/2;
-				break;
-			case 2:
-				x = _gameAreaSize/2;
-				y = _gameAreaSize - 1;
-				break;
-			case 3:
-				x = 0;
-				y = _gameAreaSize/2;
-				break;
-			default:
-				return;
-			}
-
-			return new Block(blockType, x, y, orientation, fallDirection);
-		}
 
 		var _drawSquare = function(context, squareType, x, y) {
 			if (squareType >= 0) {
@@ -342,6 +311,7 @@
 			_gameAreaSize = gameAreaSize;
 			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
 			window.Block.setSquareSize(_squareSizePixels);
+			window.PreviewWindow.setGameAreaSize(_gameAreaSize);
 		};
 
 		var _setCenterSquareSize = function(centerSquareSize) {

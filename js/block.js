@@ -14,7 +14,7 @@
 
 (function() {
 	// --------------------------------------------------------------------- //
-	// -- Private static final members
+	// -- Private static members
 
 	// Block types/colors
 	var RED = 0; // S-shaped block
@@ -22,7 +22,7 @@
 	var PURPLE = 2; // L-shaped block
 	var YELLOW = 3; // J-shaped block
 	var BLUE = 4; // Square-shaped block
-	var ORANGE = 5; // Line-shaped block
+	var ORANGE = 5; // Line-shaped block (defaults to vertical orientation)
 	var GREY = 6; // T-shaped block
 
 	// Orientations
@@ -37,9 +37,6 @@
 	var UP = 2;
 	var RIGHT = 3;
 
-	// --------------------------------------------------------------------- //
-	// -- Private static members
-
 	var _squareSize;
 
 	// Constructor
@@ -48,12 +45,17 @@
 	// y: which row this block is originally positioned at
 	// orientation: which orientation this block starts with (0-3)
 	// fallDirection: which direction this block originally falls in (0-3)
+	// 
+	// NOTE: I choose to represent the "position" of a block as the top-left 
+	//		 cell occupied by the bounding box formed by the current 
+	//		 orientation of the block.
 	function Block(type, x, y, orientation, fallDirection) {
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
 		var _type = type;
-		var _position = { x: x, y: y }; // column and row indices
+		var _positionPixels = { x: x, y: y }; // pixels
+		var _positionIndex = { x: -1, y: -1 }; // column and row indices
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
 		var _elapsedTime = 0;
@@ -69,7 +71,7 @@
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		var _draw = function(context) {
-			// TODO: (_squareSize, _position)
+			// TODO: (_squareSize, _positionPixels)
 		};
 
 		// Rotate this block clockwise 90 degrees.
@@ -80,7 +82,7 @@
 		// Move this block down by 1 square according to its current fall 
 		// direction.
 		var _fall = function() {
-			// TODO: 
+			// TODO: (_positionIndex, _positionPixels)
 		};
 
 		// Return true if this block has collided with a stationary square on 
@@ -125,6 +127,11 @@
 			// TODO: 
 		};
 
+		var _setPositionIndex = function(x, y) {
+			_positionIndex.x = x;
+			_positionIndex.y = y;
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -138,6 +145,7 @@
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
+		this.setPosition = _setPosition;
 	};
 
 	// --------------------------------------------------------------------- //
@@ -149,6 +157,58 @@
 	// This should be called once at the start of the program
 	Block.prototype.setSquareSize = function(size) {
 		_squareSize = size;
+	};
+
+	Block.prototype.getSquareSize = function() {
+		return _squareSize;
+	};
+
+	Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
+		var x = 0;
+		var y = 0;
+
+		switch (blockType) {
+		case RED: // S-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		case GREEN: // Z-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		case PURPLE: // L-shaped block
+			x = 1;
+			y = 1.5;
+			break;
+		case YELLOW: // J-shaped block
+			x = 1;
+			y = 1.5;
+			break;
+		case BLUE: // Square-shaped block
+			x = 1;
+			y = 1;
+			break;
+		case ORANGE: // Line-shaped block
+			x = 0.5;
+			y = 2;
+			break;
+		case GREY: // T-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		default:
+			break;
+		}
+
+		// If the block is oriented 90 degrees off of the default, then swap 
+		// the x and y offsets
+		if (orientation === 1 || orientation === 3) {
+			var tmp = x;
+			x = y;
+			y = tmp;
+		}
+
+		return { x: x, y: y };
 	};
 
 	// Make Block available to the rest of the program
