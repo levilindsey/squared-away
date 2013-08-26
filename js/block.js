@@ -264,7 +264,7 @@
 	var _positionsToIndices = function(positions) {
 		var indices = new Array();
 
-		for (int i = 0; i < positions.length; ++i) {
+		for (var i = 0; i < positions.length; ++i) {
 			indices[i] = _positionToIndex(positions[i]);
 		}
 
@@ -308,7 +308,7 @@
 
 			// Translate the square positions from block index space to canvas 
 			// pixel space
-			for (int i = 0; i < positions.length; ++i) {
+			for (var i = 0; i < positions.length; ++i) {
 				positions[i].x = _positionPixels.x + 
 								(positions[i].x * _squareSize);
 				positions[i].y = _positionPixels.y + 
@@ -344,7 +344,7 @@
 			var positions = _getSquareIndexPositions();
 			var indices = _positionsToIndices(positions);
 
-			for (int i = 0; i < positions.length; ++i) {
+			for (var i = 0; i < positions.length; ++i) {
 				squaresOnMap[indices[i]] = _type;
 			}
 		};
@@ -356,7 +356,7 @@
 									_type, _orientation);
 
 			// Translate the square positions from block space to canvas space
-			for (int i = 0; i < positions.length; ++i) {
+			for (var i = 0; i < positions.length; ++i) {
 				positions[i].x += _positionIndex.x;
 				positions[i].y += _positionIndex.y;
 			}
@@ -426,7 +426,7 @@
 			var indices = _positionsToIndices(positions);
 			var neighborIndex;
 
-			for (int i = 0; i < indices.length; ++i) {
+			for (var i = 0; i < indices.length; ++i) {
 				neighborIndex = indices[i] + deltaI;
 
 				if (squaresOnMap[neighborIndex] > -1) {
@@ -464,7 +464,7 @@
 
 			var positions = _getSquareIndexPositions();
 
-			for (int i = 0; i < indices.length; ++i) {
+			for (var i = 0; i < indices.length; ++i) {
 				if (positions[i].x + deltaX > _gameAreaIndexSize || 
 						positions[i].x + deltaX < 0 || 
 						positions[i].y + deltaY > _gameAreaIndexSize || 
@@ -591,7 +591,8 @@
 				return;
 			}
 
-			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+			var howManyStepsBlockCanMove = 
+					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY);
 
 			return { 
 				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
@@ -600,9 +601,31 @@
 		};
 
 		// Return how many steps this block can move using the given delta 
-		// index value before colliding with a stationary square or an edge of the map.
-		var _getHowManyStepsBlockCanMove = function(deltaI) {
-			// TODO: 
+		// index value before colliding with a stationary square or an edge of 
+		// the map.
+		var _getHowManyStepsBlockCanMove = function(deltaI, deltaX, deltaY) {
+			var positions = _getSquareIndexPositions();
+			var indices = _positionsToIndices(positions);
+			var neighborIndex;
+			var j;
+
+			// Keep moving one cell in the same direction until we hit a 
+			// square on the gameArea or we hit an edge of the game area
+			for (var i = 0, dI = deltaI, dX = deltaX, dY = deltaY; ; 
+					++i, dI += deltaI, dX += deltaX, dY += deltaY) {
+				// Check each of this block's four constituent squares
+				for (j = 0; j < indices.length; ++j) {
+					neighborIndex = indices[j] + dI;
+
+					if (positions[j].x + deltaX > _gameAreaIndexSize || 
+							positions[j].x + deltaX < 0 || 
+							positions[j].y + deltaY > _gameAreaIndexSize || 
+							positions[j].y + deltaY < 0 || 
+							squaresOnMap[neighborIndex] > -1) { 
+						return i;
+					}
+				}
+			}
 		};
 
 		var _setPositionIndex = function(x, y) {

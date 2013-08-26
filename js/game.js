@@ -91,17 +91,17 @@
 		var _update = function(deltaTime) {
 			_gameTime += deltaTime;
 
-			for (int i = 0; i < 4; ++i) {
+			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].update(deltaTime);
 			}
 
-			for (int i = 0; i < _blocksOnMap.length; ++i) {
+			for (var i = 0; i < _blocksOnMap.length; ++i) {
 				_blocksOnMap[i].update(deltaTime);
 			}
 
 			// If any preview window has finished its cool down, then add its 
 			// block to the play area and start a new block in preview window
-			for (int i = 0; i < 4; ++i) {
+			for (var i = 0; i < 4; ++i) {
 				if (_previewWindows[i].isCoolDownFinished()) {
 					var block = _previewWindows[i].getCurrentBlock();
 					_blocksOnMap.push(block);
@@ -111,7 +111,7 @@
 
 			// If any block is at a stationary square and cannot move down, 
 			// then add it's squares to the map and delete the block object
-			for (int i = 0; i < _blocksOnMap.length; ++i) {
+			for (var i = 0; i < _blocksOnMap.length; ++i) {
 				if (_blocksOnMap[i].checkForCollision(_squaresOnMap)) {
 					_blocksOnMap[i].addSquaresToMap(_squaresOnMap);
 					_blocksOnMap.splice(i, 1);
@@ -135,7 +135,7 @@
 
 			// ---- Draw the preview windows ---- //
 
-			for (int i = 0; i < 4; ++i) {
+			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].draw(context);
 			}
 
@@ -145,12 +145,12 @@
 			context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
 
 			// Draw each of the falling blocks
-			for (int i = 0; i < _blocksOnMap.length; ++i) {
+			for (var i = 0; i < _blocksOnMap.length; ++i) {
 				_blocksOnMap[i].draw(context);
 			}
 
 			// Draw each of the stationary squares
-			for (int i = 0; i < _squaresOnMap.length; ++i) {
+			for (var i = 0; i < _squaresOnMap.length; ++i) {
 				window.Block._drawSquare(context, _squaresOnMap[i], 
 										 i % _gameAreaSize, i / _gameAreaSize);
 			}
@@ -187,7 +187,7 @@
 			_setLevel(_startingLevel);
 
 			// Start each of the preview windows
-			for (int i = 0; i < 4; ++i) {
+			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].startNewBlock();
 			}
 		};
@@ -198,7 +198,7 @@
 			_currentBlockFallSpeed = _getBlockFallSpeed(level);
 
 			// Set the base cool down period for each of the preview windows
-			for (int i = 0; i < 4; ++i) {
+			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 			}
 		}
