@@ -39,6 +39,7 @@
 
 	var _squareSize;
 	var _gameAreaIndexSize;
+	var _fallPeriod; // millis / blocks
 
 	// Return an array of position objects which represent the positions 
 	// of this block's constituent squares relative to this block's 
@@ -290,13 +291,38 @@
 		var _positionIndex = { x: -1, y: -1 }; // column and row indices
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
-		var _elapsedTime = 0;
+		var _timeSinceLastFall = 0;
+		var _hasCollidedWithSquare = false;
+		var _hasCollidedWithEdgeOfArea = false;
 
-		// TODO: 
-		var _update = function(deltaTime) {
-			_elapsedTime += deltaTime;
+		// Each block keeps track of its own timers so it can fall and shimmer 
+		// independently.
+		var _update = function(deltaTime, squaresOnGameArea, blocksOnGameArea) {
+			_timeSinceLastFall += deltaTime;
 
-			// TODO: (_squareSize, _positionPixels)
+			// Check whether this block needs to fall one space
+			if (_timeSinceLastFall > _fallPeriod) {
+				_hasCollidedWithEdgeOfArea = 
+						_checkForCollisionWithGameAreaEdge();
+
+				if (!_hasCollidedWithEdgeOfArea) {
+					_hasCollidedWithSquare = 
+							_checkForCollision(squaresOnGameArea, 
+											   blocksOnGameArea);
+
+					if (!_hasCollidedWithSquare) {
+						_fall();
+					}
+				}
+
+				_timeSinceLastFall %= _fallPeriod;
+			}
+
+			// Check whether this block needs to shimmer
+			if (false && // TODO: fix the false bit to use a shimmer timer
+					!_hasCollidedWithEdgeOfArea && !_hasCollidedWithSquare) {
+				// TODO: 
+			}
 		};
 
 		// Render this block on the given drawing context.  The context should 
@@ -336,21 +362,22 @@
 			_fallDirection = (_fallDirection + 1) % 4;
 		};
 		
-		// Add the squares that comprise this block to the given map.  Negative 
-		// values in the map represent cells which do not contain squares.  When a 
-		// cell does contain a square, the color of the square is determined by 
-		// the positive number of the corresponding block type.
-		var _addSquaresToMap = function(squaresOnMap) {
+		// Add the squares that comprise this block to the given game area.  
+		// Negative values in the game area represent cells which do not 
+		// contain squares.  When a cell does contain a square, the color of 
+		// the square is determined by the positive number of the 
+		// corresponding block type.
+		var _addSquaresToGameArea = function(squaresOnGameArea) {
 			var positions = _getSquareIndexPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < positions.length; ++i) {
-				squaresOnMap[indices[i]] = _type;
+				squaresOnGameArea[indices[i]] = _type;
 			}
 		};
 
 		// Return an array of position objects which represent the cells in 
-		// the map which are occupied by this block.
+		// the game area which are occupied by this block.
 		var _getSquareIndexPositions = function() {
 			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
 									_type, _orientation);
@@ -394,15 +421,14 @@
 		};
 
 		// Return true if this block has collided with a stationary square on 
-		// the given map and is therefore done falling.  Non-negative values 
-		// in the map should represent cells containing squares.
-		var _checkForCollision = function(squaresOnMap) {
-			// First, check that this block is not colliding with the edge of 
-			// the game area
-			if (_checkForCollisionWithGameAreaEdge()) { // TODO: remove this check and instead do the check from whomever calls this function
-				return true;
-			}
-
+		// the given game area and is therefore done falling.  Non-negative 
+		// values in the game area should represent cells containing squares.
+		// 
+		// NOTE: it is important to check that this block is not colliding 
+		//		 with an edge of the game area BEFORE calling this function.  
+		//		 Otherwise, this function may look out of bounds in the game 
+		//		 area array.
+		var _checkForCollision = function(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
 			var deltaI;
 
 			switch (_fallDirection) {
@@ -429,7 +455,7 @@
 			for (var i = 0; i < indices.length; ++i) {
 				neighborIndex = indices[i] + deltaI;
 
-				if (squaresOnMap[neighborIndex] > -1) {
+				if (squaresOnGameArea[neighborIndex] > -1) {
 					return true;
 				}
 			}
@@ -479,7 +505,7 @@
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestLeftAvailable = function(squaresOnMap) {
+		var _getFarthestLeftAvailable = function(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -520,7 +546,7 @@
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestRightAvailable = function(squaresOnMap) {
+		var _getFarthestRightAvailable = function(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -561,7 +587,7 @@
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		var _getFarthestDownwardAvailable = function(squaresOnMap) {
+		var _getFarthestDownwardAvailable = function(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -602,7 +628,7 @@
 
 		// Return how many steps this block can move using the given delta 
 		// index value before colliding with a stationary square or an edge of 
-		// the map.
+		// the game area.
 		var _getHowManyStepsBlockCanMove = function(deltaI, deltaX, deltaY) {
 			var positions = _getSquareIndexPositions();
 			var indices = _positionsToIndices(positions);
@@ -621,7 +647,7 @@
 							positions[j].x + deltaX < 0 || 
 							positions[j].y + deltaY > _gameAreaIndexSize || 
 							positions[j].y + deltaY < 0 || 
-							squaresOnMap[neighborIndex] > -1) { 
+							squaresOnGameArea[neighborIndex] > -1) { 
 						return i;
 					}
 				}
@@ -633,22 +659,29 @@
 			_positionIndex.y = y;
 		};
 
+		var _getHasCollidedWithEdgeOfArea = function() {
+			return _hasCollidedWithEdgeOfArea;
+		};
+
+		var _getHasCollidedWithSquare = function() {
+			return _hasCollidedWithSquare;
+		};
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
 		this.rotate = _rotate;
 		this.switchFallDirection = _switchFallDirection;
-		this.checkForCollision = _checkForCollision;
-		this.checkForCollisionWithGameAreaEdge = _checkForCollisionWithGameAreaEdge;
-		this.fall = _fall;
 		this.update = _update;
 		this.draw = _draw;
-		this.addSquaresToMap = _addSquaresToMap;
+		this.addSquaresToGameArea = _addSquaresToGameArea;
 		this.getSquareIndexPositions = _getSquareIndexPositions;
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
 		this.setPosition = _setPosition;
+		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
+		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
 	};
 
 	// --------------------------------------------------------------------- //
@@ -668,6 +701,10 @@
 
 	Block.prototype.setGameAreaIndexSize = function(size) {
 		_gameAreaIndexSize = size;
+	};
+
+	Block.prototype.setFallSpeed = function(fallSpeed) {
+		_fallPeriod = 1 / fallSpeed;
 	};
 
 	Block.prototype.drawSquare = function(context, squareType, x, y) {

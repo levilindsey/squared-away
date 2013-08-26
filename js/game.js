@@ -25,14 +25,16 @@
 	var _PREVIEW_WINDOW_INITIAL_BORDER_WIDTH = 3; // in pixels
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
+	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
 	var _INITIAL_BLOCK_FALL_SPEED = 1; // in squares per millis
+	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
 
 	var _gameAreaSizePixels = 0; // in pixels
 	var _previewWindowSizePixels = 0; // in pixels
 	var _previewWindowMarginPixels = 0; // in pixels
 	var _gameAreaPosition = { x: 0, y: 0 }; // in pixels
 
-	function Game(canvas, levelDisplay, scoreDisplay) {
+	function Game(canvas, levelDisplay, scoreDisplay, onGameEnd) {
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
@@ -40,10 +42,11 @@
 		var _context = _canvas.getContext("2d");
 		var _levelDisplay = levelDisplay;
 		var _scoreDisplay = scoreDisplay;
+		var _onGameEnd = onGameEnd;
 
 		var _prevTime = 0;
-		var _blocksOnMap = new Array(); // the moving, four-square pieces
-		var _squaresOnMap = new Array(); // the stationary, single-square pieces
+		var _blocksOnGameArea = new Array(); // the moving, four-square pieces
+		var _squaresOnGameArea = new Array(); // the stationary, single-square pieces
 		var _previewWindows = null;
 
 		var _isPaused = true;
@@ -62,9 +65,9 @@
 		var _score = 0;
 		var _level = _startingLevel;
 		var _gameTime = 0; // active (unpaused) time since start of game
-		
+
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
-		var _currentBlockFallSpeed = 1; // in squares per millis
+		var _currentBlockFallSpeed = 1; // squares / millis
 
 		_computeDimensions();
 		_setUpPreviewWindows();
@@ -76,50 +79,66 @@
 			var deltaTime = currTime - _prevTime;
 
 			// Check whether the game is unpaused
-			if (!_isPaused) {
+			if (!_isPaused && !_isEnded) {
 				// Update the game state for the current frame
 				_update(deltaTime);
 				_draw();
+
+				window.utils.myRequestAnimationFrame(_gameLoop);
 			}
 
 			// Go to the next frame
 			_prevTime = currTime;
-			window.utils.myRequestAnimationFrame(_gameLoop);
 		};
 
-		// TODO: 
+		// Update each of the game entities with the current time.
 		var _update = function(deltaTime) {
 			_gameTime += deltaTime;
 
+			// Update the blocks
+			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);
+
+				// If the block has reached the edge of the game area and is 
+				// trying to fall out, then the game is over and the player 
+				// has lost
+				if (_blocksOnGameArea[i].getHasCollidedWithEdgeOfArea()) {
+					_endGame();
+				}
+
+				// If the block has reached a stationary square and cannot 
+				// fall, then add it's squares to the game area and delete the 
+				// block object
+				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
+					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
+					_blocksOnGameArea.splice(i, 1);
+				}
+			}
+
+			// Update the preview windows
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].update(deltaTime);
-			}
 
-			for (var i = 0; i < _blocksOnMap.length; ++i) {
-				_blocksOnMap[i].update(deltaTime);
-			}
-
-			// If any preview window has finished its cool down, then add its 
-			// block to the play area and start a new block in preview window
-			for (var i = 0; i < 4; ++i) {
+				// If the preview window has finished its cool down, then add 
+				// its block to the game area and start a new block in preview 
+				// window
 				if (_previewWindows[i].isCoolDownFinished()) {
 					var block = _previewWindows[i].getCurrentBlock();
-					_blocksOnMap.push(block);
+
+					// If there is a square on the game area in the way the 
+					// new block from being added, then the game is over and 
+					// the player has lost
+					if (false) { // TODO: 
+						_endGame();
+					}
+
+					_blocksOnGameArea.push(block);
 					_previewWindows[i].startNewBlock();
 				}
 			}
 
-			// If any block is at a stationary square and cannot move down, 
-			// then add it's squares to the map and delete the block object
-			for (var i = 0; i < _blocksOnMap.length; ++i) {
-				if (_blocksOnMap[i].checkForCollision(_squaresOnMap)) {
-					_blocksOnMap[i].addSquaresToMap(_squaresOnMap);
-					_blocksOnMap.splice(i, 1);
-				}
-			}
-
-			// Loop through each square in the map and possibly animate it 
-			// with a shimmer
+			// Loop through each square in the game area and possibly animate 
+			// it with a shimmer
 			// TODO: 
 
 			// Update the gradually shifting color of the big center square
@@ -145,13 +164,13 @@
 			context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
 
 			// Draw each of the falling blocks
-			for (var i = 0; i < _blocksOnMap.length; ++i) {
-				_blocksOnMap[i].draw(context);
+			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+				_blocksOnGameArea[i].draw(context);
 			}
 
 			// Draw each of the stationary squares
-			for (var i = 0; i < _squaresOnMap.length; ++i) {
-				window.Block._drawSquare(context, _squaresOnMap[i], 
+			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
+				window.Block._drawSquare(context, _squaresOnGameArea[i], 
 										 i % _gameAreaSize, i / _gameAreaSize);
 			}
 
@@ -179,8 +198,8 @@
 			_gameTime = 0;
 			_isPaused = true;
 			_isEnded = true;
-			_blocksOnMap = new Array();
-			_squaresOnMap = window.utils._initializeArray(
+			_blocksOnGameArea = new Array();
+			_squaresOnGameArea = window.utils._initializeArray(
 									_setGameAreaSize * _setGameAreaSize, -1);
 			_prevTime = 0;
 
@@ -196,6 +215,7 @@
 			_level = level;
 			_currentPreviewWindowCoolDownTime = _getPreviewWindowCoolDownTime(level);
 			_currentBlockFallSpeed = _getBlockFallSpeed(level);
+			Block.setFallSpeed(_currentBlockFallSpeed);
 
 			// Set the base cool down period for each of the preview windows
 			for (var i = 0; i < 4; ++i) {
@@ -204,11 +224,13 @@
 		}
 
 		var _getPreviewWindowCoolDownTime = function(level) {
-			return _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME / level;// TODO: ****
+			return _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME / 
+					Math.pow(_PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE, level);// TODO: tweak/replace this
 		};
 
 		var _getBlockFallSpeed = function(level) {
-			return _INITIAL_BLOCK_FALL_SPEED;// TODO: ****
+			return _INITIAL_BLOCK_FALL_SPEED * 
+					Math.pow(_BLOCK_FALL_SPEED_INCREASE_RATE, level);// TODO: tweak/replace this
 		};
 
 		var _computeDimensions = function() {
@@ -262,6 +284,11 @@
 
 		var _pause = function() {
 			_isPaused = true;
+		};
+
+		var _endGame = function() {
+			_isEnded = true;
+			_onGameEnd();
 		};
 
 		var _getIsPaused() {

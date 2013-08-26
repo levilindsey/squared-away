@@ -32,7 +32,7 @@
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
 
-		game = new Game(canvas, levelDisplay, scoreDisplay);
+		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
@@ -76,7 +76,7 @@
 		game.pause();
 	}
 
-	function endGame() {
+	function onGameEnd() {
 		// Set up the game over screen content
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "block";
