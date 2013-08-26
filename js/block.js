@@ -474,33 +474,141 @@
 			}
 
 			return false;
-		}
+		};
 
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
 		var _getFarthestLeftAvailable = function(squaresOnMap) {
-			// TODO: 
+			var deltaI;
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaI = -1;
+				deltaX = -1;
+				deltaY = 0;
+				break;
+			case _LEFT:
+				deltaI = -_gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = -1;
+				break;
+			case _UP:
+				deltaI = 1;
+				deltaX = 1;
+				deltaY = 0;
+				break;
+			case _RIGHT:
+				deltaI = _gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = 1;
+				break;
+			default:
+				return;
+			}
+
+			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+
+			return { 
+				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+			};
 		};
 
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
 		var _getFarthestRightAvailable = function(squaresOnMap) {
-			// TODO: 
+			var deltaI;
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaI = 1;
+				deltaX = 1;
+				deltaY = 0;
+				break;
+			case _LEFT:
+				deltaI = _gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = 1;
+				break;
+			case _UP:
+				deltaI = -1;
+				deltaX = -1;
+				deltaY = 0;
+				break;
+			case _RIGHT:
+				deltaI = -_gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = -1;
+				break;
+			default:
+				return;
+			}
+
+			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+
+			return { 
+				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+			};
 		};
 
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
 		var _getFarthestDownwardAvailable = function(squaresOnMap) {
+			var deltaI;
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaI = _gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = 1;
+				break;
+			case _LEFT:
+				deltaI = -1;
+				deltaX = -1;
+				deltaY = 0;
+				break;
+			case _UP:
+				deltaI = -_gameAreaIndexSize;
+				deltaX = 0;
+				deltaY = -1;
+				break;
+			case _RIGHT:
+				deltaI = 1;
+				deltaX = 1;
+				deltaY = 0;
+				break;
+			default:
+				return;
+			}
+
+			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+
+			return { 
+				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+			};
+		};
+
+		// Return how many steps this block can move using the given delta 
+		// index value before colliding with a stationary square or an edge of the map.
+		var _getHowManyStepsBlockCanMove = function(deltaI) {
 			// TODO: 
 		};
 
 		var _setPositionIndex = function(x, y) {
 			_positionIndex.x = x;
 			_positionIndex.y = y;
-		}
+		};
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

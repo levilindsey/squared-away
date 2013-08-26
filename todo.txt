@@ -20,6 +20,7 @@
 - Cookies:
 	- store the username for auto-filling login info
 - re-factor the Block code to only use one manner of position information
+- the ability to toggle different game modes will be unlocked by getting through later levels (and this data is saved to the user's account)
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
