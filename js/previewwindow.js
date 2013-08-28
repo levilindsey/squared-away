@@ -36,18 +36,20 @@
 
 		var _baseCoolDownPeriod = 100000; // 10 sec
 		var _actualCoolDownPeriod = 100000; // 10 sec
-		var _elapsedTime = 0;
+		var _timeSinceLastBlock = 0;
 		var _currentBlock = null;
 
-		// TODO: 
 		var _update = function(deltaTime) {
-			_elapsedTime += deltaTime;
-
-			// TODO: 
+			_timeSinceLastBlock += deltaTime;
 		};
 
 		// TODO: 
 		var _draw = function(context) {
+			// Draw the border around the perimeter
+			
+			// Draw the current cool-down progress as a background polygon
+			
+			// Draw the current cool-down progress as a thick, colored line around the perimeter
 			// TODO: 
 		};
 
@@ -71,7 +73,7 @@
 			// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
 			_actualCoolDownPeriod = _baseCoolDownPeriod; // TODO: actually implement the random deviation here
 
-			_elapsedTime = 0;
+			_timeSinceLastBlock = 0;
 		};
 
 		// Set the base cool-down period to be the given time (in millis).
@@ -84,18 +86,22 @@
 			var startingX;
 			var startingY;
 
+			var indexOffsetFromTopLeftOfBlockToCenter = 
+					window.Block.getIndexOffsetFromTopLeftOfBlockToCenter(
+							blockType, orientation);
+
 			switch (_previewWindowIndex) {
 			case 0:
 				startingX = _gameAreaSize / 2;
 				startingY = 0;
 				break;
 			case 1:
-				startingX = _gameAreaSize - 1;
+				startingX = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.x * 2);
 				startingY = _gameAreaSize / 2;
 				break;
 			case 2:
 				startingX = _gameAreaSize / 2;
-				startingY = _gameAreaSize - 1;
+				startingY = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.y * 2);
 				break;
 			case 3:
 				startingX = 0;
@@ -103,16 +109,15 @@
 				break;
 			default:
 				return;
-			}****// TODO: account for the orientation and how the "position" of a block dictates its top-left cell (USE window.Block.getIndexOffsetFromTopLeftOfBlockToCenter(blockType, orientation))
+			}
 
 			_currentBlock.setPosition(startingX, startingY);
 
 			return _currentBlock;
 		};
 
-		// TODO: 
 		var _isCoolDownFinished = function() {
-			// TODO: 
+			return _timeSinceLastBlock >= _actualCoolDownPeriod;
 		};
 
 		// ----------------------------------------------------------------- //
@@ -124,8 +129,6 @@
 		this.isCoolDownFinished = _isCoolDownFinished;
 		this.update = _update;
 		this.draw = _draw;
-
-		// TODO: 
 	};
 
 	// --------------------------------------------------------------------- //
