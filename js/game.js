@@ -31,6 +31,8 @@
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
 	var _INITIAL_BLOCK_FALL_SPEED = 1; // in squares per millis
 	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
+	
+	var _INITIAL_COOL_DOWN_PERIOD = 800; // millis
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -122,15 +124,16 @@
 			_gameTime += deltaTime;
 
 			// Update the blocks
-			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
-				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);
+			for (var i = 0; i < _blocksOnGameArea.length; ++i) {log.d("---game._update:11");/////TODO/////
+				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);log.d("---game._update:12");/////TODO/////
 
 				// If the block has reached the edge of the game area and is 
 				// trying to fall out, then the game is over and the player 
 				// has lost
 				if (_blocksOnGameArea[i].getHasCollidedWithEdgeOfArea()) {
 					_endGame();
-				}
+					return;
+				}log.d("---game._update:13");/////TODO/////
 
 				// If the block has reached a stationary square and cannot 
 				// fall, then add it's squares to the game area and delete the 
@@ -138,7 +141,7 @@
 				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
 					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
-				}
+				}log.d("---game._update:14");/////TODO/////
 			}
 
 			// Update the preview windows
@@ -148,18 +151,19 @@
 				// If the preview window has finished its cool down, then add 
 				// its block to the game area and start a new block in preview 
 				// window
-				if (_previewWindows[i].isCoolDownFinished()) {
-					var block = _previewWindows[i].getCurrentBlock();
+				if (_previewWindows[i].isCoolDownFinished()) {log.d("---game._update:1");/////TODO/////
+					var block = _previewWindows[i].getCurrentBlock();log.d("---game._update:2");/////TODO/////
 
 					// If there is a square on the game area in the way the 
 					// new block from being added, then the game is over and 
 					// the player has lost
 					if (false) { // TODO: 
 						_endGame();
+						return;
 					}
 
-					_blocksOnGameArea.push(block);
-					_previewWindows[i].startNewBlock();
+					_blocksOnGameArea.push(block);log.d("---game._update:3");/////TODO/////
+					_previewWindows[i].startNewBlock();log.d("---game._update:4");/////TODO/////
 				}
 			}
 
@@ -170,8 +174,8 @@
 			// Update the gradually shifting color of the big center square
 			// TODO: 
 
-			_levelDisplay.innerHtml = _level;
-			_scoreDisplay.innerHtml = _score;
+			_levelDisplay.innerHTML = _level;
+			_scoreDisplay.innerHTML = _score;
 
 			log.d("<--game._update");
 		}
@@ -180,7 +184,7 @@
 			log.d("-->game._draw");
 
 			// Clear the canvas
-			_context.clearRect(_canvas.width, _canvas.height);
+			_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
 			// ---- Draw the preview windows ---- //
 
@@ -240,9 +244,13 @@
 
 			_setLevel(_startingLevel);
 
+			var deltaCoolDown = _currentPreviewWindowCoolDownTime / 3;
+
 			// Start each of the preview windows
-			for (var i = 0; i < 4; ++i) {
-				_previewWindows[i].startNewBlock();
+			for (var i = 0, coolDown = _INITIAL_COOL_DOWN_PERIOD; 
+					i < 4; 
+					++i, coolDown += deltaCoolDown) {
+				_previewWindows[i].startNewBlock(coolDown);
 			}
 
 			log.d("<--game._reset");

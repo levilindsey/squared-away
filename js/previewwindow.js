@@ -160,11 +160,11 @@
 						}
 					} else { // The cool down has not yet reached the bottom-left corner
 						// Draw the section from the bottom-right to somewhere in the bottom portion
-						context.lineTo(_position.x + (((5 / 8) - currentProgress) * 4 * _size), _position.y);
+						context.lineTo(_position.x + (((5 / 8) - currentProgress) * 4 * _size), _position.y + _size);
 					}
 				} else { // The cool down has not yet reached the bottom-right corner
 					// Draw the section from the top-right to somewhere in the right portion
-					context.lineTo(_position.x, _position.y + ((currentProgress - (1 / 8)) * 4 * _size));
+					context.lineTo(_position.x + _size, _position.y + ((currentProgress - (1 / 8)) * 4 * _size));
 				}
 			} else { // The cool down has not yet reached the top-right corner
 				// Draw the section from the top-middle to somewhere in the first top portion
@@ -174,7 +174,7 @@
 
 		// Start this preview window with a random new block and a fresh cool 
 		// down.
-		function _startNewBlock() {
+		function _startNewBlock(coolDownPeriod) {
 			// Change the current block to be a new block of some random type 
 			// (from 0 to 6)
 			var blockType = Math.floor(Math.random() * 7);
@@ -189,8 +189,12 @@
 
 			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
 
-			// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
-			_actualCoolDownPeriod = _baseCoolDownPeriod; // TODO: actually implement the random deviation here
+			if (coolDownPeriod) {
+				_actualCoolDownPeriod = coolDownPeriod;
+			} else {
+				// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
+				_actualCoolDownPeriod = _baseCoolDownPeriod; // TODO: actually implement the random deviation here
+			}
 
 			_timeSinceLastBlock = 0;
 		}
@@ -201,13 +205,16 @@
 		}
 
 		// Return the block that has been shown in this preview window.  This block will be re-positioned to be in
-		function _getCurrentBlock() {
+		function _getCurrentBlock() {log.d("---pw._getCurrentBlock:1");/////TODO/////
 			var startingX;
 			var startingY;
 
+			var type = _currentBlock.getType();
+			var orientation = _previewWindowIndex;
+
 			var indexOffsetFromTopLeftOfBlockToCenter = 
 					window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(
-							blockType, orientation);
+							type, orientation);log.d("---pw._getCurrentBlock:2");/////TODO/////
 
 			switch (_previewWindowIndex) {
 			case 0:
@@ -228,9 +235,9 @@
 				break;
 			default:
 				return;
-			}
+			}log.d("---pw._getCurrentBlock:3");/////TODO/////
 
-			_currentBlock.setPositionIndex(startingX, startingY);
+			_currentBlock.setPositionIndex(startingX, startingY);log.d("---pw._getCurrentBlock:4");/////TODO/////
 
 			return _currentBlock;
 		}

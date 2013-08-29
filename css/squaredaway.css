@@ -35,7 +35,7 @@ h3 {
 #banner {
 	background-color: rgba(2,2,2,0.8);
 	padding: 10px 0px;
-	width: 520px;
+	width: 720px;
 }
 
 #banner img {
@@ -56,15 +56,15 @@ h3 {
 }
 
 #gameCanvas {
-	height: 520px;
-	width: 520px;
+	height: 720px;
+	width: 720px;
 	z-index: 1;
 }
 
 #infoArea {
 	background-color: rgba(2,2,2,0.7);
 	padding: 1px 0px;
-	width: 520px;
+	width: 720px;
 }
 
 #infoArea>* {
@@ -75,7 +75,7 @@ h3 {
 	background-color: rgba(2,2,2,0.7);
 	margin: 10px 0px;
 	padding: 1px 0px;
-	width: 520px;
+	width: 720px;
 }
 
 #noJavaScriptArea>* {
@@ -88,17 +88,17 @@ h3 {
 	height: 100%;
 	padding: 10px;
 	margin: 0px auto;
-	width: 520px;
+	width: 720px;
 }
 
 #pauseScreen {
 	position: absolute;
 	background-color: rgba(2,2,2,0.7);
-	height: 520px;
+	height: 720px;
 	margin: 0px auto;
 	left: 0px;
 	top: 0px;
-	width: 520px;
+	width: 720px;
 	z-index: 3;
 }
 
@@ -110,22 +110,22 @@ h3 {
 
 #playArea {
 	position: relative;
-	height: 520px;
+	height: 720px;
 	left: 0px;
 	margin: 10px 0px;
 	top: 0px;
-	width: 520px;
+	width: 720px;
 }
 
 #problemScreen {
 	display: none;
 	position: absolute;
 	background-color: rgba(0,0,0,0.7);
-	height: 520px;
+	height: 720px;
 	margin: 0px auto;
 	left: 0px;
 	top: 0px;
-	width: 520px;
+	width: 720px;
 	z-index: 4;
 }
 
@@ -155,7 +155,7 @@ h3 {
 	left: 10px;
 	text-align: left;
 	top: 10px;
-	width: 500px;
+	width: 700px;
 	z-index: 2;
 }
 
@@ -166,7 +166,7 @@ h3 {
 	left: 10px;
 	text-align: right;
 	top: 10px;
-	width: 500px;
+	width: 700px;
 	z-index: 2;
 }
 

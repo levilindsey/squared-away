@@ -29,6 +29,26 @@
 			document.body.clientHeight; // for IE
 	}
 
+	function _getElementWidth(element) {
+		if (typeof element.clip !== "undefined") {
+			return element.clip.width;
+		} else if (element.style.pixelWidth) {
+			return element.style.pixelWidth;
+		} else {
+			return element.offsetWidth;
+		}
+	}
+
+	function _getElementHeight(element) {
+		if (typeof element.clip !== "undefined") {
+			return element.clip.height;
+		} else if (element.style.pixelHeight) {
+			return element.style.pixelHeight;
+		} else {
+			return element.offsetHeight;
+		}
+	}
+
 	function _translateKeyCode(keyCode) {
         var key;
 
@@ -62,12 +82,43 @@
 		return array;
 	}
 
+	function _getHourMinSecTime(millis) {
+		var hours = Math.floor(millis / (1000 * 60 * 60));
+		hours = hours.toString();
+		if (hours.length < 2) {
+			hours = "0" + hours;
+		}
+
+		var minutes = Math.floor(millis / (1000 * 60)) % 60;
+		minutes = minutes.toString();
+		if (minutes.length < 2) {
+			minutes = "0" + minutes;
+		}
+
+		var seconds = Math.floor(millis / 1000) % (60 * 60);
+		seconds = seconds.toString();
+		if (seconds.length < 2) {
+			seconds = "0" + seconds;
+		}
+
+		var millis = millis % 1000;
+		millis = hours.toString();
+		while (millis.length < 3) {
+			millis = "0" + millis;
+		}
+
+		return hours + ":" + minutes + ":" + seconds;
+	}
+
 	window.utils = {
 		object: _object,
 		initializeArray: _initializeArray,
 		getWindowWidth: _getWindowWidth,
 		getWindowHeight: _getWindowHeight,
-		translateKeyCode: _translateKeyCode
+		getElementWidth: _getElementWidth,
+		getElementHeight: _getElementHeight,
+		translateKeyCode: _translateKeyCode,
+		getHourMinSecTime: _getHourMinSecTime
 	};
 
 	log.d("<--utils.LOADING_MODULE");

@@ -37,6 +37,9 @@
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
 
+		canvas.width = utils.getElementWidth(canvas);
+		canvas.height = utils.getElementHeight(canvas);
+
 		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);
 
 		// Hook up the event handlers
@@ -56,10 +59,10 @@
 		pauseScreen.style.display = "none";
 		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
 		pauseScreenTitle.style.display = "block";
-		pauseScreenTitle.innerHtml = "Game Paused";
+		pauseScreenTitle.innerHTML = "Game Paused";
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.style.marginTop = "0px";
-		unpauseButton.innerHtml = "Unpause";
+		unpauseButton.innerHTML = "Unpause";
 		var statsTable = document.getElementById("statsTable");
 		statsTable.style.display = "block";
 
@@ -96,9 +99,9 @@
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "block";
 		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
-		pauseScreenTitle.innerHtml = "Game Over";
+		pauseScreenTitle.innerHTML = "Game Over";
 		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.innerHtml = "Play Again";
+		unpauseButton.innerHTML = "Play Again";
 
 		populateStatsTable();
 
@@ -108,7 +111,7 @@
 	function onPauseEvent(event) {
 		log.d("-->main.onPauseEvent");
 
-		if (game.getIsPaused()) {
+		if (game.getIsPaused() || game.getIsEnded()) {
 			playGame();
 		} else {
 			pauseGame();
@@ -155,13 +158,14 @@
 
 	function populateStatsTable() {
 		var scoreData = document.getElementById("scoreData");
-		scoreData.innerHtml = game.getScore();
+		scoreData.innerHTML = game.getScore();
 
 		var levelData = document.getElementById("levelData");
-		levelData.innerHtml = game.getLevel();
+		levelData.innerHTML = game.getLevel();
 
 		var timeData = document.getElementById("timeData");
-		timeData.innerHtml = game.getTime();
+		var timeString = window.utils.getHourMinSecTime(game.getTime());
+		timeData.innerHTML = timeString;
 	}
 
 	function setupDOMForJavascript() {

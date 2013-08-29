@@ -304,26 +304,26 @@
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
-		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
+		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {log.d("---b._update:1");/////TODO/////
 			_timeSinceLastFall += deltaTime;
 
 			// Check whether this block needs to fall one space
-			if (_timeSinceLastFall > _fallPeriod) {
+			if (_timeSinceLastFall > _fallPeriod) {log.d("---b._update:2");/////TODO/////
 				_hasCollidedWithEdgeOfArea = 
-						_checkForCollisionWithGameAreaEdge();
+						_checkForCollisionWithGameAreaEdge();log.d("---b._update:3");/////TODO/////
 
-				if (!_hasCollidedWithEdgeOfArea) {
+				if (!_hasCollidedWithEdgeOfArea) {log.d("---b._update:4");/////TODO/////
 					_hasCollidedWithSquare = 
 							_checkForCollision(squaresOnGameArea, 
-											   blocksOnGameArea);
+											   blocksOnGameArea);log.d("---b._update:5");/////TODO/////
 
-					if (!_hasCollidedWithSquare) {
-						_fall();
+					if (!_hasCollidedWithSquare) {log.d("---b._update:6");/////TODO/////
+						_fall();log.d("---b._update:7");/////TODO/////
 					}
 				}
 
 				_timeSinceLastFall %= _fallPeriod;
-			}
+			}log.d("---b._update:8");/////TODO/////
 
 			// Check whether this block needs to shimmer
 			if (false && // TODO: fix the false bit to use a shimmer timer
@@ -470,7 +470,7 @@
 			return false;
 		}
 
-		function _checkForCollisionWithGameAreaEdge() {
+		function _checkForCollisionWithGameAreaEdge() {log.d("---b._checkForCollisionWithGameAreaEdge:1");/////TODO/////
 			var deltaX;
 			var deltaY;
 
@@ -493,18 +493,18 @@
 				break;
 			default:
 				return;
-			}
+			}log.d("---b._checkForCollisionWithGameAreaEdge:2");/////TODO/////
 
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareIndexPositions();log.d("---b._checkForCollisionWithGameAreaEdge:3");/////TODO/////
 
-			for (var i = 0; i < indices.length; ++i) {
+			for (var i = 0; i < positions.length; ++i) {
 				if (positions[i].x + deltaX > _gameAreaIndexSize || 
 						positions[i].x + deltaX < 0 || 
 						positions[i].y + deltaY > _gameAreaIndexSize || 
 						positions[i].y + deltaY < 0) {
 					return true;
 				}
-			}
+			}log.d("---b._checkForCollisionWithGameAreaEdge:4");/////TODO/////
 
 			return false;
 		}
@@ -674,6 +674,10 @@
 			return _hasCollidedWithSquare;
 		}
 
+		function _getType() {
+			return _type;
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -689,6 +693,7 @@
 		this.setPositionIndex = _setPositionIndex;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
+		this.getType = _getType;
 
 		log.d("<--block.Block");
 	};
