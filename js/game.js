@@ -16,9 +16,7 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> game.js: LOADING");
-}
+log.d("-->game.LOADING_FILE");
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -40,6 +38,8 @@ if (DEBUG) {
 	var _gameAreaPosition = { x: 0, y: 0 }; // in pixels
 
 	function Game(canvas, levelDisplay, scoreDisplay, onGameEnd) {
+		log.d("-->game.Game");
+
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
@@ -368,7 +368,9 @@ if (DEBUG) {
 		this.setMode4 = _setMode4;
 		this.setGameAreaSize = _setGameAreaSize;
 		this.setCenterSquareSize = _setCenterSquareSize;
-		this.setStartingLevel = _setStartingLevel;
+		this.setStartingLevel = _setStartingLevel
+
+		log.d("<--game.Game");
 	};
 
 	Game.prototype = {
@@ -379,6 +381,4 @@ if (DEBUG) {
 	window.Game = Game;
 })();
 
-if (DEBUG) {
-	log.d("<-- game.js: LOADING");
-}
+log.d("<--game.LOADING_FILE");

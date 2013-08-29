@@ -7,9 +7,7 @@
 //		- <none>
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> utils.js: LOADING");
-}
+log.d("-->utils.LOADING_FILE");
 
 (function() {
 	// Return a new object which whose prototype is the given old object.
@@ -86,6 +84,4 @@ if (DEBUG) {
 	};
 })();
 
-if (DEBUG) {
-	log.d("<-- utils.js: LOADING");
-}
+log.d("<--utils.LOADING_FILE");

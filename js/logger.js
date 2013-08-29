@@ -35,7 +35,9 @@ var DEBUG = true;
 		};
 
 		var _d = function(msg) {
-			_writeLine(msg, "D", _DEBUG_FOREGROUND, _DEBUG_BACKGROUND);
+			if (DEBUG) {
+				_writeLine(msg, "D", _DEBUG_FOREGROUND, _DEBUG_BACKGROUND);
+			}
 		};
 
 		var _w = function(msg) {
@@ -95,8 +97,8 @@ var DEBUG = true;
 
 if (DEBUG) {
 	log.getConsole().style.display = "block";
-
-	log.d("<-- logger.js: LOADING");
 } else {
 	window.Logger.getConsole().style.display = "none";
 }
+
+log.d("<--logger.LOADING_FILE");

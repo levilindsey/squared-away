@@ -16,7 +16,7 @@
 // ------------------------------------------------------------------------- //
 
 if (DEBUG) {
-	log.d("--> main.js: LOADING");
+	log.d("-->main.LOADING_FILE");
 }
 
 (function() {
@@ -33,22 +33,26 @@ if (DEBUG) {
 	// We should not need to wait for window.load to complete, because this file 
 	// should be the last part to load
 	function init() {
+		log.d("-->main.init");
+
 		var canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
-		var scoreDisplay = document.getElementById("topScoreDisplayData");
+		var scoreDisplay = document.getElementById("topScoreDisplayData");log.d("---main.init1");/////TODO/////
 
-		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);
+		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);log.d("---main.init2");/////TODO/////
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.addEventListener("click", onPauseEvent, false);
+		unpauseButton.addEventListener("click", onPauseEvent, false);log.d("---main.init3");/////TODO/////
 		window.addEventListener("keypress", onKeyPress, false);
-		window.addEventListener("blur", pauseGame, false);
+		window.addEventListener("blur", pauseGame, false);log.d("---main.init4");/////TODO/////
 
-		// TODO: hook up the error handlers
+		log.d("<--main.init");
 	}
 
 	function playGame() {
+		log.d("-->main.playGame");
+
 		// Set up the pause screen content
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "none";
@@ -70,18 +74,26 @@ if (DEBUG) {
 		}
 
 		game.play();
+
+		log.d("<--main.playGame");
 	}
 
 	function pauseGame() {
+		log.d("-->main.pauseGame");
+
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "block";
 
 		populateStatsTable();
 
 		game.pause();
+
+		log.d("<--main.pauseGame");
 	}
 
 	function onGameEnd() {
+		log.d("-->main.onGameEnd");
+
 		// Set up the game over screen content
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "block";
@@ -91,14 +103,20 @@ if (DEBUG) {
 		unpauseButton.innerHtml = "Play Again";
 
 		populateStatsTable();
+
+		log.d("<--main.onGameEnd");
 	}
 
 	function onPauseEvent(event) {
+		log.d("-->main.onPauseEvent");
+
 		if (game.isPaused()) {
 			playGame();
 		} else {
 			pauseGame();
 		}
+
+		log.d("<--main.onPauseEvent");
 	}
 	
 	function onKeyPress(event) {
@@ -181,5 +199,5 @@ if (DEBUG) {
 })();
 
 if (DEBUG) {
-	log.d("<-- main.js: LOADING");
+	log.d("<--main.LOADING_FILE");
 }

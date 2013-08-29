@@ -125,18 +125,21 @@
 		</div>
 
 		<div id="console">
+			<hr>
+
+			<h2>Debug Console:</h2>
 		</div>
 	</div>
 
     <script type="text/javascript" src="js/logger.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
-    <!-- <script type="text/javascript" src="js/resources.js"></script>
+    <script type="text/javascript" src="js/resources.js"></script>
     <script type="text/javascript" src="js/sprite.js"></script>
     <script type="text/javascript" src="js/block.js"></script>
     <script type="text/javascript" src="js/gamewindow.js"></script>
     <script type="text/javascript" src="js/previewwindow.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/input.js"></script>
-    <script type="text/javascript" src="js/main.js"></script> -->
+    <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

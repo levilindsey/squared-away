@@ -51,9 +51,8 @@ h3 {
 	width: 100%;
 }
 
-#console>* {
-	margin: 3px 0px;
-	width: 100%;
+#console>h2 {
+	background-color: #101010;
 }
 
 #gameCanvas {

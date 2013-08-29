@@ -21,9 +21,7 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> previewwindow.js: LOADING");
-}
+log.d("-->previewwindow.LOADING_FILE");
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -42,6 +40,8 @@ if (DEBUG) {
 	var _gameAreaSize = 100; // in cells
 
 	function PreviewWindow(x, y, size, previewWindowIndex) {
+		log.d("-->previewwindow.PreviewWindow");
+
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
@@ -249,6 +249,8 @@ if (DEBUG) {
 		this.isCoolDownFinished = _isCoolDownFinished;
 		this.update = _update;
 		this.draw = _draw;
+
+		log.d("<--previewwindow.PreviewWindow");
 	};
 
 	// --------------------------------------------------------------------- //
@@ -266,6 +268,4 @@ if (DEBUG) {
 	window.PreviewWindow = PreviewWindow;
 })();
 
-if (DEBUG) {
-	log.d("<-- previewwindow.js: LOADING");
-}
+log.d("<--previewwindow.LOADING_FILE");

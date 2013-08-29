@@ -13,9 +13,7 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> block.js: LOADING");
-}
+log.d("-->block.LOADING_FILE");
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -288,6 +286,8 @@ if (DEBUG) {
 	//		 top-left cell occupied by the bounding box formed by the current 
 	//		 orientation of the block.
 	function Block(type, x, y, orientation, fallDirection) {
+		log.d("-->block.Block");
+
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
@@ -687,6 +687,8 @@ if (DEBUG) {
 		this.setPosition = _setPosition;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
+
+		log.d("<--block.Block");
 	};
 
 	// --------------------------------------------------------------------- //
@@ -775,6 +777,4 @@ if (DEBUG) {
 	window.Block = Block;
 })();
 
-if (DEBUG) {
-	log.d("<-- block.js: LOADING");
-}
+log.d("<--block.LOADING_FILE");

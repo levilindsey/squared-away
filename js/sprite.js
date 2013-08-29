@@ -12,9 +12,7 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> sprite.js: LOADING");
-}
+log.d("-->sprite.LOADING_FILE");
 
 (function() {
 	// Constructor
@@ -127,6 +125,4 @@ if (DEBUG) {
 	window.Sprite = Sprite;
 })();
 
-if (DEBUG) {
-	log.d("<-- sprite.js: LOADING");
-}
+log.d("<--sprite.LOADING_FILE");

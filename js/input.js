@@ -15,14 +15,10 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("--> input.js: LOADING");
-}
+log.d("-->input.LOADING_FILE");
 
 // TODO: 
 
 
 
-if (DEBUG) {
-	log.d("<-- input.js: LOADING");
-}
+log.d("<--input.LOADING_FILE");
