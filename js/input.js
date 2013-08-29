@@ -5,6 +5,7 @@
 // Squared Away web app.
 // 
 // Dependencies:
+//		- window.log
 //		- window.Game
 //		- window.Sprite
 //		- window.Block
@@ -14,6 +15,14 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
+if (DEBUG) {
+	log.d("--> input.js: LOADING");
+}
+
 // TODO: 
 
 
+
+if (DEBUG) {
+	log.d("<-- input.js: LOADING");
+}

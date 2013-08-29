@@ -15,10 +15,15 @@
 //		- Left:		red
 // 
 // Dependencies:
+//		- window.log
 //		- window.Sprite
 //		- window.Block
 //		- window.utils
 // ------------------------------------------------------------------------- //
+
+if (DEBUG) {
+	log.d("--> previewwindow.js: LOADING");
+}
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -260,3 +265,7 @@
 	// Make PreviewWindow available to the rest of the program
 	window.PreviewWindow = PreviewWindow;
 })();
+
+if (DEBUG) {
+	log.d("<-- previewwindow.js: LOADING");
+}

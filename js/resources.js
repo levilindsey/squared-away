@@ -10,6 +10,10 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
+if (DEBUG) {
+	log.d("--> resources.js: LOADING");
+}
+
 (function() {
     var _resourceCache = {};
 
@@ -78,3 +82,7 @@
         isReady: _isReady
     };
 }());
+
+if (DEBUG) {
+	log.d("<-- resources.js: LOADING");
+}

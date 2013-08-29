@@ -7,6 +7,12 @@
 //		- <none>
 // ------------------------------------------------------------------------- //
 
+var DEBUG = true;
+
+if (DEBUG) {
+	log.d("--> utils.js: LOADING");
+}
+
 (function() {
 	// Return a new object which whose prototype is the given old object.
 	var _object = function(o) {
@@ -81,3 +87,7 @@
 		translateKeyCode: _translateKeyCode
 	};
 })();
+
+if (DEBUG) {
+	log.d("<-- utils.js: LOADING");
+}

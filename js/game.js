@@ -8,12 +8,17 @@
 // minimizing side-effects and problems when linking multiple script files.
 // 
 // Dependencies:
+//		- window.log
 //		- window.Sprite
 //		- window.Block
 //		- window.PreviewWindow
 //		- window.GameWindow
 //		- window.utils
 // ------------------------------------------------------------------------- //
+
+if (DEBUG) {
+	log.d("--> game.js: LOADING");
+}
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -373,3 +378,7 @@
 	// Make Game available to the rest of the program
 	window.Game = Game;
 })();
+
+if (DEBUG) {
+	log.d("<-- game.js: LOADING");
+}

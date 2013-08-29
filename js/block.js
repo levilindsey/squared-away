@@ -8,9 +8,14 @@
 // minimizing side-effects and problems when linking multiple script files.
 // 
 // Dependencies:
+//		- window.log
 //		- window.Sprite
 //		- window.utils
 // ------------------------------------------------------------------------- //
+
+if (DEBUG) {
+	log.d("--> block.js: LOADING");
+}
 
 (function() {
 	// --------------------------------------------------------------------- //
@@ -769,3 +774,7 @@
 	// Make Block available to the rest of the program
 	window.Block = Block;
 })();
+
+if (DEBUG) {
+	log.d("<-- block.js: LOADING");
+}

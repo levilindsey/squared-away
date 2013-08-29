@@ -8,8 +8,13 @@
 // side-effects and problems when linking multiple script files.
 // 
 // Dependencies:
+//		- window.log
 //		- window.utils
 // ------------------------------------------------------------------------- //
+
+if (DEBUG) {
+	log.d("--> sprite.js: LOADING");
+}
 
 (function() {
 	// Constructor
@@ -121,3 +126,7 @@
 	// Make Sprite available to the rest of the program
 	window.Sprite = Sprite;
 })();
+
+if (DEBUG) {
+	log.d("<-- sprite.js: LOADING");
+}

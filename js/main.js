@@ -4,6 +4,7 @@
 // This file provides the main driving logic for the Squared Away web app.
 // 
 // Dependencies:
+//		- window.log
 //		- window.Game
 //		- window.Sprite
 //		- window.Block
@@ -13,6 +14,10 @@
 //		- window.input
 //		- window.utils
 // ------------------------------------------------------------------------- //
+
+if (DEBUG) {
+	log.d("--> main.js: LOADING");
+}
 
 (function() {
 	var game = null;
@@ -141,18 +146,6 @@
 		timeData.innerHtml = game.getTime();
 	}
 
-	// Handle exceptions or other miscellaneous problems
-	function handleProblem(message) {
-		// Show the problem area and hide the others
-		hideNonCanvasAreas();
-		var problemScreen = document.getElementById("problemScreen");
-		problemScreen.style.display = "block";
-
-		// Add the error message
-		var problemText = problemScreen.getElementById("problemText");
-		problemText.innerHtml = message;
-	}
-
 	function setupDOMForJavascript() {
 		var noJavaScriptArea = document.getElementById("noJavaScriptArea");
 		noJavaScriptArea.style.display = "none";
@@ -163,7 +156,7 @@
 	}
 
 	function showNonCanvasAreas() {
-		var banner = document.getElementById("problemArea");
+		var banner = document.getElementById("banner");
 		banner.style.visibility = "visible";
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.visibility = "visible";
@@ -171,7 +164,7 @@
 	}
 
 	function hideNonCanvasAreas() {
-		var banner = document.getElementById("problemArea");
+		var banner = document.getElementById("banner");
 		banner.style.visibility = "hidden";
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.visibility = "hidden";
@@ -186,3 +179,7 @@
 		// TODO: switch divs; animate
 	}
 })();
+
+if (DEBUG) {
+	log.d("<-- main.js: LOADING");
+}

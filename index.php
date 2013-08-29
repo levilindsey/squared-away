@@ -51,12 +51,6 @@
 					</tr>
 				</table>
 			</div>
-
-			<div id="problemScreen">
-				<p id="problemText">
-				Bummer dude.  The code died.
-				</p>
-			</div>
 		</div>
 
 		<div id="infoArea">
@@ -129,8 +123,12 @@
 			Also, this app is coming soon to the Android marketplace.
 			</p>
 		</div>
+
+		<div id="console">
+		</div>
 	</div>
 
+    <script type="text/javascript" src="js/logger.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/resources.js"></script>
     <script type="text/javascript" src="js/sprite.js"></script>

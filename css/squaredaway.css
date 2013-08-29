@@ -44,6 +44,16 @@ h3 {
 	height: 56px;
 }
 
+#console {
+	margin: 10px 0px;
+	width: 100%;
+}
+
+#console>* {
+	margin: 3px 0px;
+	width: 100%;
+}
+
 #gameCanvas {
 	height: 520px;
 	width: 520px;
