@@ -205,7 +205,7 @@
 		}
 
 		// Return the block that has been shown in this preview window.  This block will be re-positioned to be in
-		function _getCurrentBlock() {log.d("---pw._getCurrentBlock:1");/////TODO/////
+		function _getCurrentBlock() {
 			var startingX;
 			var startingY;
 
@@ -214,7 +214,7 @@
 
 			var indexOffsetFromTopLeftOfBlockToCenter = 
 					window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(
-							type, orientation);log.d("---pw._getCurrentBlock:2");/////TODO/////
+							type, orientation);
 
 			switch (_previewWindowIndex) {
 			case 0:
@@ -235,9 +235,9 @@
 				break;
 			default:
 				return;
-			}log.d("---pw._getCurrentBlock:3");/////TODO/////
+			}
 
-			_currentBlock.setPositionIndex(startingX, startingY);log.d("---pw._getCurrentBlock:4");/////TODO/////
+			_currentBlock.setPositionIndex(startingX, startingY);
 
 			return _currentBlock;
 		}

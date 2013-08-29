@@ -95,7 +95,7 @@
 			minutes = "0" + minutes;
 		}
 
-		var seconds = Math.floor(millis / 1000) % (60 * 60);
+		var seconds = Math.floor(millis / 1000) % 60;
 		seconds = seconds.toString();
 		if (seconds.length < 2) {
 			seconds = "0" + seconds;

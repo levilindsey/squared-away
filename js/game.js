@@ -30,7 +30,7 @@
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
-	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
+	var _INITIAL_BLOCK_FALL_SPEED = 0.0015; // in squares per millis
 	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
 	
 	var _INITIAL_COOL_DOWN_PERIOD = 800; // millis
@@ -126,8 +126,8 @@
 			_gameTime += deltaTime;
 
 			// Update the blocks
-			for (var i = 0; i < _blocksOnGameArea.length; ++i) {log.d("---game._update:11");/////TODO/////
-				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);log.d("---game._update:12");/////TODO/////
+			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);
 
 				// If the block has reached the edge of the game area and is 
 				// trying to fall out, then the game is over and the player 
@@ -135,7 +135,7 @@
 				if (_blocksOnGameArea[i].getHasCollidedWithEdgeOfArea()) {
 					_endGame();
 					return;
-				}log.d("---game._update:13");/////TODO/////
+				}
 
 				// If the block has reached a stationary square and cannot 
 				// fall, then add it's squares to the game area and delete the 
@@ -143,7 +143,7 @@
 				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
 					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
-				}log.d("---game._update:14");/////TODO/////
+				}
 			}
 
 			// Update the preview windows
@@ -153,8 +153,8 @@
 				// If the preview window has finished its cool down, then add 
 				// its block to the game area and start a new block in preview 
 				// window
-				if (_previewWindows[i].isCoolDownFinished()) {log.d("---game._update:1");/////TODO/////
-					var block = _previewWindows[i].getCurrentBlock();log.d("---game._update:2");/////TODO/////
+				if (_previewWindows[i].isCoolDownFinished()) {
+					var block = _previewWindows[i].getCurrentBlock();
 
 					// If there is a square on the game area in the way the 
 					// new block from being added, then the game is over and 
@@ -164,8 +164,8 @@
 						return;
 					}
 
-					_blocksOnGameArea.push(block);log.d("---game._update:3");/////TODO/////
-					_previewWindows[i].startNewBlock();log.d("---game._update:4");/////TODO/////
+					_blocksOnGameArea.push(block);
+					_previewWindows[i].startNewBlock();
 				}
 			}
 
@@ -246,7 +246,7 @@
 
 			_setLevel(_startingLevel);
 
-			var deltaCoolDown = _currentPreviewWindowCoolDownTime / 3;
+			var deltaCoolDown = _currentPreviewWindowCoolDownTime / 4;
 
 			// Start each of the preview windows
 			for (var i = 0, coolDown = _INITIAL_COOL_DOWN_PERIOD; 
@@ -320,15 +320,6 @@
 			var previewWindow3 = new PreviewWindow(x3, y3, size, 2);
 			var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
 
-			log.d("??_canvas.width="+_canvas.width);/////TODO/////
-			log.d("??_gameAreaSizePixels="+_gameAreaSizePixels);/////TODO/////
-			log.d("??_previewWindowSizePixels="+_previewWindowSizePixels);/////TODO/////
-			log.d("??_previewWindowOuterMarginPixels="+_previewWindowOuterMarginPixels);/////TODO/////
-			log.d("??_previewWindowInnerMarginPixels="+_previewWindowInnerMarginPixels);/////TODO/////
-			log.d("??_gameAreaPosition.x="+_gameAreaPosition.x);/////TODO/////
-			log.d("??tmp1="+tmp1);/////TODO/////
-			log.d("??tmp2="+tmp2);/////TODO/////
-
 			_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
 		}
 
@@ -336,8 +327,11 @@
 			// Reset game state if a game is not currently in progress
 			if (_isEnded) {
 				_reset();
-				_prevTime = Date.now();
 				_isEnded = false;
+			}
+
+			if (_isPaused || _isEnded) {
+				_prevTime = Date.now();
 			}
 
 			_isPaused = false;
