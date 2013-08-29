@@ -10,6 +10,22 @@
     - make this a regularly occurring thing for each entire BLOCK
 	- make this a completely randomly occuring thing for each stationary SQUARE
 
+- UNIT TESTS:
+	- test for a long list of things that the browser needs to support (for each of these things, tell the user what is missing):
+		- canvas
+		- audio stuff...
+		- transparency in CSS colors
+		- 
+	- add proper unit tests for classes:
+		- google how to go about doing this
+
+- brighten:
+	- blocks
+	- title
+	- background
+
+- make the game area size dynamically adjust with the size of the window
+
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //
