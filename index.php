@@ -136,7 +136,6 @@
     <script type="text/javascript" src="js/resources.js"></script>
     <script type="text/javascript" src="js/sprite.js"></script>
     <script type="text/javascript" src="js/block.js"></script>
-    <script type="text/javascript" src="js/gamewindow.js"></script>
     <script type="text/javascript" src="js/previewwindow.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/input.js"></script>

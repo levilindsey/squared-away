@@ -13,9 +13,9 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->block.LOADING_FILE");
-
 (function() {
+	log.d("-->block.LOADING_MODULE");
+
 	// --------------------------------------------------------------------- //
 	// -- Private static members
 
@@ -775,6 +775,6 @@ log.d("-->block.LOADING_FILE");
 
 	// Make Block available to the rest of the program
 	window.Block = Block;
-})();
 
-log.d("<--block.LOADING_FILE");
+	log.d("<--block.LOADING_MODULE");
+})();

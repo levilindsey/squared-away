@@ -15,10 +15,10 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->input.LOADING_FILE");
+log.d("-->input.LOADING_MODULE");
 
 // TODO: 
 
 
 
-log.d("<--input.LOADING_FILE");
+log.d("<--input.LOADING_MODULE");

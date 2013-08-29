@@ -15,11 +15,9 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-if (DEBUG) {
-	log.d("-->main.LOADING_FILE");
-}
-
 (function() {
+	log.d("-->main.LOADING_MODULE");
+
 	var game = null;
 
 	// Preload all required resources and call init when done
@@ -196,8 +194,6 @@ if (DEBUG) {
 	function collapseInfoArea() {
 		// TODO: switch divs; animate
 	}
-})();
 
-if (DEBUG) {
-	log.d("<--main.LOADING_FILE");
-}
+	log.d("<--main.LOADING_MODULE");
+})();

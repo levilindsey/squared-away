@@ -93,12 +93,13 @@ var DEBUG = true;
 	window.Logger = Logger;
 
 	window.log = new Logger(_CONSOLE_ELEMENT);
+
+	// Hide the console if we are not in debugging mode
+	if (DEBUG) {
+		log.getConsole().style.display = "block";
+	} else {
+		window.Logger.getConsole().style.display = "none";
+	}
+
+	log.d("<--logger.LOADING_MODULE");
 })();
-
-if (DEBUG) {
-	log.getConsole().style.display = "block";
-} else {
-	window.Logger.getConsole().style.display = "none";
-}
-
-log.d("<--logger.LOADING_FILE");

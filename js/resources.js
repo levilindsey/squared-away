@@ -10,9 +10,9 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->resources.LOADING_FILE");
-
 (function() {
+	log.d("-->resources.LOADING_MODULE");
+
     var _resourceCache = {};
 
     // Load a single image url or an array of image urls
@@ -83,6 +83,6 @@ log.d("-->resources.LOADING_FILE");
         onready: null,
         isReady: _isReady
     };
-}());
 
-log.d("<--resources.LOADING_FILE");
+	log.d("<--resources.LOADING_MODULE");
+}());

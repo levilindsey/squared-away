@@ -12,9 +12,9 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->sprite.LOADING_FILE");
-
 (function() {
+	log.d("-->sprite.LOADING_MODULE");
+
 	// Constructor
 	function Sprite() {
 		// ----------------------------------------------------------------- //
@@ -123,6 +123,6 @@ log.d("-->sprite.LOADING_FILE");
 
 	// Make Sprite available to the rest of the program
 	window.Sprite = Sprite;
-})();
 
-log.d("<--sprite.LOADING_FILE");
+	log.d("<--sprite.LOADING_MODULE");
+})();

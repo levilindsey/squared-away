@@ -21,9 +21,10 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->previewwindow.LOADING_FILE");
 
 (function() {
+	log.d("-->previewwindow.LOADING_MODULE");
+
 	// --------------------------------------------------------------------- //
 	// -- Private, static members
 
@@ -266,6 +267,6 @@ log.d("-->previewwindow.LOADING_FILE");
 
 	// Make PreviewWindow available to the rest of the program
 	window.PreviewWindow = PreviewWindow;
-})();
 
-log.d("<--previewwindow.LOADING_FILE");
+	log.d("<--previewwindow.LOADING_MODULE");
+})();

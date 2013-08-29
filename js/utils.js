@@ -7,9 +7,9 @@
 //		- <none>
 // ------------------------------------------------------------------------- //
 
-log.d("-->utils.LOADING_FILE");
-
 (function() {
+	log.d("-->utils.LOADING_MODULE");
+
 	// Return a new object which whose prototype is the given old object.
 	var _object = function(o) {
 		function F() {}
@@ -82,6 +82,6 @@ log.d("-->utils.LOADING_FILE");
 		getWindowHeight: _getWindowHeight,
 		translateKeyCode: _translateKeyCode
 	};
-})();
 
-log.d("<--utils.LOADING_FILE");
+	log.d("<--utils.LOADING_MODULE");
+})();

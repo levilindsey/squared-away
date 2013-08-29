@@ -16,9 +16,9 @@
 //		- window.utils
 // ------------------------------------------------------------------------- //
 
-log.d("-->game.LOADING_FILE");
-
 (function() {
+	log.d("-->game.LOADING_MODULE");
+
 	// --------------------------------------------------------------------- //
 	// -- Private, static members
 
@@ -68,14 +68,14 @@ log.d("-->game.LOADING_FILE");
 		var _squareSizePixels = 0; // in pixels
 
 		var _score = 0;
-		var _level = _startingLevel;
+		var _level = _startingLevel;log.d("---game.Game1");/////TODO/////
 		var _gameTime = 0; // active (unpaused) time since start of game
 
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
 		var _currentBlockFallSpeed = 1; // squares / millis
 
-		_computeDimensions();
-		_setUpPreviewWindows();
+		_computeDimensions();log.d("---game.Game2");/////TODO/////
+		_setUpPreviewWindows();log.d("---game.Game3");/////TODO/////
 
 		// The game loop drives the progression of frames and game logic
 		var _gameLoop = function() {
@@ -94,7 +94,7 @@ log.d("-->game.LOADING_FILE");
 
 			// Go to the next frame
 			_prevTime = currTime;
-		};
+		};log.d("---game.Game4");/////TODO/////
 
 		// Update each of the game entities with the current time.
 		var _update = function(deltaTime) {
@@ -153,7 +153,7 @@ log.d("-->game.LOADING_FILE");
 			_scoreDisplay.innerHtml = score;
 		};
 
-		function _draw() {
+		var _draw = function() {
 			// Clear the canvas
 			context.clearRect(_canvas.width, _canvas.height);
 
@@ -226,7 +226,7 @@ log.d("-->game.LOADING_FILE");
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 			}
-		}
+		};
 
 		var _getPreviewWindowCoolDownTime = function(level) {
 			return _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME / 
@@ -296,11 +296,11 @@ log.d("-->game.LOADING_FILE");
 			_onGameEnd();
 		};
 
-		var _getIsPaused() {
+		var _getIsPaused = function() {
 			return _isPaused;
 		};
 
-		var _getIsEnded() {
+		var _getIsEnded = function() {
 			return _isEnded;
 		};
 
@@ -347,7 +347,7 @@ log.d("-->game.LOADING_FILE");
 
 		var _setStartingLevel = function(level) {
 			_startingLevel = level;
-		};
+		};log.d("---game.Game5");/////TODO/////
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
@@ -368,17 +368,13 @@ log.d("-->game.LOADING_FILE");
 		this.setMode4 = _setMode4;
 		this.setGameAreaSize = _setGameAreaSize;
 		this.setCenterSquareSize = _setCenterSquareSize;
-		this.setStartingLevel = _setStartingLevel
+		this.setStartingLevel = _setStartingLevel;
 
 		log.d("<--game.Game");
 	};
 
-	Game.prototype = {
-		// TODO: 
-	};
-
 	// Make Game available to the rest of the program
 	window.Game = Game;
-})();
 
-log.d("<--game.LOADING_FILE");
+	log.d("<--game.LOADING_MODULE");
+})();
