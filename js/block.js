@@ -347,13 +347,13 @@
 			}
 
 			// Draw the constituent squares
-			window.Block.drawSquare(context, _type, 
-									positions[0].x, positions[0].y);
-			window.Block.drawSquare(context, _type, 
+			window.Block.prototype.drawSquare(context, _type, 
+									positions[0].x, positions[0].y);log.d("---block._draw4");/////TODO/////
+			window.Block.prototype.drawSquare(context, _type, 
 									positions[1].x, positions[1].y);
-			window.Block.drawSquare(context, _type, 
+			window.Block.prototype.drawSquare(context, _type, 
 									positions[2].x, positions[2].y);
-			window.Block.drawSquare(context, _type, 
+			window.Block.prototype.drawSquare(context, _type, 
 									positions[3].x, positions[3].y);
 		}
 

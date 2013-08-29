@@ -50,18 +50,19 @@
 		var _onGameEnd = onGameEnd;
 
 		var _prevTime = 0;
-		var _blocksOnGameArea = new Array(); // the moving, four-square pieces
-		var _squaresOnGameArea = new Array(); // the stationary, single-square pieces
+		var _blocksOnGameArea = null; // the moving, four-square pieces
+		var _squaresOnGameArea = null; // the stationary, single-square pieces
 		var _previewWindows = null;
 
 		var _isPaused = true;
 		var _isEnded = true;
 		var _isLooping = false;
 
-		var _mode1On = true;
+		var _mode1On = false;
 		var _mode2On = true;
-		var _mode3On = false;
+		var _mode3On = true;
 		var _mode4On = false;
+		var _mode5On = false;
 		var _gameAreaSize = 100; // in number of squares
 		var _centerSquareSize = 6; // in number of squares
 		var _startingLevel = 1;
@@ -157,8 +158,8 @@
 			// Update the gradually shifting color of the big center square
 			// TODO: 
 
-			_levelDisplay.innerHtml = level;
-			_scoreDisplay.innerHtml = score;
+			_levelDisplay.innerHtml = _level;
+			_scoreDisplay.innerHtml = _score;
 
 			log.d("<--game._update");
 		}
@@ -167,28 +168,28 @@
 			log.d("-->game._draw");
 
 			// Clear the canvas
-			context.clearRect(_canvas.width, _canvas.height);
+			_context.clearRect(_canvas.width, _canvas.height);
 
 			// ---- Draw the preview windows ---- //
 
-			for (var i = 0; i < 4; ++i) {
-				_previewWindows[i].draw(context);
+			for (var i = 0; i < 4; ++i) {log.d("-->game._draw1");
+				_previewWindows[i].draw(_context);log.d("-->game._draw2");
 			}
 
 			// ---- Draw the main play area ---- //
 
-			context.save();
-			context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
+			_context.save();
+			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);log.d("-->game._draw3");
 
 			// Draw each of the falling blocks
 			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
-				_blocksOnGameArea[i].draw(context);
+				_blocksOnGameArea[i].draw(_context);
 			}
 
 			// Draw each of the stationary squares
 			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
 				window.Block.prototype._drawSquare(
-										context, _squaresOnGameArea[i], 
+										_context, _squaresOnGameArea[i], 
 										i % _gameAreaSize, i / _gameAreaSize);
 			}
 
@@ -207,7 +208,7 @@
 				// TODO: ?????
 			}
 
-			context.restore();
+			_context.restore();log.d("-->game._draw4");
 
 			log.d("<--game._draw");
 		}
@@ -356,6 +357,10 @@
 			_mode4On = isEnabled;
 		}
 
+		function _setMode5(isEnabled) {
+			_mode5On = isEnabled;
+		}
+
 		function _setGameAreaSize(gameAreaSize) {
 			_gameAreaSize = gameAreaSize;
 			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
@@ -393,6 +398,7 @@
 		this.setMode2 = _setMode2;
 		this.setMode3 = _setMode3;
 		this.setMode4 = _setMode4;
+		this.setMode5 = _setMode5;
 		this.setGameAreaSize = _setGameAreaSize;
 		this.setCenterSquareSize = _setCenterSquareSize;
 		this.setStartingLevel = _setStartingLevel;

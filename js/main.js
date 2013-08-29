@@ -140,6 +140,8 @@
 		game.setMode3(mode3.checked);
 		var mode4 = document.getElementById("mode4");
 		game.setMode4(mode4.checked);
+		var mode5 = document.getElementById("mode5");
+		game.setMode5(mode5.checked);
 		var gameAreaSizeElem = document.getElementById("gameAreaSize");
 		var gameAreaSize = parseInt(gameAreaSizeElem.options[gameAreaSizeElem.selectedIndex].value);
 		game.setGameAreaSize(gameAreaSize);

@@ -109,13 +109,13 @@
 			_drawCoolDownStroke(context, currentProgress);
 
 			// Draw the block in the center of the window
-			_currentBlock.draw(context);
+			_currentBlock.draw(context);log.d("---previewwindow._draw6");/////TODO/////
 		}
 
 		function _drawCoolDownFill(context, currentProgress) {
 			context.beginPath();
 
-			context.fillStyle(_progressFillColor);
+			context.fillStyle = _progressFillColor;
 
 			context.moveTo(_positionOfWindowCenter.x, _positionOfWindowCenter.y);
 			context.lineTo(_positionOfWindowCenter.x, _position.y);
@@ -128,8 +128,8 @@
 		function _drawCoolDownStroke(context, currentProgress) {
 			context.beginPath();
 
-			context.strokeStyle(_progressStrokeColor);
-			context.lineWidth(_PROGRESS_STROKE_WIDTH);
+			context.strokeStyle = _progressStrokeColor;
+			context.lineWidth = _PROGRESS_STROKE_WIDTH;
 
 			context.moveTo(_positionOfWindowCenter.x, _position.y);
 			_makeCoolDownPathAroundPerimeter(context, currentProgress);
