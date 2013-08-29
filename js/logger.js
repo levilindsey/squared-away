@@ -7,6 +7,8 @@
 //		- <none>
 // ------------------------------------------------------------------------- //
 
+var DEBUG = true;
+
 (function() {
 	// ----------------------------------------------------------------- //
 	// -- Private static members
@@ -29,19 +31,19 @@
 		var _consoleElement = consoleElement;
 
 		var _i = function(msg) {
-			writeLine(msg, "I", _INFO_FOREGROUND, _INFO_BACKGROUND);
+			_writeLine(msg, "I", _INFO_FOREGROUND, _INFO_BACKGROUND);
 		};
 
 		var _d = function(msg) {
-			writeLine(msg, "D", _DEBUG_FOREGROUND, _DEBUG_BACKGROUND);
+			_writeLine(msg, "D", _DEBUG_FOREGROUND, _DEBUG_BACKGROUND);
 		};
 
 		var _w = function(msg) {
-			writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
+			_writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
 		};
 
 		var _e = function(msg) {
-			writeLine(msg, "E", _ERROR_FOREGROUND, _ERROR_BACKGROUND);
+			_writeLine(msg, "E", _ERROR_FOREGROUND, _ERROR_BACKGROUND);
 		};
 
 		var _writeLine = function(msg, prefix, foreground, background) {
@@ -54,7 +56,7 @@
 			var msgSpan = document.createElement("span");
 			msgSpan.style.color = foreground;
 			msgSpan.style.backgroundColor = background;
-			msgSpan.style.fontFamily = "monotype";
+			msgSpan.style.fontFamily = "monospace";
 			
 			var br = document.createElement("br");
 
@@ -74,15 +76,27 @@
 		this.e = _e;
 	};
 
+	var _CONSOLE_ELEMENT = document.getElementById("console");
+
 	Logger.prototype = {
 		// ----------------------------------------------------------------- //
 		// -- Public members
 
-		
+		getConsole: function() {
+			return _CONSOLE_ELEMENT;
+		}
 	};
 
 	// Make Logger available to the rest of the program
 	window.Logger = Logger;
 
-	window.log = new Logger(document.getElementById("console"));
+	window.log = new Logger(_CONSOLE_ELEMENT);
 })();
+
+if (DEBUG) {
+	log.getConsole().style.display = "block";
+
+	log.d("<-- logger.js: LOADING");
+} else {
+	window.Logger.getConsole().style.display = "none";
+}

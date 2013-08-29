@@ -45,6 +45,8 @@ h3 {
 }
 
 #console {
+	display: none;
+	background-color: #FFFFFF;
 	margin: 10px 0px;
 	width: 100%;
 }

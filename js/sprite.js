@@ -120,7 +120,7 @@ if (DEBUG) {
 		// ----------------------------------------------------------------- //
 		// -- Public members
 
-		canvasRect: { x: 0, y: 0, width: 0, height: 0 };
+		canvasRect: { x: 0, y: 0, width: 0, height: 0 }
 	};
 
 	// Make Sprite available to the rest of the program
