@@ -304,26 +304,26 @@
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
-		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {log.d("---b._update:1");/////TODO/////
+		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
 			_timeSinceLastFall += deltaTime;
 
 			// Check whether this block needs to fall one space
-			if (_timeSinceLastFall > _fallPeriod) {log.d("---b._update:2");/////TODO/////
+			if (_timeSinceLastFall > _fallPeriod) {
 				_hasCollidedWithEdgeOfArea = 
-						_checkForCollisionWithGameAreaEdge();log.d("---b._update:3");/////TODO/////
+						_checkForCollisionWithGameAreaEdge();
 
-				if (!_hasCollidedWithEdgeOfArea) {log.d("---b._update:4");/////TODO/////
+				if (!_hasCollidedWithEdgeOfArea) {
 					_hasCollidedWithSquare = 
 							_checkForCollision(squaresOnGameArea, 
-											   blocksOnGameArea);log.d("---b._update:5");/////TODO/////
+											   blocksOnGameArea);
 
-					if (!_hasCollidedWithSquare) {log.d("---b._update:6");/////TODO/////
-						_fall();log.d("---b._update:7");/////TODO/////
+					if (!_hasCollidedWithSquare) {
+						_fall();
 					}
 				}
 
 				_timeSinceLastFall %= _fallPeriod;
-			}log.d("---b._update:8");/////TODO/////
+			}
 
 			// Check whether this block needs to shimmer
 			if (false && // TODO: fix the false bit to use a shimmer timer
@@ -406,16 +406,20 @@
 
 			switch (_fallDirection) {
 			case _DOWN:
-				deltaY = -1;
+				deltaX = 0;
+				deltaY = 1;
 				break;
 			case _LEFT:
 				deltaX = -1;
+				deltaY = 0;
 				break;
 			case _UP:
-				deltaY = 1;
+				deltaX = 0;
+				deltaY = -1;
 				break;
 			case _RIGHT:
 				deltaX = 1;
+				deltaY = 0;
 				break;
 			default:
 				return;
@@ -470,7 +474,7 @@
 			return false;
 		}
 
-		function _checkForCollisionWithGameAreaEdge() {log.d("---b._checkForCollisionWithGameAreaEdge:1");/////TODO/////
+		function _checkForCollisionWithGameAreaEdge() {
 			var deltaX;
 			var deltaY;
 
@@ -493,18 +497,18 @@
 				break;
 			default:
 				return;
-			}log.d("---b._checkForCollisionWithGameAreaEdge:2");/////TODO/////
+			}
 
-			var positions = _getSquareIndexPositions();log.d("---b._checkForCollisionWithGameAreaEdge:3");/////TODO/////
+			var positions = _getSquareIndexPositions();
 
 			for (var i = 0; i < positions.length; ++i) {
-				if (positions[i].x + deltaX > _gameAreaIndexSize || 
+				if (positions[i].x + deltaX >= _gameAreaIndexSize || 
 						positions[i].x + deltaX < 0 || 
-						positions[i].y + deltaY > _gameAreaIndexSize || 
+						positions[i].y + deltaY >= _gameAreaIndexSize || 
 						positions[i].y + deltaY < 0) {
 					return true;
 				}
-			}log.d("---b._checkForCollisionWithGameAreaEdge:4");/////TODO/////
+			}
 
 			return false;
 		}
@@ -664,6 +668,8 @@
 		function _setPositionIndex(x, y) {
 			_positionIndex.x = x;
 			_positionIndex.y = y;
+			_positionPixels.x = _positionIndex.x * _squareSize;
+			_positionPixels.y = _positionIndex.y * _squareSize;
 		}
 
 		function _getHasCollidedWithEdgeOfArea() {

@@ -30,7 +30,7 @@
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
-	var _INITIAL_BLOCK_FALL_SPEED = 1; // in squares per millis
+	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
 	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
 	
 	var _INITIAL_COOL_DOWN_PERIOD = 800; // millis
