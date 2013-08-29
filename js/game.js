@@ -23,9 +23,10 @@
 	// -- Private, static members
 
 	var _GAME_AREA_SIZE_RATIO = 0.85; // a ratio of overall canvas size
-	var _PREVIEW_WINDOW_SIZE_RATIO = 0.10; // a ratio of overall canvas size
-
-	var _PREVIEW_WINDOW_INITIAL_BORDER_WIDTH = 3; // in pixels
+	var _PREVIEW_WINDOW_SIZE_RATIO = 0.05; // a ratio of overall canvas size
+	var _PREVIEW_WINDOW_OUTER_MARGIN_RATIO = 0.01; // a ratio of overall canvas size
+	var _PREVIEW_WINDOW_INNER_MARGIN_RATIO = (1 - (_GAME_AREA_SIZE_RATIO + 
+			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
@@ -54,7 +55,8 @@
 
 		var _gameAreaSizePixels = 0; // in pixels
 		var _previewWindowSizePixels = 0; // in pixels
-		var _previewWindowMarginPixels = 0; // in pixels
+		var _previewWindowOuterMarginPixels = 0; // in pixels
+		var _previewWindowInnerMarginPixels = 0; // in pixels
 		var _gameAreaPosition = { x: 0, y: 0 }; // in pixels
 
 		var _canvas = canvas;
@@ -281,37 +283,51 @@
 		function _computeDimensions() {
 			_gameAreaSizePixels = _canvas.width * _GAME_AREA_SIZE_RATIO;
 			_previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
-			_previewWindowMarginPixels = _canvas.width * (1 - (_GAME_AREA_SIZE_RATIO + _PREVIEW_WINDOW_SIZE_RATIO));
-			_gameAreaPosition.x = _previewWindowSizePixels + _previewWindowMarginPixels;
+			_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
+			_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
+			_gameAreaPosition.x = _previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
 			_gameAreaPosition.y = _gameAreaPosition.x;
 		}
 
 		function _setUpPreviewWindows() {
 			var size = _previewWindowSizePixels;
 
-			// This is the horizantal distance (in pixels) from the left side 
+			// This is the horizontal distance (in pixels) from the left side 
 			// of the canvas to the left side of the top-side preview window
 			var tmp1 = (_previewWindowSizePixels / 2) + 
-						_previewWindowMarginPixels + (_gameAreaSizePixels / 2);
+					   _previewWindowOuterMarginPixels + 
+					   _previewWindowInnerMarginPixels + 
+					   (_gameAreaSizePixels / 2);
 
 			// This is the horizontal distance (in pixels) from the left side 
 			// of the canvas to the left side of the right-side preview window
-			var tmp2 = _previewWindowSizePixels + _gameAreaSizePixels + 
-						(_previewWindowMarginPixels * 2);
+			var tmp2 = _previewWindowSizePixels + 
+					   _previewWindowOuterMarginPixels + 
+					   (_previewWindowInnerMarginPixels * 2) + 
+					   _gameAreaSizePixels;
 
 			var x1 = tmp1;
-			var y1 = 0;
+			var y1 = _previewWindowInnerMarginPixels;
 			var x2 = tmp2;
 			var y2 = tmp1;
 			var x3 = tmp1;
 			var y3 = tmp2;
-			var x4 = 0;
+			var x4 = _previewWindowInnerMarginPixels;
 			var y4 = tmp1;
 
 			var previewWindow1 = new PreviewWindow(x1, y1, size, 0);
 			var previewWindow2 = new PreviewWindow(x2, y2, size, 1);
 			var previewWindow3 = new PreviewWindow(x3, y3, size, 2);
 			var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
+
+			log.d("??_canvas.width="+_canvas.width);/////TODO/////
+			log.d("??_gameAreaSizePixels="+_gameAreaSizePixels);/////TODO/////
+			log.d("??_previewWindowSizePixels="+_previewWindowSizePixels);/////TODO/////
+			log.d("??_previewWindowOuterMarginPixels="+_previewWindowOuterMarginPixels);/////TODO/////
+			log.d("??_previewWindowInnerMarginPixels="+_previewWindowInnerMarginPixels);/////TODO/////
+			log.d("??_gameAreaPosition.x="+_gameAreaPosition.x);/////TODO/////
+			log.d("??tmp1="+tmp1);/////TODO/////
+			log.d("??tmp2="+tmp2);/////TODO/////
 
 			_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
 		}
