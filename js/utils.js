@@ -29,19 +29,19 @@
 			window.setTimeout(callback, 16); // 60fps
 		};
 
-	var _getWindowWidth = function() {
+	function _getWindowWidth() {
 		return window.innerWidth || // for good browsers
 			document.documentElement.clientWidth || // for IE
 			document.body.clientWidth; // for IE
-	};
+	}
 
-	var _getWindowHeight = function() {
+	function _getWindowHeight() {
 		return window.innerHeight || // for good browsers
 			document.documentElement.clientHeight || // for IE
 			document.body.clientHeight; // for IE
-	};
+	}
 
-	var _translateKeyCode = function(keyCode) {
+	function _translateKeyCode(keyCode) {
         var key;
 
         switch(keyCode) {
@@ -64,7 +64,7 @@
 		return key;
 	}
 
-	var _initializeArray = function(length, initialValue) {
+	function _initializeArray(length, initialValue) {
 		var array = new Array();
 
 		for (var i = 0; i < length; ++i) {

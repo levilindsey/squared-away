@@ -26,6 +26,8 @@
 
 - make the game area size dynamically adjust with the size of the window
 
+- move the Sprite functionality to Block and then delete the Sprite file
+
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //

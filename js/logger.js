@@ -30,25 +30,25 @@ var DEBUG = true;
 
 		var _consoleElement = consoleElement;
 
-		var _i = function(msg) {
+		function _i(msg) {
 			_writeLine(msg, "I", _INFO_FOREGROUND, _INFO_BACKGROUND);
-		};
+		}
 
-		var _d = function(msg) {
+		function _d(msg) {
 			if (DEBUG) {
 				_writeLine(msg, "D", _DEBUG_FOREGROUND, _DEBUG_BACKGROUND);
 			}
-		};
+		}
 
-		var _w = function(msg) {
+		function _w(msg) {
 			_writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
-		};
+		}
 
-		var _e = function(msg) {
+		function _e(msg) {
 			_writeLine(msg, "E", _ERROR_FOREGROUND, _ERROR_BACKGROUND);
-		};
+		}
 
-		var _writeLine = function(msg, prefix, foreground, background) {
+		function _writeLine(msg, prefix, foreground, background) {
 			var timestamp = Date.now();
 
 			// Create the full log message
@@ -67,7 +67,7 @@ var DEBUG = true;
 			msgSpan.appendChild(msgTextNode);
 			_consoleElement.appendChild(msgSpan);
 			_consoleElement.appendChild(br);
-		};
+		}
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

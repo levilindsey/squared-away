@@ -47,7 +47,7 @@
 	// Return an array of position objects which represent the positions 
 	// of this block's constituent squares relative to this block's 
 	// position.
-	var _getSquareIndexPositionsRelativeToBlockPosition = function(type, orientation) {
+	function _getSquareIndexPositionsRelativeToBlockPosition(type, orientation) {
 		var square1X;
 		var square1Y;
 		var square2X;
@@ -259,13 +259,13 @@
 			{ x: square3X, y: square3Y }, 
 			{ x: square4X, y: square4Y }
 		];
-	};
+	}
 
-	var _positionToIndex = function(position) {
+	function _positionToIndex(position) {
 		return position.y * _gameAreaIndexSize + position.x;
 	}
 
-	var _positionsToIndices = function(positions) {
+	function _positionsToIndices(positions) {
 		var indices = new Array();
 
 		for (var i = 0; i < positions.length; ++i) {
@@ -302,7 +302,7 @@
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
-		var _update = function(deltaTime, squaresOnGameArea, blocksOnGameArea) {
+		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
 			_timeSinceLastFall += deltaTime;
 
 			// Check whether this block needs to fall one space
@@ -328,12 +328,12 @@
 					!_hasCollidedWithEdgeOfArea && !_hasCollidedWithSquare) {
 				// TODO: 
 			}
-		};
+		}
 
 		// Render this block on the given drawing context.  The context should 
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
-		var _draw = function(context) {
+		function _draw(context) {
 			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
@@ -355,35 +355,35 @@
 									positions[2].x, positions[2].y);
 			window.Block.drawSquare(context, _type, 
 									positions[3].x, positions[3].y);
-		};
+		}
 
 		// Rotate the orientation of this block clockwise 90 degrees.
-		var _rotate = function() {
+		function _rotate() {
 			_orientation = (_orientation + 1) % 4;
-		};
+		}
 
 		// Rotate the fall direction of this block clockwise 90 degrees.
-		var _switchFallDirection = function() {
+		function _switchFallDirection() {
 			_fallDirection = (_fallDirection + 1) % 4;
-		};
+		}
 		
 		// Add the squares that comprise this block to the given game area.  
 		// Negative values in the game area represent cells which do not 
 		// contain squares.  When a cell does contain a square, the color of 
 		// the square is determined by the positive number of the 
 		// corresponding block type.
-		var _addSquaresToGameArea = function(squaresOnGameArea) {
+		function _addSquaresToGameArea(squaresOnGameArea) {
 			var positions = _getSquareIndexPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < positions.length; ++i) {
 				squaresOnGameArea[indices[i]] = _type;
 			}
-		};
+		}
 
 		// Return an array of position objects which represent the cells in 
 		// the game area which are occupied by this block.
-		var _getSquareIndexPositions = function() {
+		function _getSquareIndexPositions() {
 			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
@@ -394,11 +394,11 @@
 			}
 
 			return positions;
-		};
+		}
 
 		// Move this block down by 1 square according to its current fall 
 		// direction.
-		var _fall = function() {
+		function _fall() {
 			var deltaX;
 			var deltaY;
 
@@ -423,7 +423,7 @@
 			_positionIndex.y += deltaY;
 			_positionPixels.x += deltaX * _squareSize;
 			_positionPixels.y += deltaY * _squareSize;
-		};
+		}
 
 		// Return true if this block has collided with a stationary square on 
 		// the given game area and is therefore done falling.  Non-negative 
@@ -433,7 +433,7 @@
 		//		 with an edge of the game area BEFORE calling this function.  
 		//		 Otherwise, this function may look out of bounds in the game 
 		//		 area array.
-		var _checkForCollision = function(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
+		function _checkForCollision(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
 			var deltaI;
 
 			switch (_fallDirection) {
@@ -466,9 +466,9 @@
 			}
 
 			return false;
-		};
+		}
 
-		var _checkForCollisionWithGameAreaEdge = function() {
+		function _checkForCollisionWithGameAreaEdge() {
 			var deltaX;
 			var deltaY;
 
@@ -505,12 +505,12 @@
 			}
 
 			return false;
-		};
+		}
 
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestLeftAvailable = function(squaresOnGameArea) {
+		function _getFarthestLeftAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -546,12 +546,12 @@
 				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
 				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
 			};
-		};
+		}
 
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		var _getFarthestRightAvailable = function(squaresOnGameArea) {
+		function _getFarthestRightAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -587,12 +587,12 @@
 				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
 				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
 			};
-		};
+		}
 
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		var _getFarthestDownwardAvailable = function(squaresOnGameArea) {
+		function _getFarthestDownwardAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -629,12 +629,12 @@
 				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
 				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
 			};
-		};
+		}
 
 		// Return how many steps this block can move using the given delta 
 		// index value before colliding with a stationary square or an edge of 
 		// the game area.
-		var _getHowManyStepsBlockCanMove = function(deltaI, deltaX, deltaY) {
+		function _getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY) {
 			var positions = _getSquareIndexPositions();
 			var indices = _positionsToIndices(positions);
 			var neighborIndex;
@@ -657,20 +657,20 @@
 					}
 				}
 			}
-		};
+		}
 
-		var _setPositionIndex = function(x, y) {
+		function _setPositionIndex(x, y) {
 			_positionIndex.x = x;
 			_positionIndex.y = y;
-		};
+		}
 
-		var _getHasCollidedWithEdgeOfArea = function() {
+		function _getHasCollidedWithEdgeOfArea() {
 			return _hasCollidedWithEdgeOfArea;
-		};
+		}
 
-		var _getHasCollidedWithSquare = function() {
+		function _getHasCollidedWithSquare() {
 			return _hasCollidedWithSquare;
-		};
+		}
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
@@ -684,93 +684,93 @@
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
-		this.setPosition = _setPosition;
+		this.setPositionIndex = _setPositionIndex;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
 
 		log.d("<--block.Block");
 	};
 
-	// --------------------------------------------------------------------- //
-	// -- Public (non-privileged) static members
-
 	// Block inherits from Sprite
-	Block.prototype = window.utils.object(Sprite);
+	Block.prototype = {
+		// --------------------------------------------------------------------- //
+		// -- Public (non-privileged) static members
 
-	// This should be called once at the start of the program
-	Block.prototype.setSquareSize = function(size) {
-		_squareSize = size;
-	};
+		// This should be called once at the start of the program
+		setSquareSize: function(size) {
+			_squareSize = size;
+		},
 
-	Block.prototype.getSquareSize = function() {
-		return _squareSize;
-	};
+		getSquareSize: function() {
+			return _squareSize;
+		},
 
-	Block.prototype.setGameAreaIndexSize = function(size) {
-		_gameAreaIndexSize = size;
-	};
+		setGameAreaIndexSize: function(size) {
+			_gameAreaIndexSize = size;
+		},
 
-	Block.prototype.setFallSpeed = function(fallSpeed) {
-		_fallPeriod = 1 / fallSpeed;
-	};
+		setFallSpeed: function(fallSpeed) {
+			_fallPeriod = 1 / fallSpeed;
+		},
 
-	Block.prototype.drawSquare = function(context, squareType, x, y) {
-		if (squareType >= 0) {
-			var sourceY = squareType * _SOURCE_SQUARE_SIZE;
+		drawSquare: function(context, squareType, x, y) {
+			if (squareType >= 0) {
+				var sourceY = squareType * _SOURCE_SQUARE_SIZE;
 
-			context.drawImage(resources.get("img/sprites.png"), 
-					0, sourceY, 
-					_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
-					x, y);
+				context.drawImage(resources.get("img/sprites.png"), 
+						0, sourceY, 
+						_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
+						x, y);
+			}
+		},
+
+		getIndexOffsetFromTopLeftOfBlockToCenter: function(blockType, orientation) {
+			var x = 0;
+			var y = 0;
+
+			switch (blockType) {
+			case _RED: // S-shaped block
+				x = 1.5;
+				y = 1;
+				break;
+			case _GREEN: // Z-shaped block
+				x = 1.5;
+				y = 1;
+				break;
+			case _PURPLE: // L-shaped block
+				x = 1;
+				y = 1.5;
+				break;
+			case _YELLOW: // J-shaped block
+				x = 1;
+				y = 1.5;
+				break;
+			case _BLUE: // Square-shaped block
+				x = 1;
+				y = 1;
+				break;
+			case _ORANGE: // Line-shaped block
+				x = 0.5;
+				y = 2;
+				break;
+			case _GREY: // T-shaped block
+				x = 1.5;
+				y = 1;
+				break;
+			default:
+				break;
+			}
+
+			// If the block is oriented 90 degrees off of the default, then swap 
+			// the x and y offsets
+			if (orientation === 1 || orientation === 3) {
+				var tmp = x;
+				x = y;
+				y = tmp;
+			}
+
+			return { x: x, y: y };
 		}
-	};
-
-	Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
-		var x = 0;
-		var y = 0;
-
-		switch (blockType) {
-		case _RED: // S-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		case _GREEN: // Z-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		case _PURPLE: // L-shaped block
-			x = 1;
-			y = 1.5;
-			break;
-		case _YELLOW: // J-shaped block
-			x = 1;
-			y = 1.5;
-			break;
-		case _BLUE: // Square-shaped block
-			x = 1;
-			y = 1;
-			break;
-		case _ORANGE: // Line-shaped block
-			x = 0.5;
-			y = 2;
-			break;
-		case _GREY: // T-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		default:
-			break;
-		}
-
-		// If the block is oriented 90 degrees off of the default, then swap 
-		// the x and y offsets
-		if (orientation === 1 || orientation === 3) {
-			var tmp = x;
-			x = y;
-			y = tmp;
-		}
-
-		return { x: x, y: y };
 	};
 
 	// Make Block available to the rest of the program

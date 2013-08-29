@@ -34,15 +34,15 @@
 		var _animatingFrames = false;
 		var _currentSourceX = _sourceRect.x;
 
-		var _drawSprite = function(context) {
+		function _drawSprite(context) {
 			context.drawImage(resources.get(_url), 
 					_currentSourceX, _sourceRect.y, 
 					_sourceRect.width, _sourceRect.height, 
 					canvasRect.x, canvasRect.y);
-		};
+		}
 
 		// TODO: 
-		var _updateSprite = function(currentTime) {
+		function _updateSprite(currentTime) {
 			// Check whether we are currently animating through this sprite's 
 			// multiple frames
 			if (_animatingFrames) {
@@ -67,38 +67,38 @@
 			} else {
 				_currentSourceX = _sourceRect.x;
 			}
-		};
+		}
 
-		var _setURL = function(url) {
+		function _setURL(url) {
 			_url = url;
-		};
+		}
 
-		var _setSourceRect = function(x, y, width, height) {
+		function _setSourceRect(x, y, width, height) {
 			_sourceRect.x = x;
 			_sourceRect.y = y;
 			_sourceRect.width = width;
 			_sourceRect.height = height;
-		};
+		}
 
-		var _setLoopFrameAnimation = function(loopFrameAnimation) {
+		function _setLoopFrameAnimation(loopFrameAnimation) {
 			_loopFrameAnimation = loopFrameAnimation;
-		};
+		}
 
-		var _setAnimatingFrames = function(animatingFrames) {
+		function _setAnimatingFrames(animatingFrames) {
 			_animatingFrames = animatingFrames;
-		};
+		}
 
-		var _setFrameAnimationPeriod = function(frameAnimationPeriod) {
+		function _setFrameAnimationPeriod(frameAnimationPeriod) {
 			_frameAnimationPeriod = frameAnimationPeriod;
-		};
+		}
 
-		var _setFrameAnimationStartTime = function(frameAnimationStartTime) {
+		function _setFrameAnimationStartTime(frameAnimationStartTime) {
 			_frameAnimationStartTime = frameAnimationStartTime;
-		};
+		}
 
-		var _setFrames = function(frames) {
+		function _setFrames(frames) {
 			_frames = frames;
-		};
+		}
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

@@ -32,16 +32,16 @@
 	var _INITIAL_BLOCK_FALL_SPEED = 1; // in squares per millis
 	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
 
-	var _gameAreaSizePixels = 0; // in pixels
-	var _previewWindowSizePixels = 0; // in pixels
-	var _previewWindowMarginPixels = 0; // in pixels
-	var _gameAreaPosition = { x: 0, y: 0 }; // in pixels
-
 	function Game(canvas, levelDisplay, scoreDisplay, onGameEnd) {
 		log.d("-->game.Game");
 
 		// ----------------------------------------------------------------- //
 		// -- Private members
+
+		var _gameAreaSizePixels = 0; // in pixels
+		var _previewWindowSizePixels = 0; // in pixels
+		var _previewWindowMarginPixels = 0; // in pixels
+		var _gameAreaPosition = { x: 0, y: 0 }; // in pixels
 
 		var _canvas = canvas;
 		var _context = _canvas.getContext("2d");
@@ -56,6 +56,7 @@
 
 		var _isPaused = true;
 		var _isEnded = true;
+		var _isLooping = false;
 
 		var _mode1On = true;
 		var _mode2On = true;
@@ -68,17 +69,18 @@
 		var _squareSizePixels = 0; // in pixels
 
 		var _score = 0;
-		var _level = _startingLevel;log.d("---game.Game1");/////TODO/////
+		var _level = _startingLevel;
 		var _gameTime = 0; // active (unpaused) time since start of game
 
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
 		var _currentBlockFallSpeed = 1; // squares / millis
 
-		_computeDimensions();log.d("---game.Game2");/////TODO/////
-		_setUpPreviewWindows();log.d("---game.Game3");/////TODO/////
-
 		// The game loop drives the progression of frames and game logic
-		var _gameLoop = function() {
+		function _gameLoop() {
+			log.d("-->game._gameLoop");
+
+			_isLooping = true;
+
 			// Get the timing of the current frame
 			var currTime = Date.now();
 			var deltaTime = currTime - _prevTime;
@@ -90,14 +92,20 @@
 				_draw();
 
 				window.utils.myRequestAnimationFrame(_gameLoop);
+			} else {
+				_isLooping = false;
 			}
 
 			// Go to the next frame
 			_prevTime = currTime;
-		};log.d("---game.Game4");/////TODO/////
+
+			log.d("<--game._gameLoop");
+		}
 
 		// Update each of the game entities with the current time.
-		var _update = function(deltaTime) {
+		function _update(deltaTime) {
+			log.d("-->game._update");
+
 			_gameTime += deltaTime;
 
 			// Update the blocks
@@ -151,9 +159,13 @@
 
 			_levelDisplay.innerHtml = level;
 			_scoreDisplay.innerHtml = score;
-		};
 
-		var _draw = function() {
+			log.d("<--game._update");
+		}
+
+		function _draw() {
+			log.d("-->game._draw");
+
 			// Clear the canvas
 			context.clearRect(_canvas.width, _canvas.height);
 
@@ -175,8 +187,9 @@
 
 			// Draw each of the stationary squares
 			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
-				window.Block._drawSquare(context, _squaresOnGameArea[i], 
-										 i % _gameAreaSize, i / _gameAreaSize);
+				window.Block.prototype._drawSquare(
+										context, _squaresOnGameArea[i], 
+										i % _gameAreaSize, i / _gameAreaSize);
 			}
 
 			// Check whether a block is selected
@@ -195,16 +208,20 @@
 			}
 
 			context.restore();
-		};
+
+			log.d("<--game._draw");
+		}
 
 		// Set up a new game
-		var _reset = function() {
+		function _reset() {
+			log.d("-->game._reset");
+
 			_score = 0;
 			_gameTime = 0;
 			_isPaused = true;
 			_isEnded = true;
 			_blocksOnGameArea = new Array();
-			_squaresOnGameArea = window.utils._initializeArray(
+			_squaresOnGameArea = window.utils.initializeArray(
 									_setGameAreaSize * _setGameAreaSize, -1);
 			_prevTime = 0;
 
@@ -214,39 +231,41 @@
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].startNewBlock();
 			}
-		};
 
-		var _setLevel = function(level) {
+			log.d("<--game._reset");
+		}
+
+		function _setLevel(level) {
 			_level = level;
 			_currentPreviewWindowCoolDownTime = _getPreviewWindowCoolDownTime(level);
 			_currentBlockFallSpeed = _getBlockFallSpeed(level);
-			Block.setFallSpeed(_currentBlockFallSpeed);
+			window.Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 			// Set the base cool down period for each of the preview windows
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 			}
-		};
+		}
 
-		var _getPreviewWindowCoolDownTime = function(level) {
+		function _getPreviewWindowCoolDownTime(level) {
 			return _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME / 
 					Math.pow(_PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE, level);// TODO: tweak/replace this
-		};
+		}
 
-		var _getBlockFallSpeed = function(level) {
+		function _getBlockFallSpeed(level) {
 			return _INITIAL_BLOCK_FALL_SPEED * 
 					Math.pow(_BLOCK_FALL_SPEED_INCREASE_RATE, level);// TODO: tweak/replace this
-		};
+		}
 
-		var _computeDimensions = function() {
-			_gameAreaSizePixels = canvas.width * _GAME_AREA_SIZE_RATIO;
-			_previewWindowSizePixels = canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
-			_previewWindowMarginPixels = canvas.width * (1 - (_GAME_AREA_SIZE_RATIO + _PREVIEW_WINDOW_SIZE_RATIO));
+		function _computeDimensions() {
+			_gameAreaSizePixels = _canvas.width * _GAME_AREA_SIZE_RATIO;
+			_previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
+			_previewWindowMarginPixels = _canvas.width * (1 - (_GAME_AREA_SIZE_RATIO + _PREVIEW_WINDOW_SIZE_RATIO));
 			_gameAreaPosition.x = _previewWindowSizePixels + _previewWindowMarginPixels;
 			_gameAreaPosition.y = _gameAreaPosition.x;
-		};
+		}
 
-		var _setUpPreviewWindows = function() {
+		function _setUpPreviewWindows() {
 			var size = _previewWindowSizePixels;
 
 			// This is the horizantal distance (in pixels) from the left side 
@@ -268,15 +287,15 @@
 			var x4 = 0;
 			var y4 = tmp1;
 
-			var previewWindow1 = new PreviewWindow(x1, y1, size);
-			var previewWindow2 = new PreviewWindow(x2, y2, size);
-			var previewWindow3 = new PreviewWindow(x3, y3, size);
-			var previewWindow4 = new PreviewWindow(x4, y4, size);
+			var previewWindow1 = new PreviewWindow(x1, y1, size, 0);
+			var previewWindow2 = new PreviewWindow(x2, y2, size, 1);
+			var previewWindow3 = new PreviewWindow(x3, y3, size, 2);
+			var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
 
 			_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
-		};
+		}
 
-		var _play = function() {
+		function _play() {
 			// Reset game state if a game is not currently in progress
 			if (_isEnded) {
 				_reset();
@@ -285,69 +304,77 @@
 			}
 
 			_isPaused = false;
-		};
 
-		var _pause = function() {
+			// If the game loop is not already running, then start it
+			if (!_isLooping) {
+				_gameLoop();
+			}
+		}
+
+		function _pause() {
 			_isPaused = true;
-		};
+		}
 
-		var _endGame = function() {
+		function _endGame() {
 			_isEnded = true;
 			_onGameEnd();
-		};
+		}
 
-		var _getIsPaused = function() {
+		function _getIsPaused() {
 			return _isPaused;
-		};
+		}
 
-		var _getIsEnded = function() {
+		function _getIsEnded() {
 			return _isEnded;
-		};
+		}
 
-		var _getScore = function() {
+		function _getScore() {
 			return _score;
-		};
+		}
 
-		var _getLevel = function() {
+		function _getLevel() {
 			return _level;
-		};
+		}
 
-		var _getTime = function() {
+		function _getTime() {
 			return _gameTime;
-		};
+		}
 
-		var _setMode1 = function(isEnabled) {
+		function _setMode1(isEnabled) {
 			_mode1On = isEnabled;
-		};
+		}
 
-		var _setMode2 = function(isEnabled) {
+		function _setMode2(isEnabled) {
 			_mode2On = isEnabled;
-		};
+		}
 
-		var _setMode3 = function(isEnabled) {
+		function _setMode3(isEnabled) {
 			_mode3On = isEnabled;
-		};
+		}
 
-		var _setMode4 = function(isEnabled) {
+		function _setMode4(isEnabled) {
 			_mode4On = isEnabled;
-		};
+		}
 
-		var _setGameAreaSize = function(gameAreaSize) {
+		function _setGameAreaSize(gameAreaSize) {
 			_gameAreaSize = gameAreaSize;
 			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
 
-			window.Block.setSquareSize(_squareSizePixels);
-			window.Block.setGameAreaIndexSize(_gameAreaSize);
-			window.PreviewWindow.setGameAreaSize(_gameAreaSize);
-		};
+			window.Block.prototype.setSquareSize(_squareSizePixels);
+			window.Block.prototype.setGameAreaIndexSize(_gameAreaSize);
+			window.PreviewWindow.prototype.setGameAreaSize(_gameAreaSize);
+		}
 
-		var _setCenterSquareSize = function(centerSquareSize) {
+		function _setCenterSquareSize(centerSquareSize) {
 			_centerSquareSize = centerSquareSize;
-		};
+		}
 
-		var _setStartingLevel = function(level) {
+		function _setStartingLevel(level) {
 			_startingLevel = level;
-		};log.d("---game.Game5");/////TODO/////
+		}
+
+		_computeDimensions();
+		_setUpPreviewWindows();
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

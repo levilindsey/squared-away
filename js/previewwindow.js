@@ -82,13 +82,13 @@
 			return;
 		}
 
-		var _update = function(deltaTime) {
+		function _update(deltaTime) {
 			_timeSinceLastBlock += deltaTime;
-		};
+		}
 
 		// The window, its current cool-down progress, and the next block.  
 		// The size of the window increases as the cool down progresses.
-		var _draw = function(context) {
+		function _draw(context) {
 			var currentProgress = _timeSinceLastBlock / _actualCoolDownPeriod; // from 0 to 1
 			var currentSizeRatio = 1 + currentProgress * _COOL_DOWN_SIZE_INCREASE;
 			var sideLength = _size * currentSizeRatio;
@@ -110,9 +110,9 @@
 
 			// Draw the block in the center of the window
 			_currentBlock.draw(context);
-		};
+		}
 
-		var _drawCoolDownFill = function(context, currentProgress) {
+		function _drawCoolDownFill(context, currentProgress) {
 			context.beginPath();
 
 			context.fillStyle(_progressFillColor);
@@ -123,9 +123,9 @@
 			context.closePath();
 
 			context.fill();
-		};
+		}
 
-		var _drawCoolDownStroke = function(context, currentProgress) {
+		function _drawCoolDownStroke(context, currentProgress) {
 			context.beginPath();
 
 			context.strokeStyle(_progressStrokeColor);
@@ -135,9 +135,9 @@
 			_makeCoolDownPathAroundPerimeter(context, currentProgress);
 
 			context.stroke();
-		};
+		}
 
-		var _makeCoolDownPathAroundPerimeter = function(context, currentProgress) {
+		function _makeCoolDownPathAroundPerimeter(context, currentProgress) {
 			if (currentProgress > 1/8) { // The cool down has at least reached the top-right corner
 				// Draw the section from the top-middle to the top-right
 				context.lineTo(_position.x + _size, _position.y);
@@ -172,11 +172,11 @@
 				// Draw the section from the top-middle to somewhere in the first top portion
 				context.lineTo(_positionOfWindowCenter.x + (currentProgress * 4 * _size), _position.y);
 			}
-		};
+		}
 
 		// Start this preview window with a random new block and a fresh cool 
 		// down.
-		var _startNewBlock = function() {
+		function _startNewBlock() {
 			// Change the current block to be a new block of some random type 
 			// (from 0 to 6)
 			var blockType = Math.floor(Math.random() * 7);
@@ -184,10 +184,10 @@
 			var orientation = _previewWindowIndex;
 			var fallDirection = _previewWindowIndex;
 
-			var indexOffsetFromTopLeftOfBlockToCenter = window.Block.getIndexOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
+			var indexOffsetFromTopLeftOfBlockToCenter = window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
-			var x = _positionOfWindowCenter.x - (indexOffsetFromTopLeftOfBlockToCenter.x * window.Block._squareSize());
-			var y = _positionOfWindowCenter.y - (indexOffsetFromTopLeftOfBlockToCenter.y * window.Block._squareSize());
+			var x = _positionOfWindowCenter.x - (indexOffsetFromTopLeftOfBlockToCenter.x * window.Block.prototype.getSquareSize());
+			var y = _positionOfWindowCenter.y - (indexOffsetFromTopLeftOfBlockToCenter.y * window.Block.prototype.getSquareSize());
 
 			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
 
@@ -195,20 +195,20 @@
 			_actualCoolDownPeriod = _baseCoolDownPeriod; // TODO: actually implement the random deviation here
 
 			_timeSinceLastBlock = 0;
-		};
+		}
 
 		// Set the base cool-down period to be the given time (in millis).
-		var _setCoolDownPeriod = function(period) {
+		function _setCoolDownPeriod(period) {
 			_baseCoolDownPeriod = period;
-		};
+		}
 
 		// Return the block that has been shown in this preview window.  This block will be re-positioned to be in
-		var _getCurrentBlock = function() {
+		function _getCurrentBlock() {
 			var startingX;
 			var startingY;
 
 			var indexOffsetFromTopLeftOfBlockToCenter = 
-					window.Block.getIndexOffsetFromTopLeftOfBlockToCenter(
+					window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(
 							blockType, orientation);
 
 			switch (_previewWindowIndex) {
@@ -232,14 +232,14 @@
 				return;
 			}
 
-			_currentBlock.setPosition(startingX, startingY);
+			_currentBlock.setPositionIndex(startingX, startingY);
 
 			return _currentBlock;
-		};
+		}
 
-		var _isCoolDownFinished = function() {
+		function _isCoolDownFinished() {
 			return _timeSinceLastBlock >= _actualCoolDownPeriod;
-		};
+		}
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
@@ -254,15 +254,14 @@
 		log.d("<--previewwindow.PreviewWindow");
 	};
 
-	// --------------------------------------------------------------------- //
-	// -- Public (non-privileged) members
+	PreviewWindow.prototype = {
+		// --------------------------------------------------------------------- //
+		// -- Public (non-privileged) members
 
-	// PreviewWindow inherits from Sprite
-	PreviewWindow.prototype = window.utils.object(Sprite);
-
-	// This should be called once at the start of each game
-	PreviewWindow.prototype.setGameAreaSize = function(size) {
-		_gameAreaSize = size;
+		// This should be called once at the start of each game
+		setGameAreaSize: function(size) {
+			_gameAreaSize = size;
+		}
 	};
 
 	// Make PreviewWindow available to the rest of the program

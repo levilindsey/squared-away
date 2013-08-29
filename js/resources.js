@@ -16,7 +16,7 @@
     var _resourceCache = {};
 
     // Load a single image url or an array of image urls
-    var _loadURLOrArray = function(urlOrArray) {
+    function _loadURLOrArray(urlOrArray) {
 		log.d("-->resources._loadURLOrArray");
 
         if(urlOrArray instanceof Array) {
@@ -33,9 +33,9 @@
         }
 
 		log.d("<--resources._loadURLOrArray");
-    };
+    }
 
-    var _loadURL = function(url) {
+    function _loadURL(url) {
         if(_resourceCache[url]) {
 			// In case the resource is somehow already in the cache
 
@@ -57,13 +57,13 @@
             _resourceCache[url] = false;
             img.src = url;
         }
-    };
+    }
 
-    var _get = function(url) {
+    function _get(url) {
         return _resourceCache[url];
-    };
+    }
 
-    var _isReady = function() {
+    function _isReady() {
         var ready = true;
         for(var k in _resourceCache) {
             if(_resourceCache.hasOwnProperty(k) &&
@@ -75,7 +75,7 @@
             }
         }
         return ready;
-    };
+    }
 
     window.resources = { 
         load: _loadURLOrArray,

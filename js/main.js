@@ -35,15 +35,15 @@
 
 		var canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
-		var scoreDisplay = document.getElementById("topScoreDisplayData");log.d("---main.init1");/////TODO/////
+		var scoreDisplay = document.getElementById("topScoreDisplayData");
 
-		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);log.d("---main.init2");/////TODO/////
+		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.addEventListener("click", onPauseEvent, false);log.d("---main.init3");/////TODO/////
+		unpauseButton.addEventListener("click", onPauseEvent, false);
 		window.addEventListener("keypress", onKeyPress, false);
-		window.addEventListener("blur", pauseGame, false);log.d("---main.init4");/////TODO/////
+		window.addEventListener("blur", pauseGame, false);
 
 		log.d("<--main.init");
 	}
@@ -108,7 +108,7 @@
 	function onPauseEvent(event) {
 		log.d("-->main.onPauseEvent");
 
-		if (game.isPaused()) {
+		if (game.getIsPaused()) {
 			playGame();
 		} else {
 			pauseGame();
