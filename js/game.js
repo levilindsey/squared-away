@@ -32,6 +32,18 @@
 	var _INITIAL_BLOCK_FALL_SPEED = 1; // in squares per millis
 	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
 
+	// A cross-browser compatible requestAnimationFrame. From
+	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
+	var _myRequestAnimationFrame = 
+		window.requestAnimationFrame || // the standard
+		window.webkitRequestAnimationFrame || // chrome/safari
+		window.mozRequestAnimationFrame || // firefox
+		window.oRequestAnimationFrame || // opera
+		window.msRequestAnimationFrame || // ie
+		function(callback) { // default
+			window.setTimeout(callback, 16); // 60fps
+		};
+
 	function Game(canvas, levelDisplay, scoreDisplay, onGameEnd) {
 		log.d("-->game.Game");
 
@@ -92,7 +104,7 @@
 				_update(deltaTime);
 				_draw();
 
-				window.utils.myRequestAnimationFrame(_gameLoop);
+				_myRequestAnimationFrame(_gameLoop);
 			} else {
 				_isLooping = false;
 			}

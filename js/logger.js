@@ -41,10 +41,12 @@ var DEBUG = true;
 		}
 
 		function _w(msg) {
+			log.getConsole().style.display = "block";
 			_writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
 		}
 
 		function _e(msg) {
+			log.getConsole().style.display = "block";
 			_writeLine(msg, "E", _ERROR_FOREGROUND, _ERROR_BACKGROUND);
 		}
 
