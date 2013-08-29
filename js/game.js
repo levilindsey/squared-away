@@ -172,14 +172,14 @@
 
 			// ---- Draw the preview windows ---- //
 
-			for (var i = 0; i < 4; ++i) {log.d("-->game._draw1");
-				_previewWindows[i].draw(_context);log.d("-->game._draw2");
+			for (var i = 0; i < 4; ++i) {
+				_previewWindows[i].draw(_context);
 			}
 
 			// ---- Draw the main play area ---- //
 
 			_context.save();
-			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);log.d("-->game._draw3");
+			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
 
 			// Draw each of the falling blocks
 			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
@@ -208,7 +208,7 @@
 				// TODO: ?????
 			}
 
-			_context.restore();log.d("-->game._draw4");
+			_context.restore();
 
 			log.d("<--game._draw");
 		}

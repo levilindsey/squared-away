@@ -28,8 +28,6 @@
 	// --------------------------------------------------------------------- //
 	// -- Private, static members
 
-	var _SOURCE_SQUARE_SIZE = 16; // in pixels
-
 	var _NORMAL_STROKE_WIDTH = 1; // in pixels
 	var _PROGRESS_STROKE_WIDTH = 4; // in pixels
 
@@ -109,7 +107,7 @@
 			_drawCoolDownStroke(context, currentProgress);
 
 			// Draw the block in the center of the window
-			_currentBlock.draw(context);log.d("---previewwindow._draw6");/////TODO/////
+			_currentBlock.draw(context);
 		}
 
 		function _drawCoolDownFill(context, currentProgress) {

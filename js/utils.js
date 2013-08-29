@@ -11,11 +11,11 @@
 	log.d("-->utils.LOADING_MODULE");
 
 	// Return a new object which whose prototype is the given old object.
-	var _object = function(o) {
+	function _object(o) {
 		function F() {}
 		F.prototype = o;
 		return new F();
-	};
+	}
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/

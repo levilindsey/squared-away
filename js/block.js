@@ -19,6 +19,8 @@
 	// --------------------------------------------------------------------- //
 	// -- Private static members
 
+	var _SOURCE_SQUARE_SIZE = 16; // in pixels
+
 	// Block types/colors
 	var _RED = 0; // S-shaped block
 	var _GREEN = 1; // Z-shaped block
@@ -348,7 +350,7 @@
 
 			// Draw the constituent squares
 			window.Block.prototype.drawSquare(context, _type, 
-									positions[0].x, positions[0].y);log.d("---block._draw4");/////TODO/////
+									positions[0].x, positions[0].y);
 			window.Block.prototype.drawSquare(context, _type, 
 									positions[1].x, positions[1].y);
 			window.Block.prototype.drawSquare(context, _type, 
@@ -692,85 +694,86 @@
 	};
 
 	// Block inherits from Sprite
-	Block.prototype = {
-		// --------------------------------------------------------------------- //
-		// -- Public (non-privileged) static members
+	Block.prototype = window.utils.object(Sprite);
 
-		// This should be called once at the start of the program
-		setSquareSize: function(size) {
-			_squareSize = size;
-		},
+	// --------------------------------------------------------------------- //
+	// -- Public (non-privileged) static members
 
-		getSquareSize: function() {
-			return _squareSize;
-		},
+	// This should be called once at the start of the program
+	Block.prototype.setSquareSize = function(size) {
+		_squareSize = size;
+	};
 
-		setGameAreaIndexSize: function(size) {
-			_gameAreaIndexSize = size;
-		},
+	Block.prototype.getSquareSize = function() {
+		return _squareSize;
+	};
 
-		setFallSpeed: function(fallSpeed) {
-			_fallPeriod = 1 / fallSpeed;
-		},
+	Block.prototype.setGameAreaIndexSize = function(size) {
+		_gameAreaIndexSize = size;
+	};
 
-		drawSquare: function(context, squareType, x, y) {
-			if (squareType >= 0) {
-				var sourceY = squareType * _SOURCE_SQUARE_SIZE;
+	Block.prototype.setFallSpeed = function(fallSpeed) {
+		_fallPeriod = 1 / fallSpeed;
+	};
 
-				context.drawImage(resources.get("img/sprites.png"), 
-						0, sourceY, 
-						_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
-						x, y);
-			}
-		},
+	Block.prototype.drawSquare = function(context, squareType, x, y) {
+		if (squareType >= 0) {
+			var sourceY = squareType * _SOURCE_SQUARE_SIZE;
 
-		getIndexOffsetFromTopLeftOfBlockToCenter: function(blockType, orientation) {
-			var x = 0;
-			var y = 0;
-
-			switch (blockType) {
-			case _RED: // S-shaped block
-				x = 1.5;
-				y = 1;
-				break;
-			case _GREEN: // Z-shaped block
-				x = 1.5;
-				y = 1;
-				break;
-			case _PURPLE: // L-shaped block
-				x = 1;
-				y = 1.5;
-				break;
-			case _YELLOW: // J-shaped block
-				x = 1;
-				y = 1.5;
-				break;
-			case _BLUE: // Square-shaped block
-				x = 1;
-				y = 1;
-				break;
-			case _ORANGE: // Line-shaped block
-				x = 0.5;
-				y = 2;
-				break;
-			case _GREY: // T-shaped block
-				x = 1.5;
-				y = 1;
-				break;
-			default:
-				break;
-			}
-
-			// If the block is oriented 90 degrees off of the default, then swap 
-			// the x and y offsets
-			if (orientation === 1 || orientation === 3) {
-				var tmp = x;
-				x = y;
-				y = tmp;
-			}
-
-			return { x: x, y: y };
+			context.drawImage(resources.get("img/sprites.png"), 
+					0, sourceY, 
+					_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
+					x, y, 
+					_squareSize, _squareSize);
 		}
+	};
+
+	Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
+		var x = 0;
+		var y = 0;
+
+		switch (blockType) {
+		case _RED: // S-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		case _GREEN: // Z-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		case _PURPLE: // L-shaped block
+			x = 1;
+			y = 1.5;
+			break;
+		case _YELLOW: // J-shaped block
+			x = 1;
+			y = 1.5;
+			break;
+		case _BLUE: // Square-shaped block
+			x = 1;
+			y = 1;
+			break;
+		case _ORANGE: // Line-shaped block
+			x = 0.5;
+			y = 2;
+			break;
+		case _GREY: // T-shaped block
+			x = 1.5;
+			y = 1;
+			break;
+		default:
+			break;
+		}
+
+		// If the block is oriented 90 degrees off of the default, then swap 
+		// the x and y offsets
+		if (orientation === 1 || orientation === 3) {
+			var tmp = x;
+			x = y;
+			y = tmp;
+		}
+
+		return { x: x, y: y };
 	};
 
 	// Make Block available to the rest of the program
