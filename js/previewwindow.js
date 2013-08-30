@@ -218,20 +218,20 @@
 
 			switch (_previewWindowIndex) {
 			case 0:
-				startingX = _gameAreaSize / 2;
+				startingX = (_gameAreaSize / 2) - 1;
 				startingY = 0;
 				break;
 			case 1:
 				startingX = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.x * 2);
-				startingY = _gameAreaSize / 2;
+				startingY = (_gameAreaSize / 2) - 1;
 				break;
 			case 2:
-				startingX = _gameAreaSize / 2;
+				startingX = (_gameAreaSize / 2) - 1;
 				startingY = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.y * 2);
 				break;
 			case 3:
 				startingX = 0;
-				startingY = _gameAreaSize / 2;
+				startingY = (_gameAreaSize / 2) - 1;
 				break;
 			default:
 				return;

@@ -100,7 +100,7 @@
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
-			log.d("-->game._gameLoop");
+//			log.d("-->game._gameLoop");
 
 			_isLooping = true;
 
@@ -122,12 +122,12 @@
 			// Go to the next frame
 			_prevTime = currTime;
 
-			log.d("<--game._gameLoop");
+//			log.d("<--game._gameLoop");
 		}
 
 		// Update each of the game entities with the current time.
 		function _update(deltaTime) {
-			log.d("-->game._update");
+//			log.d("-->game._update");
 
 			_gameTime += deltaTime;
 
@@ -188,11 +188,11 @@
 			_levelDisplay.innerHTML = _level;
 			_scoreDisplay.innerHTML = _score;
 
-			log.d("<--game._update");
+//			log.d("<--game._update");
 		}
 
 		function _draw() {
-			log.d("-->game._draw");
+//			log.d("-->game._draw");
 
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -220,23 +220,19 @@
 
 			_context.save();
 			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
-log.d("???31");/////TODO/////
 
 			// Draw each of the falling blocks
 			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
-log.d("???32");/////TODO/////
 				_blocksOnGameArea[i].draw(_context);
 			}
-log.d("???33");/////TODO/////
 
 			// Draw each of the stationary squares
 			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
-log.d("???34");/////TODO/////
 				window.Block.prototype.drawSquare(
 										_context, _squaresOnGameArea[i], 
-										i % _gameAreaSize, i / _gameAreaSize);
+										(i % _gameAreaSize) * _squareSizePixels, 
+										Math.floor((i / _gameAreaSize)) * _squareSizePixels);
 			}
-log.d("???35");/////TODO/////
 
 			// Check whether a block is selected
 			if (true) {// TODO: 
@@ -254,9 +250,8 @@ log.d("???35");/////TODO/////
 			}
 
 			_context.restore();
-log.d("???36");/////TODO/////
 
-			log.d("<--game._draw");
+//			log.d("<--game._draw");
 		}
 
 		// Set up a new game

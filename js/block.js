@@ -266,7 +266,7 @@
 	}
 
 	function _positionToIndex(position) {
-		return position.y * _gameAreaIndexSize + position.x;
+		return (position.y * _gameAreaIndexSize) + position.x;
 	}
 
 	function _positionsToIndices(positions) {
@@ -434,8 +434,8 @@
 
 			_positionIndex.x += deltaX;
 			_positionIndex.y += deltaY;
-			_positionPixels.x += deltaX * _squareSize;
-			_positionPixels.y += deltaY * _squareSize;
+			_positionPixels.x = _positionIndex.x * _squareSize;
+			_positionPixels.y = _positionIndex.y * _squareSize;
 		}
 
 		// Return true if this block has collided with a stationary square on 

@@ -47,21 +47,24 @@
 		{ r: 34,	g: 34,	b: 34 }		// Grey
 	];
 
-	var _INITIAL_COLOR_PERIOD = 5000; // millis / color
+	var _INITIAL_COLOR_PERIOD = 9000; // millis / color
 
 	function _interpolateColors(prevColorRGB, nextColorRGB, progressThroughCurrentColors) {
 		var oneMinusProgress = 1 - progressThroughCurrentColors;
 
-		var r = prevColorRGB.r * oneMinusProgress + nextColorRGB.r * progressThroughCurrentColors;
+		var r = (prevColorRGB.r * oneMinusProgress) + (nextColorRGB.r * progressThroughCurrentColors);
 		r = Math.min(r, 255);
+		r = Math.floor(r);
 		r = r.toString(16);
 
-		var g = prevColorRGB.g * oneMinusProgress + nextColorRGB.g * progressThroughCurrentColors;
+		var g = (prevColorRGB.g * oneMinusProgress) + (nextColorRGB.g * progressThroughCurrentColors);
 		g = Math.min(g, 255);
+		g = Math.floor(g);
 		g = g.toString(16);
 
-		var b = prevColorRGB.b * oneMinusProgress + nextColorRGB.b * progressThroughCurrentColors;
+		var b = (prevColorRGB.b * oneMinusProgress) + (nextColorRGB.b * progressThroughCurrentColors);
 		b = Math.min(b, 255);
+		b = Math.floor(b);
 		b = b.toString(16);
 
 		return "#" + r + g + b;
@@ -78,6 +81,8 @@
 
 		var _timeSinceLastColor = 0;
 
+		var _prev2ColorIndex = 0;
+
 		var _prevColorIndex = 0;
 		var _nextColorIndex = 0;
 
@@ -91,8 +96,12 @@
 			if (_timeSinceLastColor > _currentColorPeriod) {
 				_timeSinceLastColor %= _currentColorPeriod;
 
+				_prev2ColorIndex = _prevColorIndex;
 				_prevColorIndex = _nextColorIndex;
-				_nextColorIndex = Math.floor(Math.random() * 7);
+				do {
+					_nextColorIndex = Math.floor(Math.random() * 7);
+				} while (_nextColorIndex == _prevColorIndex || 
+						_nextColorIndex == _prev2ColorIndex);
 			}
 
 			var progressThroughCurrentColors = _timeSinceLastColor / _currentColorPeriod;

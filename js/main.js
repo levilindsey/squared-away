@@ -66,7 +66,7 @@
 		var statsTable = document.getElementById("statsTable");
 		statsTable.style.display = "block";
 
-		hideNonCanvasAreas();
+		collapseInfoArea();
 
 		// If we are starting a new game, then adjust the game parameters to 
 		// match the selected input options
@@ -86,6 +86,8 @@
 		pauseScreen.style.display = "block";
 
 		populateStatsTable();
+
+		expandInfoArea();
 
 		game.pause();
 
@@ -177,27 +179,15 @@
 		infoArea.style.display = "block";
 	}
 
-	function showNonCanvasAreas() {
-		var banner = document.getElementById("banner");
-		banner.style.visibility = "visible";
+	function expandInfoArea() {
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.visibility = "visible";
-		// TODO: animate
-	}
-
-	function hideNonCanvasAreas() {
-		var banner = document.getElementById("banner");
-		banner.style.visibility = "hidden";
-		var infoArea = document.getElementById("infoArea");
-		infoArea.style.visibility = "hidden";
-		// TODO: animate
-	}
-
-	function expandInfoArea() {
 		// TODO: switch divs; animate
 	}
 
 	function collapseInfoArea() {
+		var infoArea = document.getElementById("infoArea");
+		infoArea.style.visibility = "hidden";
 		// TODO: switch divs; animate
 	}
 
