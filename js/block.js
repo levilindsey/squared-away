@@ -43,7 +43,9 @@
 	var _RIGHT = 3;
 
 	var _squareSize;
-	var _gameAreaIndexSize;
+	var _gameAreaIndexSize = 100;
+	var _centerSquareIndexSize = 6;
+	var _centerSquareIndexPositionX;
 	var _fallPeriod; // millis / blocks
 
 	// Return an array of position objects which represent the positions 
@@ -277,6 +279,10 @@
 		return indices;
 	}
 
+	function _computeCenterSquareIndexPosition() {
+		_centerSquareIndexPositionX = Math.floor((_gameAreaIndexSize - _centerSquareIndexSize) / 2);
+	}
+
 	// Constructor
 	// type: which type of block this is (0-6)
 	// x: the x-coordinate of this block's initial position (in pixels)
@@ -314,6 +320,7 @@
 
 				if (!_hasCollidedWithEdgeOfArea) {
 					_hasCollidedWithSquare = 
+							_checkForCollisionWithCenterSquare() ||
 							_checkForCollision(squaresOnGameArea, 
 											   blocksOnGameArea);
 
@@ -506,6 +513,48 @@
 						positions[i].x + deltaX < 0 || 
 						positions[i].y + deltaY >= _gameAreaIndexSize || 
 						positions[i].y + deltaY < 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function _checkForCollisionWithCenterSquare() {
+			var deltaX;
+			var deltaY;
+
+			switch (_fallDirection) {
+			case _DOWN:
+				deltaX = 0;
+				deltaY = 1;
+				break;
+			case _LEFT:
+				deltaX = -1;
+				deltaY = 0;
+				break;
+			case _UP:
+				deltaX = 0;
+				deltaY = -1;
+				break;
+			case _RIGHT:
+				deltaX = 1;
+				deltaY = 0;
+				break;
+			default:
+				return;
+			}
+
+			var minCenterSquareIndexPositionX = _centerSquareIndexPositionX;
+			var maxCenterSquareIndexPositionX = _centerSquareIndexPositionX + _centerSquareIndexSize;
+
+			var positions = _getSquareIndexPositions();
+
+			for (var i = 0; i < positions.length; ++i) {
+				if (positions[i].x + deltaX >= minCenterSquareIndexPositionX && 
+						positions[i].x + deltaX < maxCenterSquareIndexPositionX && 
+						positions[i].y + deltaY >= minCenterSquareIndexPositionX && 
+						positions[i].y + deltaY < maxCenterSquareIndexPositionX) {
 					return true;
 				}
 			}
@@ -721,6 +770,14 @@
 
 	Block.prototype.setGameAreaIndexSize = function(size) {
 		_gameAreaIndexSize = size;
+
+		_computeCenterSquareIndexPosition();
+	};
+
+	Block.prototype.setCenterSquareIndexSize = function(size) {
+		_centerSquareIndexSize = size;
+
+		_computeCenterSquareIndexPosition();
 	};
 
 	Block.prototype.setFallSpeed = function(fallSpeed) {

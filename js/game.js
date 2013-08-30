@@ -35,6 +35,11 @@
 	
 	var _INITIAL_COOL_DOWN_PERIOD = 800; // millis
 
+	var _NORMAL_STROKE_WIDTH = 1; // in pixels
+
+	var _NORMAL_STROKE_COLOR = "#5a5a5a";
+	var _NORMAL_FILL_COLOR = "#141414";
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -69,6 +74,7 @@
 		var _blocksOnGameArea = null; // the moving, four-square pieces
 		var _squaresOnGameArea = null; // the stationary, single-square pieces
 		var _previewWindows = null;
+		var _centerSquare = null;
 
 		var _isPaused = true;
 		var _isEnded = true;
@@ -124,6 +130,9 @@
 			log.d("-->game._update");
 
 			_gameTime += deltaTime;
+
+			// Update the center square
+			_centerSquare.update(deltaTime);
 
 			// Update the blocks
 			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
@@ -188,28 +197,46 @@
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
+			// Draw the background and the border
+			_context.beginPath();
+			_context.lineWidth = _NORMAL_STROKE_WIDTH;
+			_context.fillStyle = _NORMAL_FILL_COLOR;
+			_context.strokeStyle = _NORMAL_STROKE_COLOR;
+			_context.rect(_gameAreaPosition.x, _gameAreaPosition.y, _gameAreaSizePixels, _gameAreaSizePixels);
+			_context.fill();
+			_context.stroke();
+
 			// ---- Draw the preview windows ---- //
 
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].draw(_context);
 			}
 
+			// ---- Draw the center square ---- //
+
+			_centerSquare.draw(_context);
+
 			// ---- Draw the main play area ---- //
 
 			_context.save();
 			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
+log.d("???31");/////TODO/////
 
 			// Draw each of the falling blocks
 			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+log.d("???32");/////TODO/////
 				_blocksOnGameArea[i].draw(_context);
 			}
+log.d("???33");/////TODO/////
 
 			// Draw each of the stationary squares
 			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
-				window.Block.prototype._drawSquare(
+log.d("???34");/////TODO/////
+				window.Block.prototype.drawSquare(
 										_context, _squaresOnGameArea[i], 
 										i % _gameAreaSize, i / _gameAreaSize);
 			}
+log.d("???35");/////TODO/////
 
 			// Check whether a block is selected
 			if (true) {// TODO: 
@@ -227,6 +254,7 @@
 			}
 
 			_context.restore();
+log.d("???36");/////TODO/////
 
 			log.d("<--game._draw");
 		}
@@ -241,7 +269,7 @@
 			_isEnded = true;
 			_blocksOnGameArea = new Array();
 			_squaresOnGameArea = window.utils.initializeArray(
-									_setGameAreaSize * _setGameAreaSize, -1);
+									_gameAreaSize * _gameAreaSize, -1);
 			_prevTime = 0;
 
 			_setLevel(_startingLevel);
@@ -263,6 +291,8 @@
 			_currentPreviewWindowCoolDownTime = _getPreviewWindowCoolDownTime(level);
 			_currentBlockFallSpeed = _getBlockFallSpeed(level);
 			window.Block.prototype.setFallSpeed(_currentBlockFallSpeed);
+
+			_centerSquare.setLevel(level);
 
 			// Set the base cool down period for each of the preview windows
 			for (var i = 0; i < 4; ++i) {
@@ -321,6 +351,18 @@
 			var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
 
 			_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
+		}
+
+		function _setUpCenterSquare() {
+			_centerSquare = new CenterSquare();
+			_setUpCenterSquareDimensions();
+		}
+
+		function _setUpCenterSquareDimensions() {
+			var size = _centerSquareSize * _squareSizePixels;
+			var x = _gameAreaPosition.x + (_gameAreaSizePixels - size) / 2;
+
+			_centerSquare.setDimensions(x, size);
 		}
 
 		function _play() {
@@ -398,10 +440,14 @@
 			window.Block.prototype.setSquareSize(_squareSizePixels);
 			window.Block.prototype.setGameAreaIndexSize(_gameAreaSize);
 			window.PreviewWindow.prototype.setGameAreaSize(_gameAreaSize);
+			_setUpCenterSquareDimensions();
 		}
 
 		function _setCenterSquareSize(centerSquareSize) {
 			_centerSquareSize = centerSquareSize;
+			
+			window.Block.prototype.setCenterSquareIndexSize(_centerSquareSize);
+			_setUpCenterSquareDimensions();
 		}
 
 		function _setStartingLevel(level) {
@@ -410,6 +456,7 @@
 
 		_computeDimensions();
 		_setUpPreviewWindows();
+		_setUpCenterSquare();
 
 		// ----------------------------------------------------------------- //
 		// -- Privileged members

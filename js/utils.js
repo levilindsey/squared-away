@@ -76,7 +76,7 @@
 		var array = new Array();
 
 		for (var i = 0; i < length; ++i) {
-			array[i] = initalValue;
+			array[i] = initialValue;
 		}
 
 		return array;
