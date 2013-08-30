@@ -2,6 +2,9 @@
 // ---------- SOON
 // ------------------------------------------------------------------------- //
 
+- change the squares-on-the-game-area implementation to instead be a mapping with ONLY the actual squares that are in the game
+    - hopefully, this fixes the severe slow-down I am seeing
+
 - add the guts to the different game-logic JS prototypes
 
 - have circular progress indicators around the borders of the preview windows which indicate how soon it will be before the shown block is dropped
