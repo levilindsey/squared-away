@@ -20,6 +20,8 @@
 
 	var game = null;
 
+	var gestureInProgress = false;
+
 	// Preload all required resources and call init when done
 	window.resources.onready = init;
 	window.resources.load([
@@ -45,8 +47,12 @@
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", onPauseEvent, false);
-		window.addEventListener("keypress", onKeyPress, false);
 		window.addEventListener("blur", pauseGame, false);
+		document.addEventListener("keypress", onKeyPress, false);
+		document.addEventListener("mousedown", onMouseDown, false);
+		document.addEventListener("mouseup", onMouseUp, false);
+		document.addEventListener("mousemove", onMouseMove, false);
+		document.addEventListener("mouseout", onMouseOut, false);
 
 		log.d("<--main.init");
 	}
@@ -189,6 +195,49 @@
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.visibility = "hidden";
 		// TODO: switch divs; animate
+	}
+
+	function onMouseDown(event) {
+		event = window.utils.standardizeMouseEvent(event);
+
+		gestureInProgress = true;
+
+		var currentPos = { x: event.pageX, y: event.pageY };
+		var currentTime = Date.now();
+
+		game.startGesture(currentPos, currentTime);
+	}
+
+	function onMouseUp(event) {
+		event = window.utils.standardizeMouseEvent(event);
+
+		if (gestureInProgress) {
+			gestureInProgress = false;
+
+			var currentPos = { x: event.pageX, y: event.pageY };
+			var currentTime = Date.now();
+
+			game.finishGesture(currentPos, currentTime);
+		}
+	}
+
+	function onMouseMove(event) {
+		event = window.utils.standardizeMouseEvent(event);
+
+		// Check whether this event is part of a drag
+		if (gestureInProgress) {
+			var currentPos = { x: event.pageX, y: event.pageY };
+
+			game.dragGesture(currentPos);
+		}
+	}
+
+	// This event cancels any current mouse gesture and forces the player to 
+	// start again.
+	function onMouseOut(event) {
+		gestureInProgress = false;
+
+		game.cancelGesture();
 	}
 
 	log.d("<--main.LOADING_MODULE");

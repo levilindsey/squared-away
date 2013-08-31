@@ -14,7 +14,7 @@
 	- make this a completely randomly occuring thing for each stationary SQUARE
 
 - UNIT TESTS:
-	- test for a long list of things that the browser needs to support (for each of these things, tell the user what is missing):
+	- test for a long list of things that the browser needs to support (for each of these things, tell the player what is missing):
 		- canvas
 		- audio stuff...
 		- transparency in CSS colors
@@ -36,12 +36,12 @@
 // ------------------------------------------------------------------------- //
 
 - Time functions:
-	- USE PHP to get the login/logoff/visit times that are saved for each user
+	- USE PHP to get the login/logoff/visit times that are saved for each player
 	- USE JS to get the machine's local time at start and for calculating durations and whatnot
 - Cookies:
 	- store the username for auto-filling login info
 - re-factor the Block code to only use one manner of position information
-- the ability to toggle different game modes will be unlocked by getting through later levels (and this data is saved to the user's account)
+- the ability to toggle different game modes will be unlocked by getting through later levels (and this data is saved to the player's account)
 - show a red or white circle or block overlay centered where the block was which caused the game over
 
 // ------------------------------------------------------------------------- //
@@ -52,20 +52,20 @@
     - and music (Justin's bro's band; Alden for original stuff)
 	- OR, just make something easy from one of my ideas on my phone (or from long ago compositions)
 
-- Plan the exact user input/controls for playing the game
+- Plan the exact player input/controls for playing the game
 - Think through all possible details of the game playing behavior
     - How do completed layers collapse?
 - Plan the layout of the main game area, the preview windows for each side, the banner, the description below.
-    - Be minimalistic!  (have content dynamically display if the user asks (taps) for it?)
+    - Be minimalistic!  (have content dynamically display if the player asks (taps) for it?)
 - Plan the art and all small animation details
 - Plan music and SFX (i.e., ask Alden when the game is demoable)
 - Plan how to create accounts and log in on the screen
 - Plan how to show personal history
-- Plan how to show community history (how many users, high scores)
+- Plan how to show community history (how many players, high scores)
 - Plan SQL database:
-    - How to save user profiles (name, email, username, all score/time/actions history, devices)
+    - How to save player profiles (name, email, username, all score/time/actions history, devices)
 	- How to save gameplays (start time, end time, tiles given (when/where/what), action history)
-	- How to save current state (so the user can come back to continue later)
+	- How to save current state (so the player can come back to continue later)
 	- How to save login visits (which device, when opened, when closed, when went idle, ...)
 - Plan unlockables/achievements:
     - When getting past certain difficulty levels (from the very start)
@@ -81,20 +81,20 @@
 -- FROM GIT:
 ----
 
-- Plan the exact user input/controls for playing the game
+- Plan the exact player input/controls for playing the game
 - Think through all possible details of the game playing behavior
     - How do completed layers collapse?
 - Plan the layout of the main game area, the preview windows for each side, the banner, the description below.
-    - Be minimalistic!  (have content dynamically display if the user asks (taps) for it?)
+    - Be minimalistic!  (have content dynamically display if the player asks (taps) for it?)
 - Plan the art and all small animation details
 - Plan music and SFX (i.e., ask Alden when the game is demoable)
 - Plan how to create accounts and log in on the screen
 - Plan how to show personal history
-- Plan how to show community history (how many users, high scores)
+- Plan how to show community history (how many players, high scores)
 - Plan SQL database:
-    - How to save user profiles (name, email, username, all score/time/actions history, devices)
+    - How to save player profiles (name, email, username, all score/time/actions history, devices)
 	- How to save gameplays (start time, end time, tiles given (when/where/what), action history)
-	- How to save current state (so the user can come back to continue later)
+	- How to save current state (so the player can come back to continue later)
 	- How to save login visits (which device, when opened, when closed, when went idle, ...)
 - Plan unlockables/achievements:
     - When getting past certain difficulty levels (from the very start)
@@ -112,9 +112,9 @@ Most of the main game logic in place:
 		Tiles spawn and come to rest
 		Tile fall rate and spawn rate increases
 		Collapse of complete layers is implemented
-	User input:
+	player input:
 		Actually capture the mouse tap and button press events on PCs and the finger tap and swipe events on mobile devices
-		All user controls and actions are implemented
+		All player controls and actions are implemented
 
 Tiles
 Phantom line/position markings
@@ -130,7 +130,7 @@ The code for animating all of the block behavior:
 	Switching fall directions/sides
 	Periodic "shimmers"
 	Complete layer collapse disintegration effect
-	Rendering of phantom lines/positions for user tile-movement events
+	Rendering of phantom lines/positions for player tile-movement events
 Displaying time and current difficulty level
 Miscellaneous aesthetic touches
 

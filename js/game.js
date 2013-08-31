@@ -94,9 +94,13 @@
 		var _score = 0;
 		var _level = _startingLevel;
 		var _gameTime = 0; // active (unpaused) time since start of game
+		var _layersDestroyed = 0;
 
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
 		var _currentBlockFallSpeed = 1; // squares / millis
+
+		var _mouseDownTime = 0;
+		var _mouseDownPos = { x: 0, y: 0 };
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
@@ -146,12 +150,18 @@
 					return;
 				}
 
-				// If the block has reached a stationary square and cannot 
-				// fall, then add it's squares to the game area and delete the 
-				// block object
+				// Check whether the block has reached a stationary square and 
+				// can no longer fall
 				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
+					// Add it's squares to the game area and delete the block 
+					// object
 					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
+
+					// Check whether this settled block causes the disintigration of any layers
+					if (false) { // TODO: ****
+						//++_layersDestroyed;
+					}
 				}
 			}
 
@@ -168,7 +178,7 @@
 					// If there is a square on the game area in the way the 
 					// new block from being added, then the game is over and 
 					// the player has lost
-					if (false) { // TODO: 
+					if (block.checkIsOverTopSquare(_squaresOnGameArea)) {
 						_endGame();
 						return;
 					}
@@ -388,6 +398,28 @@
 			_onGameEnd();
 		}
 
+		function _startGesture(pos, time) {
+			_mouseDownPos = pos;
+			_mouseDownTime = time;
+
+			// TODO: 
+		}
+
+		function _finishGesture(pos, time) {
+			var currentPos = { x: event.pageX, y: event.pageY };
+			var currentTime = Date.now();
+
+			// TODO: 
+		}
+
+		function _dragGesture(pos) {
+			// TODO: 
+		}
+
+		function _cancelGesture() {
+			// TODO: 
+		}
+
 		function _getIsPaused() {
 			return _isPaused;
 		}
@@ -474,6 +506,10 @@
 		this.setGameAreaSize = _setGameAreaSize;
 		this.setCenterSquareSize = _setCenterSquareSize;
 		this.setStartingLevel = _setStartingLevel;
+		this.startGesture = _startGesture;
+		this.finishGesture = _finishGesture;
+		this.dragGesture = _dragGesture;
+		this.cancelGesture = _cancelGesture;
 
 		log.d("<--game.Game");
 	};

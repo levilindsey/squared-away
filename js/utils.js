@@ -110,6 +110,16 @@
 		return hours + ":" + minutes + ":" + seconds;
 	}
 
+	// Return the current mouse event with the pageX and pageY properties 
+	// added.  This fixes some cross-compatibility issues with IE.
+	function _standardizeMouseEvent(event) {
+		event = event || window.event; // account for IE
+		if (typeof event.pageX === "undefined") { // account for IE
+			event.pageX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			event.pageY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+	}
+
 	window.utils = {
 		object: _object,
 		initializeArray: _initializeArray,
@@ -118,7 +128,8 @@
 		getElementWidth: _getElementWidth,
 		getElementHeight: _getElementHeight,
 		translateKeyCode: _translateKeyCode,
-		getHourMinSecTime: _getHourMinSecTime
+		getHourMinSecTime: _getHourMinSecTime,
+		standardizeMouseEvent: _standardizeMouseEvent
 	};
 
 	log.d("<--utils.LOADING_MODULE");

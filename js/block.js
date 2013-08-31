@@ -562,6 +562,19 @@
 			return false;
 		}
 
+		function _checkIsOverTopSquare(squaresOnGameArea) {
+			var positions = _getSquareIndexPositions();
+			var indices = _positionsToIndices(positions);
+
+			for (var i = 0; i < indices.length; ++i) {
+				if (squaresOnGameArea[indices[i]] > -1) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
@@ -748,6 +761,7 @@
 		this.setPositionIndex = _setPositionIndex;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
+		this.checkIsOverTopSquare = _checkIsOverTopSquare;
 		this.getType = _getType;
 
 		log.d("<--block.Block");

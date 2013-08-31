@@ -5,7 +5,9 @@
 }
 
 body {
-	background-color: #020202;
+#	background-color: #020202;
+	background-image: url("../img/background.png");
+	background-repeat: repeat;
 	color: #CAEACA;
     font-family: sans-serif;
 	font-size: 12pt;
@@ -83,8 +85,8 @@ h3 {
 }
 
 #pageColumn {
-	background-image: url("../img/background.png");
-	background-repeat: repeat;
+#	background-image: url("../img/background.png");
+#	background-repeat: repeat;
 	height: 100%;
 	padding: 10px;
 	margin: 0px auto;
