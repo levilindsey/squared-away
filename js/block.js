@@ -42,246 +42,23 @@
 	var _UP = 2;
 	var _RIGHT = 3;
 
+	// These coordinates dictate the position (in cells) of each constituent 
+	// square relative to the position of the parent block
+	var DEFAULT_SQUARE_CELL_POSITIONS = [
+		[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _RED (S-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // _GREEN (Z-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // _PURPLE (L-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // _YELLOW (J-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // _BLUE (Square-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }], // _ORANGE (Line-shaped block (defaults to vertical orientation))
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }]  // _GREY (T-shaped block)
+	];
+
 	var _squareSize;
 	var _gameAreaCellSize = 100;
 	var _centerSquareCellSize = 6;
 	var _centerSquareCellPositionX;
 	var _fallPeriod; // millis / blocks
-
-	// Return an array of position objects which represent the positions 
-	// of this block's constituent squares relative to this block's 
-	// position.
-	function _getSquareCellPositionsRelativeToBlockPosition(type, orientation) {
-		var square1X;
-		var square1Y;
-		var square2X;
-		var square2Y;
-		var square3X;
-		var square3Y;
-		var square4X;
-		var square4Y;
-
-		// Compute the constituent square positions
-		switch (type) { // TODO: refactor this to only have the default orientation hard-coded and to instead automatically compute the square positions for the rotations
-		case _RED: // S-shaped block
-			if (orientation === _DEG0 || orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 1;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 1;
-				square3Y = 0;
-				square4X = 2;
-				square4Y = 0;
-			} else {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 1;
-				square3Y = 1;
-				square4X = 1;
-				square4Y = 2;
-			}
-			break;
-		case _GREEN: // Z-shaped block
-			if (orientation === _DEG0 || orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 1;
-				square3Y = 1;
-				square4X = 2;
-				square4Y = 1;
-			} else {
-				square1X = 1;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 0;
-				square3Y = 1;
-				square4X = 0;
-				square4Y = 2;
-			}
-			break;
-		case _PURPLE: // L-shaped block
-			if (orientation === _DEG0) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 0;
-				square3Y = 2;
-				square4X = 1;
-				square4Y = 2;
-			} else if (orientation === _DEG90) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 1;
-				square3Y = 0;
-				square4X = 2;
-				square4Y = 0;
-			} else if (orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 1;
-				square3Y = 1;
-				square4X = 1;
-				square4Y = 2;
-			} else { // orientation === _DEG270
-				square1X = 0;
-				square1Y = 1;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 2;
-				square3Y = 1;
-				square4X = 2;
-				square4Y = 0;
-			}
-			break;
-		case _YELLOW: // J-shaped block
-			if (orientation === _DEG0) {
-				square1X = 1;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 1;
-				square3Y = 2;
-				square4X = 0;
-				square4Y = 2;
-			} else if (orientation === _DEG90) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 1;
-				square3Y = 1;
-				square4X = 2;
-				square4Y = 1;
-			} else if (orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 0;
-				square3Y = 1;
-				square4X = 0;
-				square4Y = 2;
-			} else { // orientation === _DEG270
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 2;
-				square3Y = 0;
-				square4X = 2;
-				square4Y = 1;
-			}
-			break;
-		case _BLUE: // Square-shaped block
-			square1X = 0;
-			square1Y = 0;
-			square2X = 1;
-			square2Y = 0;
-			square3X = 1;
-			square3Y = 1;
-			square4X = 0;
-			square4Y = 1;
-			break;
-		case _ORANGE: // Line-shaped block (defaults to vertical orientation)
-			if (orientation === _DEG0 || orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 0;
-				square3Y = 2;
-				square4X = 0;
-				square4Y = 3;
-			} else {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 2;
-				square3Y = 0;
-				square4X = 3;
-				square4Y = 0;
-			}
-			break;
-		case _GREY: // T-shaped block
-			if (orientation === _DEG0) {
-				square1X = 0;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 0;
-				square3X = 2;
-				square3Y = 0;
-				square4X = 1;
-				square4Y = 1;
-			} else if (orientation === _DEG90) {
-				square1X = 1;
-				square1Y = 0;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 0;
-				square3Y = 1;
-				square4X = 1;
-				square4Y = 2;
-			} else if (orientation === _DEG180) {
-				square1X = 0;
-				square1Y = 1;
-				square2X = 1;
-				square2Y = 1;
-				square3X = 2;
-				square3Y = 1;
-				square4X = 1;
-				square4Y = 0;
-			} else { // orientation === _DEG270
-				square1X = 0;
-				square1Y = 0;
-				square2X = 0;
-				square2Y = 1;
-				square3X = 0;
-				square3Y = 2;
-				square4X = 1;
-				square4Y = 1;
-			}
-			break;
-		default:
-			return;
-		}
-
-		return [
-			{ x: square1X, y: square1Y }, 
-			{ x: square2X, y: square2Y }, 
-			{ x: square3X, y: square3Y }, 
-			{ x: square4X, y: square4Y }
-		];
-	}
-
-	function _positionToIndex(position) {
-		return (position.y * _gameAreaCellSize) + position.x;
-	}
-
-	function _positionsToIndices(positions) {
-		var indices = new Array();
-
-		for (var i = 0; i < positions.length; ++i) {
-			indices[i] = _positionToIndex(positions[i]);
-		}
-
-		return indices;
-	}
-
-	function _computeCenterSquareCellPosition() {
-		_centerSquareCellPositionX = Math.floor((_gameAreaCellSize - _centerSquareCellSize) / 2);
-	}
 
 	// Constructor
 	// type: which type of block this is (0-6)
@@ -794,11 +571,143 @@
 		log.d("<--block.Block");
 	};
 
-	// Block inherits from Sprite
-	Block.prototype = window.utils.object(Sprite);
+	// --------------------------------------------------------------------- //
+	// -- Private static members
+
+	function _getConvexHullPointsRelativeToBlockPosition(type, orientation, side) {
+		var points = new Array();
+		var point1;
+		var point2;
+		var point3;
+		var point4;
+		var point5;
+		var point6;
+		var point7;
+		var point8;
+
+		switch (type) {
+		case "":
+			break;
+		default:
+			return;
+		}
+
+		// Add the points to the array
+		if (point3) {
+			points.push(point3);
+			if (point4) {
+				points.push(point4);
+				if (point5) {
+					points.push(point5);
+					if (point6) {
+						points.push(point6);
+						if (point7) {
+							points.push(point7);
+							if (point8) {
+								points.push(point8);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return points;
+	}
+
+	// Return an array of position objects which represent the positions 
+	// of this block's constituent squares relative to this block's 
+	// position.
+	function _getSquareCellPositionsRelativeToBlockPosition(type, orientation) {
+		// Get the constituent square positions for the default orientation
+		var points = DEFAULT_SQUARE_CELL_POSITIONS[type];
+
+		_rotatePoints(points, orientation, type);
+
+		return points;
+	}
+
+	// NOTE: points needs to be non-null and non-empty
+	// NOTE: numberOfRotations can range from 0 to 3
+	function _rotatePoints(points, numberOfRotations, type) {
+		// Don't do anything if we are rotating the block 0 times
+		// The blue block is 90-degrees rotationally symmetric
+		if (numberOfRotations > 0 && type !== _BLUE) {
+			var max;
+
+			// Rotate the points
+			switch (numberOfRotations) {
+			case 1:
+				max = _findMaxCoords(points);
+				for (var i = 0; i < points.length; ++i) {
+					points[i].x = max.y - points[i].y;
+					points[i].y = points[i].x;
+				}
+				break;
+			case 2:
+				// Some of the blocks 180-degrees rotationally symmetric
+				if (type === _GREY || type === _YELLOW || type === _PURPLE) {
+					max = _findMaxCoords(points);
+					for (var i = 0; i < points.length; ++i) {
+						points[i].x = max.x - points[i].x;
+						points[i].y = max.y - points[i].y;
+					}
+				}
+				break;
+			case 3:
+				max = _findMaxCoords(points);
+				for (var i = 0; i < points.length; ++i) {
+					points[i].x = points[i].y;
+					points[i].y = max.x - points[i].x;
+				}
+				break;
+			default:
+				return;
+			}
+		}
+
+		return points;
+	}
+
+	function _findMaxCoords(points) {
+		var maxX = points[0].x;
+		var maxY = points[0].y;
+
+		for (var i = 1; i < points.length; ++i) {
+			if (points[i].x > maxX) {
+				maxX = points[i].x;
+			}
+			if (points[i].y > maxY) {
+				maxY = points[i].y;
+			}
+		}
+
+		return { x: maxX, y: maxY }
+	}
+
+	function _positionToIndex(position) {
+		return (position.y * _gameAreaCellSize) + position.x;
+	}
+
+	function _positionsToIndices(positions) {
+		var indices = new Array();
+
+		for (var i = 0; i < positions.length; ++i) {
+			indices[i] = _positionToIndex(positions[i]);
+		}
+
+		return indices;
+	}
+
+	function _computeCenterSquareCellPosition() {
+		_centerSquareCellPositionX = Math.floor((_gameAreaCellSize - _centerSquareCellSize) / 2);
+	}
 
 	// --------------------------------------------------------------------- //
 	// -- Public (non-privileged) static members
+
+	// Block inherits from Sprite
+	Block.prototype = window.utils.object(Sprite);
 
 	// This should be called once at the start of the program
 	Block.prototype.setSquareSize = function(size) {
