@@ -32,6 +32,52 @@
 - move the Sprite functionality to Block and then delete the Sprite file
 
 // ------------------------------------------------------------------------- //
+// ---------- DESKTOP POST-IT NOTE
+// ------------------------------------------------------------------------- //
+
+- **** work on the phantom block polygons and the guideline polygons:
+    - I should be able to use some sort of block.getConvexHull() method for both problems.
+        - this might involve simply enumerating the relevant position values for each orientation/side/type?? (ugh)
+- **** work on the rotation/able-to-switch-quadrants logic:
+    - I need to base these rotations off of the lower-left corner
+    - I need to be able to pre-compute how this rotation affects the constituent squares (so I can determine: (A) if the rotation will be valid, (B) if the quadrant switch will be valid)
+
+- create the art which shows how the controls work:
+    - for each of them, show a square with the same block on each side coming toward the center
+    - then show arrows from each block:
+        - inward (to drop)
+        - to the sides (to move)
+        - outward (to change direction)
+    - show a tap circle over a single block with an arrow to its rotated version (to rotate)
+        - "tap circle": a smaller circle within a larger.  both mostly transparent.  both with slight gradients.  both with borders.
+    - have 2 columns for these direction images.  the first will contain the action, the second will contain the input method.
+    - then, swap out the images for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
+- add the inputs for these controls
+- when the game tells a block to add itself to the squares list, then also have the game check whether there are any other remaining blocks.  If not, then flip a boolean that forces the closest preview window to drop immediately on the next update().
+- either switch the corner around which blocks rotate or check that they will not collide before letting the player rotate
+- add SFX!!
+    - google a free place
+    - audible events:
+        - a block falling
+        - a block landing
+        - game over ("GAAAAME OVEEER") (<-- record myself?)
+        - a layer disintigrating
+        - the level progressing
+        - the game starting (a "ta dah!" sound (like opening a chest))
+        - the game pausing (high to low)
+        - the game unpausing (low to high)
+        - a block rotating
+        - a block changing direction
+        - a block being dropped by the player
+        - a block being moved by the player
+        - a sound when the player selects a block
+        - a sound when the player drags a block but hasn't yet dropped it
+        - a sound when block is unable to move how the player chose
+
+- Node.js
+- Spring framework
+
+// ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //
 

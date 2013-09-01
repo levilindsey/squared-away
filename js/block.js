@@ -43,15 +43,15 @@
 	var _RIGHT = 3;
 
 	var _squareSize;
-	var _gameAreaIndexSize = 100;
-	var _centerSquareIndexSize = 6;
-	var _centerSquareIndexPositionX;
+	var _gameAreaCellSize = 100;
+	var _centerSquareCellSize = 6;
+	var _centerSquareCellPositionX;
 	var _fallPeriod; // millis / blocks
 
 	// Return an array of position objects which represent the positions 
 	// of this block's constituent squares relative to this block's 
 	// position.
-	function _getSquareIndexPositionsRelativeToBlockPosition(type, orientation) {
+	function _getSquareCellPositionsRelativeToBlockPosition(type, orientation) {
 		var square1X;
 		var square1Y;
 		var square2X;
@@ -266,7 +266,7 @@
 	}
 
 	function _positionToIndex(position) {
-		return (position.y * _gameAreaIndexSize) + position.x;
+		return (position.y * _gameAreaCellSize) + position.x;
 	}
 
 	function _positionsToIndices(positions) {
@@ -279,8 +279,8 @@
 		return indices;
 	}
 
-	function _computeCenterSquareIndexPosition() {
-		_centerSquareIndexPositionX = Math.floor((_gameAreaIndexSize - _centerSquareIndexSize) / 2);
+	function _computeCenterSquareCellPosition() {
+		_centerSquareCellPositionX = Math.floor((_gameAreaCellSize - _centerSquareCellSize) / 2);
 	}
 
 	// Constructor
@@ -290,7 +290,7 @@
 	// orientation: which orientation this block starts with (0-3)
 	// fallDirection: which direction this block originally falls in (0-3)
 	// 
-	// NOTE: I choose to represent the index "position" of a block as the 
+	// NOTE: I choose to represent the cell "position" of a block as the 
 	//		 top-left cell occupied by the bounding box formed by the current 
 	//		 orientation of the block.
 	function Block(type, x, y, orientation, fallDirection) {
@@ -301,7 +301,7 @@
 
 		var _type = type;
 		var _positionPixels = { x: x, y: y }; // pixels // TODO: refactor this to need only one position representation
-		var _positionIndex = { x: -1, y: -1 }; // column and row indices
+		var _positionCell = { x: -1, y: -1 }; // column and row indices
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
 		var _timeSinceLastFall = 0;
@@ -321,7 +321,7 @@
 				if (!_hasCollidedWithEdgeOfArea) {
 					_hasCollidedWithSquare = 
 							_checkForCollisionWithCenterSquare() ||
-							_checkForCollision(squaresOnGameArea, 
+							_checkForCollisionWithSquare(squaresOnGameArea, 
 											   blocksOnGameArea);
 
 					if (!_hasCollidedWithSquare) {
@@ -343,10 +343,10 @@
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		function _draw(context) {
-			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
+			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
-			// Translate the square positions from block index space to canvas 
+			// Translate the square positions from block cell space to canvas 
 			// pixel space
 			for (var i = 0; i < positions.length; ++i) {
 				positions[i].x = _positionPixels.x + 
@@ -393,7 +393,7 @@
 		// the square is determined by the positive number of the 
 		// corresponding block type.
 		function _addSquaresToGameArea(squaresOnGameArea) {
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < positions.length; ++i) {
@@ -403,14 +403,14 @@
 
 		// Return an array of position objects which represent the cells in 
 		// the game area which are occupied by this block.
-		function _getSquareIndexPositions() {
-			var positions = _getSquareIndexPositionsRelativeToBlockPosition(
+		function _getSquareCellPositions() {
+			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
 			// Translate the square positions from block space to canvas space
 			for (var i = 0; i < positions.length; ++i) {
-				positions[i].x += _positionIndex.x;
-				positions[i].y += _positionIndex.y;
+				positions[i].x += _positionCell.x;
+				positions[i].y += _positionCell.y;
 			}
 
 			return positions;
@@ -443,10 +443,10 @@
 				return;
 			}
 
-			_positionIndex.x += deltaX;
-			_positionIndex.y += deltaY;
-			_positionPixels.x = _positionIndex.x * _squareSize;
-			_positionPixels.y = _positionIndex.y * _squareSize;
+			_positionCell.x += deltaX;
+			_positionCell.y += deltaY;
+			_positionPixels.x = _positionCell.x * _squareSize;
+			_positionPixels.y = _positionCell.y * _squareSize;
 		}
 
 		// Return true if this block has collided with a stationary square on 
@@ -457,18 +457,18 @@
 		//		 with an edge of the game area BEFORE calling this function.  
 		//		 Otherwise, this function may look out of bounds in the game 
 		//		 area array.
-		function _checkForCollision(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
+		function _checkForCollisionWithSquare(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
 			var deltaI;
 
 			switch (_fallDirection) {
 			case _DOWN:
-				deltaI = _gameAreaIndexSize;
+				deltaI = _gameAreaCellSize;
 				break;
 			case _LEFT:
 				deltaI = -1;
 				break;
 			case _UP:
-				deltaI = -_gameAreaIndexSize;
+				deltaI = -_gameAreaCellSize;
 				break;
 			case _RIGHT:
 				deltaI = 1;
@@ -477,7 +477,7 @@
 				return;
 			}
 
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 			var neighborIndex;
 
@@ -517,12 +517,12 @@
 				return;
 			}
 
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 
 			for (var i = 0; i < positions.length; ++i) {
-				if (positions[i].x + deltaX >= _gameAreaIndexSize || 
+				if (positions[i].x + deltaX >= _gameAreaCellSize || 
 						positions[i].x + deltaX < 0 || 
-						positions[i].y + deltaY >= _gameAreaIndexSize || 
+						positions[i].y + deltaY >= _gameAreaCellSize || 
 						positions[i].y + deltaY < 0) {
 					return true;
 				}
@@ -556,16 +556,16 @@
 				return;
 			}
 
-			var minCenterSquareIndexPositionX = _centerSquareIndexPositionX;
-			var maxCenterSquareIndexPositionX = _centerSquareIndexPositionX + _centerSquareIndexSize;
+			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
 
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 
 			for (var i = 0; i < positions.length; ++i) {
-				if (positions[i].x + deltaX >= minCenterSquareIndexPositionX && 
-						positions[i].x + deltaX < maxCenterSquareIndexPositionX && 
-						positions[i].y + deltaY >= minCenterSquareIndexPositionX && 
-						positions[i].y + deltaY < maxCenterSquareIndexPositionX) {
+				if (positions[i].x + deltaX >= minCenterSquareCellPositionX && 
+						positions[i].x + deltaX < maxCenterSquareCellPositionX && 
+						positions[i].y + deltaY >= minCenterSquareCellPositionX && 
+						positions[i].y + deltaY < maxCenterSquareCellPositionX) {
 					return true;
 				}
 			}
@@ -574,7 +574,7 @@
 		}
 
 		function _checkIsOverTopSquare(squaresOnGameArea) {
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < indices.length; ++i) {
@@ -601,7 +601,7 @@
 				deltaY = 0;
 				break;
 			case _LEFT:
-				deltaI = -_gameAreaIndexSize;
+				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -611,7 +611,7 @@
 				deltaY = 0;
 				break;
 			case _RIGHT:
-				deltaI = _gameAreaIndexSize;
+				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -622,8 +622,8 @@
 			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
 
 			return { 
-				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
 			};
 		}
 
@@ -642,7 +642,7 @@
 				deltaY = 0;
 				break;
 			case _LEFT:
-				deltaI = _gameAreaIndexSize;
+				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -652,7 +652,7 @@
 				deltaY = 0;
 				break;
 			case _RIGHT:
-				deltaI = -_gameAreaIndexSize;
+				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -663,8 +663,8 @@
 			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
 
 			return { 
-				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
 			};
 		}
 
@@ -678,7 +678,7 @@
 
 			switch (_fallDirection) {
 			case _DOWN:
-				deltaI = _gameAreaIndexSize;
+				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -688,7 +688,7 @@
 				deltaY = 0;
 				break;
 			case _UP:
-				deltaI = -_gameAreaIndexSize;
+				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -705,8 +705,8 @@
 					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY);
 
 			return { 
-				x: _positionIndex.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionIndex.y + (howManyStepsBlockCanMove * deltaY)
+				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
+				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
 			};
 		}
 
@@ -714,7 +714,7 @@
 		// index value before colliding with a stationary square or an edge of 
 		// the game area.
 		function _getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY) {
-			var positions = _getSquareIndexPositions();
+			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 			var neighborIndex;
 			var j;
@@ -727,9 +727,9 @@
 				for (j = 0; j < indices.length; ++j) {
 					neighborIndex = indices[j] + dI;
 
-					if (positions[j].x + deltaX > _gameAreaIndexSize || 
+					if (positions[j].x + deltaX > _gameAreaCellSize || 
 							positions[j].x + deltaX < 0 || 
-							positions[j].y + deltaY > _gameAreaIndexSize || 
+							positions[j].y + deltaY > _gameAreaCellSize || 
 							positions[j].y + deltaY < 0 || 
 							squaresOnGameArea[neighborIndex] > -1) { 
 						return i;
@@ -738,11 +738,11 @@
 			}
 		}
 
-		function _setIndexPosition(x, y) {
-			_positionIndex.x = x;
-			_positionIndex.y = y;
-			_positionPixels.x = _positionIndex.x * _squareSize;
-			_positionPixels.y = _positionIndex.y * _squareSize;
+		function _setCellPosition(x, y) {
+			_positionCell.x = x;
+			_positionCell.y = y;
+			_positionPixels.x = _positionCell.x * _squareSize;
+			_positionPixels.y = _positionCell.y * _squareSize;
 		}
 
 		function _getHasCollidedWithEdgeOfArea() {
@@ -762,7 +762,7 @@
 		}
 
 		function _getCenter() {
-			var offset = getIndexOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+			var offset = getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
 			return {
 				x: _positionPixels.x + offset.x,
@@ -778,14 +778,15 @@
 		this.update = _update;
 		this.draw = _draw;
 		this.addSquaresToGameArea = _addSquaresToGameArea;
-		this.getSquareIndexPositions = _getSquareIndexPositions;
+		this.getSquareCellPositions = _getSquareCellPositions;
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
-		this.setIndexPosition = _setIndexPosition;
+		this.setCellPosition = _setCellPosition;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
 		this.checkIsOverTopSquare = _checkIsOverTopSquare;
+		this.checkForCollisionWithSquare = _checkForCollisionWithSquare;
 		this.getType = _getType;
 		this.getOrientation = _getOrientation;
 		this.getCenter = _getCenter;
@@ -808,16 +809,16 @@
 		return _squareSize;
 	};
 
-	Block.prototype.setGameAreaIndexSize = function(size) {
-		_gameAreaIndexSize = size;
+	Block.prototype.setGameAreaCellSize = function(size) {
+		_gameAreaCellSize = size;
 
-		_computeCenterSquareIndexPosition();
+		_computeCenterSquareCellPosition();
 	};
 
-	Block.prototype.setCenterSquareIndexSize = function(size) {
-		_centerSquareIndexSize = size;
+	Block.prototype.setCenterSquareCellSize = function(size) {
+		_centerSquareCellSize = size;
 
-		_computeCenterSquareIndexPosition();
+		_computeCenterSquareCellPosition();
 	};
 
 	Block.prototype.setFallSpeed = function(fallSpeed) {
@@ -836,7 +837,7 @@
 		}
 	};
 
-	Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
+	Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
 		var x = 0;
 		var y = 0;
 

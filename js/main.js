@@ -71,6 +71,10 @@
 		unpauseButton.innerHTML = "Unpause";
 		var statsTable = document.getElementById("statsTable");
 		statsTable.style.display = "block";
+		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
+		topLevelDisplayArea.style.display = "block";
+		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
+		topScoreDisplayArea.style.display = "block";
 
 		collapseInfoArea();
 

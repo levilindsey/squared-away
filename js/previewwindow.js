@@ -182,10 +182,10 @@
 			var orientation = _previewWindowIndex;
 			var fallDirection = _previewWindowIndex;
 
-			var indexOffsetFromTopLeftOfBlockToCenter = window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
+			var cellOffsetFromTopLeftOfBlockToCenter = window.Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
-			var x = _positionOfWindowCenter.x - (indexOffsetFromTopLeftOfBlockToCenter.x * window.Block.prototype.getSquareSize());
-			var y = _positionOfWindowCenter.y - (indexOffsetFromTopLeftOfBlockToCenter.y * window.Block.prototype.getSquareSize());
+			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * window.Block.prototype.getSquareSize());
+			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * window.Block.prototype.getSquareSize());
 
 			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
 
@@ -212,8 +212,8 @@
 			var type = _currentBlock.getType();
 			var orientation = _previewWindowIndex;
 
-			var indexOffsetFromTopLeftOfBlockToCenter = 
-					window.Block.prototype.getIndexOffsetFromTopLeftOfBlockToCenter(
+			var cellOffsetFromTopLeftOfBlockToCenter = 
+					window.Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(
 							type, orientation);
 
 			switch (_previewWindowIndex) {
@@ -222,12 +222,12 @@
 				startingY = 0;
 				break;
 			case 1:
-				startingX = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.x * 2);
+				startingX = _gameAreaSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
 				startingY = (_gameAreaSize / 2) - 1;
 				break;
 			case 2:
 				startingX = (_gameAreaSize / 2) - 1;
-				startingY = _gameAreaSize - (indexOffsetFromTopLeftOfBlockToCenter.y * 2);
+				startingY = _gameAreaSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
 				break;
 			case 3:
 				startingX = 0;
@@ -237,7 +237,7 @@
 				return;
 			}
 
-			_currentBlock.setIndexPosition(startingX, startingY);
+			_currentBlock.setCellPosition(startingX, startingY);
 
 			return _currentBlock;
 		}

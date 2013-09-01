@@ -151,6 +151,7 @@ h3 {
 }
 
 #topLevelDisplayArea {
+	display: none;
 	position: absolute;
 	color: #FFFFFF;
 	font-size: 14pt;
@@ -162,6 +163,7 @@ h3 {
 }
 
 #topScoreDisplayArea {
+	display: none;
 	position: absolute;
 	color: #FFFFFF;
 	font-size: 14pt;

@@ -53,6 +53,7 @@
 	var _VALID_MOVE_STROKE_COLOR = "rgba(0,0,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
+	var _PHANTOM_BLOCK_SIZE_RATIO = 2;
 
 	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 30; // TODO: test this
 
@@ -121,11 +122,11 @@
 		var _gestureCurrentPos = { x: 0, y: 0 };
 
 		var _gestureType = _NONE;
-		var _gestureIndexPos = { x: 0, y: 0 };
+		var _gestureCellPos = { x: 0, y: 0 };
 
 		var _selectedBlock = null;
 
-		var _phantomBlockSquares = null;
+		var _phantomBlock = null;
 		var _phantomBlockPolygon = null;
 		var _isPhantomBlockValid = false;
 		var _phantomGuideLinePolygon = null;
@@ -280,7 +281,7 @@
 				// Check whether the phantom block is in a valid location
 				if (_isPhantomBlockValid) {
 					// Draw an arc arrow from the selected block's current position to where it would be moving
-					_drawArcArrow(_context, _selectedBlock, _phantomBlockSquares, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+					_drawArcArrow(_context, _selectedBlock, _phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 
 					// Draw a polygon at the invalid location where the selected block would be moving
 					_drawPolygon(_context, _phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
@@ -290,7 +291,7 @@
 
 					if (_gestureType === _DIRECTION_CHANGE) {
 						// Draw an arc arrow from the selected block's current position to where it would be moving
-						_drawArcArrow(_context, _selectedBlock, _phantomBlockSquares, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+						_drawArcArrow(_context, _selectedBlock, _phantomBlock, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 					}
 
 					// Draw the enlarged, phantom, overlay block
@@ -453,17 +454,17 @@
 			// Check whether the player is currently selecting a block
 			if (_selectedBlock) {
 				// Extract some features from the gesture
-				var gestureTypeAndIndexPos = 
-						_computeGestureTypeAndIndexPos(
+				var gestureTypeAndCellPos = 
+						_computeGestureTypeAndCellPos(
 								selectedBlock.getOrientation(), 
 								gestureStartPos, gestureStartTime, 
 								gestureCurrentPos, gestureCurrentTime, 
 								_mode4On, _mode5On, true);
 
-				_gestureType = gestureTypeAndIndexPos.type;
-				_gestureIndexPos = gestureTypeAndIndexPos.pos;
+				_gestureType = gestureTypeAndCellPos.type;
+				_gestureCellPos = gestureTypeAndCellPos.pos;
 
-				_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+				_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 
 				// Check whether the gesture was a sideways move, a drop, or a 
 				// direction change
@@ -483,13 +484,13 @@
 					}
 					break;
 				case _SIDEWAYS_MOVE:
-					_selectedBlock.setIndexPosition(_gestureIndexPos.x, _gestureIndexPos.y);
+					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					// Play the sideways move SFX
 					// TODO: 
 					break;
 				case _DROP:
-					_selectedBlock.setIndexPosition(_gestureIndexPos.x, _gestureIndexPos.y);
+					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					// Play the drop SFX
 					// TODO: 
@@ -524,8 +525,8 @@
 			// Check whether the player is currently selecting a block
 			if (_selectedBlock) {
 				// Extract some features from the gesture
-				var gestureTypeAndIndexPos = 
-						_computeGestureTypeAndIndexPos(
+				var gestureTypeAndCellPos = 
+						_computeGestureTypeAndCellPos(
 								selectedBlock.getOrientation(), 
 								gestureStartPos, -1, 
 								gestureCurrentPos, -1, 
@@ -533,25 +534,25 @@
 
 				// Only bother re-computing this stuff if the gesture type or 
 				// position has changed since the last frame
-				if (_gestureIndexPos !== gestureTypeAndIndexPos.pos || 
-						_gestureType !== gestureTypeAndIndexPos.type) {
-					_gestureType = gestureTypeAndIndexPos.type;
-					_gestureIndexPos = gestureTypeAndIndexPos.pos;
+				if (_gestureCellPos !== gestureTypeAndCellPos.pos || 
+						_gestureType !== gestureTypeAndCellPos.type) {
+					_gestureType = gestureTypeAndCellPos.type;
+					_gestureCellPos = gestureTypeAndCellPos.pos;
 
 					// Compute the square locations which represent the potential 
 					// location the player might be moving the selected block to
-					_phantomBlockSquares = _computePhantomBlockSquares(_gestureType, _gestureIndexPos, _selectedBlock);
+					_phantomBlock = _computePhantomBlock(_gestureType, _gestureCellPos, _selectedBlock);
 
 					// Get a slightly enlarged polygon around the area of the 
 					// phantom block squares
-					_phantomBlockPolygon = _computePhantomBlockPolygon(_phantomBlockSquares);
+					_phantomBlockPolygon = _computePhantomBlockPolygon(_phantomBlock);
 
 					// Determine whether the phantom block squares are in a valid 
 					// location of the game area
-					_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+					_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 
 					// Compute the dimensions of the polygons for the phantom lines
-					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 				}
 			}
 		}
@@ -562,7 +563,7 @@
 
 		// Mode 4 determines whether the player is allowed to switch the fall directions of blocks.
 		// Mode 5 determines whether a block switches to the next quadrant when the player switches its fall direction.
-		function _computeGestureTypeAndIndexPos(orientation, startPos, startTime, endPos, endTime, mode4On, mode5On, considerTap) {
+		function _computeGestureTypeAndCellPos(orientation, startPos, startTime, endPos, endTime, mode4On, mode5On, considerTap) {
 			var type = null;
 			var pos = null;
 
@@ -598,35 +599,41 @@
 			};
 		}
 
-		function _computePhantomBlockSquares(gestureType, gestureIndexPos, selectedBlock) {
-			phantomBlockSquares = ****;
-			// TODO: 
-			return phantomBlockSquares;
+		function _computePhantomBlock(gestureType, gestureCellPos, selectedBlock) {
+			phantomBlock = ****;
+			// TODO: ACTUALLY CREATE A NEW BLOCK OBJECT TO REPRESENT THE PHANTOM!!
+			return phantomBlock;
 		}
 
-		function _computePhantomBlockPolygon(phantomBlockSquares) {
+		function _computePhantomBlockPolygon(phantomBlock) {
+
+			DO NEXT!!
+
+			// TODO: (_PHANTOM_BLOCK_SIZE_RATIO)
+		}
+
+		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
 			// TODO: 
 		}
 
-		function _computeIsPhantomBlockValid(phantomBlockSquares, squaresOnGameArea, blocksOnGameArea) {
-			// TODO: 
-		}
-
-		function _switchQuadrant(block, phantomBlockSquares) {
+		function _switchQuadrant(block, phantomBlock) {
 			var x = ****; // TODO: 
 			var y = ****; // TODO: 
 			block.rotate();
 			block.switchFallDirection();
-			block.setIndexPosition(x, y);
+			block.setCellPosition(x, y);
 		}
 
-		function _computePhantomGuideLinePolygon(phantomBlockSquares, squaresOnGameArea, blocksOnGameArea) {
+		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
+
+			DO NEXT!!
+
 			phantomGuideLinePolygon = ****;
 			// TODO: 
 			return phantomGuideLinePolygon;
 		}
 
-		function _drawArcArrow(context, selectedBlock, phantomBlockSquares, fillColor, strokeColor, strokeWidth) {
+		function _drawArcArrow(context, selectedBlock, phantomBlock, fillColor, strokeColor, strokeWidth) {
 			// TODO: fun! look at book examples?
 		}
 
@@ -735,7 +742,7 @@
 			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
 
 			window.Block.prototype.setSquareSize(_squareSizePixels);
-			window.Block.prototype.setGameAreaIndexSize(_gameAreaSize);
+			window.Block.prototype.setGameAreaCellSize(_gameAreaSize);
 			window.PreviewWindow.prototype.setGameAreaSize(_gameAreaSize);
 			_setUpCenterSquareDimensions();
 		}
@@ -743,7 +750,7 @@
 		function _setCenterSquareSize(centerSquareSize) {
 			_centerSquareSize = centerSquareSize;
 			
-			window.Block.prototype.setCenterSquareIndexSize(_centerSquareSize);
+			window.Block.prototype.setCenterSquareCellSize(_centerSquareSize);
 			_setUpCenterSquareDimensions();
 		}
 
