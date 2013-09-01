@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------------- //
 // -- window.Block
 // ------------------------------------------------------------------------- //
-// For use with the Squa_RED Away web app.
+// For use with the SquaBlock.prototype.RED Away web app.
 // 
 // All of the Block logic is encapsulated in this anonymous function.  This is 
-// then sto_RED in the window.Block property.  This has the effect of 
+// then stoBlock.prototype.RED in the window.Block property.  This has the effect of 
 // minimizing side-effects and problems when linking multiple script files.
 // 
 // Dependencies:
@@ -21,37 +21,71 @@
 
 	var _SOURCE_SQUARE_SIZE = 16; // in pixels
 
-	// Block types/colors
-	var _RED = 0; // S-shaped block
-	var _GREEN = 1; // Z-shaped block
-	var _PURPLE = 2; // L-shaped block
-	var _YELLOW = 3; // J-shaped block
-	var _BLUE = 4; // Square-shaped block
-	var _ORANGE = 5; // Line-shaped block (defaults to vertical orientation)
-	var _GREY = 6; // T-shaped block
-
-	// Orientations
-	var _DEG0 = 0;
-	var _DEG90 = 1;
-	var _DEG180 = 2;
-	var _DEG270 = 3;
-
-	// Fall directions
-	var _DOWN = 0;
-	var _LEFT = 1;
-	var _UP = 2;
-	var _RIGHT = 3;
-
 	// These coordinates dictate the position (in cells) of each constituent 
 	// square relative to the position of the parent block
-	var DEFAULT_SQUARE_CELL_POSITIONS = [
-		[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _RED (S-shaped block)
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // _GREEN (Z-shaped block)
-		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // _PURPLE (L-shaped block)
-		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // _YELLOW (J-shaped block)
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // _BLUE (Square-shaped block)
-		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }], // _ORANGE (Line-shaped block (defaults to vertical orientation))
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }]  // _GREY (T-shaped block)
+	var _DEFAULT_SQUARE_CELL_POSITIONS = [
+		[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // Block.prototype.RED (S-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // Block.prototype.GREEN (Z-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // Block.prototype.PURPLE (L-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // Block.prototype.YELLOW (J-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // Block.prototype.BLUE (Square-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }], // Block.prototype.ORANGE (Line-shaped block (defaults to vertical orientation))
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }]  // Block.prototype.GREY (T-shaped block)
+	];
+
+	// These points represent the shape of the given block along the given 
+	// side.  These are relative to the position of the parent block.
+	// NOTE: all points are given in clockwise order
+	var _DEFAULT_SIDE_CELL_POSITIONS = [
+		[ // Block.prototype.RED (S-shaped block)
+			[{ x: 1, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }], // ALL_SIDES
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
+			[{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }], // RIGHT_SIDE
+			[{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // GREEN (Z-shaped block)
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }], // RIGHT_SIDE
+			[{ x: 3, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
+			[{ x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // PURPLE (L-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // YELLOW (J-shaped block)
+			[{ x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 3 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // BLUE (Square-shaped block)
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 2 }], // RIGHT_SIDE
+			[{ x: 2, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // ORANGE (Line-shaped block (defaults to vertical orientation))
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 4 }], // RIGHT_SIDE
+			[{ x: 1, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
+			[{ x: 0, y: 4 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // GREY (T-shaped block)
+			[{ x: 0, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
+			[{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }], // RIGHT_SIDE
+			[{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
+			[{ x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		]
 	];
 
 	var _squareSize;
@@ -200,19 +234,19 @@
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaX = 0;
 				deltaY = 1;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaX = 0;
 				deltaY = -1;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaX = 1;
 				deltaY = 0;
 				break;
@@ -238,16 +272,16 @@
 			var deltaI;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaI = _gameAreaCellSize;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaI = -1;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaI = -_gameAreaCellSize;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaI = 1;
 				break;
 			default:
@@ -274,19 +308,19 @@
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaX = 0;
 				deltaY = 1;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaX = 0;
 				deltaY = -1;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaX = 1;
 				deltaY = 0;
 				break;
@@ -313,19 +347,19 @@
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaX = 0;
 				deltaY = 1;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaX = 0;
 				deltaY = -1;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaX = 1;
 				deltaY = 0;
 				break;
@@ -366,28 +400,28 @@
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestLeftAvailable(squaresOnGameArea) {
+		function _getFarthestLeftCellAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaI = -1;
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaI = 1;
 				deltaX = 1;
 				deltaY = 0;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
@@ -407,28 +441,28 @@
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestRightAvailable(squaresOnGameArea) {
+		function _getFarthestRightCellAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaI = 1;
 				deltaX = 1;
 				deltaY = 0;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaI = -1;
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
@@ -448,28 +482,28 @@
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		function _getFarthestDownwardAvailable(squaresOnGameArea) {
+		function _getFarthestDownwardCellAvailable(squaresOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
 
 			switch (_fallDirection) {
-			case _DOWN:
+			case Block.prototype.DOWNWARD:
 				deltaI = _gameAreaCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
-			case _LEFT:
+			case Block.prototype.LEFTWARD:
 				deltaI = -1;
 				deltaX = -1;
 				deltaY = 0;
 				break;
-			case _UP:
+			case Block.prototype.UPWARD:
 				deltaI = -_gameAreaCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
-			case _RIGHT:
+			case Block.prototype.RIGHTWARD:
 				deltaI = 1;
 				deltaX = 1;
 				deltaY = 0;
@@ -538,6 +572,10 @@
 			return _orientation;
 		}
 
+		function _getFallDirection() {
+			return _fallDirection;
+		}
+
 		function _getCenter() {
 			var offset = getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
@@ -545,6 +583,62 @@
 				x: _positionPixels.x + offset.x,
 				y: _positionPixels.y + offset.y
 			};
+		}
+
+		function _getPolygon() {
+			var points = _getPointsAlongSideRelativeToBlockPosition(_type, _orientation, Block.prototype.ALL_SIDES);
+
+			// Translate from block cell space to game area pixel space
+			for (var i = 0; i < points.length; ++i) {
+				points[i].x = (points[i].x * ) + _positionPixels.x;
+				points[i].y = (points[i].y * ) + _positionPixels.y;
+			}
+
+			return points;
+		}
+
+		function _getSidePointsRelativeToBlockPosition(side) {
+			var points = _getPointsAlongSideRelativeToBlockPosition(_type, _orientation, side);
+
+			return points;
+		}
+
+		function _getLowerLeftAndRightFallDirectionPoints() {
+			var mid = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+			var maxX = mid.x * 2;
+			var maxY = mid.y * 2;
+			var leftPoint;
+			var rightPoint;
+
+			// Account for the fall direction
+			switch (_fallDirection) {
+			case Block.prototype.DOWNWARD:
+				leftPoint = { x: 0, y: maxY }
+				rightPoint = { x: maxX, y: maxY }
+				break;
+			case Block.prototype.LEFTWARD:
+				leftPoint = { x: 0, y: 0 }
+				rightPoint = { x: 0, y: maxY }
+				break;
+			case Block.prototype.UPWARD:
+				leftPoint = { x: maxX, y: 0 }
+				rightPoint = { x: 0, y: 0 }
+				break;
+			case Block.prototype.RIGHTWARD:
+				leftPoint = { x: maxX, y: maxY }
+				rightPoint = { x: maxX, y: 0 }
+				break;
+			default:
+				return;
+			}
+
+			// Translate from block cell space to game-area pixel space
+			leftPoint.x = (leftPoint.x * _squareSize) + _positionPixels.x;
+			leftPoint.y = (leftPoint.y * _squareSize) + _positionPixels.y;
+			rightPoint.x = (rightPoint.x * _squareSize) + _positionPixels.x;
+			rightPoint.y = (rightPoint.y * _squareSize) + _positionPixels.y;
+
+			return { left: leftPoint, right: rightPoint };
 		}
 
 		// ----------------------------------------------------------------- //
@@ -556,9 +650,9 @@
 		this.draw = _draw;
 		this.addSquaresToGameArea = _addSquaresToGameArea;
 		this.getSquareCellPositions = _getSquareCellPositions;
-		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
-		this.getFarthestRightAvailable = _getFarthestRightAvailable;
-		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
+		this.getFarthestLeftCellAvailable = _getFarthestLeftCellAvailable;
+		this.getFarthestRightCellAvailable = _getFarthestRightCellAvailable;
+		this.getFarthestDownwardCellAvailable = _getFarthestDownwardCellAvailable;
 		this.setCellPosition = _setCellPosition;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
@@ -566,7 +660,11 @@
 		this.checkForCollisionWithSquare = _checkForCollisionWithSquare;
 		this.getType = _getType;
 		this.getOrientation = _getOrientation;
+		this.getFallDirection = _getFallDirection;
 		this.getCenter = _getCenter;
+		this.getPolygon = _getPolygon;
+		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
+		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
 
 		log.d("<--block.Block");
 	};
@@ -574,43 +672,20 @@
 	// --------------------------------------------------------------------- //
 	// -- Private static members
 
-	function _getConvexHullPointsRelativeToBlockPosition(type, orientation, side) {
-		var points = new Array();
-		var point1;
-		var point2;
-		var point3;
-		var point4;
-		var point5;
-		var point6;
-		var point7;
-		var point8;
-
-		switch (type) {
-		case "":
-			break;
-		default:
-			return;
+	// Return an array of point objects which represent the all of the points 
+	// along the given outer face of the given block.
+	// NOTE: the given side is taken into consideration AFTER rotating 
+	//		 according to the given orientation.
+	function _getPointsAlongSideRelativeToBlockPosition(type, orientation, side) {
+		if (side !== Block.prototype.ALL_SIDES) {
+			// Correct for the given orientation and account for ALL_SIDES being at index 0
+			side = (((side - 1) - orientation) % side) + 1;
 		}
 
-		// Add the points to the array
-		if (point3) {
-			points.push(point3);
-			if (point4) {
-				points.push(point4);
-				if (point5) {
-					points.push(point5);
-					if (point6) {
-						points.push(point6);
-						if (point7) {
-							points.push(point7);
-							if (point8) {
-								points.push(point8);
-							}
-						}
-					}
-				}
-			}
-		}
+		points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];
+
+		// Correct for the given orientation
+		points = _rotatePoints(points, orientation, Block.prototype.IGNORE);
 
 		return points;
 	}
@@ -620,45 +695,50 @@
 	// position.
 	function _getSquareCellPositionsRelativeToBlockPosition(type, orientation) {
 		// Get the constituent square positions for the default orientation
-		var points = DEFAULT_SQUARE_CELL_POSITIONS[type];
+		var points = _DEFAULT_SQUARE_CELL_POSITIONS[type];
 
-		_rotatePoints(points, orientation, type);
+		points = _rotatePoints(points, orientation, type);
 
 		return points;
 	}
 
-	// NOTE: points needs to be non-null and non-empty
+	// NOTE: oldPoints needs to be non-null and non-empty
 	// NOTE: numberOfRotations can range from 0 to 3
-	function _rotatePoints(points, numberOfRotations, type) {
+	function _rotatePoints(oldPoints, numberOfRotations, type) {
+		var newPoints = window.utils.copyArray(oldPoints);
+
 		// Don't do anything if we are rotating the block 0 times
 		// The blue block is 90-degrees rotationally symmetric
-		if (numberOfRotations > 0 && type !== _BLUE) {
+		if (numberOfRotations > 0 && type !== Block.prototype.BLUE) {
 			var max;
 
 			// Rotate the points
 			switch (numberOfRotations) {
 			case 1:
-				max = _findMaxCoords(points);
-				for (var i = 0; i < points.length; ++i) {
-					points[i].x = max.y - points[i].y;
-					points[i].y = points[i].x;
+				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
+				max = _findMaxCoords(newPoints);
+				for (var i = 0; i < newPoints.length; ++i) {
+					newPoints[i].x = max.y - newPoints[i].y;
+					newPoints[i].y = newPoints[i].x;
 				}
 				break;
 			case 2:
 				// Some of the blocks 180-degrees rotationally symmetric
-				if (type === _GREY || type === _YELLOW || type === _PURPLE) {
-					max = _findMaxCoords(points);
-					for (var i = 0; i < points.length; ++i) {
-						points[i].x = max.x - points[i].x;
-						points[i].y = max.y - points[i].y;
+				if (type !== Block.prototype.RED && type !== Block.prototype.GREEN && type !== Block.prototype.ORANGE) {
+					newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
+					max = _findMaxCoords(newPoints);
+					for (var i = 0; i < newPoints.length; ++i) {
+						newPoints[i].x = max.x - newPoints[i].x;
+						newPoints[i].y = max.y - newPoints[i].y;
 					}
 				}
 				break;
 			case 3:
-				max = _findMaxCoords(points);
-				for (var i = 0; i < points.length; ++i) {
-					points[i].x = points[i].y;
-					points[i].y = max.x - points[i].x;
+				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
+				max = _findMaxCoords(newPoints);
+				for (var i = 0; i < newPoints.length; ++i) {
+					newPoints[i].x = newPoints[i].y;
+					newPoints[i].y = max.x - newPoints[i].x;
 				}
 				break;
 			default:
@@ -666,7 +746,7 @@
 			}
 		}
 
-		return points;
+		return newPoints;
 	}
 
 	function _findMaxCoords(points) {
@@ -708,6 +788,35 @@
 
 	// Block inherits from Sprite
 	Block.prototype = window.utils.object(Sprite);
+
+	// Block types/colors
+	Block.prototype.IGNORE = -1;
+	Block.prototype.RED = 0; // S-shaped block
+	Block.prototype.GREEN = 1; // Z-shaped block
+	Block.prototype.PURPLE = 2; // L-shaped block
+	Block.prototype.YELLOW = 3; // J-shaped block
+	Block.prototype.BLUE = 4; // Square-shaped block
+	Block.prototype.ORANGE = 5; // Line-shaped block (defaults to vertical orientation)
+	Block.prototype.GREY = 6; // T-shaped block
+
+	// Orientations
+	Block.prototype.DEG0 = 0;
+	Block.prototype.DEG90 = 1;
+	Block.prototype.DEG180 = 2;
+	Block.prototype.DEG270 = 3;
+
+	// Fall directions
+	Block.prototype.DOWNWARD = 0;
+	Block.prototype.LEFTWARD = 1;
+	Block.prototype.UPWARD = 2;
+	Block.prototype.RIGHTWARD = 3;
+
+	// Block sides
+	Block.prototype.ALL_SIDES = 0;
+	Block.prototype.TOP_SIDE = 1;
+	Block.prototype.RIGHT_SIDE = 2;
+	Block.prototype.BOTTOM_SIDE = 3;
+	Block.prototype.LEFT_SIDE = 4;
 
 	// This should be called once at the start of the program
 	Block.prototype.setSquareSize = function(size) {
@@ -751,31 +860,31 @@
 		var y = 0;
 
 		switch (blockType) {
-		case _RED: // S-shaped block
+		case Block.prototype.RED: // S-shaped block
 			x = 1.5;
 			y = 1;
 			break;
-		case _GREEN: // Z-shaped block
+		case Block.prototype.GREEN: // Z-shaped block
 			x = 1.5;
 			y = 1;
 			break;
-		case _PURPLE: // L-shaped block
+		case Block.prototype.PURPLE: // L-shaped block
 			x = 1;
 			y = 1.5;
 			break;
-		case _YELLOW: // J-shaped block
+		case Block.prototype.YELLOW: // J-shaped block
 			x = 1;
 			y = 1.5;
 			break;
-		case _BLUE: // Square-shaped block
+		case Block.prototype.BLUE: // Square-shaped block
 			x = 1;
 			y = 1;
 			break;
-		case _ORANGE: // Line-shaped block
+		case Block.prototype.ORANGE: // Line-shaped block
 			x = 0.5;
 			y = 2;
 			break;
-		case _GREY: // T-shaped block
+		case Block.prototype.GREY: // T-shaped block
 			x = 1.5;
 			y = 1;
 			break;

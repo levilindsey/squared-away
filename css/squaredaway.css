@@ -5,7 +5,7 @@
 }
 
 body {
-#	background-color: #020202;
+/*	background-color: #020202; */
 	background-image: url("../img/background.png");
 	background-repeat: repeat;
 	color: #CAEACA;
@@ -59,7 +59,7 @@ h3 {
 
 .directionPanel {
 	border: 2px;
-	border-color: rgba(255,255,255,0.2);
+	border-color: #FFFFFF;/*rgba(255,255,255,0.2);*/
 	border-style: solid;
 	width: 350px;
 }
@@ -111,8 +111,8 @@ h3 {
 }
 
 #pageColumn {
-#	background-image: url("../img/background.png");
-#	background-repeat: repeat;
+/*	background-image: url("../img/background.png"); */
+/*	background-repeat: repeat; */
 	height: 100%;
 	padding: 10px;
 	margin: 0px auto;

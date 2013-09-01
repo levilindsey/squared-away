@@ -82,6 +82,16 @@
 		return array;
 	}
 
+	function _copyArray(oldArray) {
+		var newArray = new Array();
+
+		for (var i = 0; i < oldArray.length; ++i) {
+			newArray.push(oldArray[i]);
+		}
+
+		return newArray;
+	}
+
 	function _getHourMinSecTime(millis) {
 		var hours = Math.floor(millis / (1000 * 60 * 60));
 		hours = hours.toString();
@@ -123,6 +133,7 @@
 	window.utils = {
 		object: _object,
 		initializeArray: _initializeArray,
+		copyArray: _copyArray;
 		getWindowWidth: _getWindowWidth,
 		getWindowHeight: _getWindowHeight,
 		getElementWidth: _getElementWidth,

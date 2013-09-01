@@ -561,6 +561,10 @@
 			_selectedBlock = null;
 		}
 
+		// This function determines the type of the current gesture in 
+		// addition to determining the corresponding position (i.e., the top-
+		// left cell) of the selected block.
+		// 
 		// Mode 4 determines whether the player is allowed to switch the fall directions of blocks.
 		// Mode 5 determines whether a block switches to the next quadrant when the player switches its fall direction.
 		function _computeGestureTypeAndCellPos(orientation, startPos, startTime, endPos, endTime, mode4On, mode5On, considerTap) {
@@ -600,16 +604,40 @@
 		}
 
 		function _computePhantomBlock(gestureType, gestureCellPos, selectedBlock) {
+			
+
+			switch(gestureType) {
+			case _SIDEWAYS_MOVE:
+				break;
+			case _DROP:
+				break;
+			case _DIRECTION_CHANGE:
+				break;
+			default:
+				return;
+			}
+
 			phantomBlock = ****;
 			// TODO: ACTUALLY CREATE A NEW BLOCK OBJECT TO REPRESENT THE PHANTOM!!
 			return phantomBlock;
 		}
 
 		function _computePhantomBlockPolygon(phantomBlock) {
+			// Get the original polygon
+			var points = phantomBlock.getPolygon();
 
-			DO NEXT!!
+			// Get the offset from the top-left of the block to the center
+			var type = phantomBlock.getType();
+			var orientation = phantomBlock.getOrientation();
+			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(type, orientation);
 
-			// TODO: (_PHANTOM_BLOCK_SIZE_RATIO)
+			// Enlarge the polygon
+			for (var i = 0; i < points.length; ++i) {
+				points[i].x = ((points[i].x - offset.x) * _PHANTOM_BLOCK_SIZE_RATIO) + offset.x;
+				points[i].y = ((points[i].y - offset.y) * _PHANTOM_BLOCK_SIZE_RATIO) + offset.y;
+			}
+
+			return points;
 		}
 
 		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
@@ -625,12 +653,95 @@
 		}
 
 		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
+			var orientation = phantomBlock.getOrientation();
+			var fallDirection = phantomBlock.getFallDirection();
 
-			DO NEXT!!
+			// Get the furthest position the block can move to the "left"
+			var farthestLeftCellPosition = phantomBlock.getFarthestLeftAvailable();
 
-			phantomGuideLinePolygon = ****;
-			// TODO: 
-			return phantomGuideLinePolygon;
+			// Get the furthest position the block can move to the "right"
+			var farthestRightCellPosition = phantomBlock.getFarthestRightAvailable();
+
+			// Get the furthest position the block can move "downward"
+			var farthestDownCellPosition = phantomBlock.getFarthestDownwardAvailable();
+
+			var leftSidePixelPoints;
+			var rightSidePixelPoints;
+			var bottomSidePixelPoints;
+
+			// Get the "leftward", "rightward", and "downward" points 
+			// (according to the current fall direction)
+			switch (fallDirection) {
+			case Block.prototype.DOWNWARD:
+				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.LEFT_SIDE);
+				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.RIGHT_SIDE);
+				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
+				break;
+			case Block.prototype.LEFTWARD:
+				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
+				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.LEFT_SIDE);
+				break;
+			case Block.prototype.UPWARD:
+				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.RIGHT_SIDE);
+				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.LEFT_SIDE);
+				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				break;
+			case Block.prototype.RIGHTWARD:
+				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
+				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.RIGHT_SIDE);
+				break;
+			default:
+				return;
+			}
+
+			// Translate the "leftward" points to the furthest "leftward" position
+			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+				leftSidePixelPoints[i].x = (farthestLeftCellPosition.x + leftSidePixelPoints[i].x) * _squareSizePixels;
+				leftSidePixelPoints[i].y = (farthestLeftCellPosition.y + leftSidePixelPoints[i].y) * _squareSizePixels;
+			}
+
+			// Translate the "rightward" points to the furthest "rightward" position
+			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+				rightSidePixelPoints[i].x = (farthestRightCellPosition.x + rightSidePixelPoints[i].x) * _squareSizePixels;
+				rightSidePixelPoints[i].y = (farthestRightCellPosition.y + rightSidePixelPoints[i].y) * _squareSizePixels;
+			}
+
+			// Translate the "downward" points to the furthest "downward" position
+			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+				bottomSidePixelPoints[i].x = (farthestDownCellPosition.x + bottomSidePixelPoints[i].x) * _squareSizePixels;
+				bottomSidePixelPoints[i].y = (farthestDownCellPosition.y + bottomSidePixelPoints[i].y) * _squareSizePixels;
+			}
+
+			// Compute two remaining polygon points
+			var lowerLeftAndRightPoints = phantomBlock.getLowerLeftAndRightFallDirectionPoints();
+
+			var points = new Array();
+			var i;
+
+			// Add the "leftward" points
+			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+				points.push(leftSidePixelPoints[i]);
+			}
+
+			// Add the "rightward" points
+			for (i = 0; i < rightSidePixelPoints.length; ++i) {
+				points.push(rightSidePixelPoints[i]);
+			}
+
+			// Add the inner-"right" corner point
+			points.push(lowerLeftAndRightPoints.right);
+
+			// Add the "downward" points
+			for (i = 0; i < bottomSidePixelPoints.length; ++i) {
+				points.push(bottomSidePixelPoints[i]);
+			}
+
+			// Add the inner-"left" corner point
+			points.push(lowerLeftAndRightPoints.left);
+
+			return points;
 		}
 
 		function _drawArcArrow(context, selectedBlock, phantomBlock, fillColor, strokeColor, strokeWidth) {
