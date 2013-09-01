@@ -31,7 +31,7 @@ h2 {
 
 h3 {
 	color: #CACAEA;
-	font-size: 20pt;
+	font-size: 16pt;
 }
 
 #banner {
@@ -57,6 +57,31 @@ h3 {
 	background-color: #101010;
 }
 
+.directionPanel {
+	border: 2px;
+	border-color: rgba(255,255,255,0.2);
+	border-style: solid;
+	width: 350px;
+}
+
+.directionPanel>img {
+	display: block;
+	margin: 0px auto;
+	width: 150px;
+}
+
+.directionPanel>h3 {
+	margin-top: 5px;
+}
+
+.directionPanel>p {
+	margin-bottom: 5px;
+}
+
+#directionsTable {
+	border-collapse: collapse;
+}
+
 #gameCanvas {
 	height: 720px;
 	width: 720px;
@@ -71,6 +96,7 @@ h3 {
 
 #infoArea>* {
 	margin: 10px;
+	text-align: center;
 }
 
 #noJavaScriptArea {

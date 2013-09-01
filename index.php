@@ -56,9 +56,35 @@
 
 		<div id="infoArea">
 			<h2>Directions</h2>
-			<p>
-				Just, like, be awesome.  And win.
-			</p>
+			<table id="directionsTable">
+				<p>
+					Just, like, be awesome.  And win.
+				</p>
+				<tr>
+					<td class="directionPanel">
+						<h3>Rotate Block</h3>
+						<img src="img/directions_rotate.png" alt="Rotate block">
+						<p>Tap on block.<p>
+					</td>
+					<td class="directionPanel">
+						<h3>Move Block Sideways</h3>
+						<img src="img/directions_move.png" alt="Move block sideways">
+						<p>Press on block, and drag sideways.<p>
+					</td>
+				</tr>
+				<tr>
+					<td class="directionPanel">
+						<h3>Drop Block</h3>
+						<img src="img/directions_drop.png" alt="Drop block">
+						<p>Press on block, and drag down (toward fall direction).<p>
+					</td>
+					<td class="directionPanel">
+						<h3>Switch Block Fall Direction</h3>
+						<img src="img/directions_switch_fall_direction.png" alt="Switch block fall direction">
+						<p>Press on block, and drag up (away from current fall direction).<p>
+					</td>
+				</tr>
+			</table>
 
 			<hr>
 
