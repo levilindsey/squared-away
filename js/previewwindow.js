@@ -237,7 +237,7 @@
 				return;
 			}
 
-			_currentBlock.setPositionIndex(startingX, startingY);
+			_currentBlock.setIndexPosition(startingX, startingY);
 
 			return _currentBlock;
 		}

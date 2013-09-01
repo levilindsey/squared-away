@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 	<title>Squared Away</title>
-	
+
 	<meta charset="utf-8">
-    <meta name="description" content="A tile-matching puzzle game">
-    <meta name="viewport" content="width=device-width">
-	
+	<meta name="description" content="A tile-matching puzzle game">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="shortcut icon" href="img/icon.ico">
 	<link rel="stylesheet" href="css/squaredaway.css">
 </head>
 <body>
@@ -120,7 +121,7 @@
 			<p>
 				This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
 				<br><br>
-				The code is open source and you can find it on GitHub at <a href="https://github.com/levisl176/squared_away">https://github.com/levisl176/squared_away</a>.
+				The code is open source, and you can find it on GitHub at <a href="https://github.com/levisl176/squared_away">https://github.com/levisl176/squared_away</a>.
 				<br><br>
 				Also, this app is coming soon to the Android marketplace.
 			</p>

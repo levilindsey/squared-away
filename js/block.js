@@ -368,7 +368,18 @@
 
 		// Rotate the orientation of this block clockwise 90 degrees.
 		function _rotate() {
-			_orientation = (_orientation + 1) % 4;
+			var canRotate = ****;
+
+			if (canRotate) {
+				_orientation = (_orientation + 1) % 4;
+
+				// Update the position of this block so that the lower-left 
+				// corner (from the perspective of a top-to-bottom fall 
+				// direction) is in the same position as before
+				**** // TODO: ****
+			}
+
+			return canRotate;
 		}
 
 		// Rotate the fall direction of this block clockwise 90 degrees.
@@ -727,7 +738,7 @@
 			}
 		}
 
-		function _setPositionIndex(x, y) {
+		function _setIndexPosition(x, y) {
 			_positionIndex.x = x;
 			_positionIndex.y = y;
 			_positionPixels.x = _positionIndex.x * _squareSize;
@@ -746,6 +757,19 @@
 			return _type;
 		}
 
+		function _getOrientation() {
+			return _orientation;
+		}
+
+		function _getCenter() {
+			var offset = getIndexOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+
+			return {
+				x: _positionPixels.x + offset.x,
+				y: _positionPixels.y + offset.y
+			};
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -758,11 +782,13 @@
 		this.getFarthestLeftAvailable = _getFarthestLeftAvailable;
 		this.getFarthestRightAvailable = _getFarthestRightAvailable;
 		this.getFarthestDownwardAvailable = _getFarthestDownwardAvailable;
-		this.setPositionIndex = _setPositionIndex;
+		this.setIndexPosition = _setIndexPosition;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
 		this.checkIsOverTopSquare = _checkIsOverTopSquare;
 		this.getType = _getType;
+		this.getOrientation = _getOrientation;
+		this.getCenter = _getCenter;
 
 		log.d("<--block.Block");
 	};

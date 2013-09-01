@@ -40,6 +40,22 @@
 	var _NORMAL_STROKE_COLOR = "#5a5a5a";
 	var _NORMAL_FILL_COLOR = "#141414";
 
+	// The gesture types
+	var _NONE = 1;
+	var _ROTATION = 2;
+	var _SIDEWAYS_MOVE = 3;
+	var _DROP = 4;
+	var _DIRECTION_CHANGE = 5;
+
+	var _INVALID_MOVE_FILL_COLOR = "rgba(255,0,0,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,0,0,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _VALID_MOVE_FILL_COLOR = "rgba(0,0,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
+	var _VALID_MOVE_STROKE_COLOR = "rgba(0,0,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
+	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
+	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
+
+	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 30; // TODO: test this
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -99,8 +115,20 @@
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
 		var _currentBlockFallSpeed = 1; // squares / millis
 
-		var _mouseDownTime = 0;
-		var _mouseDownPos = { x: 0, y: 0 };
+		var _gestureStartTime = 0;
+		var _gestureStartPos = { x: 0, y: 0 };
+		var _gestureCurrentTime = 0;
+		var _gestureCurrentPos = { x: 0, y: 0 };
+
+		var _gestureType = _NONE;
+		var _gestureIndexPos = { x: 0, y: 0 };
+
+		var _selectedBlock = null;
+
+		var _phantomBlockSquares = null;
+		var _phantomBlockPolygon = null;
+		var _isPhantomBlockValid = false;
+		var _phantomGuideLinePolygon = null;
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
@@ -158,7 +186,7 @@
 					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
 
-					// Check whether this settled block causes the disintigration of any layers
+					// Check whether this settled block causes the disintegration of any layers
 					if (false) { // TODO: ****
 						//++_layersDestroyed;
 					}
@@ -190,9 +218,6 @@
 
 			// Loop through each square in the game area and possibly animate 
 			// it with a shimmer
-			// TODO: 
-
-			// Update the gradually shifting color of the big center square
 			// TODO: 
 
 			_levelDisplay.innerHTML = _level;
@@ -244,19 +269,33 @@
 										Math.floor((i / _gameAreaSize)) * _squareSizePixels);
 			}
 
-			// Check whether a block is selected
+			// Check whether there are currently any disintegrating sections
 			if (true) {// TODO: 
-				// Draw horizontal and vertical guide lines
-				// TODO: 
-
-				// Draw an enlarged version of the selected block
-				// TODO: (this should include a light-neon-blue border (i.e., a slightly larger programmatical rectangle rendered behind each of the block's foreground squares))
+				// Draw the disintegrating sections
+				// TODO: ?????
 			}
 
-			// Check whether there are currently any disintigrating sections
-			if (true) {// TODO: 
-				// Draw the disintigrating sections
-				// TODO: ?????
+			// Check whether the player is currently a selecting a block
+			if (_selectedBlock) {
+				// Check whether the phantom block is in a valid location
+				if (_isPhantomBlockValid) {
+					// Draw an arc arrow from the selected block's current position to where it would be moving
+					_drawArcArrow(_context, _selectedBlock, _phantomBlockSquares, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+
+					// Draw a polygon at the invalid location where the selected block would be moving
+					_drawPolygon(_context, _phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
+				} else {
+					// Draw the phantom guide lines
+					_drawPolygon(_context, _phantomGuideLinePolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+
+					if (_gestureType === _DIRECTION_CHANGE) {
+						// Draw an arc arrow from the selected block's current position to where it would be moving
+						_drawArcArrow(_context, _selectedBlock, _phantomBlockSquares, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+					}
+
+					// Draw the enlarged, phantom, overlay block
+					_drawPolygon(_context, _phantomBlockPolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
+				}
 			}
 
 			_context.restore();
@@ -399,25 +438,256 @@
 		}
 
 		function _startGesture(pos, time) {
-			_mouseDownPos = pos;
-			_mouseDownTime = time;
+			_gestureStartPos = pos;
+			_gestureStartTime = time;
 
-			// TODO: 
+			// Find the closest block within a certain distance threshold to 
+			// this gesture, if any
+			_selectedBlock = _findNearestValidBlock(_gestureStartPos, _blocksOnGameArea);
 		}
 
 		function _finishGesture(pos, time) {
-			var currentPos = { x: event.pageX, y: event.pageY };
-			var currentTime = Date.now();
+			_gestureCurrentPos = pos;
+			_gestureCurrentTime = time;
 
-			// TODO: 
+			// Check whether the player is currently selecting a block
+			if (_selectedBlock) {
+				// Extract some features from the gesture
+				var gestureTypeAndIndexPos = 
+						_computeGestureTypeAndIndexPos(
+								selectedBlock.getOrientation(), 
+								gestureStartPos, gestureStartTime, 
+								gestureCurrentPos, gestureCurrentTime, 
+								_mode4On, _mode5On, true);
+
+				_gestureType = gestureTypeAndIndexPos.type;
+				_gestureIndexPos = gestureTypeAndIndexPos.pos;
+
+				_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+
+				// Check whether the gesture was a sideways move, a drop, or a 
+				// direction change
+				switch (_gestureType) {
+				case _NONE:
+					break;
+				case _ROTATION:
+					// Rotate the selected block
+					var wasAbleToRotate = _selectedBlock.rotate();
+
+					if (wasAbleToRotate) {
+						// Play the rotation SFX
+						// TODO: 
+					} else {
+						// Play the unable-to-move SFX
+						// TODO: 
+					}
+					break;
+				case _SIDEWAYS_MOVE:
+					_selectedBlock.setIndexPosition(_gestureIndexPos.x, _gestureIndexPos.y);
+
+					// Play the sideways move SFX
+					// TODO: 
+					break;
+				case _DROP:
+					_selectedBlock.setIndexPosition(_gestureIndexPos.x, _gestureIndexPos.y);
+
+					// Play the drop SFX
+					// TODO: 
+					break;
+				case _DIRECTION_CHANGE:
+					if (_mode5On) {
+						if (_isPhantomBlockValid) {
+							_switchQuadrant(_selectedBlock);
+							block.switchFallDirection();
+
+							// Play the direction change SFX
+							// TODO: 
+						} else {
+							// Play the unable-to-move SFX
+							// TODO: 
+						}
+					} else {
+						block.switchFallDirection();
+
+						// Play the direction change SFX
+						// TODO: 
+					}
+					break;
+				default:
+					return;
+				}
 		}
 
 		function _dragGesture(pos) {
-			// TODO: 
+			_gestureCurrentPos = pos;
+
+			// Check whether the player is currently selecting a block
+			if (_selectedBlock) {
+				// Extract some features from the gesture
+				var gestureTypeAndIndexPos = 
+						_computeGestureTypeAndIndexPos(
+								selectedBlock.getOrientation(), 
+								gestureStartPos, -1, 
+								gestureCurrentPos, -1, 
+								_mode4On, _mode5On, false);
+
+				// Only bother re-computing this stuff if the gesture type or 
+				// position has changed since the last frame
+				if (_gestureIndexPos !== gestureTypeAndIndexPos.pos || 
+						_gestureType !== gestureTypeAndIndexPos.type) {
+					_gestureType = gestureTypeAndIndexPos.type;
+					_gestureIndexPos = gestureTypeAndIndexPos.pos;
+
+					// Compute the square locations which represent the potential 
+					// location the player might be moving the selected block to
+					_phantomBlockSquares = _computePhantomBlockSquares(_gestureType, _gestureIndexPos, _selectedBlock);
+
+					// Get a slightly enlarged polygon around the area of the 
+					// phantom block squares
+					_phantomBlockPolygon = _computePhantomBlockPolygon(_phantomBlockSquares);
+
+					// Determine whether the phantom block squares are in a valid 
+					// location of the game area
+					_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+
+					// Compute the dimensions of the polygons for the phantom lines
+					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlockSquares, _squaresOnGameArea, _blocksOnGameArea);
+				}
+			}
 		}
 
 		function _cancelGesture() {
+			_selectedBlock = null;
+		}
+
+		// Mode 4 determines whether the player is allowed to switch the fall directions of blocks.
+		// Mode 5 determines whether a block switches to the next quadrant when the player switches its fall direction.
+		function _computeGestureTypeAndIndexPos(orientation, startPos, startTime, endPos, endTime, mode4On, mode5On, considerTap) {
+			var type = null;
+			var pos = null;
+
+			// Check whether the gesture was short enough to be a tap
+			if (considerTap && ****) {
+				// Check whether the gesture was brief enough to be a tap
+				if (****) {
+					type = _ROTATION;
+				} else {
+					type = _NONE;
+				}
+			} else {
+				// Check whether the gesture was more horizontal or vertical
+				// TODO: 
+
+				switch (orientation) {
+				case :****
+					break;
+				case :
+					break;
+				case :
+					break;
+				case :
+					break;
+				default:
+					return;
+				}
+			}
+
+			return {
+				type: type,
+				pos: pos
+			};
+		}
+
+		function _computePhantomBlockSquares(gestureType, gestureIndexPos, selectedBlock) {
+			phantomBlockSquares = ****;
 			// TODO: 
+			return phantomBlockSquares;
+		}
+
+		function _computePhantomBlockPolygon(phantomBlockSquares) {
+			// TODO: 
+		}
+
+		function _computeIsPhantomBlockValid(phantomBlockSquares, squaresOnGameArea, blocksOnGameArea) {
+			// TODO: 
+		}
+
+		function _switchQuadrant(block, phantomBlockSquares) {
+			var x = ****; // TODO: 
+			var y = ****; // TODO: 
+			block.rotate();
+			block.switchFallDirection();
+			block.setIndexPosition(x, y);
+		}
+
+		function _computePhantomGuideLinePolygon(phantomBlockSquares, squaresOnGameArea, blocksOnGameArea) {
+			phantomGuideLinePolygon = ****;
+			// TODO: 
+			return phantomGuideLinePolygon;
+		}
+
+		function _drawArcArrow(context, selectedBlock, phantomBlockSquares, fillColor, strokeColor, strokeWidth) {
+			// TODO: fun! look at book examples?
+		}
+
+		function _drawPolygon(context, polygon, fillColor, strokeColor, strokeWidth) {
+			context.beginPath();
+
+			context.fillStyle = fillColor;
+			context.strokeStyle = strokeColor;
+			context.lineWidth = strokeWidth;
+
+			context.moveTo(polygon[0].x, polygon[0].y);
+			for (var i = 1; i < polygon.length; ++i) {
+				context.lineTo(polygon[i].x, polygon[i].y);
+			}
+			context.closePath();
+
+			context.fill();
+			context.stroke();
+		}
+
+		// Return the nearest active block to the given position within a 
+		// certain distance threshold, if one exists.  If not, then return 
+		// null.
+		function _findNearestValidBlock(pagePos, blocksOnGameArea) {
+			if (blocksOnGameArea.length > 0) {
+				// Translate the tap position from page coordinates to game-
+				// area coordinates
+				var gameAreaRect = _canvas.getBoundingClientRect();
+				var gameAreaPos = {
+					x: pagePos.x - gameAreaRect.left,
+					y: pagePos.y - gameAreaRect.top
+				};
+
+				var nearestSquareDistance = getSquareDistance(gameAreaPos, blocksOnGameArea[0].getCenter());
+				var nearestBlock = blocksOnGameArea[0];
+
+				var currentSquareDistance;
+
+				// Find the nearest block
+				for (var i = 1; i < blocksOnGameArea.length; ++i) {
+					currentSquareDistance = getSquareDistance(gameAreaPos, blocksOnGameArea[i].getCenter());
+
+					if (currentSquareDistance <= nearestSquareDistance) {
+						nearestSquareDistance = currentSquareDistance;
+						nearestBlock = blocksOnGameArea[i];
+					}
+				}
+
+				// Only return the nearest block if it is indeed near enough
+				if (nearestSquareDistance < _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD) {
+					return nearestBlock;
+				}
+			}
+
+			return null;
+		}
+
+		function getSquareDistance(pos1, pos2) {
+			var deltaX = pos1.x - pos2.x;
+			var deltaY = pos1.y - pos2.y;
+			return deltaX * deltaX + deltaY * deltaY;
 		}
 
 		function _getIsPaused() {
