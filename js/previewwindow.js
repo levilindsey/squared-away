@@ -36,7 +36,7 @@
 	var _NORMAL_STROKE_COLOR = "#5a5a5a";
 	var _NORMAL_FILL_COLOR = "#141414";
 
-	var _COOL_DOWN_SIZE_INCREASE = 0.5; // ratio
+	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
 
 	var _gameAreaSize = 100; // in cells
 
@@ -93,84 +93,89 @@
 			var currentSizeRatio = 1 + currentProgress * _COOL_DOWN_SIZE_INCREASE;
 			var sideLength = _size * currentSizeRatio;
 			var progressLineWidth = _PROGRESS_STROKE_WIDTH * currentSizeRatio;
+			var currentSizePositionOffset = ((sideLength - _size) / 2);
+			var currentPosition = {
+				x: _position.x - currentSizePositionOffset,
+				y: _position.y - currentSizePositionOffset
+			};
 
 			// Draw the background and the border
 			context.beginPath();
 			context.lineWidth = _NORMAL_STROKE_WIDTH;
 			context.fillStyle = _NORMAL_FILL_COLOR;
 			context.strokeStyle = _NORMAL_STROKE_COLOR;
-			context.rect(_position.x, _position.y, sideLength, sideLength);
+			context.rect(currentPosition.x, currentPosition.y, sideLength, sideLength);
 			context.fill();
 			context.stroke();
 
 			// Show the cool-down progress with a background polygon and with 
 			// a thick line around the perimeter
-			_drawCoolDownFill(context, currentProgress, sideLength);
-			_drawCoolDownStroke(context, currentProgress, sideLength, progressLineWidth);
+			_drawCoolDownFill(context, currentProgress, currentPosition, sideLength);
+			_drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth);
 
 			// Draw the block in the center of the window
 			_currentBlock.draw(context);
 		}
 
-		function _drawCoolDownFill(context, currentProgress, sideLength) {
+		function _drawCoolDownFill(context, currentProgress, currentPosition, sideLength) {
 			context.beginPath();
 
 			context.fillStyle = _progressFillColor;
 
 			context.moveTo(_positionOfWindowCenter.x, _positionOfWindowCenter.y);
-			context.lineTo(_positionOfWindowCenter.x, _position.y);
-			_makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength);
+			context.lineTo(_positionOfWindowCenter.x, currentPosition.y);
+			_makeCoolDownPathAroundPerimeter(context, currentProgress, currentPosition, sideLength);
 			context.closePath();
 
 			context.fill();
 		}
 
-		function _drawCoolDownStroke(context, currentProgress, sideLength, progressLineWidth) {
+		function _drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth) {
 			context.beginPath();
 
 			context.strokeStyle = _progressStrokeColor;
 			context.lineWidth = progressLineWidth;
 
-			context.moveTo(_positionOfWindowCenter.x, _position.y);
-			_makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength);
+			context.moveTo(_positionOfWindowCenter.x, currentPosition.y);
+			_makeCoolDownPathAroundPerimeter(context, currentProgress, currentPosition, sideLength);
 
 			context.stroke();
 		}
 
-		function _makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength) {
+		function _makeCoolDownPathAroundPerimeter(context, currentProgress, currentPosition, sideLength) {
 			if (currentProgress > 1/8) { // The cool down has at least reached the top-right corner
 				// Draw the section from the top-middle to the top-right
-				context.lineTo(_position.x + sideLength, _position.y);
+				context.lineTo(currentPosition.x + sideLength, currentPosition.y);
 
 				if (currentProgress > 3/8) { // The cool down has at least reached the bottom-right corner
 					// Draw the section from the top-right to the bottom-right
-					context.lineTo(_position.x + sideLength, _position.y + sideLength);
+					context.lineTo(currentPosition.x + sideLength, currentPosition.y + sideLength);
 
 					if (currentProgress > 5/8) { // The cool down has at least reached the bottom-left corner
 						// Draw the section from the bottom-right to the bottom-left
-						context.lineTo(_position.x, _position.y + sideLength);
+						context.lineTo(currentPosition.x, currentPosition.y + sideLength);
 
 						if (currentProgress > 7/8) { // The cool down has at least reached the top-left corner
 							// Draw the section from the bottom-left to the top-left
-							context.lineTo(_position.x, _position.y);
+							context.lineTo(currentPosition.x, currentPosition.y);
 
 							// Draw the section from the top-left to somewhere along the final top portion
-							context.lineTo(_position.x + ((currentProgress - (7 / 8)) * 4 * sideLength), _position.y);
+							context.lineTo(currentPosition.x + ((currentProgress - (7 / 8)) * 4 * sideLength), currentPosition.y);
 						} else { // The cool down has not yet reached the top-left corner
 							// Draw the section from the bottom-left to somewhere in the left portion
-							context.lineTo(_position.x, _position.y + (((7 / 8) - currentProgress) * 4 * sideLength));
+							context.lineTo(currentPosition.x, currentPosition.y + (((7 / 8) - currentProgress) * 4 * sideLength));
 						}
 					} else { // The cool down has not yet reached the bottom-left corner
 						// Draw the section from the bottom-right to somewhere in the bottom portion
-						context.lineTo(_position.x + (((5 / 8) - currentProgress) * 4 * sideLength), _position.y + sideLength);
+						context.lineTo(currentPosition.x + (((5 / 8) - currentProgress) * 4 * sideLength), currentPosition.y + sideLength);
 					}
 				} else { // The cool down has not yet reached the bottom-right corner
 					// Draw the section from the top-right to somewhere in the right portion
-					context.lineTo(_position.x + sideLength, _position.y + ((currentProgress - (1 / 8)) * 4 * sideLength));
+					context.lineTo(currentPosition.x + sideLength, currentPosition.y + ((currentProgress - (1 / 8)) * 4 * sideLength));
 				}
 			} else { // The cool down has not yet reached the top-right corner
 				// Draw the section from the top-middle to somewhere in the first top portion
-				context.lineTo(_positionOfWindowCenter.x + (currentProgress * 4 * sideLength), _position.y);
+				context.lineTo(_positionOfWindowCenter.x + (currentProgress * 4 * sideLength), currentPosition.y);
 			}
 		}
 

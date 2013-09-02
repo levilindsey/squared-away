@@ -124,7 +124,7 @@
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
 		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
-			log.d("-->block._update");
+//			log.d("-->block._update");
 
 			_timeSinceLastFall += deltaTime;
 
@@ -153,14 +153,14 @@
 				// TODO: 
 			}
 
-			log.d("<--block._update");
+//			log.d("<--block._update");
 		}
 
 		// Render this block on the given drawing context.  The context should 
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		function _draw(context) {
-			log.d("-->block._draw");
+//			log.d("-->block._draw");
 
 			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
@@ -184,7 +184,7 @@
 			window.Block.prototype.drawSquare(context, _type, 
 									positions[3].x, positions[3].y);
 
-			log.d("<--block._draw");
+//			log.d("<--block._draw");
 		}
 
 		// Rotate the orientation of this block clockwise 90 degrees, if this 
@@ -207,7 +207,7 @@
 				var i;
 
 				// Translate the square positions from block space to canvas space
-				for (i = 0; i < positions.length; ++i) {
+				for (i = 0; i < squarePositions.length; ++i) {
 					squarePositions[i].x += _positionCell.x;
 					squarePositions[i].y += _positionCell.y;
 				}
@@ -246,7 +246,7 @@
 				var squareIndices = _positionsToIndices(squarePositions);
 				var collision = false;
 				for (i = 0; i < squareIndices.length; ++i) {
-					if (squaresOnGameArea[neighborIndex] > -1) {
+					if (squaresOnGameArea[squareIndices[i]] > -1) {
 						collision = true;
 					}
 				}
@@ -505,7 +505,9 @@
 				return;
 			}
 
-			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+			var howManyStepsBlockCanMove = 
+					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
+							squaresOnGameArea, blocksOnGameArea);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -546,7 +548,9 @@
 				return;
 			}
 
-			var howManyStepsBlockCanMove = _getHowManyStepsBlockCanMove(deltaI);
+			var howManyStepsBlockCanMove = 
+					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
+							squaresOnGameArea, blocksOnGameArea);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -588,7 +592,8 @@
 			}
 
 			var howManyStepsBlockCanMove = 
-					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY);
+					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
+							squaresOnGameArea, blocksOnGameArea);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -599,24 +604,28 @@
 		// Return how many steps this block can move using the given delta 
 		// index value before colliding with a stationary square or an edge of 
 		// the game area.
-		function _getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY) {
+		function _getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
+				squaresOnGameArea, blocksOnGameArea) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 			var neighborIndex;
+			var i = 0;
+			var dI = deltaI;
+			var dX = deltaX;
+			var dY = deltaY;
 			var j;
 
 			// Keep moving one cell in the same direction until we hit a 
 			// square on the gameArea or we hit an edge of the game area
-			for (var i = 0, dI = deltaI, dX = deltaX, dY = deltaY; ; 
-					++i, dI += deltaI, dX += deltaX, dY += deltaY) {
+			for (; ; ++i, dI += deltaI, dX += deltaX, dY += deltaY) {
 				// Check each of this block's four constituent squares
 				for (j = 0; j < indices.length; ++j) {
 					neighborIndex = indices[j] + dI;
 
-					if (positions[j].x + deltaX > _gameAreaCellSize || 
-							positions[j].x + deltaX < 0 || 
-							positions[j].y + deltaY > _gameAreaCellSize || 
-							positions[j].y + deltaY < 0 || 
+					if (positions[j].x + dX >= _gameAreaCellSize || 
+							positions[j].x + dX < 0 || 
+							positions[j].y + dY >= _gameAreaCellSize || 
+							positions[j].y + dY < 0 || 
 							squaresOnGameArea[neighborIndex] > -1) { 
 						return i;
 					}
@@ -655,12 +664,12 @@
 			return _positionCell;
 		}
 
-		function _getCenter() {
+		function _getPixelCenter() {
 			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
 			return {
-				x: _positionPixels.x + offset.x,
-				y: _positionPixels.y + offset.y
+				x: _positionPixels.x + (offset.x * _squareSize),
+				y: _positionPixels.y + (offset.y * _squareSize)
 			};
 		}
 
@@ -740,7 +749,7 @@
 		this.getType = _getType;
 		this.getOrientation = _getOrientation;
 		this.getFallDirection = _getFallDirection;
-		this.getCenter = _getCenter;
+		this.getPixelCenter = _getPixelCenter;
 		this.getPolygon = _getPolygon;
 		this.getCellPosition = _getCellPosition;
 		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
@@ -762,7 +771,7 @@
 			side = (((side - 1) - orientation) % side) + 1;
 		}
 
-		points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];
+		var points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];
 
 		// Correct for the given orientation
 		points = _rotatePoints(points, orientation, Block.prototype.IGNORE);
@@ -787,7 +796,7 @@
 	// NOTE: oldPoints needs to be non-null and non-empty.
 	// NOTE: numberOfRotations can range from 0 to 3.
 	function _rotatePoints(oldPoints, numberOfRotations, type) {
-		var newPoints = window.utils.copyArray(oldPoints);
+		var newPoints = Block.prototype.copyPoints(oldPoints);
 
 		// Don't do anything if we are rotating the block 0 times
 		// The blue block is 90-degrees rotationally symmetric
@@ -798,30 +807,27 @@
 			// Rotate the points
 			switch (numberOfRotations) {
 			case 1:
-				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 				max = _findMaxCoords(newPoints);
-				for (i = 0; i < newPoints.length; ++i) {
-					newPoints[i].x = max.y - newPoints[i].y;
-					newPoints[i].y = newPoints[i].x;
+				for (i = 0; i < oldPoints.length; ++i) {
+					newPoints[i].x = max.y - oldPoints[i].y;
+					newPoints[i].y = oldPoints[i].x;
 				}
 				break;
 			case 2:
 				// Some of the blocks 180-degrees rotationally symmetric
 				if (type !== Block.prototype.RED && type !== Block.prototype.GREEN && type !== Block.prototype.ORANGE) {
-					newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 					max = _findMaxCoords(newPoints);
-					for (i = 0; i < newPoints.length; ++i) {
-						newPoints[i].x = max.x - newPoints[i].x;
-						newPoints[i].y = max.y - newPoints[i].y;
+					for (i = 0; i < oldPoints.length; ++i) {
+						newPoints[i].x = max.x - oldPoints[i].x;
+						newPoints[i].y = max.y - oldPoints[i].y;
 					}
 				}
 				break;
 			case 3:
-				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 				max = _findMaxCoords(newPoints);
-				for (i = 0; i < newPoints.length; ++i) {
-					newPoints[i].x = newPoints[i].y;
-					newPoints[i].y = max.x - newPoints[i].x;
+				for (i = 0; i < oldPoints.length; ++i) {
+					newPoints[i].x = oldPoints[i].y;
+					newPoints[i].y = max.x - oldPoints[i].x;
 				}
 				break;
 			default:
@@ -984,6 +990,14 @@
 		}
 
 		return { x: x, y: y };
+	};
+
+	Block.prototype.copyPoints = function(oldPoints) {
+		var newPoints = [];
+		for (var i = 0; i < oldPoints.length; ++i) {
+			newPoints.push({ x: oldPoints[i].x, y: oldPoints[i].y });
+		}
+		return newPoints;
 	};
 
 	// Make Block available to the rest of the program

@@ -150,6 +150,8 @@
 
 	// Adjust the game parameters to match the selected input options
 	function setGameParameters() {
+		log.d("<->main.setGameParameters");
+
 		var mode1 = document.getElementById("mode1");
 		game.setMode1(mode1.checked);
 		var mode2 = document.getElementById("mode2");
@@ -217,9 +219,10 @@
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
 			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaOffset = game.getGameAreaPosition();
 			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left,
-				y: pagePos.y - gameAreaRect.top
+				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
+				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
 			};
 
 			game.startGesture(gameAreaPos, currentTime);
@@ -238,9 +241,10 @@
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
 			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaOffset = game.getGameAreaPosition();
 			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left,
-				y: pagePos.y - gameAreaRect.top
+				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
+				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
 			};
 
 			game.finishGesture(gameAreaPos, currentTime);
@@ -257,9 +261,10 @@
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
 			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaOffset = game.getGameAreaPosition();
 			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left,
-				y: pagePos.y - gameAreaRect.top
+				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
+				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
 			};
 
 			game.dragGesture(gameAreaPos);

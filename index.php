@@ -102,8 +102,12 @@
 				<br>
 				Size of game area:
 				<select id="gameAreaSize">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="40" selected>40</option>
+					<option value="60">60</option>
 					<option value="80">80</option>
-					<option value="100" selected>100</option>
+					<option value="100">100</option>
 					<option value="120">120</option>
 					<option value="140">140</option>
 					<option value="160">160</option>

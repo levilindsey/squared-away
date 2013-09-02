@@ -24,9 +24,9 @@
 	// --------------------------------------------------------------------- //
 	// -- Private, static members
 
-	var _GAME_AREA_SIZE_RATIO = 0.85; // a ratio of overall canvas size
-	var _PREVIEW_WINDOW_SIZE_RATIO = 0.05; // a ratio of overall canvas size
-	var _PREVIEW_WINDOW_OUTER_MARGIN_RATIO = 0.01; // a ratio of overall canvas size
+	var _GAME_AREA_SIZE_RATIO = 0.76; // a ratio of overall canvas size
+	var _PREVIEW_WINDOW_SIZE_RATIO = 0.08; // a ratio of overall canvas size
+	var _PREVIEW_WINDOW_OUTER_MARGIN_RATIO = 0.02; // a ratio of overall canvas size
 	var _PREVIEW_WINDOW_INNER_MARGIN_RATIO = (1 - (_GAME_AREA_SIZE_RATIO + 
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
@@ -49,15 +49,15 @@
 	var _DROP = 4;
 	var _DIRECTION_CHANGE = 5;
 
-	var _INVALID_MOVE_FILL_COLOR = "rgba(255,0,0,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,0,0,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _VALID_MOVE_FILL_COLOR = "rgba(0,0,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
-	var _VALID_MOVE_STROKE_COLOR = "rgba(0,0,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
+	var _INVALID_MOVE_FILL_COLOR = "rgba(255,150,150,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,150,150,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _VALID_MOVE_FILL_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
+	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 	var _PHANTOM_BLOCK_SIZE_RATIO = 2;
 
-	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 900; // TODO: test this
+	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 1200; // TODO: test this
 	var _TAP_SQUARED_DISTANCE_THRESHOLD = 400; // TODO: test this
 	var _TAP_TIME_THRESHOLD = 300; // TODO: test this
 
@@ -137,7 +137,7 @@
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
-			log.d("-->game._gameLoop");
+//			log.d("-->game._gameLoop");
 
 			_isLooping = true;
 
@@ -159,12 +159,12 @@
 			// Go to the next frame
 			_prevTime = currTime;
 
-			log.d("<--game._gameLoop");
+//			log.d("<--game._gameLoop");
 		}
 
 		// Update each of the game entities with the current time.
 		function _update(deltaTime) {
-			log.d("-->game._update");
+//			log.d("-->game._update");
 
 			_gameTime += deltaTime;
 
@@ -231,11 +231,11 @@
 			_levelDisplay.innerHTML = _level;
 			_scoreDisplay.innerHTML = _score;
 
-			log.d("<--game._update");
+//			log.d("<--game._update");
 		}
 
 		function _draw() {
-			log.d("-->game._draw");
+//			log.d("-->game._draw");
 
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -286,7 +286,7 @@
 			}
 
 			// Check whether the player is currently a selecting a block
-			if (_selectedBlock) {
+			if (_selectedBlock && _phantomBlock) {
 				// Check whether the phantom block is in a valid location
 				if (_isPhantomBlockValid) {
 					// Draw an arc arrow from the selected block's current position to where it would be moving
@@ -310,7 +310,7 @@
 
 			_context.restore();
 
-			log.d("<--game._draw");
+//			log.d("<--game._draw");
 		}
 
 		// Set up a new game
@@ -457,6 +457,12 @@
 			// this gesture, if any
 			_selectedBlock = _findNearestValidBlock(_gestureStartPos, _blocksOnGameArea);
 
+			// Clear any phantom objects. These will be set when a drag occurs.
+			_phantomBlock = null;
+			_phantomBlockPolygon = null;
+			_isPhantomBlockValid = false;
+			_phantomGuideLinePolygon = null;
+
 			log.d("<--game._startGesture");
 		}
 
@@ -483,8 +489,11 @@
 				// direction change
 				switch (_gestureType) {
 				case _NONE:
+					log.d("---game._finishGesture: _NONE");
 					break;
 				case _ROTATION:
+					log.d("---game._finishGesture: _ROTATION");
+
 					// Rotate the selected block
 					var wasAbleToRotate = _selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, true);
 
@@ -497,18 +506,24 @@
 					}
 					break;
 				case _SIDEWAYS_MOVE:
+					log.d("---game._finishGesture: _SIDEWAYS_MOVE");
+
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					// Play the sideways move SFX
 					// TODO: 
 					break;
 				case _DROP:
+					log.d("---game._finishGesture: _DROP");
+
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					// Play the drop SFX
 					// TODO: 
 					break;
 				case _DIRECTION_CHANGE:
+					log.d("---game._finishGesture: _DIRECTION_CHANGE");
+
 					if (_mode5On) {
 						_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 
@@ -532,6 +547,8 @@
 				default:
 					return;
 				}
+			} else {
+				log.d("---game._finishGesture: <no selected block>");
 			}
 
 			log.d("<--game._finishGesture");
@@ -569,9 +586,9 @@
 
 					// Determine whether the phantom block squares are in a valid 
 					// location of the game area
-					_isPhantomBlockValid = _gestureType !== _DIRECTION_CHANGE || 
-							_computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
-
+//					_isPhantomBlockValid = _gestureType !== _DIRECTION_CHANGE || 
+//							_computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
+_isPhantomBlockValid = false;
 					// Compute the dimensions of the polygons for the phantom lines
 					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 				}
@@ -582,6 +599,10 @@
 
 		function _cancelGesture() {
 			_selectedBlock = null;
+			_phantomBlock = null;
+			_phantomBlockPolygon = null;
+			_isPhantomBlockValid = false;
+			_phantomGuideLinePolygon = null;
 		}
 
 		// This function determines the type of the current gesture in 
@@ -855,18 +876,18 @@
 				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
 				break;
 			case Block.prototype.LEFTWARD:
-				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.TOP_SIDE);
 				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
 				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.LEFT_SIDE);
 				break;
 			case Block.prototype.UPWARD:
 				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.RIGHT_SIDE);
 				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.LEFT_SIDE);
-				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.TOP_SIDE);
 				break;
 			case Block.prototype.RIGHTWARD:
 				leftSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.BOTTOM_SIDE);
-				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.UP_SIDE);
+				rightSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.TOP_SIDE);
 				bottomSidePixelPoints = phantomBlock.getSidePointsRelativeToBlockPosition(Block.prototype.RIGHT_SIDE);
 				break;
 			default:
@@ -880,13 +901,13 @@
 			}
 
 			// Translate the "rightward" points to the furthest "rightward" position
-			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+			for (i = 0; i < rightSidePixelPoints.length; ++i) {
 				rightSidePixelPoints[i].x = (farthestRightCellPosition.x + rightSidePixelPoints[i].x) * _squareSizePixels;
 				rightSidePixelPoints[i].y = (farthestRightCellPosition.y + rightSidePixelPoints[i].y) * _squareSizePixels;
 			}
 
 			// Translate the "downward" points to the furthest "downward" position
-			for (i = 0; i < leftSidePixelPoints.length; ++i) {
+			for (i = 0; i < bottomSidePixelPoints.length; ++i) {
 				bottomSidePixelPoints[i].x = (farthestDownCellPosition.x + bottomSidePixelPoints[i].x) * _squareSizePixels;
 				bottomSidePixelPoints[i].y = (farthestDownCellPosition.y + bottomSidePixelPoints[i].y) * _squareSizePixels;
 			}
@@ -947,14 +968,14 @@
 		// null.
 		function _findNearestValidBlock(pos, blocksOnGameArea) {
 			if (blocksOnGameArea.length > 0) {
-				var nearestSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[0].getCenter());
+				var nearestSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[0].getPixelCenter());
 				var nearestBlock = blocksOnGameArea[0];
 
 				var currentSquareDistance;
 
 				// Find the nearest block
 				for (var i = 1; i < blocksOnGameArea.length; ++i) {
-					currentSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[i].getCenter());
+					currentSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[i].getPixelCenter());
 
 					if (currentSquareDistance <= nearestSquareDistance) {
 						nearestSquareDistance = currentSquareDistance;
@@ -1038,6 +1059,10 @@
 			_startingLevel = level;
 		}
 
+		function _getGameAreaPosition() {
+			return _gameAreaPosition;
+		}
+
 		_computeDimensions();
 		_setUpPreviewWindows();
 		_setUpCenterSquare();
@@ -1067,6 +1092,7 @@
 		this.finishGesture = _finishGesture;
 		this.dragGesture = _dragGesture;
 		this.cancelGesture = _cancelGesture;
+		this.getGameAreaPosition = _getGameAreaPosition;
 
 		log.d("<--game.Game");
 	}

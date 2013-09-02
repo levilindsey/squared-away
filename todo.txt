@@ -31,21 +31,25 @@
 
 - move the Sprite functionality to Block and then delete the Sprite file
 
+- use blocks of 5 instead of 4? (could be more fun; definitely less likely to infringe on copyright)
+    - have this be another mode in the web version
+	- use a different sprite sheet for the 5-square possibilities
+	    - will need to make many additional colors
+
+- add an additional ability somehow to occasionally destroy blocks in a special way:
+    - this could mean clearing the lowest level on all sides
+	- this could mean clearing all of the blocks in a certain diameter
+	- this could mean "settling" all blocks on a certain side or within a diameter
+	    *- this could be available every so many points and could mean "settling" a certain number of layers on ALL sides
+	- this ability could be available every so many points, levels, or seconds
+	*- this ability could appear randomly as a special "block" that needs to be placed and then tapped to detonate
+	- or try a multiple of these ideas...
+
 // ------------------------------------------------------------------------- //
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-- **** work on the phantom block polygons and the guideline polygons:
-    - I should be able to use some sort of block.getConvexHull() method for both problems.
-        - this might involve simply enumerating the relevant position values for each orientation/side/type?? (ugh)
-- **** work on the rotation/able-to-switch-quadrants logic:
-    - I need to base these rotations off of the lower-left corner
-    - I need to be able to pre-compute how this rotation affects the constituent squares (so I can determine: (A) if the rotation will be valid, (B) if the quadrant switch will be valid)
-
-- DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
-- add the inputs for these controls
 - when the game tells a block to add itself to the squares list, then also have the game check whether there are any other remaining blocks.  If not, then flip a boolean that forces the closest preview window to drop immediately on the next update().
-- either switch the corner around which blocks rotate or check that they will not collide before letting the player rotate
 - add SFX!!
     - google a free place
     - audible events:
@@ -64,6 +68,10 @@
         - a sound when the player selects a block
         - a sound when the player drags a block but hasn't yet dropped it
         - a sound when block is unable to move how the player chose
+- add keyboard control
+- DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
+- refactor code so that ALL entities store their positions relative to the canvas origin (and then make sure the translation occurs before the first entity is drawn)
+- refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 
 - Node.js
 - Spring framework
