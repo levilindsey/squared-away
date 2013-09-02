@@ -55,11 +55,11 @@
 	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
-	var _PHANTOM_BLOCK_SIZE_RATIO = 2;
+	var _PHANTOM_BLOCK_SIZE_RATIO = 1.2;
 
 	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 1200; // TODO: test this
-	var _TAP_SQUARED_DISTANCE_THRESHOLD = 400; // TODO: test this
-	var _TAP_TIME_THRESHOLD = 300; // TODO: test this
+	var _TAP_SQUARED_DISTANCE_THRESHOLD = 100; // TODO: test this
+	var _TAP_TIME_THRESHOLD = 250; // TODO: test this
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -172,7 +172,6 @@
 			_centerSquare.update(deltaTime);
 
 			var i;
-			var block;
 
 			// Update the blocks
 			for (i = 0; i < _blocksOnGameArea.length; ++i) {
@@ -198,6 +197,24 @@
 					if (false) { // TODO: ****
 						//++_layersDestroyed;
 					}
+
+					// Check whether this was the last active block
+					if (_blocksOnGameArea.length === 0) {
+						// Determine which preview window is next
+						var nextPreviewWindow = _previewWindows[0];
+						var longestTime = _previewWindows[0].getTimeSinceLastBlock();
+						var currentTime;
+						for (i = 0; i < 4; ++i) {
+							currentTime = _previewWindows[i].getTimeSinceLastBlock();
+							if (currentTime > longestTime) {
+								longestTime = currentTime;
+								nextPreviewWindow = _previewWindows[i];
+							}
+						}
+
+						// Force the next preview window to release its block now
+						getNextBlock(nextPreviewWindow);
+					}
 				}
 			}
 
@@ -209,18 +226,7 @@
 				// its block to the game area and start a new block in preview 
 				// window
 				if (_previewWindows[i].isCoolDownFinished()) {
-					block = _previewWindows[i].getCurrentBlock();
-
-					// If there is a square on the game area in the way the 
-					// new block from being added, then the game is over and 
-					// the player has lost
-					if (block.checkIsOverTopSquare(_squaresOnGameArea)) {
-						_endGame();
-						return;
-					}
-
-					_blocksOnGameArea.push(block);
-					_previewWindows[i].startNewBlock();
+					getNextBlock(_previewWindows[i]);
 				}
 			}
 
@@ -232,6 +238,21 @@
 			_scoreDisplay.innerHTML = _score;
 
 //			log.d("<--game._update");
+		}
+
+		function getNextBlock(previewWindow) {
+			var block = previewWindow.getCurrentBlock();
+
+			// If there is a square on the game area in the way the 
+			// new block from being added, then the game is over and 
+			// the player has lost
+			if (block.checkIsOverTopSquare(_squaresOnGameArea)) {
+				_endGame();
+				return;
+			}
+
+			_blocksOnGameArea.push(block);
+			previewWindow.startNewBlock();
 		}
 
 		function _draw() {
@@ -289,12 +310,6 @@
 			if (_selectedBlock && _phantomBlock) {
 				// Check whether the phantom block is in a valid location
 				if (_isPhantomBlockValid) {
-					// Draw an arc arrow from the selected block's current position to where it would be moving
-					_drawArcArrow(_context, _selectedBlock, _phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
-
-					// Draw a polygon at the invalid location where the selected block would be moving
-					_drawPolygon(_context, _phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
-				} else {
 					// Draw the phantom guide lines
 					_drawPolygon(_context, _phantomGuideLinePolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 
@@ -305,6 +320,12 @@
 
 					// Draw the enlarged, phantom, overlay block
 					_drawPolygon(_context, _phantomBlockPolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
+				} else {
+					// Draw an arc arrow from the selected block's current position to where it would be moving
+					_drawArcArrow(_context, _selectedBlock, _phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+
+					// Draw a polygon at the invalid location where the selected block would be moving
+					_drawPolygon(_context, _phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
 				}
 			}
 
@@ -551,6 +572,8 @@
 				log.d("---game._finishGesture: <no selected block>");
 			}
 
+			_cancelGesture();
+
 			log.d("<--game._finishGesture");
 		}
 
@@ -586,9 +609,9 @@
 
 					// Determine whether the phantom block squares are in a valid 
 					// location of the game area
-//					_isPhantomBlockValid = _gestureType !== _DIRECTION_CHANGE || 
-//							_computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
-_isPhantomBlockValid = false;
+					_isPhantomBlockValid = _gestureType !== _DIRECTION_CHANGE || 
+							_computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
+
 					// Compute the dimensions of the polygons for the phantom lines
 					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 				}
@@ -661,10 +684,6 @@ _isPhantomBlockValid = false;
 				};
 
 				gesturePos.x = oldCellPosition.x;
-if(isNaN(gesturePos.x)){
-var trace = printStackTrace();
-alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
-}
 				gesturePos.y = oldCellPosition.y;
 
 				var farthestCellAvailable;
@@ -785,44 +804,6 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 				default:
 					return;
 				}
-if(considerTap || isNaN(gesturePos.x)){// TODO: REMOVE ME
-var msg = "UUUUGHH2!! \ngesturePos.x="+gesturePos.x+";\ngesturePos.y="+gesturePos.y+";\n"+
-"farthestCellAvailable="+ (farthestCellAvailable ? farthestCellAvailable.x+","+farthestCellAvailable.y : "<undefined>")+";\n"+
-"gestureType="+gestureType+";\n"+
-"fallDirection="+fallDirection+";\n"+
-"gestureDirection="+gestureDirection+";\n"+
-"pixelOffsetForComputingCell="+pixelOffsetForComputingCell.x+","+pixelOffsetForComputingCell.y+";\n"+
-"deltaPos="+deltaX+","+deltaY+";\n"+
-"startPos="+startPos.x+","+startPos.y+";\n"+
-"endPos="+endPos.x+","+endPos.y+";\n"+
-"oldCellPosition="+oldCellPosition.x+","+oldCellPosition.y+";\n";
-if (isNaN(gesturePos.x)) {
-var trace = printStackTrace();
-alert(msg+trace.join('\n'));
-} else {
-log.w(msg);
-}
-
-// // Fall directions
-// Block.prototype.DOWNWARD = 0;
-// Block.prototype.LEFTWARD = 1;
-// Block.prototype.UPWARD = 2;
-// Block.prototype.RIGHTWARD = 3;
-
-// // Block sides
-// Block.prototype.ALL_SIDES = 0;
-// Block.prototype.TOP_SIDE = 1;
-// Block.prototype.RIGHT_SIDE = 2;
-// Block.prototype.BOTTOM_SIDE = 3;
-// Block.prototype.LEFT_SIDE = 4;
-
-// // The gesture types
-// var _NONE = 1;
-// var _ROTATION = 2;
-// var _SIDEWAYS_MOVE = 3;
-// var _DROP = 4;
-// var _DIRECTION_CHANGE = 5;
-}
 			}
 
 			return {
@@ -883,12 +864,13 @@ log.w(msg);
 			// Get the offset from the top-left of the block to the center
 			var type = phantomBlock.getType();
 			var orientation = phantomBlock.getOrientation();
-			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(type, orientation);
+			var pixelCenter = phantomBlock.getPixelCenter();
+			var i;
 
 			// Enlarge the polygon
-			for (var i = 0; i < points.length; ++i) {
-				points[i].x = ((points[i].x - offset.x) * _PHANTOM_BLOCK_SIZE_RATIO) + offset.x;
-				points[i].y = ((points[i].y - offset.y) * _PHANTOM_BLOCK_SIZE_RATIO) + offset.y;
+			for (i = 0; i < points.length; ++i) {
+				points[i].x = pixelCenter.x + ((points[i].x - pixelCenter.x) * _PHANTOM_BLOCK_SIZE_RATIO);
+				points[i].y = pixelCenter.y + ((points[i].y - pixelCenter.y) * _PHANTOM_BLOCK_SIZE_RATIO);
 			}
 
 			return points;

@@ -253,6 +253,10 @@
 			return _timeSinceLastBlock >= _actualCoolDownPeriod;
 		}
 
+		function _getTimeSinceLastBlock() {
+			return _timeSinceLastBlock;
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -262,6 +266,7 @@
 		this.isCoolDownFinished = _isCoolDownFinished;
 		this.update = _update;
 		this.draw = _draw;
+		this.getTimeSinceLastBlock = _getTimeSinceLastBlock;
 
 		log.d("<--previewwindow.PreviewWindow");
 	}

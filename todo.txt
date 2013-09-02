@@ -44,6 +44,10 @@
 	- this ability could be available every so many points, levels, or seconds
 	*- this ability could appear randomly as a special "block" that needs to be placed and then tapped to detonate
 	- or try a multiple of these ideas...
+- *add jitter/shimmer animation that occurs to the center square every time a block lands
+    - have an inner center square appear that is slightly smaller than the main one
+	- have this start centered, but then quickly move around in random directions in and out of the center position (alternate center with random offset)
+	- have this be mostly transparent, with a 2px stroke, and have the fill color change randomly and quickly between the seven options
 
 // ------------------------------------------------------------------------- //
 // ---------- DESKTOP POST-IT NOTE
@@ -56,7 +60,7 @@
         - a block falling
         - a block landing
         - game over ("GAAAAME OVEEER") (<-- record myself?)
-        - a layer disintigrating
+        - a layer disintegrating
         - the level progressing
         - the game starting (a "ta dah!" sound (like opening a chest))
         - the game pausing (high to low)
