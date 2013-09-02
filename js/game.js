@@ -466,8 +466,6 @@
 				_gestureType = gestureTypeAndCellPos.type;
 				_gestureCellPos = gestureTypeAndCellPos.pos;
 
-				_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
-
 				// Check whether the gesture was a sideways move, a drop, or a 
 				// direction change
 				switch (_gestureType) {
@@ -475,7 +473,7 @@
 					break;
 				case _ROTATION:
 					// Rotate the selected block
-					var wasAbleToRotate = _selectedBlock.rotate();
+					var wasAbleToRotate = _selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, true);
 
 					if (wasAbleToRotate) {
 						// Play the rotation SFX
@@ -499,9 +497,11 @@
 					break;
 				case _DIRECTION_CHANGE:
 					if (_mode5On) {
+						_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
+
 						if (_isPhantomBlockValid) {
-							_switchQuadrant(_selectedBlock);
-							block.switchFallDirection();
+							_switchPhantomToSelected(_selectedBlock, _phantomBlock);
+							_selectedBlock.switchFallDirection();
 
 							// Play the direction change SFX
 							// TODO: 
@@ -510,7 +510,7 @@
 							// TODO: 
 						}
 					} else {
-						block.switchFallDirection();
+						_selectedBlock.switchFallDirection();
 
 						// Play the direction change SFX
 						// TODO: 
@@ -551,7 +551,8 @@
 
 					// Determine whether the phantom block squares are in a valid 
 					// location of the game area
-					_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
+					_isPhantomBlockValid = _gestureType !== _DIRECTION_CHANGE || 
+							_computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 
 					// Compute the dimensions of the polygons for the phantom lines
 					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
@@ -606,6 +607,7 @@
 
 				var blockType = selectedBlock.getType();
 				var fallDirection = selectedBlock.getFallDirection();
+				var orientation = selectedBlock.getOrientation();
 				var oldCellPosition = selectedBlock.getCellPosition();
 				var cellOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 				// This offset is subtracted from the gesture position.  So 
@@ -639,7 +641,7 @@
 						break;
 					case Block.prototype.UPWARD:
 						gestureType = _DIRECTION_CHANGE;
-						gesturePos = ;// TODO: 
+						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -673,7 +675,7 @@
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _DIRECTION_CHANGE;
-						gesturePos = ;// TODO: 
+						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
 						break;
 					default:
 						return;
@@ -683,7 +685,7 @@
 					switch (gestureDirection) {
 					case Block.prototype.DOWNWARD:
 						gestureType = _DIRECTION_CHANGE;
-						gesturePos = ;// TODO: 
+						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -717,7 +719,7 @@
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _DIRECTION_CHANGE;
-						gesturePos = ;// TODO: 
+						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
 						break;
 					case Block.prototype.UPWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -738,12 +740,6 @@
 				default:
 					return;
 				}
-
-				// If the gesture is a drop or a sideways move, then ensure that 
-				// the player is not moving the block farther than it can go
-				if (gestureType === _SIDEWAYS_MOVE || gestureType === _DROP) {
-					// TODO: ****
-				}
 			}
 
 			return {
@@ -752,26 +748,46 @@
 			};
 		}
 
-		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
-			// TODO: 
+		// This function returns the cell position to use for the given block 
+		// AFTER it has been rotated and placed into the new quadrant.
+		function _getQuadrantSwitchPosition(oldX, oldY, blockType, orientation, gameAreaSize) {
+			// Get the old position rotated to the new quadrant
+			var newX = gameAreaSize - oldY;
+			var newY = oldX;
+
+			// Now, offset this position to allow the upper-left corner of the 
+			// block to still determine the position
+			var blockHeight = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation) * 2;
+			newX -= (blockHeight - 1);
+
+			return {
+				x: newX,
+				y: newY
+			};
 		}
 
-		function _switchQuadrant(block, phantomBlock) {
-			var x = ****; // TODO: 
-			var y = ****; // TODO: 
-			block.rotate();
-			block.switchFallDirection();
-			block.setCellPosition(x, y);
+		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
+			return !phantomBlock.checkIsOverTopSquare(squaresOnGameArea);
+		}
+
+		function _switchPhantomToSelected(selectedBlock, phantomBlock) {
+			selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, false);
+			selectedBlock.setCellPosition(phantomBlock.getCellPosition());
 		}
 
 		function _computePhantomBlock(gestureType, gestureCellPos, selectedBlock) {
-			var type = selectedBlock.getType();
-			var cellPosition = selectedBlock.getCellPosition();
+			var blockType = selectedBlock.getType();
 			var orientation = selectedBlock.getOrientation();
 			var fallDirection = selectedBlock.getFallDirection();
 
-			var phantomBlock = new Block(type, -1, -1, orientation, fallDirection);
-			phantomBlock.setCellPosition(cellPosition.x, cellPosition.y);
+			// Rotate and switch direction with a direction change gesture
+			if (gestureType === _DIRECTION_CHANGE) {
+				orientation = (orientation + 1) % 4;
+				fallDirection = (fallDirection + 1) % 4;
+			}
+
+			var phantomBlock = new Block(blockType, -1, -1, orientation, fallDirection);
+			phantomBlock.setCellPosition(gestureCellPos.x, gestureCellPos.y);
 
 			return phantomBlock;
 		}

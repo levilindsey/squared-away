@@ -177,20 +177,83 @@
 									positions[3].x, positions[3].y);
 		}
 
-		// Rotate the orientation of this block clockwise 90 degrees.
-		function _rotate() {
-			var canRotate = ****;
+		// Rotate the orientation of this block clockwise 90 degrees, if this 
+		// rotation would not cause this block to collide with other squares 
+		// in the game area.  If the rotation is successful, then return true.
+		// 
+		// NOTE: If checkForCollisions is not true, then the client should not 
+		//		 care about rotational collisions and should be updating this 
+		//		 block's position manually afterward.
+		function _rotate(squaresOnGameArea, blocksOnGameArea, checkForCollisions) {
+			if (checkForCollisions) {
+				// Get the square positions
+				var squarePositions = 
+					_getSquareCellPositionsRelativeToBlockPosition(
+										_type, _orientation);
 
-			if (canRotate) {
+				// Rotate the square positions
+				squarePositions = _rotatePoints(squarePositions, 1, _type);
+
+				// Translate the square positions from block space to canvas space
+				for (var i = 0; i < positions.length; ++i) {
+					squarePositions[i].x += _positionCell.x;
+					squarePositions[i].y += _positionCell.y;
+				}
+
+				// Get the offset needed so that the lower-left corner of the 
+				// block will still be at the same cell
+				var midOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+				var oldWidth = midOffset.x * 2;
+				var oldHeight = midOffset.y * 2;
+				var offset = { x: 0, y: 0 };
+				switch (_fallDirection) {
+				case Block.prototype.DOWNWARD:
+					offset.y = oldHeight - oldWidth;
+					break;
+				case Block.prototype.LEFTWARD:
+					// Do nothing
+					break;
+				case Block.prototype.UPWARD:
+					offset.x = oldWidth - oldHeight;
+					break;
+				case Block.prototype.RIGHTWARD:
+					offset.x = oldWidth - oldHeight;
+					offset.y = oldHeight - oldWidth;
+					break;
+				default:
+					return;
+				}
+
+				// Apply the offset to each of the squares
+				for (var i = 0; i < squarePositions.length; ++i) {
+					squarePositions[i].x += offset.x;
+					squarePositions[i].y += offset.y;
+				}
+
+				// Check whether the new square positions are valid
+				var squareIndices = _positionsToIndices(squarePositions);
+				var collision = false;
+				for (var i = 0; i < squareIndices.length; ++i) {
+					if (squaresOnGameArea[neighborIndex] > -1) {
+						collision = true;
+					}
+				}
+
+				if (!collision) {
+					// Save the block offset
+					_setCellPosition(_positionCell.x + offset.x, _positionCell.y + offset.y);
+
+					// Save the orientation change
+					_orientation = (_orientation + 1) % 4;
+				} else {
+					return false;
+				}
+			} else {
+				// Save the orientation change
 				_orientation = (_orientation + 1) % 4;
 
-				// Update the position of this block so that the lower-left 
-				// corner (from the perspective of a top-to-bottom fall 
-				// direction) is in the same position as before
-				**** // TODO: ****
+				return true;
 			}
-
-			return canRotate;
 		}
 
 		// Rotate the fall direction of this block clockwise 90 degrees.
@@ -581,7 +644,7 @@
 		}
 
 		function _getCenter() {
-			var offset = getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
 			return {
 				x: _positionPixels.x + offset.x,
@@ -707,8 +770,10 @@
 		return points;
 	}
 
-	// NOTE: oldPoints needs to be non-null and non-empty
-	// NOTE: numberOfRotations can range from 0 to 3
+	// NOTE: This function assumes that the min x and y coordinates in the 
+	//		 given collection of points are both 0.
+	// NOTE: oldPoints needs to be non-null and non-empty.
+	// NOTE: numberOfRotations can range from 0 to 3.
 	function _rotatePoints(oldPoints, numberOfRotations, type) {
 		var newPoints = window.utils.copyArray(oldPoints);
 
