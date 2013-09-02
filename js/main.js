@@ -19,6 +19,7 @@
 	log.d("-->main.LOADING_MODULE");
 
 	var game = null;
+	var canvas = null;
 
 	var gestureInProgress = false;
 
@@ -35,7 +36,7 @@
 	function init() {
 		log.d("-->main.init");
 
-		var canvas = document.getElementById("gameCanvas");
+		canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
 
@@ -206,10 +207,18 @@
 
 		gestureInProgress = true;
 
-		var currentPos = { x: event.pageX, y: event.pageY };
+		var pagePos = { x: event.pageX, y: event.pageY };
 		var currentTime = Date.now();
 
-		game.startGesture(currentPos, currentTime);
+		// Translate the tap position from page coordinates to game-area 
+		// coordinates
+		var gameAreaRect = canvas.getBoundingClientRect();
+		var gameAreaPos = {
+			x: pagePos.x - gameAreaRect.left,
+			y: pagePos.y - gameAreaRect.top
+		};
+
+		game.startGesture(gameAreaPos, currentTime);
 	}
 
 	function onMouseUp(event) {
@@ -218,10 +227,18 @@
 		if (gestureInProgress) {
 			gestureInProgress = false;
 
-			var currentPos = { x: event.pageX, y: event.pageY };
+			var pagePos = { x: event.pageX, y: event.pageY };
 			var currentTime = Date.now();
 
-			game.finishGesture(currentPos, currentTime);
+			// Translate the tap position from page coordinates to game-area 
+			// coordinates
+			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaPos = {
+				x: pagePos.x - gameAreaRect.left,
+				y: pagePos.y - gameAreaRect.top
+			};
+
+			game.finishGesture(gameAreaPos, currentTime);
 		}
 	}
 
@@ -230,9 +247,17 @@
 
 		// Check whether this event is part of a drag
 		if (gestureInProgress) {
-			var currentPos = { x: event.pageX, y: event.pageY };
+			var pagePos = { x: event.pageX, y: event.pageY };
 
-			game.dragGesture(currentPos);
+			// Translate the tap position from page coordinates to game-area 
+			// coordinates
+			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaPos = {
+				x: pagePos.x - gameAreaRect.left,
+				y: pagePos.y - gameAreaRect.top
+			};
+
+			game.dragGesture(gameAreaPos);
 		}
 	}
 

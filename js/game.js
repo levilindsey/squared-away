@@ -55,7 +55,9 @@
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 	var _PHANTOM_BLOCK_SIZE_RATIO = 2;
 
-	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 30; // TODO: test this
+	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 900; // TODO: test this
+	var _TAP_SQUARED_DISTANCE_THRESHOLD = 400; // TODO: test this
+	var _TAP_TIME_THRESHOLD = 300; // TODO: test this
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -456,9 +458,9 @@
 				// Extract some features from the gesture
 				var gestureTypeAndCellPos = 
 						_computeGestureTypeAndCellPos(
-								selectedBlock.getOrientation(), 
-								gestureStartPos, gestureStartTime, 
-								gestureCurrentPos, gestureCurrentTime, 
+								_selectedBlock, 
+								_gestureStartPos, _gestureStartTime, 
+								_gestureCurrentPos, _gestureCurrentTime, 
 								_mode4On, _mode5On, true);
 
 				_gestureType = gestureTypeAndCellPos.type;
@@ -527,9 +529,9 @@
 				// Extract some features from the gesture
 				var gestureTypeAndCellPos = 
 						_computeGestureTypeAndCellPos(
-								selectedBlock.getOrientation(), 
-								gestureStartPos, -1, 
-								gestureCurrentPos, -1, 
+								_selectedBlock, 
+								_gestureStartPos, -1, 
+								_gestureCurrentPos, -1, 
 								_mode4On, _mode5On, false);
 
 				// Only bother re-computing this stuff if the gesture type or 
@@ -567,58 +569,210 @@
 		// 
 		// Mode 4 determines whether the player is allowed to switch the fall directions of blocks.
 		// Mode 5 determines whether a block switches to the next quadrant when the player switches its fall direction.
-		function _computeGestureTypeAndCellPos(orientation, startPos, startTime, endPos, endTime, mode4On, mode5On, considerTap) {
-			var type = null;
-			var pos = null;
+		function _computeGestureTypeAndCellPos(selectedBlock, startPos, 
+				startTime, endPos, endTime, mode4On, mode5On, considerTap) {
+			var gestureType = null;
+			var gesturePos = { x: -1, y: -1 };
+
+			var duration = endTime - startTime;
+			var squaredDistance = _getSquaredDistance(startPos, endPos);
 
 			// Check whether the gesture was short enough to be a tap
-			if (considerTap && ****) {
+			if (considerTap && squaredDistance < _TAP_SQUARED_DISTANCE_THRESHOLD) {
 				// Check whether the gesture was brief enough to be a tap
-				if (****) {
-					type = _ROTATION;
+				if (duration < _TAP_TIME_THRESHOLD) {
+					gestureType = _ROTATION;
 				} else {
-					type = _NONE;
+					gestureType = _NONE;
 				}
 			} else {
-				// Check whether the gesture was more horizontal or vertical
-				// TODO: 
+				// Determine the direction of the gesture
+				var deltaX = endPos.x - startPos.x;
+				var deltaY = endPos.y - startPos.y;
+				var gestureDirection;
+				if (deltaX > deltaY) {
+					if (deltaX > 0) {
+						gestureDirection = Block.prototype.RIGHTWARD;
+					} else {
+						gestureDirection = Block.prototype.LEFTWARD;
+					}
+				} else {
+					if (deltaY > 0) {
+						gestureDirection = Block.prototype.DOWNWARD;
+					} else {
+						gestureDirection = Block.prototype.UPWARD;
+					}
+				}
 
-				switch (orientation) {
-				case :****
+				var blockType = selectedBlock.getType();
+				var fallDirection = selectedBlock.getFallDirection();
+				var oldCellPosition = selectedBlock.getCellPosition();
+				var cellOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
+				// This offset is subtracted from the gesture position.  So 
+				// this ultimately adds 0.5 to the position, which centers the 
+				// position calculation to where it really should be (because 
+				// we will then be flooring it).
+				var pixelOffsetForComputingCell = {
+					x: (cellOffset.x * _squareSizePixels) - (_squareSizePixels * 0.5),
+					y: (cellOffset.y * _squareSizePixels) - (_squareSizePixels * 0.5)
+				};
+
+				gesturePos.x = oldCellPosition.x;
+				gesturePos.y = oldCellPosition.y;
+
+				var farthestCellAvailable;
+
+				switch (fallDirection) {
+				case Block.prototype.DOWNWARD:
+					switch (gestureDirection) {
+					case Block.prototype.DOWNWARD:
+						gestureType = _DROP;
+						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.LEFTWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
+						break;
+					case Block.prototype.UPWARD:
+						gestureType = _DIRECTION_CHANGE;
+						gesturePos = ;// TODO: 
+						break;
+					case Block.prototype.RIGHTWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
+						break;
+					default:
+						return;
+					}
 					break;
-				case :
+				case Block.prototype.LEFTWARD:
+					switch (gestureDirection) {
+					case Block.prototype.DOWNWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.LEFTWARD:
+						gestureType = _DROP;
+						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
+						break;
+					case Block.prototype.UPWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.RIGHTWARD:
+						gestureType = _DIRECTION_CHANGE;
+						gesturePos = ;// TODO: 
+						break;
+					default:
+						return;
+					}
 					break;
-				case :
+				case Block.prototype.UPWARD:
+					switch (gestureDirection) {
+					case Block.prototype.DOWNWARD:
+						gestureType = _DIRECTION_CHANGE;
+						gesturePos = ;// TODO: 
+						break;
+					case Block.prototype.LEFTWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
+						break;
+					case Block.prototype.UPWARD:
+						gestureType = _DROP;
+						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.RIGHTWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
+						break;
+					default:
+						return;
+					}
 					break;
-				case :
+				case Block.prototype.RIGHTWARD:
+					switch (gestureDirection) {
+					case Block.prototype.DOWNWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.LEFTWARD:
+						gestureType = _DIRECTION_CHANGE;
+						gesturePos = ;// TODO: 
+						break;
+					case Block.prototype.UPWARD:
+						gestureType = _SIDEWAYS_MOVE;
+						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						break;
+					case Block.prototype.RIGHTWARD:
+						gestureType = _DROP;
+						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
+						gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / _squareSizePixels);
+						gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
+						break;
+					default:
+						return;
+					}
 					break;
 				default:
 					return;
 				}
+
+				// If the gesture is a drop or a sideways move, then ensure that 
+				// the player is not moving the block farther than it can go
+				if (gestureType === _SIDEWAYS_MOVE || gestureType === _DROP) {
+					// TODO: ****
+				}
 			}
 
 			return {
-				type: type,
-				pos: pos
+				type: gestureType,
+				pos: gesturePos
 			};
 		}
 
+		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
+			// TODO: 
+		}
+
+		function _switchQuadrant(block, phantomBlock) {
+			var x = ****; // TODO: 
+			var y = ****; // TODO: 
+			block.rotate();
+			block.switchFallDirection();
+			block.setCellPosition(x, y);
+		}
+
 		function _computePhantomBlock(gestureType, gestureCellPos, selectedBlock) {
-			
+			var type = selectedBlock.getType();
+			var cellPosition = selectedBlock.getCellPosition();
+			var orientation = selectedBlock.getOrientation();
+			var fallDirection = selectedBlock.getFallDirection();
 
-			switch(gestureType) {
-			case _SIDEWAYS_MOVE:
-				break;
-			case _DROP:
-				break;
-			case _DIRECTION_CHANGE:
-				break;
-			default:
-				return;
-			}
+			var phantomBlock = new Block(type, -1, -1, orientation, fallDirection);
+			phantomBlock.setCellPosition(cellPosition.x, cellPosition.y);
 
-			phantomBlock = ****;
-			// TODO: ACTUALLY CREATE A NEW BLOCK OBJECT TO REPRESENT THE PHANTOM!!
 			return phantomBlock;
 		}
 
@@ -640,30 +794,18 @@
 			return points;
 		}
 
-		function _computeIsPhantomBlockValid(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
-			// TODO: 
-		}
-
-		function _switchQuadrant(block, phantomBlock) {
-			var x = ****; // TODO: 
-			var y = ****; // TODO: 
-			block.rotate();
-			block.switchFallDirection();
-			block.setCellPosition(x, y);
-		}
-
 		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
 			var orientation = phantomBlock.getOrientation();
 			var fallDirection = phantomBlock.getFallDirection();
 
 			// Get the furthest position the block can move to the "left"
-			var farthestLeftCellPosition = phantomBlock.getFarthestLeftAvailable();
+			var farthestLeftCellPosition = phantomBlock.getFarthestLeftCellAvailable(squaresOnGameArea, blocksOnGameArea);
 
 			// Get the furthest position the block can move to the "right"
-			var farthestRightCellPosition = phantomBlock.getFarthestRightAvailable();
+			var farthestRightCellPosition = phantomBlock.getFarthestRightCellAvailable(squaresOnGameArea, blocksOnGameArea);
 
 			// Get the furthest position the block can move "downward"
-			var farthestDownCellPosition = phantomBlock.getFarthestDownwardAvailable();
+			var farthestDownCellPosition = phantomBlock.getFarthestDownwardCellAvailable(squaresOnGameArea, blocksOnGameArea);
 
 			var leftSidePixelPoints;
 			var rightSidePixelPoints;
@@ -768,24 +910,16 @@
 		// Return the nearest active block to the given position within a 
 		// certain distance threshold, if one exists.  If not, then return 
 		// null.
-		function _findNearestValidBlock(pagePos, blocksOnGameArea) {
+		function _findNearestValidBlock(pos, blocksOnGameArea) {
 			if (blocksOnGameArea.length > 0) {
-				// Translate the tap position from page coordinates to game-
-				// area coordinates
-				var gameAreaRect = _canvas.getBoundingClientRect();
-				var gameAreaPos = {
-					x: pagePos.x - gameAreaRect.left,
-					y: pagePos.y - gameAreaRect.top
-				};
-
-				var nearestSquareDistance = getSquareDistance(gameAreaPos, blocksOnGameArea[0].getCenter());
+				var nearestSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[0].getCenter());
 				var nearestBlock = blocksOnGameArea[0];
 
 				var currentSquareDistance;
 
 				// Find the nearest block
 				for (var i = 1; i < blocksOnGameArea.length; ++i) {
-					currentSquareDistance = getSquareDistance(gameAreaPos, blocksOnGameArea[i].getCenter());
+					currentSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[i].getCenter());
 
 					if (currentSquareDistance <= nearestSquareDistance) {
 						nearestSquareDistance = currentSquareDistance;
@@ -802,7 +936,7 @@
 			return null;
 		}
 
-		function getSquareDistance(pos1, pos2) {
+		function _getSquaredDistance(pos1, pos2) {
 			var deltaX = pos1.x - pos2.x;
 			var deltaY = pos1.y - pos2.y;
 			return deltaX * deltaX + deltaY * deltaY;

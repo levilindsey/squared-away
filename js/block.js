@@ -400,7 +400,7 @@
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestLeftCellAvailable(squaresOnGameArea) {
+		function _getFarthestLeftCellAvailable(squaresOnGameArea, blocksOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -441,7 +441,7 @@
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestRightCellAvailable(squaresOnGameArea) {
+		function _getFarthestRightCellAvailable(squaresOnGameArea, blocksOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -482,7 +482,7 @@
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		function _getFarthestDownwardCellAvailable(squaresOnGameArea) {
+		function _getFarthestDownwardCellAvailable(squaresOnGameArea, blocksOnGameArea) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -576,6 +576,10 @@
 			return _fallDirection;
 		}
 
+		function _getCellPosition() {
+			return _positionCell;
+		}
+
 		function _getCenter() {
 			var offset = getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
@@ -663,6 +667,7 @@
 		this.getFallDirection = _getFallDirection;
 		this.getCenter = _getCenter;
 		this.getPolygon = _getPolygon;
+		this.getCellPosition = _getCellPosition;
 		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
 		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
 
