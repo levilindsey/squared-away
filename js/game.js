@@ -632,7 +632,7 @@ _isPhantomBlockValid = false;
 				var deltaX = endPos.x - startPos.x;
 				var deltaY = endPos.y - startPos.y;
 				var gestureDirection;
-				if (deltaX > deltaY) {
+				if (Math.abs(deltaX) > Math.abs(deltaY)) {
 					if (deltaX > 0) {
 						gestureDirection = Block.prototype.RIGHTWARD;
 					} else {
@@ -661,6 +661,10 @@ _isPhantomBlockValid = false;
 				};
 
 				gesturePos.x = oldCellPosition.x;
+if(isNaN(gesturePos.x)){
+var trace = printStackTrace();
+alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
+}
 				gesturePos.y = oldCellPosition.y;
 
 				var farthestCellAvailable;
@@ -781,6 +785,44 @@ _isPhantomBlockValid = false;
 				default:
 					return;
 				}
+if(considerTap || isNaN(gesturePos.x)){// TODO: REMOVE ME
+var msg = "UUUUGHH2!! \ngesturePos.x="+gesturePos.x+";\ngesturePos.y="+gesturePos.y+";\n"+
+"farthestCellAvailable="+ (farthestCellAvailable ? farthestCellAvailable.x+","+farthestCellAvailable.y : "<undefined>")+";\n"+
+"gestureType="+gestureType+";\n"+
+"fallDirection="+fallDirection+";\n"+
+"gestureDirection="+gestureDirection+";\n"+
+"pixelOffsetForComputingCell="+pixelOffsetForComputingCell.x+","+pixelOffsetForComputingCell.y+";\n"+
+"deltaPos="+deltaX+","+deltaY+";\n"+
+"startPos="+startPos.x+","+startPos.y+";\n"+
+"endPos="+endPos.x+","+endPos.y+";\n"+
+"oldCellPosition="+oldCellPosition.x+","+oldCellPosition.y+";\n";
+if (isNaN(gesturePos.x)) {
+var trace = printStackTrace();
+alert(msg+trace.join('\n'));
+} else {
+log.w(msg);
+}
+
+// // Fall directions
+// Block.prototype.DOWNWARD = 0;
+// Block.prototype.LEFTWARD = 1;
+// Block.prototype.UPWARD = 2;
+// Block.prototype.RIGHTWARD = 3;
+
+// // Block sides
+// Block.prototype.ALL_SIDES = 0;
+// Block.prototype.TOP_SIDE = 1;
+// Block.prototype.RIGHT_SIDE = 2;
+// Block.prototype.BOTTOM_SIDE = 3;
+// Block.prototype.LEFT_SIDE = 4;
+
+// // The gesture types
+// var _NONE = 1;
+// var _ROTATION = 2;
+// var _SIDEWAYS_MOVE = 3;
+// var _DROP = 4;
+// var _DIRECTION_CHANGE = 5;
+}
 			}
 
 			return {
@@ -798,7 +840,7 @@ _isPhantomBlockValid = false;
 
 			// Now, offset this position to allow the upper-left corner of the 
 			// block to still determine the position
-			var blockHeight = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation) * 2;
+			var blockHeight = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation).y * 2;
 			newX -= (blockHeight - 1);
 
 			return {
@@ -813,7 +855,8 @@ _isPhantomBlockValid = false;
 
 		function _switchPhantomToSelected(selectedBlock, phantomBlock) {
 			selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, false);
-			selectedBlock.setCellPosition(phantomBlock.getCellPosition());
+			var phantomPosition = phantomBlock.getCellPosition();
+			selectedBlock.setCellPosition(phantomPosition.x, phantomPosition.y);
 		}
 
 		function _computePhantomBlock(gestureType, gestureCellPos, selectedBlock) {

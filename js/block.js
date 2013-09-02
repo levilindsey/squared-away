@@ -608,6 +608,8 @@
 				squaresOnGameArea, blocksOnGameArea) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
+			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
 			var neighborIndex;
 			var i = 0;
 			var dI = deltaI;
@@ -617,19 +619,45 @@
 
 			// Keep moving one cell in the same direction until we hit a 
 			// square on the gameArea or we hit an edge of the game area
-			for (; ; ++i, dI += deltaI, dX += deltaX, dY += deltaY) {
+			while (true) {
+				var msg = 
+					"i=" + i + ";\n" + 
+					"dI=" + dI + ";\n" + 
+					"dX=" + dX + ";\n" + 
+					"dY=" + dY + ";\n" + 
+					"deltaI=" + deltaI + ";\n" + 
+					"deltaX=" + deltaX + ";\n" + 
+					"deltaY=" + deltaY + ";\n" + 
+					"_gameAreaCellSize=" + _gameAreaCellSize + ";\n";
+
+				for (j = 0; j < positions.length; ++j) {
+					msg += "positions["+j+"]=" + positions[j].x + "," + positions[j].y + ";\n";
+				}
+
 				// Check each of this block's four constituent squares
 				for (j = 0; j < indices.length; ++j) {
 					neighborIndex = indices[j] + dI;
+
+					msg += "indices["+j+"]=" + indices[j] + ";\n";
+					msg += "neighborIndex=" + neighborIndex + ";\n";
 
 					if (positions[j].x + dX >= _gameAreaCellSize || 
 							positions[j].x + dX < 0 || 
 							positions[j].y + dY >= _gameAreaCellSize || 
 							positions[j].y + dY < 0 || 
-							squaresOnGameArea[neighborIndex] > -1) { 
+							squaresOnGameArea[neighborIndex] > -1 || 
+							positions[i].x + deltaX >= minCenterSquareCellPositionX || 
+							positions[i].x + deltaX < maxCenterSquareCellPositionX || 
+							positions[i].y + deltaY >= minCenterSquareCellPositionX || 
+							positions[i].y + deltaY < maxCenterSquareCellPositionX) { 
 						return i;
 					}
 				}
+
+				++i;
+				dI += deltaI;
+				dX += deltaX;
+				dY += deltaY;
 			}
 		}
 

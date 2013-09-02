@@ -164,6 +164,7 @@
 		</div>
 	</div>
 
+    <script type="text/javascript" src="js/stacktrace-min-0.4.js"></script>
     <script type="text/javascript" src="js/logger.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/resources.js"></script>
