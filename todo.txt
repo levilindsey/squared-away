@@ -89,6 +89,9 @@
 - the ability to toggle different game modes will be unlocked by getting through later levels (and this data is saved to the player's account)
 - show a red or white circle or block overlay centered where the block was which caused the game over
 
+- look up how to make old 8-bit music sounds (alla NES)
+    - then COMPOSE and "PRODUCE" my own music track(s)
+
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
 // ------------------------------------------------------------------------- //

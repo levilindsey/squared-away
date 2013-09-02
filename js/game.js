@@ -676,7 +676,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _DROP;
 						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -704,7 +704,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _SIDEWAYS_MOVE;
 						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _DROP;
@@ -716,7 +716,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _SIDEWAYS_MOVE;
 						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _DIRECTION_CHANGE;
@@ -742,7 +742,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _DROP;
 						farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -760,7 +760,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _SIDEWAYS_MOVE;
 						farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _DIRECTION_CHANGE;
@@ -770,7 +770,7 @@ alert("UUUUGHH1!! \nx="+x+";\ny="+y+";\n"+trace.join('\n'));
 						gestureType = _SIDEWAYS_MOVE;
 						farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(_squaresOnGameArea, _blocksOnGameArea);
 						gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / _squareSizePixels);
-						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
+						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _DROP;
