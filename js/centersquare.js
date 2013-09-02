@@ -10,6 +10,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->centersquare.LOADING_MODULE");
 
 	// --------------------------------------------------------------------- //
@@ -100,8 +102,8 @@
 				_prevColorIndex = _nextColorIndex;
 				do {
 					_nextColorIndex = Math.floor(Math.random() * 7);
-				} while (_nextColorIndex == _prevColorIndex || 
-						_nextColorIndex == _prev2ColorIndex);
+				} while (_nextColorIndex === _prevColorIndex || 
+						_nextColorIndex === _prev2ColorIndex);
 			}
 
 			var progressThroughCurrentColors = _timeSinceLastColor / _currentColorPeriod;
@@ -142,7 +144,7 @@
 		this.setDimensions = _setDimensions;
 
 		log.d("<--centersquare.CenterSquare");
-	};
+	}
 
 	// Make CenterSquare available to the rest of the program
 	window.CenterSquare = CenterSquare;

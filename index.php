@@ -168,7 +168,6 @@
     <script type="text/javascript" src="js/previewwindow.js"></script>
     <script type="text/javascript" src="js/centersquare.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="js/input.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

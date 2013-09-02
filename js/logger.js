@@ -10,6 +10,8 @@
 var DEBUG = true;
 
 (function() {
+	"use strict";
+
 	// ----------------------------------------------------------------- //
 	// -- Private static members
 
@@ -78,7 +80,7 @@ var DEBUG = true;
 		this.d = _d;
 		this.w = _w;
 		this.e = _e;
-	};
+	}
 
 	var _CONSOLE_ELEMENT = document.getElementById("console");
 

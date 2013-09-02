@@ -17,6 +17,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->game.LOADING_MODULE");
 
 	// --------------------------------------------------------------------- //
@@ -135,7 +137,7 @@
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
-//			log.d("-->game._gameLoop");
+			log.d("-->game._gameLoop");
 
 			_isLooping = true;
 
@@ -157,20 +159,23 @@
 			// Go to the next frame
 			_prevTime = currTime;
 
-//			log.d("<--game._gameLoop");
+			log.d("<--game._gameLoop");
 		}
 
 		// Update each of the game entities with the current time.
 		function _update(deltaTime) {
-//			log.d("-->game._update");
+			log.d("-->game._update");
 
 			_gameTime += deltaTime;
 
 			// Update the center square
 			_centerSquare.update(deltaTime);
 
+			var i;
+			var block;
+
 			// Update the blocks
-			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+			for (i = 0; i < _blocksOnGameArea.length; ++i) {
 				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);
 
 				// If the block has reached the edge of the game area and is 
@@ -197,14 +202,14 @@
 			}
 
 			// Update the preview windows
-			for (var i = 0; i < 4; ++i) {
+			for (i = 0; i < 4; ++i) {
 				_previewWindows[i].update(deltaTime);
 
 				// If the preview window has finished its cool down, then add 
 				// its block to the game area and start a new block in preview 
 				// window
 				if (_previewWindows[i].isCoolDownFinished()) {
-					var block = _previewWindows[i].getCurrentBlock();
+					block = _previewWindows[i].getCurrentBlock();
 
 					// If there is a square on the game area in the way the 
 					// new block from being added, then the game is over and 
@@ -226,11 +231,11 @@
 			_levelDisplay.innerHTML = _level;
 			_scoreDisplay.innerHTML = _score;
 
-//			log.d("<--game._update");
+			log.d("<--game._update");
 		}
 
 		function _draw() {
-//			log.d("-->game._draw");
+			log.d("-->game._draw");
 
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -244,9 +249,11 @@
 			_context.fill();
 			_context.stroke();
 
+			var i;
+
 			// ---- Draw the preview windows ---- //
 
-			for (var i = 0; i < 4; ++i) {
+			for (i = 0; i < 4; ++i) {
 				_previewWindows[i].draw(_context);
 			}
 
@@ -260,12 +267,12 @@
 			_context.translate(_gameAreaPosition.x, _gameAreaPosition.y);
 
 			// Draw each of the falling blocks
-			for (var i = 0; i < _blocksOnGameArea.length; ++i) {
+			for (i = 0; i < _blocksOnGameArea.length; ++i) {
 				_blocksOnGameArea[i].draw(_context);
 			}
 
 			// Draw each of the stationary squares
-			for (var i = 0; i < _squaresOnGameArea.length; ++i) {
+			for (i = 0; i < _squaresOnGameArea.length; ++i) {
 				window.Block.prototype.drawSquare(
 										_context, _squaresOnGameArea[i], 
 										(i % _gameAreaSize) * _squareSizePixels, 
@@ -303,7 +310,7 @@
 
 			_context.restore();
 
-//			log.d("<--game._draw");
+			log.d("<--game._draw");
 		}
 
 		// Set up a new game
@@ -314,7 +321,7 @@
 			_gameTime = 0;
 			_isPaused = true;
 			_isEnded = true;
-			_blocksOnGameArea = new Array();
+			_blocksOnGameArea = [];
 			_squaresOnGameArea = window.utils.initializeArray(
 									_gameAreaSize * _gameAreaSize, -1);
 			_prevTime = 0;
@@ -372,16 +379,16 @@
 			// This is the horizontal distance (in pixels) from the left side 
 			// of the canvas to the left side of the top-side preview window
 			var tmp1 = (_previewWindowSizePixels / 2) + 
-					   _previewWindowOuterMarginPixels + 
-					   _previewWindowInnerMarginPixels + 
-					   (_gameAreaSizePixels / 2);
+						_previewWindowOuterMarginPixels + 
+						_previewWindowInnerMarginPixels + 
+						(_gameAreaSizePixels / 2);
 
 			// This is the horizontal distance (in pixels) from the left side 
 			// of the canvas to the left side of the right-side preview window
 			var tmp2 = _previewWindowSizePixels + 
-					   _previewWindowOuterMarginPixels + 
-					   (_previewWindowInnerMarginPixels * 2) + 
-					   _gameAreaSizePixels;
+						_previewWindowOuterMarginPixels + 
+						(_previewWindowInnerMarginPixels * 2) + 
+						_gameAreaSizePixels;
 
 			var x1 = tmp1;
 			var y1 = _previewWindowInnerMarginPixels;
@@ -441,15 +448,21 @@
 		}
 
 		function _startGesture(pos, time) {
+			log.d("-->game._startGesture");
+
 			_gestureStartPos = pos;
 			_gestureStartTime = time;
 
 			// Find the closest block within a certain distance threshold to 
 			// this gesture, if any
 			_selectedBlock = _findNearestValidBlock(_gestureStartPos, _blocksOnGameArea);
+
+			log.d("<--game._startGesture");
 		}
 
 		function _finishGesture(pos, time) {
+			log.d("-->game._finishGesture");
+
 			_gestureCurrentPos = pos;
 			_gestureCurrentTime = time;
 
@@ -519,9 +532,14 @@
 				default:
 					return;
 				}
+			}
+
+			log.d("<--game._finishGesture");
 		}
 
 		function _dragGesture(pos) {
+			log.d("-->game._dragGesture");
+
 			_gestureCurrentPos = pos;
 
 			// Check whether the player is currently selecting a block
@@ -558,6 +576,8 @@
 					_phantomGuideLinePolygon = _computePhantomGuideLinePolygon(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
 				}
 			}
+
+			log.d("<--game._dragGesture");
 		}
 
 		function _cancelGesture() {
@@ -811,7 +831,6 @@
 		}
 
 		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
-			var orientation = phantomBlock.getOrientation();
 			var fallDirection = phantomBlock.getFallDirection();
 
 			// Get the furthest position the block can move to the "left"
@@ -875,7 +894,7 @@
 			// Compute two remaining polygon points
 			var lowerLeftAndRightPoints = phantomBlock.getLowerLeftAndRightFallDirectionPoints();
 
-			var points = new Array();
+			var points = [];
 			var i;
 
 			// Add the "leftward" points
@@ -1050,7 +1069,7 @@
 		this.cancelGesture = _cancelGesture;
 
 		log.d("<--game.Game");
-	};
+	}
 
 	// Make Game available to the rest of the program
 	window.Game = Game;

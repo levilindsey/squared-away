@@ -11,6 +11,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->resources.LOADING_MODULE");
 
     var _resourceCache = {};

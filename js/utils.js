@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->utils.LOADING_MODULE");
 
 	// Return a new object which whose prototype is the given old object.
@@ -73,7 +75,7 @@
 	}
 
 	function _initializeArray(length, initialValue) {
-		var array = new Array();
+		var array = [];
 
 		for (var i = 0; i < length; ++i) {
 			array[i] = initialValue;
@@ -83,7 +85,7 @@
 	}
 
 	function _copyArray(oldArray) {
-		var newArray = new Array();
+		var newArray = [];
 
 		for (var i = 0; i < oldArray.length; ++i) {
 			newArray.push(oldArray[i]);
@@ -111,7 +113,7 @@
 			seconds = "0" + seconds;
 		}
 
-		var millis = millis % 1000;
+		millis = millis % 1000;
 		millis = hours.toString();
 		while (millis.length < 3) {
 			millis = "0" + millis;
@@ -128,12 +130,13 @@
 			event.pageX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
 			event.pageY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
+		return event;
 	}
 
 	window.utils = {
 		object: _object,
 		initializeArray: _initializeArray,
-		copyArray: _copyArray;
+		copyArray: _copyArray,
 		getWindowWidth: _getWindowWidth,
 		getWindowHeight: _getWindowHeight,
 		getElementWidth: _getElementWidth,

@@ -14,6 +14,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->block.LOADING_MODULE");
 
 	// --------------------------------------------------------------------- //
@@ -122,6 +124,8 @@
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
 		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
+			log.d("-->block._update");
+
 			_timeSinceLastFall += deltaTime;
 
 			// Check whether this block needs to fall one space
@@ -133,7 +137,7 @@
 					_hasCollidedWithSquare = 
 							_checkForCollisionWithCenterSquare() ||
 							_checkForCollisionWithSquare(squaresOnGameArea, 
-											   blocksOnGameArea);
+															blocksOnGameArea);
 
 					if (!_hasCollidedWithSquare) {
 						_fall();
@@ -148,12 +152,16 @@
 					!_hasCollidedWithEdgeOfArea && !_hasCollidedWithSquare) {
 				// TODO: 
 			}
+
+			log.d("<--block._update");
 		}
 
 		// Render this block on the given drawing context.  The context should 
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		function _draw(context) {
+			log.d("-->block._draw");
+
 			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
@@ -175,6 +183,8 @@
 									positions[2].x, positions[2].y);
 			window.Block.prototype.drawSquare(context, _type, 
 									positions[3].x, positions[3].y);
+
+			log.d("<--block._draw");
 		}
 
 		// Rotate the orientation of this block clockwise 90 degrees, if this 
@@ -194,8 +204,10 @@
 				// Rotate the square positions
 				squarePositions = _rotatePoints(squarePositions, 1, _type);
 
+				var i;
+
 				// Translate the square positions from block space to canvas space
-				for (var i = 0; i < positions.length; ++i) {
+				for (i = 0; i < positions.length; ++i) {
 					squarePositions[i].x += _positionCell.x;
 					squarePositions[i].y += _positionCell.y;
 				}
@@ -225,7 +237,7 @@
 				}
 
 				// Apply the offset to each of the squares
-				for (var i = 0; i < squarePositions.length; ++i) {
+				for (i = 0; i < squarePositions.length; ++i) {
 					squarePositions[i].x += offset.x;
 					squarePositions[i].y += offset.y;
 				}
@@ -233,7 +245,7 @@
 				// Check whether the new square positions are valid
 				var squareIndices = _positionsToIndices(squarePositions);
 				var collision = false;
-				for (var i = 0; i < squareIndices.length; ++i) {
+				for (i = 0; i < squareIndices.length; ++i) {
 					if (squaresOnGameArea[neighborIndex] > -1) {
 						collision = true;
 					}
@@ -657,8 +669,8 @@
 
 			// Translate from block cell space to game area pixel space
 			for (var i = 0; i < points.length; ++i) {
-				points[i].x = (points[i].x * ) + _positionPixels.x;
-				points[i].y = (points[i].y * ) + _positionPixels.y;
+				points[i].x = (points[i].x * _squareSize) + _positionPixels.x;
+				points[i].y = (points[i].y * _squareSize) + _positionPixels.y;
 			}
 
 			return points;
@@ -680,20 +692,20 @@
 			// Account for the fall direction
 			switch (_fallDirection) {
 			case Block.prototype.DOWNWARD:
-				leftPoint = { x: 0, y: maxY }
-				rightPoint = { x: maxX, y: maxY }
+				leftPoint = { x: 0, y: maxY };
+				rightPoint = { x: maxX, y: maxY };
 				break;
 			case Block.prototype.LEFTWARD:
-				leftPoint = { x: 0, y: 0 }
-				rightPoint = { x: 0, y: maxY }
+				leftPoint = { x: 0, y: 0 };
+				rightPoint = { x: 0, y: maxY };
 				break;
 			case Block.prototype.UPWARD:
-				leftPoint = { x: maxX, y: 0 }
-				rightPoint = { x: 0, y: 0 }
+				leftPoint = { x: maxX, y: 0 };
+				rightPoint = { x: 0, y: 0 };
 				break;
 			case Block.prototype.RIGHTWARD:
-				leftPoint = { x: maxX, y: maxY }
-				rightPoint = { x: maxX, y: 0 }
+				leftPoint = { x: maxX, y: maxY };
+				rightPoint = { x: maxX, y: 0 };
 				break;
 			default:
 				return;
@@ -735,7 +747,7 @@
 		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
 
 		log.d("<--block.Block");
-	};
+	}
 
 	// --------------------------------------------------------------------- //
 	// -- Private static members
@@ -781,13 +793,14 @@
 		// The blue block is 90-degrees rotationally symmetric
 		if (numberOfRotations > 0 && type !== Block.prototype.BLUE) {
 			var max;
+			var i;
 
 			// Rotate the points
 			switch (numberOfRotations) {
 			case 1:
 				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 				max = _findMaxCoords(newPoints);
-				for (var i = 0; i < newPoints.length; ++i) {
+				for (i = 0; i < newPoints.length; ++i) {
 					newPoints[i].x = max.y - newPoints[i].y;
 					newPoints[i].y = newPoints[i].x;
 				}
@@ -797,7 +810,7 @@
 				if (type !== Block.prototype.RED && type !== Block.prototype.GREEN && type !== Block.prototype.ORANGE) {
 					newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 					max = _findMaxCoords(newPoints);
-					for (var i = 0; i < newPoints.length; ++i) {
+					for (i = 0; i < newPoints.length; ++i) {
 						newPoints[i].x = max.x - newPoints[i].x;
 						newPoints[i].y = max.y - newPoints[i].y;
 					}
@@ -806,7 +819,7 @@
 			case 3:
 				newPoints = window.utils.initializeArray(newPoints.length, { x: 0, y: 0 });
 				max = _findMaxCoords(newPoints);
-				for (var i = 0; i < newPoints.length; ++i) {
+				for (i = 0; i < newPoints.length; ++i) {
 					newPoints[i].x = newPoints[i].y;
 					newPoints[i].y = max.x - newPoints[i].x;
 				}
@@ -832,7 +845,7 @@
 			}
 		}
 
-		return { x: maxX, y: maxY }
+		return { x: maxX, y: maxY };
 	}
 
 	function _positionToIndex(position) {
@@ -840,7 +853,7 @@
 	}
 
 	function _positionsToIndices(positions) {
-		var indices = new Array();
+		var indices = [];
 
 		for (var i = 0; i < positions.length; ++i) {
 			indices[i] = _positionToIndex(positions[i]);

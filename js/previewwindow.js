@@ -23,6 +23,8 @@
 
 
 (function() {
+	"use strict";
+
 	log.d("-->previewwindow.LOADING_MODULE");
 
 	// --------------------------------------------------------------------- //
@@ -97,78 +99,78 @@
 			context.lineWidth = _NORMAL_STROKE_WIDTH;
 			context.fillStyle = _NORMAL_FILL_COLOR;
 			context.strokeStyle = _NORMAL_STROKE_COLOR;
-			context.rect(_position.x, _position.y, _size, _size);
+			context.rect(_position.x, _position.y, sideLength, sideLength);
 			context.fill();
 			context.stroke();
 
 			// Show the cool-down progress with a background polygon and with 
 			// a thick line around the perimeter
-			_drawCoolDownFill(context, currentProgress);
-			_drawCoolDownStroke(context, currentProgress);
+			_drawCoolDownFill(context, currentProgress, sideLength);
+			_drawCoolDownStroke(context, currentProgress, sideLength, progressLineWidth);
 
 			// Draw the block in the center of the window
 			_currentBlock.draw(context);
 		}
 
-		function _drawCoolDownFill(context, currentProgress) {
+		function _drawCoolDownFill(context, currentProgress, sideLength) {
 			context.beginPath();
 
 			context.fillStyle = _progressFillColor;
 
 			context.moveTo(_positionOfWindowCenter.x, _positionOfWindowCenter.y);
 			context.lineTo(_positionOfWindowCenter.x, _position.y);
-			_makeCoolDownPathAroundPerimeter(context, currentProgress);
+			_makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength);
 			context.closePath();
 
 			context.fill();
 		}
 
-		function _drawCoolDownStroke(context, currentProgress) {
+		function _drawCoolDownStroke(context, currentProgress, sideLength, progressLineWidth) {
 			context.beginPath();
 
 			context.strokeStyle = _progressStrokeColor;
-			context.lineWidth = _PROGRESS_STROKE_WIDTH;
+			context.lineWidth = progressLineWidth;
 
 			context.moveTo(_positionOfWindowCenter.x, _position.y);
-			_makeCoolDownPathAroundPerimeter(context, currentProgress);
+			_makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength);
 
 			context.stroke();
 		}
 
-		function _makeCoolDownPathAroundPerimeter(context, currentProgress) {
+		function _makeCoolDownPathAroundPerimeter(context, currentProgress, sideLength) {
 			if (currentProgress > 1/8) { // The cool down has at least reached the top-right corner
 				// Draw the section from the top-middle to the top-right
-				context.lineTo(_position.x + _size, _position.y);
+				context.lineTo(_position.x + sideLength, _position.y);
 
 				if (currentProgress > 3/8) { // The cool down has at least reached the bottom-right corner
 					// Draw the section from the top-right to the bottom-right
-					context.lineTo(_position.x + _size, _position.y + _size);
+					context.lineTo(_position.x + sideLength, _position.y + sideLength);
 
 					if (currentProgress > 5/8) { // The cool down has at least reached the bottom-left corner
 						// Draw the section from the bottom-right to the bottom-left
-						context.lineTo(_position.x, _position.y + _size);
+						context.lineTo(_position.x, _position.y + sideLength);
 
 						if (currentProgress > 7/8) { // The cool down has at least reached the top-left corner
 							// Draw the section from the bottom-left to the top-left
 							context.lineTo(_position.x, _position.y);
 
 							// Draw the section from the top-left to somewhere along the final top portion
-							context.lineTo(_position.x + ((currentProgress - (7 / 8)) * 4 * _size), _position.y);
+							context.lineTo(_position.x + ((currentProgress - (7 / 8)) * 4 * sideLength), _position.y);
 						} else { // The cool down has not yet reached the top-left corner
 							// Draw the section from the bottom-left to somewhere in the left portion
-							context.lineTo(_position.x, _position.y + (((7 / 8) - currentProgress) * 4 * _size));
+							context.lineTo(_position.x, _position.y + (((7 / 8) - currentProgress) * 4 * sideLength));
 						}
 					} else { // The cool down has not yet reached the bottom-left corner
 						// Draw the section from the bottom-right to somewhere in the bottom portion
-						context.lineTo(_position.x + (((5 / 8) - currentProgress) * 4 * _size), _position.y + _size);
+						context.lineTo(_position.x + (((5 / 8) - currentProgress) * 4 * sideLength), _position.y + sideLength);
 					}
 				} else { // The cool down has not yet reached the bottom-right corner
 					// Draw the section from the top-right to somewhere in the right portion
-					context.lineTo(_position.x + _size, _position.y + ((currentProgress - (1 / 8)) * 4 * _size));
+					context.lineTo(_position.x + sideLength, _position.y + ((currentProgress - (1 / 8)) * 4 * sideLength));
 				}
 			} else { // The cool down has not yet reached the top-right corner
 				// Draw the section from the top-middle to somewhere in the first top portion
-				context.lineTo(_positionOfWindowCenter.x + (currentProgress * 4 * _size), _position.y);
+				context.lineTo(_positionOfWindowCenter.x + (currentProgress * 4 * sideLength), _position.y);
 			}
 		}
 
@@ -257,7 +259,7 @@
 		this.draw = _draw;
 
 		log.d("<--previewwindow.PreviewWindow");
-	};
+	}
 
 	PreviewWindow.prototype = {
 		// --------------------------------------------------------------------- //

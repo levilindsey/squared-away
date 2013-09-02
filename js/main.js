@@ -16,6 +16,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->main.LOADING_MODULE");
 
 	var game = null;
@@ -121,7 +123,7 @@
 		log.d("<--main.onGameEnd");
 	}
 
-	function onPauseEvent(event) {
+	function onPauseEvent() {
 		log.d("-->main.onPauseEvent");
 
 		if (game.getIsPaused() || game.getIsEnded()) {
@@ -159,13 +161,13 @@
 		var mode5 = document.getElementById("mode5");
 		game.setMode5(mode5.checked);
 		var gameAreaSizeElem = document.getElementById("gameAreaSize");
-		var gameAreaSize = parseInt(gameAreaSizeElem.options[gameAreaSizeElem.selectedIndex].value);
+		var gameAreaSize = parseInt(gameAreaSizeElem.options[gameAreaSizeElem.selectedIndex].value, 10);
 		game.setGameAreaSize(gameAreaSize);
 		var centerSquareSizeElem = document.getElementById("centerSquareSize");
-		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value);
+		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value, 10);
 		game.setCenterSquareSize(centerSquareSize);
 		var startingLevelElem = document.getElementById("startingLevel");
-		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value);
+		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value, 10);
 		game.setStartingLevel(startingLevel);
 	}
 
@@ -205,20 +207,23 @@
 	function onMouseDown(event) {
 		event = window.utils.standardizeMouseEvent(event);
 
-		gestureInProgress = true;
+		// We only care about gestures which occur while the game is running
+		if (!game.getIsPaused() && !game.getIsEnded()) {
+			gestureInProgress = true;
 
-		var pagePos = { x: event.pageX, y: event.pageY };
-		var currentTime = Date.now();
+			var pagePos = { x: event.pageX, y: event.pageY };
+			var currentTime = Date.now();
 
-		// Translate the tap position from page coordinates to game-area 
-		// coordinates
-		var gameAreaRect = canvas.getBoundingClientRect();
-		var gameAreaPos = {
-			x: pagePos.x - gameAreaRect.left,
-			y: pagePos.y - gameAreaRect.top
-		};
+			// Translate the tap position from page coordinates to game-area 
+			// coordinates
+			var gameAreaRect = canvas.getBoundingClientRect();
+			var gameAreaPos = {
+				x: pagePos.x - gameAreaRect.left,
+				y: pagePos.y - gameAreaRect.top
+			};
 
-		game.startGesture(gameAreaPos, currentTime);
+			game.startGesture(gameAreaPos, currentTime);
+		}
 	}
 
 	function onMouseUp(event) {
@@ -263,7 +268,7 @@
 
 	// This event cancels any current mouse gesture and forces the player to 
 	// start again.
-	function onMouseOut(event) {
+	function onMouseOut() {
 		gestureInProgress = false;
 
 		game.cancelGesture();

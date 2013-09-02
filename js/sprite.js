@@ -13,6 +13,8 @@
 // ------------------------------------------------------------------------- //
 
 (function() {
+	"use strict";
+
 	log.d("-->sprite.LOADING_MODULE");
 
 	// Constructor
@@ -112,7 +114,7 @@
 		this.setFrameAnimationPeriod = _setFrameAnimationPeriod;
 		this.setFrameAnimationStartTime = _setFrameAnimationStartTime;
 		this.setFrames = _setFrames;
-	};
+	}
 
 	Sprite.prototype = {
 		// ----------------------------------------------------------------- //
