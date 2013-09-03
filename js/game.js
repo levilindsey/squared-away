@@ -651,9 +651,16 @@
 					gestureType = _NONE;
 				}
 			} else {
+				var blockType = selectedBlock.getType();
+				var fallDirection = selectedBlock.getFallDirection();
+				var orientation = selectedBlock.getOrientation();
+				var oldCellPosition = selectedBlock.getCellPosition();
+				var currentBlockCenter = selectedBlock.getPixelCenter();
+				var cellOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
+
 				// Determine the direction of the gesture
-				var deltaX = endPos.x - startPos.x;
-				var deltaY = endPos.y - startPos.y;
+				var deltaX = endPos.x - currentBlockCenter.x;
+				var deltaY = endPos.y - currentBlockCenter.y;
 				var gestureDirection;
 				if (Math.abs(deltaX) > Math.abs(deltaY)) {
 					if (deltaX > 0) {
@@ -669,11 +676,6 @@
 					}
 				}
 
-				var blockType = selectedBlock.getType();
-				var fallDirection = selectedBlock.getFallDirection();
-				var orientation = selectedBlock.getOrientation();
-				var oldCellPosition = selectedBlock.getCellPosition();
-				var cellOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 				// This offset is subtracted from the gesture position.  So 
 				// this ultimately adds 0.5 to the position, which centers the 
 				// position calculation to where it really should be (because 
@@ -901,7 +903,6 @@
 		}
 
 		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
-//TODO: ****fix the guidelines for all fall directions and orientations
 			var fallDirection = phantomBlock.getFallDirection();
 
 			// Get the furthest position the block can move to the "left"

@@ -49,9 +49,10 @@
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.addEventListener("click", onPauseEvent, false);
 		window.addEventListener("blur", pauseGame, false);
+		unpauseButton.addEventListener("click", onPauseEvent, false);
 		document.addEventListener("keypress", onKeyPress, false);
+		document.addEventListener("keyup", onKeyUp, false);
 		document.addEventListener("mousedown", onMouseDown, false);
 		document.addEventListener("mouseup", onMouseUp, false);
 		document.addEventListener("mousemove", onMouseMove, false);
@@ -140,10 +141,18 @@
 		var key = window.utils.translateKeyCode(keyCode);
 
 		switch(key) {
-		case "ESCAPE": pauseGame(); break; // pause only
 		case "ENTER": playGame(); break; // play only
-		case "SPACE": onPauseEvent(event); break; // toggle play/pause
-		// TODO: look for other key-press events?
+		case "SPACE": onPauseEvent(event); event.preventDefault(); // toggle play/pause
+		default: break;
+		}
+	}
+	
+	function onKeyUp(event) {
+        var keyCode = event.keyCode;
+		var key = window.utils.translateKeyCode(keyCode);
+
+		switch(key) {
+		case "ESCAPE": pauseGame(); break; // pause only
 		default: break;
 		}
 	}
