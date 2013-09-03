@@ -84,6 +84,9 @@
 						<p>Press on block, and drag up (away from current fall direction).<p>
 					</td>
 				</tr>
+				<p>
+					Spacebar: pause.
+				</p>
 			</table>
 
 			<hr>

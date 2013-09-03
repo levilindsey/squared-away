@@ -61,6 +61,8 @@
 	var _TAP_SQUARED_DISTANCE_THRESHOLD = 100; // TODO: test this
 	var _TAP_TIME_THRESHOLD = 250; // TODO: test this
 
+	var _LAYER_COLLAPSE_DELAY = 600; // millis
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -135,6 +137,9 @@
 		var _isPhantomBlockValid = false;
 		var _phantomGuideLinePolygon = null;
 
+		// This array contains objects which each have the properties collapseDelay and layer
+		var _layersToCollapse = [];
+
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
 //			log.d("-->game._gameLoop");
@@ -173,6 +178,19 @@
 
 			var i;
 
+			// Collapse any layers which are due
+			for (i = 0; i < _layersToCollapse.length; ++i) {
+				_layersToCollapse[i].collapseDelay -= deltaTime;
+				if (_layersToCollapse[i] < 0) {
+					_collapseLayer(_layersToCollapse[i].layer);
+				}
+
+				// Change each of the squares' values in this layer to 
+				// represent the appropriate sprite for the current stage of 
+				// the collapse animation
+				// TODO: *******!!!!!!
+			}
+
 			// Update the blocks
 			for (i = 0; i < _blocksOnGameArea.length; ++i) {
 				_blocksOnGameArea[i].update(deltaTime, _squaresOnGameArea, _blocksOnGameArea);
@@ -190,12 +208,16 @@
 				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
 					// Add it's squares to the game area and delete the block 
 					// object
-					_blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
+					var newIndices = _blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
 
-					// Check whether this settled block causes the disintegration of any layers
-					if (false) { // TODO: ****
-						//++_layersDestroyed;
+					// Check whether this landed block causes the collapse of any layers
+					var completeLayers = _checkForCollapsedLayers(newIndices);
+					for (i = 0; i < completeLayers.length; ++i) {
+						_layersToCollapse.push({
+							collapseDelay: _LAYER_COLLAPSE_DELAY,
+							layer: completeLayers[i]
+						});
 					}
 
 					// Check whether this was the last active block
@@ -213,7 +235,7 @@
 						}
 
 						// Force the next preview window to release its block now
-						getNextBlock(nextPreviewWindow);
+						_getNextBlock(nextPreviewWindow);
 					}
 				}
 			}
@@ -226,7 +248,7 @@
 				// its block to the game area and start a new block in preview 
 				// window
 				if (_previewWindows[i].isCoolDownFinished()) {
-					getNextBlock(_previewWindows[i]);
+					_getNextBlock(_previewWindows[i]);
 				}
 			}
 
@@ -238,21 +260,6 @@
 			_scoreDisplay.innerHTML = _score;
 
 //			log.d("<--game._update");
-		}
-
-		function getNextBlock(previewWindow) {
-			var block = previewWindow.getCurrentBlock();
-
-			// If there is a square on the game area in the way the 
-			// new block from being added, then the game is over and 
-			// the player has lost
-			if (block.checkIsOverTopSquare(_squaresOnGameArea)) {
-				_endGame();
-				return;
-			}
-
-			_blocksOnGameArea.push(block);
-			previewWindow.startNewBlock();
 		}
 
 		function _draw() {
@@ -642,14 +649,11 @@
 			var duration = endTime - startTime;
 			var squaredDistance = _getSquaredDistance(startPos, endPos);
 
-			// Check whether the gesture was short enough to be a tap
-			if (considerTap && squaredDistance < _TAP_SQUARED_DISTANCE_THRESHOLD) {
-				// Check whether the gesture was brief enough to be a tap
-				if (duration < _TAP_TIME_THRESHOLD) {
-					gestureType = _ROTATION;
-				} else {
-					gestureType = _NONE;
-				}
+			// Check whether the gesture was brief and hort enough to be a tap
+			if (considerTap && 
+					squaredDistance < _TAP_SQUARED_DISTANCE_THRESHOLD && 
+					duration < _TAP_TIME_THRESHOLD) {
+				gestureType = _ROTATION;
 			} else {
 				var blockType = selectedBlock.getType();
 				var fallDirection = selectedBlock.getFallDirection();
@@ -1043,10 +1047,51 @@
 			return null;
 		}
 
-		function _getSquaredDistance(pos1, pos2) {
-			var deltaX = pos1.x - pos2.x;
-			var deltaY = pos1.y - pos2.y;
-			return deltaX * deltaX + deltaY * deltaY;
+		function _getNextBlock(previewWindow) {
+			var block = previewWindow.getCurrentBlock();
+
+			// If there is a square on the game area in the way the 
+			// new block from being added, then the game is over and 
+			// the player has lost
+			if (block.checkIsOverTopSquare(_squaresOnGameArea)) {
+				_endGame();
+				return;
+			}
+
+			_blocksOnGameArea.push(block);
+			previewWindow.startNewBlock();
+		}
+
+		// Return any layers which are completed by the inclusion of squares 
+		// in the given new indices.
+		function _checkForCollapsedLayers(newIndices) {
+			if (_inMode2) { // Collapsing whole squares
+				
+			} else { // Collapsing only lines
+				
+			}
+			// TODO: ****
+		}
+
+		function _collapseLayer(layer) {
+			// TODO: ****
+			//++_layersDestroyed;
+		}
+
+		// Drop each of the blocks that used to be one-layer higher than the 
+		// given collapsed layer.  This dropping then has the possibility to 
+		// cascade to higher layers depending on whether the dropped blocks 
+		// were supporting other higher blocks.
+		function _settleHigherLayer(collapsedLayer) {
+			// TODO: ****
+		}
+
+		// Drop each of the blocks that used to be one-layer higher than the 
+		// given collapsed layer.  This dropping then has the possibility to 
+		// cascade to higher layers depending on whether the dropped blocks 
+		// were supporting other higher blocks.
+		function _settleHigherBlocks(****) {
+			// TODO: ****
 		}
 
 		function _getIsPaused() {
@@ -1146,6 +1191,15 @@
 		this.getGameAreaPosition = _getGameAreaPosition;
 
 		log.d("<--game.Game");
+	}
+
+	// ----------------------------------------------------------------- //
+	// -- Private static members
+
+	function _getSquaredDistance(pos1, pos2) {
+		var deltaX = pos1.x - pos2.x;
+		var deltaY = pos1.y - pos2.y;
+		return deltaX * deltaX + deltaY * deltaY;
 	}
 
 	// Make Game available to the rest of the program

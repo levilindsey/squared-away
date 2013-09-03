@@ -277,7 +277,8 @@
 		// Negative values in the game area represent cells which do not 
 		// contain squares.  When a cell does contain a square, the color of 
 		// the square is determined by the positive number of the 
-		// corresponding block type.
+		// corresponding block type.  Return the indices where squares were 
+		// added.
 		function _addSquaresToGameArea(squaresOnGameArea) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
@@ -285,6 +286,8 @@
 			for (var i = 0; i < positions.length; ++i) {
 				squaresOnGameArea[indices[i]] = _type;
 			}
+
+			return indices;
 		}
 
 		// Return an array of position objects which represent the cells in 

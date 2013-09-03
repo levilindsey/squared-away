@@ -48,6 +48,7 @@
     - have an inner center square appear that is slightly smaller than the main one
 	- have this start centered, but then quickly move around in random directions in and out of the center position (alternate center with random offset)
 	- have this be mostly transparent, with a 2px stroke, and have the fill color change randomly and quickly between the seven options
+- 
 
 // ------------------------------------------------------------------------- //
 // ---------- DESKTOP POST-IT NOTE
@@ -92,9 +93,9 @@
 - re-factor the Block code to only use one manner of position information
 - the ability to toggle different game modes will be unlocked by getting through later levels (and this data is saved to the player's account)
 - show a red or white circle or block overlay centered where the block was which caused the game over
-
 - look up how to make old 8-bit music sounds (alla NES)
     - then COMPOSE and "PRODUCE" my own music track(s)
+- two options: logging in with a username VS playing as anonymous
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
