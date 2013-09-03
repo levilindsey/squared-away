@@ -58,7 +58,7 @@
 			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // TOP_SIDE
 			[{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }], // RIGHT_SIDE
 			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
-			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
 		],
 		[ // YELLOW (J-shaped block)
 			[{ x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 3 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // ALL_SIDES
@@ -701,9 +701,7 @@
 		}
 
 		function _getSidePointsRelativeToBlockPosition(side) {
-			var points = _getPointsAlongSideRelativeToBlockPosition(_type, _orientation, side);
-
-			return points;
+			return _getPointsAlongSideRelativeToBlockPosition(_type, _orientation, side);
 		}
 
 		function _getLowerLeftAndRightFallDirectionPoints() {
@@ -783,7 +781,7 @@
 	function _getPointsAlongSideRelativeToBlockPosition(type, orientation, side) {
 		if (side !== Block.prototype.ALL_SIDES) {
 			// Correct for the given orientation and account for ALL_SIDES being at index 0
-			side = (((side - 1) - orientation) % side) + 1;
+			side = ((((side - 1) - orientation) + 4) % 4) + 1;
 		}
 
 		var points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];

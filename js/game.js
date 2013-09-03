@@ -704,8 +704,14 @@
 						gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
 						break;
 					case Block.prototype.UPWARD:
-						gestureType = _DIRECTION_CHANGE;
-						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+						if (mode4On) {
+							gestureType = _DIRECTION_CHANGE;
+							if (mode5On) {
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+							}
+						} else {
+							gestureType = _NONE;
+						}
 						break;
 					case Block.prototype.RIGHTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -738,8 +744,14 @@
 						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.RIGHTWARD:
-						gestureType = _DIRECTION_CHANGE;
-						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+						if (mode4On) {
+							gestureType = _DIRECTION_CHANGE;
+							if (mode5On) {
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+							}
+						} else {
+							gestureType = _NONE;
+						}
 						break;
 					default:
 						return;
@@ -748,8 +760,14 @@
 				case Block.prototype.UPWARD:
 					switch (gestureDirection) {
 					case Block.prototype.DOWNWARD:
-						gestureType = _DIRECTION_CHANGE;
-						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+						if (mode4On) {
+							gestureType = _DIRECTION_CHANGE;
+							if (mode5On) {
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+							}
+						} else {
+							gestureType = _NONE;
+						}
 						break;
 					case Block.prototype.LEFTWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -782,8 +800,14 @@
 						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.LEFTWARD:
-						gestureType = _DIRECTION_CHANGE;
-						gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+						if (mode4On) {
+							gestureType = _DIRECTION_CHANGE;
+							if (mode5On) {
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+							}
+						} else {
+							gestureType = _NONE;
+						}
 						break;
 					case Block.prototype.UPWARD:
 						gestureType = _SIDEWAYS_MOVE;
@@ -877,6 +901,7 @@
 		}
 
 		function _computePhantomGuideLinePolygon(phantomBlock, squaresOnGameArea, blocksOnGameArea) {
+//TODO: ****fix the guidelines for all fall directions and orientations
 			var fallDirection = phantomBlock.getFallDirection();
 
 			// Get the furthest position the block can move to the "left"

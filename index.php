@@ -96,9 +96,9 @@
 				<br>
 				<label><input type="checkbox" name="mode3" id="mode3" value="mode3" checked> Blocks are allowed to fall past the center</label>
 				<br>
-				<label><input type="checkbox" name="mode4" id="mode4" value="mode4"> Able to change falling direction of blocks</label>
+				<label><input type="checkbox" name="mode4" id="mode4" value="mode4" checked> Able to change falling direction of blocks</label>
 				<br>
-				<label><input type="checkbox" name="mode5" id="mode5" value="mode5"> Changing direction moves block to next quadrant</label>
+				<label><input type="checkbox" name="mode5" id="mode5" value="mode5" checked> Changing direction moves block to next quadrant</label>
 				<br>
 				Size of game area:
 				<select id="gameAreaSize">
