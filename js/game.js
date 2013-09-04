@@ -49,8 +49,8 @@
 	var _DROP = 4;
 	var _DIRECTION_CHANGE = 5;
 
-	var _INVALID_MOVE_FILL_COLOR = "rgba(255,150,150,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,150,150,0.2)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_FILL_COLOR = "rgba(255,150,150,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,150,150,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
 	var _VALID_MOVE_FILL_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
@@ -61,7 +61,7 @@
 	var _TAP_SQUARED_DISTANCE_THRESHOLD = 100; // TODO: test this
 	var _TAP_TIME_THRESHOLD = 250; // TODO: test this
 
-	var _LAYER_COLLAPSE_DELAY = 600; // millis
+	var _INITIAL_LAYER_COLLAPSE_DELAY = 500; // millis
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -81,7 +81,7 @@
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
-		var _gameAreaSizePixels = 0; // in pixels
+		var _gameAreaCellSizePixels = 0; // in pixels
 		var _previewWindowSizePixels = 0; // in pixels
 		var _previewWindowOuterMarginPixels = 0; // in pixels
 		var _previewWindowInnerMarginPixels = 0; // in pixels
@@ -108,8 +108,9 @@
 		var _mode3On = true;
 		var _mode4On = false;
 		var _mode5On = false;
-		var _gameAreaSize = 100; // in number of squares
-		var _centerSquareSize = 6; // in number of squares
+		var _gameAreaCellSize = 100; // in number of squares
+		var _centerSquareCellSize = 6; // in number of squares
+		var _centerSquareCellPositionX = 47;
 		var _startingLevel = 1;
 
 		var _squareSizePixels = 0; // in pixels
@@ -117,7 +118,7 @@
 		var _score = 0;
 		var _level = _startingLevel;
 		var _gameTime = 0; // active (unpaused) time since start of game
-		var _layersDestroyed = 0;
+		var _layersCollapsed = 0;
 
 		var _currentPreviewWindowCoolDownTime = 30000; // in millis
 		var _currentBlockFallSpeed = 1; // squares / millis
@@ -136,6 +137,8 @@
 		var _phantomBlockPolygon = null;
 		var _isPhantomBlockValid = false;
 		var _phantomGuideLinePolygon = null;
+
+		var _layerCollapseDelay = _INITIAL_LAYER_COLLAPSE_DELAY;
 
 		// This array contains objects which each have the properties collapseDelay and layer
 		var _layersToCollapse = [];
@@ -181,14 +184,15 @@
 			// Collapse any layers which are due
 			for (i = 0; i < _layersToCollapse.length; ++i) {
 				_layersToCollapse[i].collapseDelay -= deltaTime;
-				if (_layersToCollapse[i] < 0) {
+				if (_layersToCollapse[i].collapseDelay < 0) {
 					_collapseLayer(_layersToCollapse[i].layer);
+					_layersToCollapse.splice(i, 1);
 				}
 
 				// Change each of the squares' values in this layer to 
 				// represent the appropriate sprite for the current stage of 
 				// the collapse animation
-				// TODO: *******!!!!!!
+				// TODO: *******!!!!!! (if I actually want to represent the animation of collapse with different cell numbers, then I am going to have to refactor each of the places in the code that look at _squaresOnGameArea[i] < 0 and make sure that they also behave correctly with _squaresOnGameArea[i] equal to the weird animating collapse numbers
 			}
 
 			// Update the blocks
@@ -208,14 +212,14 @@
 				if (_blocksOnGameArea[i].getHasCollidedWithSquare()) {
 					// Add it's squares to the game area and delete the block 
 					// object
-					var newIndices = _blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
+					var newCellPositions = _blocksOnGameArea[i].addSquaresToGameArea(_squaresOnGameArea);
 					_blocksOnGameArea.splice(i, 1);
 
 					// Check whether this landed block causes the collapse of any layers
-					var completeLayers = _checkForCollapsedLayers(newIndices);
+					var completeLayers = _checkForCompleteLayers(newCellPositions);
 					for (i = 0; i < completeLayers.length; ++i) {
 						_layersToCollapse.push({
-							collapseDelay: _LAYER_COLLAPSE_DELAY,
+							collapseDelay: _layerCollapseDelay,
 							layer: completeLayers[i]
 						});
 					}
@@ -273,7 +277,7 @@
 			_context.lineWidth = _NORMAL_STROKE_WIDTH;
 			_context.fillStyle = _NORMAL_FILL_COLOR;
 			_context.strokeStyle = _NORMAL_STROKE_COLOR;
-			_context.rect(_gameAreaPosition.x, _gameAreaPosition.y, _gameAreaSizePixels, _gameAreaSizePixels);
+			_context.rect(_gameAreaPosition.x, _gameAreaPosition.y, _gameAreaCellSizePixels, _gameAreaCellSizePixels);
 			_context.fill();
 			_context.stroke();
 
@@ -303,8 +307,8 @@
 			for (i = 0; i < _squaresOnGameArea.length; ++i) {
 				window.Block.prototype.drawSquare(
 										_context, _squaresOnGameArea[i], 
-										(i % _gameAreaSize) * _squareSizePixels, 
-										Math.floor((i / _gameAreaSize)) * _squareSizePixels);
+										(i % _gameAreaCellSize) * _squareSizePixels, 
+										Math.floor((i / _gameAreaCellSize)) * _squareSizePixels);
 			}
 
 			// Check whether there are currently any disintegrating sections
@@ -351,7 +355,7 @@
 			_isEnded = true;
 			_blocksOnGameArea = [];
 			_squaresOnGameArea = window.utils.initializeArray(
-									_gameAreaSize * _gameAreaSize, -1);
+									_gameAreaCellSize * _gameAreaCellSize, -1);
 			_prevTime = 0;
 
 			_setLevel(_startingLevel);
@@ -380,6 +384,9 @@
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 			}
+
+			// Decrease the layer collapse delay
+			// TODO: (_layerCollapseDelay, _INITIAL_LAYER_COLLAPSE_DELAY)
 		}
 
 		function _getPreviewWindowCoolDownTime(level) {
@@ -393,7 +400,7 @@
 		}
 
 		function _computeDimensions() {
-			_gameAreaSizePixels = _canvas.width * _GAME_AREA_SIZE_RATIO;
+			_gameAreaCellSizePixels = _canvas.width * _GAME_AREA_SIZE_RATIO;
 			_previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
 			_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
 			_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
@@ -409,14 +416,14 @@
 			var tmp1 = (_previewWindowSizePixels / 2) + 
 						_previewWindowOuterMarginPixels + 
 						_previewWindowInnerMarginPixels + 
-						(_gameAreaSizePixels / 2);
+						(_gameAreaCellSizePixels / 2);
 
 			// This is the horizontal distance (in pixels) from the left side 
 			// of the canvas to the left side of the right-side preview window
 			var tmp2 = _previewWindowSizePixels + 
 						_previewWindowOuterMarginPixels + 
 						(_previewWindowInnerMarginPixels * 2) + 
-						_gameAreaSizePixels;
+						_gameAreaCellSizePixels;
 
 			var x1 = tmp1;
 			var y1 = _previewWindowInnerMarginPixels;
@@ -441,8 +448,8 @@
 		}
 
 		function _setUpCenterSquareDimensions() {
-			var size = _centerSquareSize * _squareSizePixels;
-			var x = _gameAreaPosition.x + (_gameAreaSizePixels - size) / 2;
+			var size = _centerSquareCellSize * _squareSizePixels;
+			var x = _gameAreaPosition.x + (_gameAreaCellSizePixels - size) / 2;
 
 			_centerSquare.setDimensions(x, size);
 		}
@@ -713,7 +720,7 @@
 						if (mode4On) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
-								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
 							}
 						} else {
 							gestureType = _NONE;
@@ -753,7 +760,7 @@
 						if (mode4On) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
-								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
 							}
 						} else {
 							gestureType = _NONE;
@@ -769,7 +776,7 @@
 						if (mode4On) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
-								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
 							}
 						} else {
 							gestureType = _NONE;
@@ -809,7 +816,7 @@
 						if (mode4On) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
-								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaSize);
+								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
 							}
 						} else {
 							gestureType = _NONE;
@@ -892,8 +899,6 @@
 			var points = phantomBlock.getPolygon();
 
 			// Get the offset from the top-left of the block to the center
-			var type = phantomBlock.getType();
-			var orientation = phantomBlock.getOrientation();
 			var pixelCenter = phantomBlock.getPixelCenter();
 			var i;
 
@@ -1027,9 +1032,10 @@
 				var nearestBlock = blocksOnGameArea[0];
 
 				var currentSquareDistance;
+				var i;
 
 				// Find the nearest block
-				for (var i = 1; i < blocksOnGameArea.length; ++i) {
+				for (i = 1; i < blocksOnGameArea.length; ++i) {
 					currentSquareDistance = _getSquaredDistance(pos, blocksOnGameArea[i].getPixelCenter());
 
 					if (currentSquareDistance <= nearestSquareDistance) {
@@ -1063,34 +1069,578 @@
 		}
 
 		// Return any layers which are completed by the inclusion of squares 
-		// in the given new indices.
-		function _checkForCollapsedLayers(newIndices) {
-			if (_inMode2) { // Collapsing whole squares
-				
+		// in the given new cell positions.  In the event of line-collapse 
+		// mode, the line layers will be represented by objects with the 
+		// following properties: side, layer, startCell, endCell (inclusive).
+		function _checkForCompleteLayers(newCellPositions) {
+			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
+			var centerCellPositionX = (_gameAreaCellSize / 2) - 0.5;
+			var _centerSquareCellHalfSize = _centerSquareCellSize / 2;
+
+			var completeLayers = [];
+			var layersToCheck = [];
+
+			var layer;
+			var i;
+			var j;
+			var deltaX;
+			var deltaY;
+			var deltaI;
+			var startX;
+			var startY;
+			var startI;
+			var endX;
+			var endY;
+			var endI;
+
+			if (_mode2On) { // Collapsing whole squares
+				// Get the layers the given positions are a part of
+				for (i = 0; i < newCellPositions.length; ++i) {
+					deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
+					deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
+
+					if (deltaX > deltaY) {
+						layer = Math.ceil(deltaX - _centerSquareCellHalfSize);
+					} else {
+						layer = Math.ceil(deltaY - _centerSquareCellHalfSize);
+					}
+
+					// Do not add any layer more than once
+					if (layersToCheck.indexOf(layer) < 0) {
+						layersToCheck.push(layer);
+					}
+				}
+
+				// Check each of the layers
+				mode2Onlayerloop:
+				for (j = 0; j < layersToCheck.length; ++j) {
+					layer = layersToCheck[j];
+
+					// Check the top side
+					startX = minCenterSquareCellPositionX - layer;
+					startY = minCenterSquareCellPositionX - layer;
+					endX = maxCenterSquareCellPositionX + layer;
+					startI = (startY * _gameAreaCellSize) + startX;
+					deltaI = 1;
+					endI = (startY * _gameAreaCellSize) + endX;
+					for (i = startI; i < endI; i += deltaI) {
+						if (_squaresOnGameArea[i] < 0) {
+							continue mode2Onlayerloop;
+						}
+					}
+
+					// Check the right side
+					startX = maxCenterSquareCellPositionX - 1 + layer;
+					startY = minCenterSquareCellPositionX - layer;
+					endY = maxCenterSquareCellPositionX + layer;
+					startI = (startY * _gameAreaCellSize) + startX;
+					deltaI = _gameAreaCellSize;
+					endI = (endY * _gameAreaCellSize) + startX;
+					for (i = startI; i < endI; i += deltaI) {
+						if (_squaresOnGameArea[i] < 0) {
+							continue mode2Onlayerloop;
+						}
+					}
+
+					// Check the bottom side
+					startX = minCenterSquareCellPositionX - layer;
+					startY = maxCenterSquareCellPositionX - 1 + layer;
+					endX = maxCenterSquareCellPositionX + layer;
+					startI = (startY * _gameAreaCellSize) + startX;
+					deltaI = 1;
+					endI = (startY * _gameAreaCellSize) + endX;
+					for (i = startI; i < endI; i += deltaI) {
+						if (_squaresOnGameArea[i] < 0) {
+							continue mode2Onlayerloop;
+						}
+					}
+
+					// Check the left side
+					startX = minCenterSquareCellPositionX - layer;
+					startY = minCenterSquareCellPositionX - layer;
+					endY = maxCenterSquareCellPositionX + layer;
+					startI = (startY * _gameAreaCellSize) + startX;
+					deltaI = _gameAreaCellSize;
+					endI = (endY * _gameAreaCellSize) + startX;
+					for (i = startI; i < endI; i += deltaI) {
+						if (_squaresOnGameArea[i] < 0) {
+							continue mode2Onlayerloop;
+						}
+					}
+
+					completeLayers.push(layer);
+				}
 			} else { // Collapsing only lines
-				
+				var side;
+				var startCell;
+				var endCell;
+				var minStartI;
+				var minEndI;
+				var maxEndI;
+
+				// Get the layers the given positions are a part of
+				for (i = 0; i < newCellPositions.length; ++i) {
+					deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
+					deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
+
+					if (deltaX > _centerSquareCellHalfSize) {
+						if (newCellPositions[i].x < centerCellPositionX) {
+							side = Block.prototype.LEFT_SIDE;
+						} else {
+							side = Block.prototype.RIGHT_SIDE;
+						}
+
+						layer = {
+							side: side,
+							layer: Math.ceil(deltaX - _centerSquareCellHalfSize)
+						};
+
+						// Do not add any layer more than once
+						if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
+							layersToCheck.push(layer);
+						}
+					}
+
+					if (deltaY > _centerSquareCellHalfSize) {
+						if (newCellPositions[i].y < centerCellPositionX) {
+							side = Block.prototype.TOP_SIDE;
+						} else {
+							side = Block.prototype.BOTTOM_SIDE;
+						}
+
+						layer = {
+							side: side,
+							layer: Math.ceil(deltaY - _centerSquareCellHalfSize)
+						};
+
+						// Do not add any layer more than once
+						if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
+							layersToCheck.push(layer);
+						}
+					}
+				}
+
+				// Check each of the layers
+				mode2Offlayerloop:
+				for (j = 0; j < layersToCheck.length; ++j) {
+					layer = layersToCheck[j].layer;
+					side = layersToCheck[j].side;
+					startCell = -1;
+					endCell = -1;
+
+					// Only check one side
+					switch (side) {
+					case Block.prototype.TOP_SIDE:
+						startY = minCenterSquareCellPositionX - layer;
+						startI = startY * _gameAreaCellSize;
+						deltaI = 1;
+						startX = minCenterSquareCellPositionX;
+						endX = maxCenterSquareCellPositionX - 1;
+						minStartI = (startY * _gameAreaCellSize) + startX;
+						minEndI = (startY * _gameAreaCellSize) + endX;
+						maxEndI = ((startY + 1) * _gameAreaCellSize) - 1;
+						break;
+					case Block.prototype.RIGHT_SIDE:
+						startX = minCenterSquareCellPositionX - 1 + layer;
+						startI = startX;
+						deltaI = _gameAreaCellSize;
+						startY = minCenterSquareCellPositionX;
+						endY = maxCenterSquareCellPositionX - 1;
+						minStartI = (startY * _gameAreaCellSize) + startX;
+						minEndI = (endY * _gameAreaCellSize) + startX;
+						maxEndI = ((_gameAreaCellSize - 1) * _gameAreaCellSize) + startX;
+						break;
+					case Block.prototype.BOTTOM_SIDE:
+						startY = maxCenterSquareCellPositionX - 1 + layer;
+						startI = startY * _gameAreaCellSize;
+						deltaI = 1;
+						startX = minCenterSquareCellPositionX;
+						endX = maxCenterSquareCellPositionX - 1;
+						minStartI = (startY * _gameAreaCellSize) + startX;
+						minEndI = (startY * _gameAreaCellSize) + endX;
+						maxEndI = ((startY + 1) * _gameAreaCellSize) - 1;
+						break;
+					case Block.prototype.LEFT_SIDE:
+						startX = minCenterSquareCellPositionX - layer;
+						startI = startX;
+						deltaI = _gameAreaCellSize;
+						startY = minCenterSquareCellPositionX;
+						endY = maxCenterSquareCellPositionX - 1;
+						minStartI = (startY * _gameAreaCellSize) + startX;
+						minEndI = (endY * _gameAreaCellSize) + startX;
+						maxEndI = ((_gameAreaCellSize - 1) * _gameAreaCellSize) + startX;
+						break;
+					default:
+						return;
+					}
+
+					i = startI;
+
+					// Find the first non-empty cell in this line
+					while (i <= minStartI) {
+						if (_squaresOnGameArea[i] >= 0) {
+							startCell = i;
+							i += deltaI;
+							break;
+						}
+						i += deltaI;
+					}
+
+					// We can stop checking this line if the sequence of non-
+					// empty cells did not start early enough
+					if (startCell < 0) {
+						continue mode2Offlayerloop;
+					}
+
+					// Find the last contiguous non-empty cell in this line
+					while (i <= maxEndI) {
+						if (_squaresOnGameArea[i] < 0) {
+							endCell = i - deltaI;
+							i += deltaI;
+							break;
+						}
+						i += deltaI;
+					}
+
+					// We can stop checking this line if the sequence of non-
+					// empty cells was not long enough
+					if (endCell < minEndI) {
+						continue mode2Offlayerloop;
+					}
+
+					// Handle the case where the line extends all the way to 
+					// the edge
+					if (endCell < 0) {
+						endCell = i - deltaI;
+					} else {
+						// Ensure that there were no later non-empty cells in 
+						// this line
+						while (i <= maxEndI) {
+							if (_squaresOnGameArea[i] >= 0) {
+								continue mode2Offlayerloop;
+							}
+							i += deltaI;
+						}
+					}
+
+					completeLayers.push({
+						side: side,
+						layer: layer,
+						startCell: startCell,
+						endCell: endCell
+					});
+				}
 			}
-			// TODO: ****
+
+			return completeLayers;
 		}
 
-		function _collapseLayer(layer) {
-			// TODO: ****
-			//++_layersDestroyed;
+		function _findIndexOfLayerToCheck(layers, layerToCheck) {
+			for (var i = 0; i < layers.length; ++i) {
+				if (layers[i].side === layerToCheck.side && 
+						layers[i].layer === layerToCheck.layer) {
+					return i;
+				}
+			}
+
+			return -1;
+		}
+
+		function _collapseLayer(layer) { // TODO: should I get rid of this function and modify _dropHigherLayers to make up for it?
+			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
+
+			var i;
+			var deltaI;
+
+			if (_mode2On) { // Collapsing whole squares
+				var startX;
+				var startY;
+				var startI;
+				var endX;
+				var endY;
+				var endI;
+
+				// Remove the top side
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endX = maxCenterSquareCellPositionX + layer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				deltaI = 1;
+				endI = (startY * _gameAreaCellSize) + endX;
+				for (i = startI; i < endI; i += deltaI) {
+					_squaresOnGameArea[i] = -1;
+				}
+
+				// Remove the right side
+				startX = maxCenterSquareCellPositionX - 1 + layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				deltaI = _gameAreaCellSize;
+				endI = (endY * _gameAreaCellSize) + startX;
+				for (i = startI; i < endI; i += deltaI) {
+					_squaresOnGameArea[i] = -1;
+				}
+
+				// Remove the bottom side
+				startX = minCenterSquareCellPositionX - layer;
+				startY = maxCenterSquareCellPositionX - 1 + layer;
+				endX = maxCenterSquareCellPositionX + layer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				deltaI = 1;
+				endI = (startY * _gameAreaCellSize) + endX;
+				for (i = startI; i < endI; i += deltaI) {
+					_squaresOnGameArea[i] = -1;
+				}
+
+				// Remove the left side
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				deltaI = _gameAreaCellSize;
+				endI = (endY * _gameAreaCellSize) + startX;
+				for (i = startI; i < endI; i += deltaI) {
+					_squaresOnGameArea[i] = -1;
+				}
+			} else { // Collapsing only lines
+				var side = layer.side;
+				var startCell = layer.startCell;
+				var endCell = layer.endCell;
+
+				switch (side) {
+				case Block.prototype.TOP_SIDE:
+					deltaI = 1;
+					break;
+				case Block.prototype.RIGHT_SIDE:
+					deltaI = _gameAreaCellSize;
+					break;
+				case Block.prototype.BOTTOM_SIDE:
+					deltaI = 1;
+					break;
+				case Block.prototype.LEFT_SIDE:
+					deltaI = _gameAreaCellSize;
+					break;
+				default:
+					return;
+				}
+
+				// Remove the squares from the game area
+				for (i = startCell; i <= endCell; i += deltaI) {
+					_squaresOnGameArea[i] = -1;
+				}
+			}
+
+			_dropHigherLayers(layer);
+
+			++_layersCollapsed;
+		}
+
+		// Drop by one each of the layers above the given layer.
+		function _dropHigherLayers(collapsedLayer) {
+			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
+			var centerCellPositionX = _gameAreaCellSize / 2;
+
+			var i;
+			var loopDeltaI;
+			var dropDeltaI;
+			var updateStartCellDeltaI;
+			var updateEndCellDeltaI;
+			var currentLayer;
+
+			if (_mode2On) { // Collapsing whole squares
+				var startX;
+				var startY;
+				var startI;
+				var endX;
+				var endY;
+				var endI;
+
+				++collapsedLayer;
+
+				// Remove the second half of the top side
+				startX = centerCellPositionX;
+				startY = minCenterSquareCellPositionX - collapsedLayer;
+				endX = maxCenterSquareCellPositionX + collapsedLayer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				loopDeltaI = 1;
+				dropDeltaI = _gameAreaCellSize;
+				endI = (startY * _gameAreaCellSize) + endX;
+				updateStartCellDeltaI = -_gameAreaCellSize;
+				updateEndCellDeltaI = -_gameAreaCellSize + 1;
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (currentLayer = collapsedLayer; 
+						currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startI; i < endI; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+
+				// Remove the right side
+				startX = maxCenterSquareCellPositionX - 1 + collapsedLayer;
+				startY = minCenterSquareCellPositionX - collapsedLayer;
+				endY = maxCenterSquareCellPositionX + collapsedLayer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				loopDeltaI = _gameAreaCellSize;
+				dropDeltaI = -1;
+				endI = (endY * _gameAreaCellSize) + startX;
+				updateStartCellDeltaI = -_gameAreaCellSize + 1;
+				updateEndCellDeltaI = _gameAreaCellSize + 1;
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (currentLayer = collapsedLayer; 
+						currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startI; i < endI; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+
+				// Remove the bottom side
+				startX = minCenterSquareCellPositionX - collapsedLayer;
+				startY = maxCenterSquareCellPositionX - 1 + collapsedLayer;
+				endX = maxCenterSquareCellPositionX + collapsedLayer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				loopDeltaI = 1;
+				dropDeltaI = -_gameAreaCellSize;
+				endI = (startY * _gameAreaCellSize) + endX;
+				updateStartCellDeltaI = _gameAreaCellSize - 1;
+				updateEndCellDeltaI = _gameAreaCellSize + 1;
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (currentLayer = collapsedLayer; 
+						currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startI; i < endI; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+
+				// Remove the left side
+				startX = minCenterSquareCellPositionX - collapsedLayer;
+				startY = minCenterSquareCellPositionX - collapsedLayer;
+				endY = maxCenterSquareCellPositionX + collapsedLayer;
+				startI = (startY * _gameAreaCellSize) + startX;
+				loopDeltaI = _gameAreaCellSize;
+				dropDeltaI = 1;
+				endI = (endY * _gameAreaCellSize) + startX;
+				updateStartCellDeltaI = -_gameAreaCellSize - 1;
+				updateEndCellDeltaI = _gameAreaCellSize - 1;
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (currentLayer = collapsedLayer; 
+						currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startI; i < endI; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+
+				// Remove the first half of the top side
+				startX = minCenterSquareCellPositionX - collapsedLayer;
+				startY = minCenterSquareCellPositionX - collapsedLayer;
+				endX = centerCellPositionX;
+				startI = (startY * _gameAreaCellSize) + startX;
+				loopDeltaI = 1;
+				dropDeltaI = _gameAreaCellSize;
+				endI = (startY * _gameAreaCellSize) + endX;
+				updateStartCellDeltaI = -_gameAreaCellSize - 1;
+				updateEndCellDeltaI = -_gameAreaCellSize;
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (currentLayer = collapsedLayer; 
+						currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startI; i < endI; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+
+				// TODO: (drop only half of the top layer first, then drop the other half last)
+			} else { // Collapsing only lines
+				var side = collapsedLayer.side;
+				var startCell = collapsedLayer.startCell;
+				var endCell = collapsedLayer.endCell;
+				currentLayer = collapsedLayer.layer;
+
+				switch (side) {
+				case Block.prototype.TOP_SIDE:
+					loopDeltaI = 1;
+					dropDeltaI = _gameAreaCellSize;
+					updateStartCellDeltaI = -_gameAreaCellSize - 1;
+					updateEndCellDeltaI = -_gameAreaCellSize + 1;
+					break;
+				case Block.prototype.RIGHT_SIDE:
+					loopDeltaI = _gameAreaCellSize;
+					dropDeltaI = 1;
+					updateStartCellDeltaI = -_gameAreaCellSize + 1;
+					updateEndCellDeltaI = _gameAreaCellSize + 1;
+					break;
+				case Block.prototype.BOTTOM_SIDE:
+					loopDeltaI = 1;
+					dropDeltaI = _gameAreaCellSize;
+					updateStartCellDeltaI = _gameAreaCellSize - 1;
+					updateEndCellDeltaI = _gameAreaCellSize + 1;
+					break;
+				case Block.prototype.LEFT_SIDE:
+					loopDeltaI = _gameAreaCellSize;
+					dropDeltaI = 1;
+					updateStartCellDeltaI = -_gameAreaCellSize - 1;
+					updateEndCellDeltaI = _gameAreaCellSize - 1;
+					break;
+				default:
+					return;
+				}
+
+				startCell += updateStartCellDeltaI;
+				endCell += updateEndCellDeltaI;
+				++currentLayer;
+
+				// Loop through each higher layer and consider each to be two-
+				// squares longer than the previous
+				for (; currentLayer <= minCenterSquareCellPositionX; 
+						++currentLayer, startCell += updateStartCellDeltaI, endCell += updateEndCellDeltaI) {
+					// Drop all squares in this layer
+					for (i = startCell; i <= endCell; i += loopDeltaI) {
+						if (_squaresOnGameArea[i] >= 0 && _squaresOnGameArea[i + dropDeltaI] < 0) {
+							_squaresOnGameArea[i + dropDeltaI] = _squaresOnGameArea[i];
+							_squaresOnGameArea[i] = -1;
+						}
+					}
+				}
+			}
 		}
 
 		// Drop each of the blocks that used to be one-layer higher than the 
 		// given collapsed layer.  This dropping then has the possibility to 
 		// cascade to higher layers depending on whether the dropped blocks 
 		// were supporting other higher blocks.
-		function _settleHigherLayer(collapsedLayer) {
-			// TODO: ****
-		}
-
-		// Drop each of the blocks that used to be one-layer higher than the 
-		// given collapsed layer.  This dropping then has the possibility to 
-		// cascade to higher layers depending on whether the dropped blocks 
-		// were supporting other higher blocks.
-		function _settleHigherBlocks(****) {
+		function _settleHigherLayers(collapsedLayer) {
 			// TODO: ****
 		}
 
@@ -1135,20 +1685,24 @@
 		}
 
 		function _setGameAreaSize(gameAreaSize) {
-			_gameAreaSize = gameAreaSize;
-			_squareSizePixels = _gameAreaSizePixels / _gameAreaSize;
+			_gameAreaCellSize = gameAreaSize;
+			_squareSizePixels = _gameAreaCellSizePixels / _gameAreaCellSize;
 
-			window.Block.prototype.setSquareSize(_squareSizePixels);
-			window.Block.prototype.setGameAreaCellSize(_gameAreaSize);
-			window.PreviewWindow.prototype.setGameAreaSize(_gameAreaSize);
+			window.Block.prototype.setGameAreaDimensions(_squareSizePixels, _gameAreaCellSize, _centerSquareCellSize, _centerSquareCellPositionX);
+			window.PreviewWindow.prototype.setGameAreaSize(_gameAreaCellSize);
 			_setUpCenterSquareDimensions();
 		}
 
 		function _setCenterSquareSize(centerSquareSize) {
-			_centerSquareSize = centerSquareSize;
+			_centerSquareCellSize = centerSquareSize;
+			_computeCenterSquareCellPosition();
 			
-			window.Block.prototype.setCenterSquareCellSize(_centerSquareSize);
+			window.Block.prototype.setGameAreaDimensions(_squareSizePixels, _gameAreaCellSize, _centerSquareCellSize, _centerSquareCellPositionX);
 			_setUpCenterSquareDimensions();
+		}
+
+		function _computeCenterSquareCellPosition() {
+			_centerSquareCellPositionX = Math.floor((_gameAreaCellSize - _centerSquareCellSize) / 2);
 		}
 
 		function _setStartingLevel(level) {

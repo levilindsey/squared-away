@@ -53,7 +53,7 @@
 		unpauseButton.addEventListener("click", onPauseEvent, false);
 		document.addEventListener("keypress", onKeyPress, false);
 		document.addEventListener("keyup", onKeyUp, false);
-		document.addEventListener("mousedown", onMouseDown, false);
+		canvas.addEventListener("mousedown", onMouseDown, false);
 		document.addEventListener("mouseup", onMouseUp, false);
 		document.addEventListener("mousemove", onMouseMove, false);
 		document.addEventListener("mouseout", onMouseOut, false);
@@ -142,7 +142,7 @@
 
 		switch(key) {
 		case "ENTER": playGame(); break; // play only
-		case "SPACE": onPauseEvent(event); event.preventDefault(); // toggle play/pause
+		case "SPACE": onPauseEvent(event); event.preventDefault(); break; // toggle play/pause
 		default: break;
 		}
 	}
@@ -236,6 +236,10 @@
 
 			game.startGesture(gameAreaPos, currentTime);
 		}
+
+		// It ruins gameplay for the browser to use the mouse drag as a 
+		// highlight gesture
+		event.preventDefault();
 	}
 
 	function onMouseUp(event) {

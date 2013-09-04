@@ -277,7 +277,7 @@
 		// Negative values in the game area represent cells which do not 
 		// contain squares.  When a cell does contain a square, the color of 
 		// the square is determined by the positive number of the 
-		// corresponding block type.  Return the indices where squares were 
+		// corresponding block type.  Return the positions where squares were 
 		// added.
 		function _addSquaresToGameArea(squaresOnGameArea) {
 			var positions = _getSquareCellPositions();
@@ -287,7 +287,7 @@
 				squaresOnGameArea[indices[i]] = _type;
 			}
 
-			return indices;
+			return positions;
 		}
 
 		// Return an array of position objects which represent the cells in 
@@ -884,10 +884,6 @@
 		return indices;
 	}
 
-	function _computeCenterSquareCellPosition() {
-		_centerSquareCellPositionX = Math.floor((_gameAreaCellSize - _centerSquareCellSize) / 2);
-	}
-
 	// --------------------------------------------------------------------- //
 	// -- Public (non-privileged) static members
 
@@ -923,25 +919,17 @@
 	Block.prototype.BOTTOM_SIDE = 3;
 	Block.prototype.LEFT_SIDE = 4;
 
-	// This should be called once at the start of the program
-	Block.prototype.setSquareSize = function(size) {
-		_squareSize = size;
-	};
-
 	Block.prototype.getSquareSize = function() {
 		return _squareSize;
 	};
 
-	Block.prototype.setGameAreaCellSize = function(size) {
-		_gameAreaCellSize = size;
-
-		_computeCenterSquareCellPosition();
-	};
-
-	Block.prototype.setCenterSquareCellSize = function(size) {
-		_centerSquareCellSize = size;
-
-		_computeCenterSquareCellPosition();
+	// This should be called once at the start of each game
+	Block.prototype.setGameAreaDimensions = function(squarePixelSize, gameAreaCellSize, 
+			centerSquareSize, centerSquareCellPositionX) {
+		_squareSize = squarePixelSize;
+		_gameAreaCellSize = gameAreaCellSize;
+		_centerSquareCellSize = centerSquareSize;
+		_centerSquareCellPositionX = centerSquareCellPositionX;
 	};
 
 	Block.prototype.setFallSpeed = function(fallSpeed) {
