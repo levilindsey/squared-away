@@ -96,6 +96,15 @@
 - look up how to make old 8-bit music sounds (alla NES)
     - then COMPOSE and "PRODUCE" my own music track(s)
 - two options: logging in with a username VS playing as anonymous
+- BIG animations:
+    - a quick intro when the page is first loaded
+	    - a bunch of blocks falling into the title area from all sides
+		- they then collapse away to reveal the title
+		- this is pre-scripted
+	- a slow idle animation before the game has started for the first time
+	    - blocks randomly fall across the canvas behind the transparent screen
+		- two falling from each side always
+- replace a lot of the media loading with ajax??
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

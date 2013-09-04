@@ -133,6 +133,10 @@
 		return event;
 	}
 
+	function _getExpGrowthValue(initial, rate, time) {
+		return initial * Math.pow((1 + rate), time);
+	}
+
 	window.utils = {
 		object: _object,
 		initializeArray: _initializeArray,
@@ -143,6 +147,7 @@
 		getElementHeight: _getElementHeight,
 		translateKeyCode: _translateKeyCode,
 		getHourMinSecTime: _getHourMinSecTime,
+		getExpGrowthValue: _getExpGrowthValue,
 		standardizeMouseEvent: _standardizeMouseEvent
 	};
 

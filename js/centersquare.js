@@ -49,8 +49,6 @@
 		{ r: 34,	g: 34,	b: 34 }		// Grey
 	];
 
-	var _INITIAL_COLOR_PERIOD = 9000; // millis / color
-
 	function _interpolateColors(prevColorRGB, nextColorRGB, progressThroughCurrentColors) {
 		var oneMinusProgress = 1 - progressThroughCurrentColors;
 
@@ -88,7 +86,7 @@
 		var _prevColorIndex = 0;
 		var _nextColorIndex = 0;
 
-		var _currentColorPeriod = _INITIAL_COLOR_PERIOD;
+		var _currentColorPeriod = 9000;
 		var _currentFillColor = "#000000";
 		var _currentStrokeColor = "#000000";
 
@@ -125,9 +123,8 @@
 			context.stroke();
 		}
 
-		function _setLevel(level) {
-			// TODO: change how quickly the colors cycle
-			//_currentColorPeriod = ;
+		function _setColorPeriod(currentColorPeriod) {
+			_currentColorPeriod = currentColorPeriod;
 		}
 
 		function _setDimensions(x, size) {
@@ -140,7 +137,7 @@
 
 		this.update = _update;
 		this.draw = _draw;
-		this.setLevel = _setLevel;
+		this.setColorPeriod = _setColorPeriod;
 		this.setDimensions = _setDimensions;
 
 		log.d("<--centersquare.CenterSquare");

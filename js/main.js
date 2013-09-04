@@ -20,17 +20,87 @@
 
 	log.d("-->main.LOADING_MODULE");
 
+	var AUDIO_PATH = "aud/";
+	var IMAGE_PATH = "img/";
+
 	var game = null;
 	var canvas = null;
 	var body = null;
 
 	var gestureInProgress = false;
 
+	var soundsLoadedCount = 0;
+
+	var imageManifest = [
+		IMAGE_PATH + "sprites.png"
+	];
+
+	var audioManifest = [
+		{
+			id: "blockSelect",
+			src: AUDIO_PATH + "block_select.ogg|" + AUDIO_PATH + "block_select.m4a"
+		},
+		{
+			id: "changeFallDirection",
+			src: AUDIO_PATH + "change_fall_direction.ogg|" + AUDIO_PATH + "change_fall_direction.m4a"
+		},
+		{
+			id: "collapse",
+			src: AUDIO_PATH + "collapse.ogg|" + AUDIO_PATH + "collapse.m4a"
+		},
+		{
+			id: "earnedBonus",
+			src: AUDIO_PATH + "earned_bonus.ogg|" + AUDIO_PATH + "earned_bonus.m4a"
+		},
+		{
+			id: "fall",
+			src: AUDIO_PATH + "fall.ogg|" + AUDIO_PATH + "fall.m4a"
+		},
+		{
+			id: "gameOver",
+			src: AUDIO_PATH + "game_over.ogg|" + AUDIO_PATH + "game_over.m4a"
+		},
+		{
+			id: "gameStart",
+			src: AUDIO_PATH + "unpause.ogg|" + AUDIO_PATH + "unpause.m4a" // TODO: add a new sound file for this
+		},
+		{
+			id: "land",
+			src: AUDIO_PATH + "land.ogg|" + AUDIO_PATH + "land.m4a"
+		},
+		{
+			id: "level",
+			src: AUDIO_PATH + "level.ogg|" + AUDIO_PATH + "level.m4a"
+		},
+		{
+			id: "move",
+			src: AUDIO_PATH + "move.ogg|" + AUDIO_PATH + "move.m4a"
+		},
+		{
+			id: "newBlock",
+			src: AUDIO_PATH + "new_block.ogg|" + AUDIO_PATH + "new_block.m4a"
+		},
+		{
+			id: "pause",
+			src: AUDIO_PATH + "pause.ogg|" + AUDIO_PATH + "pause.m4a"
+		},
+		{
+			id: "rotate",
+			src: AUDIO_PATH + "rotate.ogg|" + AUDIO_PATH + "rotate.m4a"
+		},
+		{
+			id: "unableToMove",
+			src: AUDIO_PATH + "unable_to_move.ogg|" + AUDIO_PATH + "unable_to_move.m4a"
+		},
+		{
+			id: "unpause",
+			src: AUDIO_PATH + "unpause.ogg|" + AUDIO_PATH + "unpause.m4a"
+		}
+	];
+
 	// Preload all required resources and call init when done
 	window.resources.onready = init;
-	window.resources.load([
-		"img/sprites.png"
-	]);
+	window.resources.load(imageManifest);
 
 	setupDOMForJavascript();
 
@@ -60,7 +130,42 @@
 		document.addEventListener("mousemove", onMouseMove, false);
 		document.addEventListener("mouseout", onMouseOut, false);
 
+		// ---------- Hook up sound ---------- //
+
+		if (!createjs.Sound.initializeDefaultPlugins()) {
+			// TODO: notify the actual user somehow
+			log.e("Browser does not support audio");
+		}
+
+		// If this is on a mobile device, sounds need to be played inside of a touch event
+		if (createjs.Sound.BrowserDetect.isIOS || 
+				createjs.Sound.BrowserDetect.isAndroid || 
+				createjs.Sound.BrowserDetect.isBlackberry) {
+			// TODO: sound may not work... (look at the MobileSafe demo for an example of how I might be able to fix this)
+			log.w("Mobile browsers restrict sound to inside touch events");
+		}
+
+		createjs.Sound.addEventListener("loadComplete", onLoadingAudioComplete);
+		createjs.Sound.registerManifest(audioManifest);
+
 		log.d("<--main.init");
+	}
+
+	function onLoadingSoundsUpdate() {
+		// TODO: show progress; I un-hooked this; can I hook it back up?
+	}
+
+	function onLoadingAudioComplete() {
+        // Start the music
+        //createjs.Sound.play("music", createjs.Sound.INTERRUPT_NONE, 0, 0, -1, 0.4);
+
+		++soundsLoadedCount;
+
+		// Only allow the player to start a game once all of the sounds have been loaded
+		if (soundsLoadedCount === audioManifest.length) {
+			var unpauseButton = document.getElementById("unpauseButton");
+			unpauseButton.disabled = false;
+		}
 	}
 
 	function playGame() {
@@ -88,6 +193,9 @@
 		// match the selected input options
 		if (game.getIsEnded()) {
 			setGameParameters();
+			createjs.Sound.play("gameStart");
+		} else if (game.getIsPaused()) {
+			createjs.Sound.play("unpause");
 		}
 
 		game.play();
@@ -104,6 +212,10 @@
 		populateStatsTable();
 
 		expandInfoArea();
+
+		if (!game.getIsPaused() && !game.getIsEnded()) {
+			createjs.Sound.play("pause");
+		}
 
 		game.pause();
 
@@ -122,6 +234,8 @@
 		unpauseButton.innerHTML = "Play Again";
 
 		populateStatsTable();
+
+		createjs.Sound.play("gameOver");
 
 		log.d("<--main.onGameEnd");
 	}
@@ -194,6 +308,15 @@
 		var timeData = document.getElementById("timeData");
 		var timeString = window.utils.getHourMinSecTime(game.getTime());
 		timeData.innerHTML = timeString;
+
+		var layersCollapsedData = document.getElementById("layersCollapsedData");
+		layersCollapsedData.innerHTML = game.getLayersCollapsed();
+
+		var squaresCollapsedData = document.getElementById("squaresCollapsedData");
+		squaresCollapsedData.innerHTML = game.getSquaresCollapsed();
+
+		var bonusesUsedData = document.getElementById("bonusesUsedData");
+		bonusesUsedData.innerHTML = game.getBonusesUsed();
 	}
 
 	function setupDOMForJavascript() {
@@ -289,7 +412,7 @@
 	// This event cancels any current mouse gesture and forces the player to 
 	// start again.  But only if the mouse is leaving the entire window.
 	function onMouseOut(event) {
-		var inElement = event.relatedTarget || e.toElement;
+		var inElement = event.relatedTarget || event.toElement;
 		if (!inElement || inElement.nodeName == "HTML") {
 			gestureInProgress = false;
 

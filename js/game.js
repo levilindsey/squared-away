@@ -31,11 +31,13 @@
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
-	var _PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE = 0.9; // ratio
+	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.10; // ratio // TODO: test/tweak this
 	var _INITIAL_BLOCK_FALL_SPEED = 0.0015; // in squares per millis
-	var _BLOCK_FALL_SPEED_INCREASE_RATE = 1.1; // ratio
-	
-	var _INITIAL_COOL_DOWN_PERIOD = 800; // millis
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.10; // ratio // TODO: test/tweak this
+	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 9000; // millis per color
+	var _CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE = -0.10;
+
+	var _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD = 800; // millis
 
 	var _NORMAL_STROKE_WIDTH = 1; // in pixels
 
@@ -57,13 +59,25 @@
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 	var _PHANTOM_BLOCK_SIZE_RATIO = 1.2;
 
-	var _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD = 1200; // TODO: test this
+	var _blockSelect_SQUARED_DISTANCE_THRESHOLD = 1200; // TODO: test this
 	var _TAP_SQUARED_DISTANCE_THRESHOLD = 100; // TODO: test this
 	var _TAP_TIME_THRESHOLD = 250; // TODO: test this
 
-	var _INITIAL_LAYER_COLLAPSE_DELAY = 500; // millis
+	var _INITIAL_COLLAPSE_DELAY = 500; // millis
+	var _COLLAPSE_DELAY_GROWTH_RATE = -0.10;
 
 	var _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE = 140; // pixels
+
+	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 8; // TODO: test/tweak this
+	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.05; // TODO: test/tweak this
+
+	var _BASE_SCORE_PER_SQUARE = 10;
+	var _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED = 0.02; // TODO: test/tweak this
+	var _SCORE_GROWTH_RATE_PER_RECENT_LAYER = 0.75; // TODO: test/tweak this
+
+	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
+
+	var _POINTS_FOR_BONUS = 8000; // TODO: test/tweak this
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -120,10 +134,13 @@
 		var _score = 0;
 		var _level = _startingLevel;
 		var _gameTime = 0; // active (unpaused) time since start of game
-		var _layersCollapsed = 0;
+		var _layersCollapsedCount = 0;
+		var _squaresCollapsedCount = 0;
+		var _bonusesUsedCount = 0;
 
-		var _currentPreviewWindowCoolDownTime = 30000; // in millis
-		var _currentBlockFallSpeed = 1; // squares / millis
+		var _currentPreviewWindowCoolDownTime = _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME; // in millis
+		var _currentBlockFallSpeed = _INITIAL_BLOCK_FALL_SPEED; // squares per millis
+		var _currentCenterSquareColorPeriod = _INITIAL_CENTER_SQUARE_COLOR_PERIOD; // millis per color
 
 		var _gestureStartTime = 0;
 		var _gestureStartPos = { x: 0, y: 0 };
@@ -140,7 +157,15 @@
 		var _isPhantomBlockValid = false;
 		var _phantomGuideLinePolygon = null;
 
-		var _layerCollapseDelay = _INITIAL_LAYER_COLLAPSE_DELAY;
+		var _layerCollapseDelay = _INITIAL_COLLAPSE_DELAY;
+
+		var _layerCountForNextLevel = _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL;
+		var _layersCollapsedSinceLastLevel = 0;
+
+		var _recentCollapsesCount = 0;
+		var _prevCollapseTime = 0;
+
+		var _pointsForPrevBonus = 0;
 
 		// This array contains objects which each have the properties collapseDelay and layer
 		var _layersToCollapse = [];
@@ -243,6 +268,13 @@
 						// Force the next preview window to release its block now
 						_getNextBlock(nextPreviewWindow);
 					}
+
+					if (completeLayers.length > 0) {
+						createjs.Sound.play("collapse");
+						createjs.Sound.play("landed");// TODO: check whether I actually do want to play these clips simultaneously
+					} else {
+						createjs.Sound.play("landed");
+					}
 				}
 
 				// In case the selected block falls without the player 
@@ -268,9 +300,6 @@
 			// Loop through each square in the game area and possibly animate 
 			// it with a shimmer
 			// TODO: 
-
-			_levelDisplay.innerHTML = _level;
-			_scoreDisplay.innerHTML = _score;
 
 //			log.d("<--game._update");
 		}
@@ -369,43 +398,66 @@
 
 			_setLevel(_startingLevel);
 
+			_layersCollapsedCount = 0;
+			_squaresCollapsedCount = 0;
+			_bonusesUsedCount = 0;
+
 			var deltaCoolDown = _currentPreviewWindowCoolDownTime / 4;
 
 			// Start each of the preview windows
-			for (var i = 0, coolDown = _INITIAL_COOL_DOWN_PERIOD; 
+			for (var i = 0, coolDown = _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD; 
 					i < 4; 
 					++i, coolDown += deltaCoolDown) {
 				_previewWindows[i].startNewBlock(coolDown);
 			}
+
+			_recentCollapsesCount = 0;
+			_prevCollapseTime = 0;
 
 			log.d("<--game._reset");
 		}
 
 		function _setLevel(level) {
 			_level = level;
-			_currentPreviewWindowCoolDownTime = _getPreviewWindowCoolDownTime(level);
-			_currentBlockFallSpeed = _getBlockFallSpeed(level);
+
+			// Increase the block fall speed
+			_currentBlockFallSpeed = window.utils.getExpGrowthValue(
+					_INITIAL_BLOCK_FALL_SPEED, 
+					_BLOCK_FALL_SPEED_GROWTH_RATE, 
+					_level);
 			window.Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
-			_centerSquare.setLevel(level);
+			// Increase the rate of the center square color changes
+			_currentCenterSquareColorPeriod = window.utils.getExpGrowthValue(
+					_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
+					_CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE, 
+					_level);
+			_centerSquare.setColorPeriod(_currentCenterSquareColorPeriod);
 
-			// Set the base cool down period for each of the preview windows
+			// Decrease the preview window cooldown time
+			_currentPreviewWindowCoolDownTime = window.utils.getExpGrowthValue(
+					_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
+					_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
+					_level);
 			for (var i = 0; i < 4; ++i) {
 				_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 			}
 
 			// Decrease the layer collapse delay
-			// TODO: (_layerCollapseDelay, _INITIAL_LAYER_COLLAPSE_DELAY)
-		}
+			_layerCollapseDelay = window.utils.getExpGrowthValue(
+					_INITIAL_COLLAPSE_DELAY, 
+					_COLLAPSE_DELAY_GROWTH_RATE, 
+					_level);
 
-		function _getPreviewWindowCoolDownTime(level) {
-			return _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME / 
-					Math.pow(_PREVIEW_WINDOW_COOL_DOWN_TIME_DECREASE_RATE, level);// TODO: tweak/replace this
-		}
+			// Get how many layers need to be collapsed to progress to the 
+			// next level
+			_layerCountForNextLevel = window.utils.getExpGrowthValue(
+					_mode2On ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
+					_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
+					_level);
+			_layersCollapsedSinceLastLevel = 0;
 
-		function _getBlockFallSpeed(level) {
-			return _INITIAL_BLOCK_FALL_SPEED * 
-					Math.pow(_BLOCK_FALL_SPEED_INCREASE_RATE, level);// TODO: tweak/replace this
+			_levelDisplay.innerHTML = _level;
 		}
 
 		function _computeDimensions() {
@@ -501,6 +553,10 @@
 			// this gesture, if any
 			_selectedBlock = _findNearestValidBlock(_gestureStartPos, _blocksOnGameArea);
 
+			if (_selectedBlock) {
+				createjs.Sound.play("blockSelect");
+			}
+
 			// Clear any phantom objects. These will be set when a drag occurs.
 			_phantomBlock = null;
 			_phantomBlockPolygon = null;
@@ -542,11 +598,9 @@
 					var wasAbleToRotate = _selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, true);
 
 					if (wasAbleToRotate) {
-						// Play the rotation SFX
-						// TODO: 
+						createjs.Sound.play("rotate");
 					} else {
-						// Play the unable-to-move SFX
-						// TODO: 
+						createjs.Sound.play("unableToMove");
 					}
 					break;
 				case _SIDEWAYS_MOVE:
@@ -554,16 +608,14 @@
 
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
-					// Play the sideways move SFX
-					// TODO: 
+					createjs.Sound.play("move");
 					break;
 				case _DROP:
 					log.d("---game._finishGesture: _DROP");
 
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
-					// Play the drop SFX
-					// TODO: 
+					createjs.Sound.play("move");
 					break;
 				case _DIRECTION_CHANGE:
 					log.d("---game._finishGesture: _DIRECTION_CHANGE");
@@ -575,17 +627,14 @@
 							_switchPhantomToSelected(_selectedBlock, _phantomBlock);
 							_selectedBlock.switchFallDirection();
 
-							// Play the direction change SFX
-							// TODO: 
+							createjs.Sound.play("changeFallDirection");
 						} else {
-							// Play the unable-to-move SFX
-							// TODO: 
+							createjs.Sound.play("unableToMove");
 						}
 					} else {
 						_selectedBlock.switchFallDirection();
 
-						// Play the direction change SFX
-						// TODO: 
+						createjs.Sound.play("changeFallDirection");
 					}
 					break;
 				default:
@@ -1079,7 +1128,7 @@
 				}
 
 				// Only return the nearest block if it is indeed near enough
-				if (nearestSquareDistance < _BLOCK_SELECT_SQUARED_DISTANCE_THRESHOLD) {
+				if (nearestSquareDistance < _blockSelect_SQUARED_DISTANCE_THRESHOLD) {
 					return nearestBlock;
 				}
 			}
@@ -1100,6 +1149,8 @@
 
 			_blocksOnGameArea.push(block);
 			previewWindow.startNewBlock();
+
+			createjs.Sound.play("newBlock");
 		}
 
 		// Return any layers which are completed by the inclusion of squares 
@@ -1387,6 +1438,7 @@
 
 			var i;
 			var deltaI;
+			var squaresCollapsedCount;
 
 			if (_mode2On) { // Collapsing whole squares
 				var startX;
@@ -1439,6 +1491,8 @@
 				for (i = startI; i < endI; i += deltaI) {
 					_squaresOnGameArea[i] = -1;
 				}
+
+				squaresCollapsedCount = (_centerSquareCellSize + layer) * 4;
 			} else { // Collapsing only lines
 				var side = layer.side;
 				var startCell = layer.startCell;
@@ -1462,14 +1516,60 @@
 				}
 
 				// Remove the squares from the game area
-				for (i = startCell; i <= endCell; i += deltaI) {
+				for (i = startCell, squaresCollapsedCount = 0;
+						i <= endCell;
+						i += deltaI, ++squaresCollapsedCount) {
 					_squaresOnGameArea[i] = -1;
 				}
 			}
 
 			_dropHigherLayers(layer);
 
-			++_layersCollapsed;
+			addCollapseToScore(squaresCollapsedCount);
+		}
+
+		function addCollapseToScore(squaresCollapsedCount) {
+			_squaresCollapsedCount += squaresCollapsedCount;
+			++_layersCollapsedCount;
+			++_layersCollapsedSinceLastLevel;
+
+			// Give a slight exponential score increase for the number of 
+			// blocks in the current layer collapse
+			var score = window.utils.getExpGrowthValue(
+					_BASE_SCORE_PER_SQUARE, 
+					_mode2On ? _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED : _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED / 4, 
+					squaresCollapsedCount) * squaresCollapsedCount;
+
+			// Give a large exponential score increase if the previous layer 
+			// collapse occurred very recently
+			var currentCollapseTime = Date.now();
+			_recentCollapsesCount = currentCollapseTime - _prevCollapseTime < _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD ? _recentCollapsesCount + 1 : 0;
+			_prevCollapseTime = currentCollapseTime;
+			score = window.utils.getExpGrowthValue(
+					score, 
+					_mode2On ? _SCORE_GROWTH_RATE_PER_RECENT_LAYER : _SCORE_GROWTH_RATE_PER_RECENT_LAYER / 4, 
+					_recentCollapsesCount);
+
+			_score += Math.floor(score);
+
+			_scoreDisplay.innerHTML = _score;
+
+			// Check whether the player has collapsed enough layers to move on 
+			// to the next level
+			if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
+				_setLevel(_level + 1);
+
+				createjs.Sound.play("level");
+			}
+
+			// Check whether the player has earned anything with the new score
+			if (_score > _pointsForPrevBonus + _POINTS_FOR_BONUS) {
+				// TODO: give the player the bonus
+
+				_pointsForPrevBonus += _POINTS_FOR_BONUS;
+
+				createjs.Sound.play("earnedBonus");
+			}
 		}
 
 		// Drop by one each of the layers above the given layer.
@@ -1698,6 +1798,18 @@
 			return _gameTime;
 		}
 
+		function _getLayersCollapsed() {
+			return _layersCollapsedCount;
+		}
+
+		function _getSquaresCollapsed() {
+			return _squaresCollapsedCount;
+		}
+
+		function _getBonusesUsed() {
+			return _bonusesUsedCount;
+		}
+
 		function _setMode1(isEnabled) {
 			_mode1On = isEnabled;
 		}
@@ -1764,6 +1876,9 @@
 		this.getScore = _getScore;
 		this.getLevel = _getLevel;
 		this.getTime = _getTime;
+		this.getLayersCollapsed = _getLayersCollapsed;
+		this.getSquaresCollapsed = _getSquaresCollapsed;
+		this.getBonusesUsed = _getBonusesUsed;
 		this.setMode1 = _setMode1;
 		this.setMode2 = _setMode2;
 		this.setMode3 = _setMode3;

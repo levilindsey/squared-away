@@ -36,7 +36,7 @@
 
 			<div id="pauseScreen">
 				<h3 id="pauseScreenTitle">Game Paused</h3>
-				<button id="unpauseButton">Play Game</button>
+				<button id="unpauseButton" disabled>Play Game</button>
 				<table id="statsTable">
 					<tr>
 						<td>Score:</td>
@@ -49,6 +49,18 @@
 					<tr>
 						<td>Time:</td>
 						<td id="timeData"></td>
+					</tr>
+					<tr>
+						<td>Layers destroyed:</td>
+						<td id="layersCollapsedData"></td>
+					</tr>
+					<tr>
+						<td>Squares destroyed:</td>
+						<td id="squaresCollapsedData"></td>
+					</tr>
+					<tr>
+						<td>Bonuses used:</td>
+						<td id="bonusesUsedData"></td>
 					</tr>
 				</table>
 			</div>
@@ -167,7 +179,10 @@
 		</div>
 	</div>
 
+    <script src="http://code.createjs.com/soundjs-0.4.0.min.js"></script>
+
     <script type="text/javascript" src="js/stacktrace-min-0.4.js"></script>
+
     <script type="text/javascript" src="js/logger.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/resources.js"></script>
