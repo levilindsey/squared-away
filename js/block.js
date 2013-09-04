@@ -788,10 +788,28 @@
 		}
 
 		var points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];
-
+// points = Block.prototype.copyPoints(points);
+// points.push(_findMaxCoords(points));points.push({x:0,y:0});
 		// Correct for the given orientation
 		points = _rotatePoints(points, orientation, Block.prototype.IGNORE);
 
+		// Correct some small displacement caused from the rotation function's 
+		// behavior of re-positioning the newly rotated group of points at the 
+		// same origin as before
+		if (side === Block.prototype.RIGHT) {
+			if (orientation === Block.prototype.DEG90) {
+				
+			} else if (orientation === Block.prototype.DEG180) {
+				
+			}
+		} else if (side === Block.prototype.BOTTOM) {
+			if (orientation === Block.prototype.DEG180) {
+				
+			} else if (orientation === Block.prototype.DEG270) {
+				
+			}
+		}
+// points.pop();points.pop();
 		return points;
 	}
 

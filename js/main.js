@@ -22,6 +22,7 @@
 
 	var game = null;
 	var canvas = null;
+	var body = null;
 
 	var gestureInProgress = false;
 
@@ -38,6 +39,7 @@
 	function init() {
 		log.d("-->main.init");
 
+		body = document.getElementsByTagName("body")[0];
 		canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
@@ -285,11 +287,14 @@
 	}
 
 	// This event cancels any current mouse gesture and forces the player to 
-	// start again.
-	function onMouseOut() {
-		gestureInProgress = false;
+	// start again.  But only if the mouse is leaving the entire window.
+	function onMouseOut(event) {
+		var inElement = event.relatedTarget || e.toElement;
+		if (!inElement || inElement.nodeName == "HTML") {
+			gestureInProgress = false;
 
-		game.cancelGesture();
+			game.cancelGesture();
+		}
 	}
 
 	log.d("<--main.LOADING_MODULE");

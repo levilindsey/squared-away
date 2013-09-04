@@ -63,6 +63,8 @@
 
 	var _INITIAL_LAYER_COLLAPSE_DELAY = 500; // millis
 
+	var _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE = 140; // pixels
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -241,6 +243,13 @@
 						// Force the next preview window to release its block now
 						_getNextBlock(nextPreviewWindow);
 					}
+				}
+
+				// In case the selected block falls without the player 
+				// spawning any drag events, the gesture type and phantom 
+				// shapes need to be updated
+				if (_blocksOnGameArea[i] === _selectedBlock) {
+					_dragGesture(_gestureCurrentPos);
 				}
 			}
 
@@ -515,7 +524,7 @@
 								_selectedBlock, 
 								_gestureStartPos, _gestureStartTime, 
 								_gestureCurrentPos, _gestureCurrentTime, 
-								_mode4On, _mode5On, true);
+								_mode4On, _mode5On, true, false);
 
 				_gestureType = gestureTypeAndCellPos.type;
 				_gestureCellPos = gestureTypeAndCellPos.pos;
@@ -604,7 +613,7 @@
 								_selectedBlock, 
 								_gestureStartPos, -1, 
 								_gestureCurrentPos, -1, 
-								_mode4On, _mode5On, false);
+								_mode4On, _mode5On, false, false);
 
 				// Only bother re-computing this stuff if the gesture type or 
 				// position has changed since the last frame
@@ -649,14 +658,15 @@
 		// Mode 4 determines whether the player is allowed to switch the fall directions of blocks.
 		// Mode 5 determines whether a block switches to the next quadrant when the player switches its fall direction.
 		function _computeGestureTypeAndCellPos(selectedBlock, startPos, 
-				startTime, endPos, endTime, mode4On, mode5On, considerTap) {
+				startTime, endPos, endTime, mode4On, mode5On, considerTap, 
+				chooseShorterDimension) {
 			var gestureType = null;
 			var gesturePos = { x: -1, y: -1 };
 
 			var duration = endTime - startTime;
 			var squaredDistance = _getSquaredDistance(startPos, endPos);
 
-			// Check whether the gesture was brief and hort enough to be a tap
+			// Check whether the gesture was brief and short enough to be a tap
 			if (considerTap && 
 					squaredDistance < _TAP_SQUARED_DISTANCE_THRESHOLD && 
 					duration < _TAP_TIME_THRESHOLD) {
@@ -674,16 +684,32 @@
 				var deltaY = endPos.y - currentBlockCenter.y;
 				var gestureDirection;
 				if (Math.abs(deltaX) > Math.abs(deltaY)) {
-					if (deltaX > 0) {
-						gestureDirection = Block.prototype.RIGHTWARD;
+					if (!chooseShorterDimension) {
+						if (deltaX > 0) {
+							gestureDirection = Block.prototype.RIGHTWARD;
+						} else {
+							gestureDirection = Block.prototype.LEFTWARD;
+						}
 					} else {
-						gestureDirection = Block.prototype.LEFTWARD;
+						if (deltaY > 0) {
+							gestureDirection = Block.prototype.DOWNWARD;
+						} else {
+							gestureDirection = Block.prototype.UPWARD;
+						}
 					}
 				} else {
-					if (deltaY > 0) {
-						gestureDirection = Block.prototype.DOWNWARD;
+					if (!chooseShorterDimension) {
+						if (deltaY > 0) {
+							gestureDirection = Block.prototype.DOWNWARD;
+						} else {
+							gestureDirection = Block.prototype.UPWARD;
+						}
 					} else {
-						gestureDirection = Block.prototype.UPWARD;
+						if (deltaX > 0) {
+							gestureDirection = Block.prototype.RIGHTWARD;
+						} else {
+							gestureDirection = Block.prototype.LEFTWARD;
+						}
 					}
 				}
 
@@ -717,7 +743,7 @@
 						gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
 						break;
 					case Block.prototype.UPWARD:
-						if (mode4On) {
+						if (mode4On && Math.abs(deltaY) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
 								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
@@ -757,7 +783,7 @@
 						gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.RIGHTWARD:
-						if (mode4On) {
+						if (mode4On && Math.abs(deltaX) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
 								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
@@ -773,7 +799,7 @@
 				case Block.prototype.UPWARD:
 					switch (gestureDirection) {
 					case Block.prototype.DOWNWARD:
-						if (mode4On) {
+						if (mode4On && Math.abs(deltaY) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
 								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
@@ -813,7 +839,7 @@
 						gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 						break;
 					case Block.prototype.LEFTWARD:
-						if (mode4On) {
+						if (mode4On && Math.abs(deltaX) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 							gestureType = _DIRECTION_CHANGE;
 							if (mode5On) {
 								gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, _gameAreaCellSize);
@@ -840,6 +866,14 @@
 					break;
 				default:
 					return;
+				}
+
+				// If this gesture was unable to qualify as a direction 
+				// change, then use it as a sideways move
+				if (gestureType === _NONE && !chooseShorterDimension) {
+					_computeGestureTypeAndCellPos(selectedBlock, startPos, 
+							startTime, endPos, endTime, mode4On, mode5On, 
+							considerTap, true);
 				}
 			}
 
