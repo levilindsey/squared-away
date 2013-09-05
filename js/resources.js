@@ -7,7 +7,7 @@
 // (http://jlongster.com/Making-Sprite-based-Games-with-Canvas)
 // 
 // Dependencies:
-//		- window.utils
+//		- utils
 // ------------------------------------------------------------------------- //
 
 (function() {

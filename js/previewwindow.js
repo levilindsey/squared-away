@@ -18,7 +18,7 @@
 //		- window.log
 //		- window.Sprite
 //		- window.Block
-//		- window.utils
+//		- utils
 // ------------------------------------------------------------------------- //
 
 
@@ -37,8 +37,6 @@
 	var _NORMAL_FILL_COLOR = "#141414";
 
 	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
-
-	var _gameAreaSize = 100; // in cells
 
 	function PreviewWindow(x, y, size, previewWindowIndex) {
 		log.d("-->previewwindow.PreviewWindow");
@@ -189,10 +187,10 @@
 			var orientation = _previewWindowIndex;
 			var fallDirection = _previewWindowIndex;
 
-			var cellOffsetFromTopLeftOfBlockToCenter = window.Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
+			var cellOffsetFromTopLeftOfBlockToCenter = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
-			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * window.Block.prototype.getSquareSize());
-			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * window.Block.prototype.getSquareSize());
+			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * Block.prototype.getSquareSize());
+			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * Block.prototype.getSquareSize());
 
 			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
 
@@ -220,25 +218,25 @@
 			var orientation = _previewWindowIndex;
 
 			var cellOffsetFromTopLeftOfBlockToCenter = 
-					window.Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(
+					Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(
 							type, orientation);
 
 			switch (_previewWindowIndex) {
 			case 0:
-				startingX = (_gameAreaSize / 2) - 1;
+				startingX = (gameWindow.gameWindowCellSize / 2) - 1;
 				startingY = 0;
 				break;
 			case 1:
-				startingX = _gameAreaSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
-				startingY = (_gameAreaSize / 2) - 1;
+				startingX = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
+				startingY = (gameWindow.gameWindowCellSize / 2) - 1;
 				break;
 			case 2:
-				startingX = (_gameAreaSize / 2) - 1;
-				startingY = _gameAreaSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
+				startingX = (gameWindow.gameWindowCellSize / 2) - 1;
+				startingY = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
 				break;
 			case 3:
 				startingX = 0;
-				startingY = (_gameAreaSize / 2) - 1;
+				startingY = (gameWindow.gameWindowCellSize / 2) - 1;
 				break;
 			default:
 				return;
@@ -270,16 +268,6 @@
 
 		log.d("<--previewwindow.PreviewWindow");
 	}
-
-	PreviewWindow.prototype = {
-		// --------------------------------------------------------------------- //
-		// -- Public (non-privileged) members
-
-		// This should be called once at the start of each game
-		setGameAreaSize: function(size) {
-			_gameAreaSize = size;
-		}
-	};
 
 	// Make PreviewWindow available to the rest of the program
 	window.PreviewWindow = PreviewWindow;

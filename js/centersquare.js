@@ -6,7 +6,7 @@
 // Dependencies:
 //		- window.log
 //		- window.Sprite
-//		- window.utils
+//		- utils
 // ------------------------------------------------------------------------- //
 
 (function() {

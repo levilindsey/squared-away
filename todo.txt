@@ -77,8 +77,6 @@
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?
 
-
-
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //
@@ -140,6 +138,8 @@
 				- a child div with class="shrunkContent"
 				- a child div with class="expandedContent"
 - add another mode for toggling the appearance of the two special bonus powers
+- tell http://ericskiff.com/music/ that I used his music
+- switch all of the exp growth to simple linear. duh.
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

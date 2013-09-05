@@ -10,7 +10,7 @@
 // Dependencies:
 //		- window.log
 //		- window.Sprite
-//		- window.utils
+//		- utils
 // ------------------------------------------------------------------------- //
 
 (function() {
@@ -91,7 +91,7 @@
 	];
 
 	var _squareSize;
-	var _gameAreaCellSize = 100;
+	var _gameWindowCellSize = 100;
 	var _centerSquareCellSize = 6;
 	var _centerSquareCellPositionX;
 	var _fallPeriod; // millis / blocks
@@ -123,7 +123,7 @@
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
-		function _update(deltaTime, squaresOnGameArea, blocksOnGameArea) {
+		function _update(deltaTime, squaresOnGameWindow, blocksOnGameWindow) {
 //			log.d("-->block._update");
 
 			_timeSinceLastFall += deltaTime;
@@ -131,13 +131,13 @@
 			// Check whether this block needs to fall one space
 			if (_timeSinceLastFall > _fallPeriod) {
 				_hasCollidedWithEdgeOfArea = 
-						_checkForCollisionWithGameAreaEdge();
+						_checkForCollisionWithGameWindowEdge();
 
 				if (!_hasCollidedWithEdgeOfArea) {
 					_hasCollidedWithSquare = 
 							_checkForCollisionWithCenterSquare() ||
-							_checkForCollisionWithSquare(squaresOnGameArea, 
-															blocksOnGameArea);
+							_checkForCollisionWithSquare(squaresOnGameWindow, 
+															blocksOnGameWindow);
 
 					if (!_hasCollidedWithSquare) {
 						_fall();
@@ -177,13 +177,13 @@
 			}
 
 			// Draw the constituent squares
-			window.Block.prototype.drawSquare(context, _type, 
+			Block.prototype.drawSquare(context, _type, 
 									positions[0].x, positions[0].y);
-			window.Block.prototype.drawSquare(context, _type, 
+			Block.prototype.drawSquare(context, _type, 
 									positions[1].x, positions[1].y);
-			window.Block.prototype.drawSquare(context, _type, 
+			Block.prototype.drawSquare(context, _type, 
 									positions[2].x, positions[2].y);
-			window.Block.prototype.drawSquare(context, _type, 
+			Block.prototype.drawSquare(context, _type, 
 									positions[3].x, positions[3].y);
 
 //			log.d("<--block._draw");
@@ -196,7 +196,7 @@
 		// NOTE: If checkForCollisions is not true, then the client should not 
 		//		 care about rotational collisions and should be updating this 
 		//		 block's position manually afterward.
-		function _rotate(squaresOnGameArea, blocksOnGameArea, checkForCollisions) {
+		function _rotate(squaresOnGameWindow, blocksOnGameWindow, checkForCollisions) {
 			if (checkForCollisions) {
 				// Get the square positions
 				var squarePositions = 
@@ -248,7 +248,7 @@
 				var squareIndices = _positionsToIndices(squarePositions);
 				var collision = false;
 				for (i = 0; i < squareIndices.length; ++i) {
-					if (squaresOnGameArea[squareIndices[i]] > -1) {
+					if (squaresOnGameWindow[squareIndices[i]] > -1) {
 						collision = true;
 					}
 				}
@@ -283,12 +283,12 @@
 		// the square is determined by the positive number of the 
 		// corresponding block type.  Return the positions where squares were 
 		// added.
-		function _addSquaresToGameArea(squaresOnGameArea) {
+		function _addSquaresToGameWindow(squaresOnGameWindow) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < positions.length; ++i) {
-				squaresOnGameArea[indices[i]] = _type;
+				squaresOnGameWindow[indices[i]] = _type;
 			}
 
 			return positions;
@@ -350,18 +350,18 @@
 		//		 with an edge of the game area BEFORE calling this function.  
 		//		 Otherwise, this function may look out of bounds in the game 
 		//		 area array.
-		function _checkForCollisionWithSquare(squaresOnGameArea, blocksOnGameArea) { // TODO: handle collision detection with blocksOnGameArea
+		function _checkForCollisionWithSquare(squaresOnGameWindow, blocksOnGameWindow) { // TODO: handle collision detection with blocksOnGameWindow
 			var deltaI;
 
 			switch (_fallDirection) {
 			case Block.prototype.DOWNWARD:
-				deltaI = _gameAreaCellSize;
+				deltaI = _gameWindowCellSize;
 				break;
 			case Block.prototype.LEFTWARD:
 				deltaI = -1;
 				break;
 			case Block.prototype.UPWARD:
-				deltaI = -_gameAreaCellSize;
+				deltaI = -_gameWindowCellSize;
 				break;
 			case Block.prototype.RIGHTWARD:
 				deltaI = 1;
@@ -377,7 +377,7 @@
 			for (var i = 0; i < indices.length; ++i) {
 				neighborIndex = indices[i] + deltaI;
 
-				if (squaresOnGameArea[neighborIndex] > -1) {
+				if (squaresOnGameWindow[neighborIndex] > -1) {
 					return true;
 				}
 			}
@@ -385,7 +385,7 @@
 			return false;
 		}
 
-		function _checkForCollisionWithGameAreaEdge() {
+		function _checkForCollisionWithGameWindowEdge() {
 			var deltaX;
 			var deltaY;
 
@@ -413,9 +413,9 @@
 			var positions = _getSquareCellPositions();
 
 			for (var i = 0; i < positions.length; ++i) {
-				if (positions[i].x + deltaX >= _gameAreaCellSize || 
+				if (positions[i].x + deltaX >= _gameWindowCellSize || 
 						positions[i].x + deltaX < 0 || 
-						positions[i].y + deltaY >= _gameAreaCellSize || 
+						positions[i].y + deltaY >= _gameWindowCellSize || 
 						positions[i].y + deltaY < 0) {
 					return true;
 				}
@@ -466,12 +466,12 @@
 			return false;
 		}
 
-		function _checkIsOverTopSquare(squaresOnGameArea) {
+		function _checkIsOverTopSquare(squaresOnGameWindow) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 
 			for (var i = 0; i < indices.length; ++i) {
-				if (squaresOnGameArea[indices[i]] > -1) {
+				if (squaresOnGameWindow[indices[i]] > -1) {
 					return true;
 				}
 			}
@@ -482,7 +482,7 @@
 		// Return the farthest left position this block can move to from its 
 		// current position on its current descent level.  Note: "left" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestLeftCellAvailable(squaresOnGameArea, blocksOnGameArea) {
+		function _getFarthestLeftCellAvailable(squaresOnGameWindow, blocksOnGameWindow) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -494,7 +494,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.LEFTWARD:
-				deltaI = -_gameAreaCellSize;
+				deltaI = -_gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -504,7 +504,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.RIGHTWARD:
-				deltaI = _gameAreaCellSize;
+				deltaI = _gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -514,7 +514,7 @@
 
 			var howManyStepsBlockCanMove = 
 					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
-							squaresOnGameArea, blocksOnGameArea);
+							squaresOnGameWindow, blocksOnGameWindow);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -525,7 +525,7 @@
 		// Return the farthest right position this block can move to from its 
 		// current position on its current descent level.  Note: "right" is 
 		// relative to the direction in which this block is falling.
-		function _getFarthestRightCellAvailable(squaresOnGameArea, blocksOnGameArea) {
+		function _getFarthestRightCellAvailable(squaresOnGameWindow, blocksOnGameWindow) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
@@ -537,7 +537,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.LEFTWARD:
-				deltaI = _gameAreaCellSize;
+				deltaI = _gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -547,7 +547,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.RIGHTWARD:
-				deltaI = -_gameAreaCellSize;
+				deltaI = -_gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -557,7 +557,7 @@
 
 			var howManyStepsBlockCanMove = 
 					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
-							squaresOnGameArea, blocksOnGameArea);
+							squaresOnGameWindow, blocksOnGameWindow);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -568,14 +568,14 @@
 		// Return the farthest downward position this block can move to from 
 		// its current position.  Note: "downward" is relative to the 
 		// direction in which this block is falling.
-		function _getFarthestDownwardCellAvailable(squaresOnGameArea, blocksOnGameArea) {
+		function _getFarthestDownwardCellAvailable(squaresOnGameWindow, blocksOnGameWindow) {
 			var deltaI;
 			var deltaX;
 			var deltaY;
 
 			switch (_fallDirection) {
 			case Block.prototype.DOWNWARD:
-				deltaI = _gameAreaCellSize;
+				deltaI = _gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -585,7 +585,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.UPWARD:
-				deltaI = -_gameAreaCellSize;
+				deltaI = -_gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -600,7 +600,7 @@
 
 			var howManyStepsBlockCanMove = 
 					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
-							squaresOnGameArea, blocksOnGameArea);
+							squaresOnGameWindow, blocksOnGameWindow);
 
 			return { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
@@ -612,7 +612,7 @@
 		// index value before colliding with a stationary square or an edge of 
 		// the game area.
 		function _getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
-				squaresOnGameArea, blocksOnGameArea) {
+				squaresOnGameWindow, blocksOnGameWindow) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
 			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
@@ -627,7 +627,7 @@
 			var j;
 
 			// Keep moving one cell in the same direction until we hit a 
-			// square on the gameArea or we hit an edge of the game area
+			// square on the gameWindow or we hit an edge of the game area
 			while (true) {
 				// Check each of this block's four constituent squares
 				for (j = 0; j < indices.length; ++j) {
@@ -635,11 +635,11 @@
 					neighborX = positions[j].x + dX;
 					neighborY = positions[j].y + dY;
 
-					if (neighborX >= _gameAreaCellSize || 
+					if (neighborX >= _gameWindowCellSize || 
 							neighborX < 0 || 
-							neighborY >= _gameAreaCellSize || 
+							neighborY >= _gameWindowCellSize || 
 							neighborY < 0 || 
-							squaresOnGameArea[neighborIndex] > -1 || 
+							squaresOnGameWindow[neighborIndex] > -1 || 
 							(neighborX >= minCenterSquareCellPositionX && 
 							neighborX < maxCenterSquareCellPositionX && 
 							neighborY >= minCenterSquareCellPositionX && 
@@ -756,7 +756,7 @@
 		this.switchFallDirection = _switchFallDirection;
 		this.update = _update;
 		this.draw = _draw;
-		this.addSquaresToGameArea = _addSquaresToGameArea;
+		this.addSquaresToGameWindow = _addSquaresToGameWindow;
 		this.getSquareCellPositions = _getSquareCellPositions;
 		this.getFarthestLeftCellAvailable = _getFarthestLeftCellAvailable;
 		this.getFarthestRightCellAvailable = _getFarthestRightCellAvailable;
@@ -892,7 +892,7 @@
 	}
 
 	function _positionToIndex(position) {
-		return (position.y * _gameAreaCellSize) + position.x;
+		return (position.y * _gameWindowCellSize) + position.x;
 	}
 
 	function _positionsToIndices(positions) {
@@ -909,7 +909,7 @@
 	// -- Public (non-privileged) static members
 
 	// Block inherits from Sprite
-	Block.prototype = window.utils.object(Sprite);
+	Block.prototype = utils.object(Sprite);
 
 	// Block types/colors
 	Block.prototype.IGNORE = -1;
@@ -945,10 +945,10 @@
 	};
 
 	// This should be called once at the start of each game
-	Block.prototype.setGameAreaDimensions = function(squarePixelSize, gameAreaCellSize, 
+	Block.prototype.setGameWindowDimensions = function(squarePixelSize, gameWindowCellSize, 
 			centerSquareSize, centerSquareCellPositionX) {
 		_squareSize = squarePixelSize;
-		_gameAreaCellSize = gameAreaCellSize;
+		_gameWindowCellSize = gameWindowCellSize;
 		_centerSquareCellSize = centerSquareSize;
 		_centerSquareCellPositionX = centerSquareCellPositionX;
 	};

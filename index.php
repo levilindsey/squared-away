@@ -115,8 +115,12 @@
 				<br>
 				<label><input type="checkbox" name="mode5" id="mode5" value="mode5" checked> Changing direction moves block to next quadrant</label>
 				<br>
+				<label><input type="checkbox" name="mode6" id="mode6" value="mode6" checked> Collapsing a layer causes higher layers to &quot;settle&quot;</label>
+				<br>
+				<label><input type="checkbox" name="mode7" id="mode7" value="mode7" checked> Bombs on</label>
+				<br>
 				Size of game area:
-				<select id="gameAreaSize">
+				<select id="gameWindowSize">
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="40" selected>40</option>
@@ -164,6 +168,46 @@
 
 			<hr>
 
+			<h2>Music</h2>
+			<p>
+				<label><input type="checkbox" name="aNightOfDizzySpells" id="aNightOfDizzySpells" value="aNightOfDizzySpells" checked> A Night Of Dizzy Spells</label>
+				<br>
+				<label><input type="checkbox" name="allOfUs" id="allOfUs" value="allOfUs" checked> All of Us</label>
+				<br>
+				<label><input type="checkbox" name="arpanauts" id="arpanauts" value="arpanauts" checked> Arpanauts</label>
+				<br>
+				<label><input type="checkbox" name="ascending" id="ascending" value="ascending" checked> Ascending</label>
+				<br>
+				<label><input type="checkbox" name="chibiNinja" id="chibiNinja" value="chibiNinja" checked> Chibi Ninja</label>
+				<br>
+				<label><input type="checkbox" name="comeAndFindMeB" id="comeAndFindMeB" value="comeAndFindMeB" checked> Come and Find Me - B mix</label>
+				<br>
+				<label><input type="checkbox" name="comeAndFindMe" id="comeAndFindMe" value="comeAndFindMe" checked> Come and Find Me</label>
+				<br>
+				<label><input type="checkbox" name="digitalNative" id="digitalNative" value="digitalNative" checked> Digital Native</label>
+				<br>
+				<label><input type="checkbox" name="hhavokIntro" id="hhavokIntro" value="hhavokIntro" checked> HHavok-intro</label>
+				<br>
+				<label><input type="checkbox" name="hhavokMain" id="hhavokMain" value="hhavokMain" checked> HHavok-main</label>
+				<br>
+				<label><input type="checkbox" name="jumpshot" id="jumpshot" value="jumpshot" checked> Jumpshot</label>
+				<br>
+				<label><input type="checkbox" name="prologue" id="prologue" value="prologue" checked> Prologue</label>
+				<br>
+				<label><input type="checkbox" name="searching" id="searching" value="searching" checked> Searching</label>
+				<br>
+				<label><input type="checkbox" name="underclocked" id="underclocked" value="underclocked" checked> Underclocked (underunderclocked mix)</label>
+				<br>
+				<label><input type="checkbox" name="wereAllUnderTheStars" id="wereAllUnderTheStars" value="wereAllUnderTheStars" checked> We're All Under the Stars</label>
+				<br>
+				<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" checked> We're the Resistors</label>
+				<br>
+				All of these pieces are by 
+				<a href="http://ericskiff.com/music/" target="_blank">Eric Skiff</a>.
+			</p>
+
+			<hr>
+
 			<h2>About</h2>
 			<p>
 				This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
@@ -194,6 +238,8 @@
     <script type="text/javascript" src="js/block.js"></script>
     <script type="text/javascript" src="js/previewwindow.js"></script>
     <script type="text/javascript" src="js/centersquare.js"></script>
+    <script type="text/javascript" src="js/gameWindow.js"></script>
+    <script type="text/javascript" src="js/input.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </body>

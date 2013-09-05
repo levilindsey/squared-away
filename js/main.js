@@ -12,7 +12,7 @@
 //		- window.GameWindow
 //		- window.resources
 //		- window.input
-//		- window.utils
+//		- utils
 // ------------------------------------------------------------------------- //
 
 (function() {
@@ -23,7 +23,6 @@
 	var AUDIO_PATH = "aud/";
 	var IMAGE_PATH = "img/";
 
-	var game = null;
 	var canvas = null;
 	var body = null;
 
@@ -35,7 +34,7 @@
 		IMAGE_PATH + "sprites.png"
 	];
 
-	var audioManifest = [
+	var sfxManifest = [
 		{
 			id: "blockSelect",
 			src: AUDIO_PATH + "block_select.ogg|" + AUDIO_PATH + "block_select.m4a"
@@ -117,7 +116,7 @@
 		canvas.width = utils.getElementWidth(canvas);
 		canvas.height = utils.getElementHeight(canvas);
 
-		game = new Game(canvas, levelDisplay, scoreDisplay, onGameEnd);
+		game.setDOMElements(canvas, levelDisplay, scoreDisplay, onGameEnd);
 
 		// Hook up the event handlers
 		var unpauseButton = document.getElementById("unpauseButton");
@@ -148,7 +147,7 @@
 		}
 
 		createjs.Sound.addEventListener("loadComplete", onLoadingAudioComplete);
-		createjs.Sound.registerManifest(audioManifest);
+		createjs.Sound.registerManifest(sfxManifest);
 
 		log.i("<--main.init");
 	}
@@ -164,7 +163,7 @@
 		++soundsLoadedCount;
 
 		// Only allow the player to start a game once all of the sounds have been loaded
-		if (soundsLoadedCount === audioManifest.length) {
+		if (soundsLoadedCount === sfxManifest.length) {
 			var unpauseButton = document.getElementById("unpauseButton");
 			unpauseButton.disabled = false;
 		}
@@ -193,10 +192,10 @@
 
 		// If we are starting a new game, then adjust the game parameters to 
 		// match the selected input options
-		if (game.getIsEnded()) {
+		if (game.isEnded) {
 			setGameParameters();
 			createjs.Sound.play("gameStart");
-		} else if (game.getIsPaused()) {
+		} else if (game.isPaused) {
 			createjs.Sound.play("unpause");
 		}
 
@@ -215,7 +214,7 @@
 
 		expandInfoArea();
 
-		if (!game.getIsPaused() && !game.getIsEnded()) {
+		if (!game.isPaused && !game.isEnded) {
 			createjs.Sound.play("pause");
 		}
 
@@ -245,7 +244,7 @@
 	function onPauseEvent() {
 		log.d("-->main.onPauseEvent");
 
-		if (game.getIsPaused() || game.getIsEnded()) {
+		if (game.isPaused || game.isEnded) {
 			playGame();
 		} else {
 			pauseGame();
@@ -256,7 +255,7 @@
 	
 	function onKeyPress(event) {
         var keyCode = event.keyCode;
-		var key = window.utils.translateKeyCode(keyCode);
+		var key = utils.translateKeyCode(keyCode);
 
 		switch(key) {
 		case "ENTER": playGame(); break; // play only
@@ -267,7 +266,7 @@
 	
 	function onKeyUp(event) {
         var keyCode = event.keyCode;
-		var key = window.utils.translateKeyCode(keyCode);
+		var key = utils.translateKeyCode(keyCode);
 
 		switch(key) {
 		case "ESCAPE": pauseGame(); break; // pause only
@@ -280,24 +279,28 @@
 		log.d("<->main.setGameParameters");
 
 		var mode1 = document.getElementById("mode1");
-		game.setMode1(mode1.checked);
+		game.mode1On = mode1.checked;
 		var mode2 = document.getElementById("mode2");
-		game.setMode2(mode2.checked);
+		game.mode2On = mode2.checked;
 		var mode3 = document.getElementById("mode3");
-		game.setMode3(mode3.checked);
+		game.mode3On = mode3.checked;
 		var mode4 = document.getElementById("mode4");
-		game.setMode4(mode4.checked);
+		game.mode4On = mode4.checked;
 		var mode5 = document.getElementById("mode5");
-		game.setMode5(mode5.checked);
-		var gameAreaSizeElem = document.getElementById("gameAreaSize");
-		var gameAreaSize = parseInt(gameAreaSizeElem.options[gameAreaSizeElem.selectedIndex].value, 10);
-		game.setGameAreaSize(gameAreaSize);
+		game.mode5On = mode5.checked;
+		var mode6 = document.getElementById("mode6");
+		game.mode6On = mode6.checked;
+		var mode7 = document.getElementById("mode7");
+		game.mode7On = mode7.checked;
+		var gameWindowSizeElem = document.getElementById("gameWindowSize");
+		var gameWindowSize = parseInt(gameWindowSizeElem.options[gameWindowSizeElem.selectedIndex].value, 10);
+		gameWindow.setGameWindowCellSize(gameWindowSize);
 		var centerSquareSizeElem = document.getElementById("centerSquareSize");
 		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value, 10);
-		game.setCenterSquareSize(centerSquareSize);
+		gameWindow.setCenterSquareCellSize(centerSquareSize);
 		var startingLevelElem = document.getElementById("startingLevel");
 		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value, 10);
-		game.setStartingLevel(startingLevel);
+		game.startingLevel = startingLevel;
 	}
 
 	function populateStatsTable() {
@@ -308,7 +311,7 @@
 		levelData.innerHTML = game.getLevel();
 
 		var timeData = document.getElementById("timeData");
-		var timeString = window.utils.getHourMinSecTime(game.getTime());
+		var timeString = utils.getHourMinSecTime(game.getTime());
 		timeData.innerHTML = timeString;
 
 		var layersCollapsedData = document.getElementById("layersCollapsedData");
@@ -343,10 +346,10 @@
 	}
 
 	function onMouseDown(event) {
-		event = window.utils.standardizeMouseEvent(event);
+		event = utils.standardizeMouseEvent(event);
 
 		// We only care about gestures which occur while the game is running
-		if (!game.getIsPaused() && !game.getIsEnded()) {
+		if (!game.isPaused && !game.isEnded) {
 			gestureInProgress = true;
 
 			var pagePos = { x: event.pageX, y: event.pageY };
@@ -354,14 +357,13 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameAreaRect = canvas.getBoundingClientRect();
-			var gameAreaOffset = game.getGameAreaPosition();
-			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
-				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
+			var gameWindowRect = canvas.getBoundingClientRect();
+			var gameWindowPos = {
+				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
+				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			game.startGesture(gameAreaPos, currentTime);
+			input.startGesture(gameWindowPos, currentTime);
 		}
 
 		// It ruins gameplay for the browser to use the mouse drag as a 
@@ -370,7 +372,7 @@
 	}
 
 	function onMouseUp(event) {
-		event = window.utils.standardizeMouseEvent(event);
+		event = utils.standardizeMouseEvent(event);
 
 		if (gestureInProgress) {
 			gestureInProgress = false;
@@ -380,19 +382,18 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameAreaRect = canvas.getBoundingClientRect();
-			var gameAreaOffset = game.getGameAreaPosition();
-			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
-				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
+			var gameWindowRect = canvas.getBoundingClientRect();
+			var gameWindowPos = {
+				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
+				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			game.finishGesture(gameAreaPos, currentTime);
+			input.finishGesture(gameWindowPos, currentTime);
 		}
 	}
 
 	function onMouseMove(event) {
-		event = window.utils.standardizeMouseEvent(event);
+		event = utils.standardizeMouseEvent(event);
 
 		// Check whether this event is part of a drag
 		if (gestureInProgress) {
@@ -400,14 +401,13 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameAreaRect = canvas.getBoundingClientRect();
-			var gameAreaOffset = game.getGameAreaPosition();
-			var gameAreaPos = {
-				x: pagePos.x - gameAreaRect.left - gameAreaOffset.x,
-				y: pagePos.y - gameAreaRect.top - gameAreaOffset.y
+			var gameWindowRect = canvas.getBoundingClientRect();
+			var gameWindowPos = {
+				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
+				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			game.dragGesture(gameAreaPos);
+			input.dragGesture(gameWindowPos);
 		}
 	}
 
@@ -418,7 +418,7 @@
 		if (!inElement || inElement.nodeName == "HTML") {
 			gestureInProgress = false;
 
-			game.cancelGesture();
+			input.cancelGesture();
 		}
 	}
 

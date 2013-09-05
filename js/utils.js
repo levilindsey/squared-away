@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------------- //
-// -- window.utils
+// -- utils
 // ------------------------------------------------------------------------- //
 // For use with the Squared Away web app.
 // 
@@ -141,19 +141,34 @@
 		return initial * Math.pow((1 + rate), time);
 	}
 
+	function _getSquaredDistance(pos1, pos2) {
+		var deltaX = pos1.x - pos2.x;
+		var deltaY = pos1.y - pos2.y;
+		return deltaX * deltaX + deltaY * deltaY;
+	}
+
+	// Make utils available to the rest of the program
 	window.utils = {
 		object: _object,
+
 		initializeArray: _initializeArray,
 		copyArray: _copyArray,
+
 		getWindowWidth: _getWindowWidth,
 		getWindowHeight: _getWindowHeight,
 		getElementWidth: _getElementWidth,
 		getElementHeight: _getElementHeight,
+
 		translateKeyCode: _translateKeyCode,
+
 		getHourMinSecTime: _getHourMinSecTime,
+
 		getLinGrowthValue: _getLinGrowthValue,
 		getExpGrowthValue: _getExpGrowthValue,
-		standardizeMouseEvent: _standardizeMouseEvent
+
+		standardizeMouseEvent: _standardizeMouseEvent,
+
+		getSquaredDistance: _getSquaredDistance
 	};
 
 	log.i("<--utils.LOADING_MODULE");
