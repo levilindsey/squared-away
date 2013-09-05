@@ -129,6 +129,8 @@
 		document.addEventListener("mouseup", onMouseUp, false);
 		document.addEventListener("mousemove", onMouseMove, false);
 		document.addEventListener("mouseout", onMouseOut, false);
+		var showConsole = document.getElementById("showConsole");
+		showConsole.addEventListener("click", toggleConsole, false);
 
 		// ---------- Hook up sound ---------- //
 
@@ -148,7 +150,7 @@
 		createjs.Sound.addEventListener("loadComplete", onLoadingAudioComplete);
 		createjs.Sound.registerManifest(audioManifest);
 
-		log.d("<--main.init");
+		log.i("<--main.init");
 	}
 
 	function onLoadingSoundsUpdate() {
@@ -330,13 +332,13 @@
 
 	function expandInfoArea() {
 		var infoArea = document.getElementById("infoArea");
-		infoArea.style.visibility = "visible";
+		infoArea.style.display = "block";
 		// TODO: switch divs; animate
 	}
 
 	function collapseInfoArea() {
 		var infoArea = document.getElementById("infoArea");
-		infoArea.style.visibility = "hidden";
+		infoArea.style.display = "none";
 		// TODO: switch divs; animate
 	}
 
@@ -420,5 +422,15 @@
 		}
 	}
 
-	log.d("<--main.LOADING_MODULE");
+	function toggleConsole(event) {
+		var showConsole = document.getElementById("showConsole");
+
+		if (showConsole.checked) {
+			Logger.prototype.getConsole().style.display = "block";
+		} else {
+			Logger.prototype.getConsole().style.display = "none";
+		}
+	}
+
+	log.i("<--main.LOADING_MODULE");
 })();

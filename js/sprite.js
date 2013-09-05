@@ -126,5 +126,5 @@
 	// Make Sprite available to the rest of the program
 	window.Sprite = Sprite;
 
-	log.d("<--sprite.LOADING_MODULE");
+	log.i("<--sprite.LOADING_MODULE");
 })();

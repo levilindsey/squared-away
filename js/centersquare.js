@@ -146,5 +146,5 @@
 	// Make CenterSquare available to the rest of the program
 	window.CenterSquare = CenterSquare;
 
-	log.d("<--centersquare.LOADING_MODULE");
+	log.i("<--centersquare.LOADING_MODULE");
 })();

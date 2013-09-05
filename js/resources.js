@@ -86,5 +86,5 @@
         isReady: _isReady
     };
 
-	log.d("<--resources.LOADING_MODULE");
+	log.i("<--resources.LOADING_MODULE");
 }());

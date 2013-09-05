@@ -7,7 +7,7 @@
 //		- <none>
 // ------------------------------------------------------------------------- //
 
-var DEBUG = true;
+var DEBUG = false;
 
 (function() {
 	"use strict";
@@ -43,12 +43,12 @@ var DEBUG = true;
 		}
 
 		function _w(msg) {
-			log.getConsole().style.display = "block";
+			Logger.prototype.getConsole().style.display = "block";
 			_writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
 		}
 
 		function _e(msg) {
-			log.getConsole().style.display = "block";
+			Logger.prototype.getConsole().style.display = "block";
 			_writeLine(msg, "E", _ERROR_FOREGROUND, _ERROR_BACKGROUND);
 		}
 
@@ -99,11 +99,11 @@ var DEBUG = true;
 	window.log = new Logger(_CONSOLE_ELEMENT);
 
 	// Hide the console if we are not in debugging mode
-	if (DEBUG) {
-		log.getConsole().style.display = "block";
+	if (document.getElementById("showConsole").checked) {
+		Logger.prototype.getConsole().style.display = "block";
 	} else {
-		window.Logger.getConsole().style.display = "none";
+		Logger.prototype.getConsole().style.display = "none";
 	}
 
-	log.d("<--logger.LOADING_MODULE");
+	log.i("<--logger.LOADING_MODULE");
 })();

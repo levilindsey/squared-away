@@ -151,5 +151,5 @@
 		standardizeMouseEvent: _standardizeMouseEvent
 	};
 
-	log.d("<--utils.LOADING_MODULE");
+	log.i("<--utils.LOADING_MODULE");
 })();

@@ -96,10 +96,10 @@
 						<p>Press on block, and drag up (away from current fall direction).<p>
 					</td>
 				</tr>
-				<p>
-					Spacebar: pause.
-				</p>
 			</table>
+			<p>
+				Press the spacebar to pause.
+			</p>
 
 			<hr>
 
@@ -158,6 +158,8 @@
 					<option value="15">15</option>
 					<option value="20">20</option>
 				</select>
+				<br>
+				<label><input type="checkbox" name="showConsole" id="showConsole" value="showConsole"> Show the debug console</label>
 			</p>
 
 			<hr>
@@ -166,7 +168,9 @@
 			<p>
 				This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
 				<br><br>
-				The code is open source, and you can find it on GitHub at <a href="https://github.com/levisl176/squared_away">https://github.com/levisl176/squared_away</a>.
+				The code is open source, and you can find it on GitHub at 
+				<a href="https://github.com/levisl176/squared_away" target="_blank">
+				https://github.com/levisl176/squared_away</a>.
 				<br><br>
 				Also, this app is coming soon to the Android marketplace.
 			</p>

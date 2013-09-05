@@ -105,6 +105,7 @@
 	    - blocks randomly fall across the canvas behind the transparent screen
 		- two falling from each side always
 - replace a lot of the media loading with ajax??
+- actually animate (slide) the falling of blocks?
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

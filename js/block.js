@@ -1028,5 +1028,5 @@
 	// Make Block available to the rest of the program
 	window.Block = Block;
 
-	log.d("<--block.LOADING_MODULE");
+	log.i("<--block.LOADING_MODULE");
 })();

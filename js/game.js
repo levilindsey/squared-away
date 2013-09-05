@@ -73,7 +73,7 @@
 
 	var _BASE_SCORE_PER_SQUARE = 10;
 	var _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED = 0.02; // TODO: test/tweak this
-	var _SCORE_GROWTH_RATE_PER_RECENT_LAYER = 0.75; // TODO: test/tweak this
+	var _SCORE_GROWTH_RATE_PER_RECENT_LAYER = 0.50; // TODO: test/tweak this
 
 	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
 
@@ -158,6 +158,7 @@
 		var _phantomGuideLinePolygon = null;
 
 		var _layerCollapseDelay = _INITIAL_COLLAPSE_DELAY;
+		var _ellapsedCollapseTime = _layerCollapseDelay;
 
 		var _layerCountForNextLevel = _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL;
 		var _layersCollapsedSinceLastLevel = 0;
@@ -172,8 +173,6 @@
 
 		// The game loop drives the progression of frames and game logic
 		function _gameLoop() {
-//			log.d("-->game._gameLoop");
-
 			_isLooping = true;
 
 			// Get the timing of the current frame
@@ -193,33 +192,53 @@
 
 			// Go to the next frame
 			_prevTime = currTime;
-
-//			log.d("<--game._gameLoop");
 		}
 
 		// Update each of the game entities with the current time.
 		function _update(deltaTime) {
-//			log.d("-->game._update");
-
 			_gameTime += deltaTime;
 
 			// Update the center square
 			_centerSquare.update(deltaTime);
 
 			var i;
+			var layersWereCollapsed = false;
 
-			// Collapse any layers which are due
-			for (i = 0; i < _layersToCollapse.length; ++i) {
-				_layersToCollapse[i].collapseDelay -= deltaTime;
-				if (_layersToCollapse[i].collapseDelay < 0) {
-					_collapseLayer(_layersToCollapse[i].layer);
-					_layersToCollapse.splice(i, 1);
+			// There is a small collapse delay between the time when a layer 
+			// is completed and when it is collapsed.  However, if there are 
+			// any other layers waiting to be collapsed, then ALL pending 
+			// layers need to be collapsed simultaneously.  So we can use a 
+			// single timer for any number of pending layers.
+			_ellapsedCollapseTime += deltaTime;
+			if (_ellapsedCollapseTime >= _layerCollapseDelay) {
+				// Sort the completed layers by descending layer number
+				_layersToCollapse.sort(function(a, b) {
+					if (mode2On) {
+						return b.layer - a.layer;
+					} else {
+						return b - a;
+					}
+				});
+
+				// Collapse any pending layers
+				while (_layersToCollapse.length > 0) {
+					_collapseLayer(_layersToCollapse[0]);
+					_layersToCollapse.splice(0, 1);
+					layersWereCollapsed = true;
+
+					// Change each of the squares' values in this layer to 
+					// represent the appropriate sprite for the current stage of 
+					// the collapse animation
+					// TODO: *******!!!!!! (if I actually want to represent the animation of collapse with different cell numbers, then I am going to have to refactor each of the places in the code that look at _squaresOnGameArea[i] < 0 and make sure that they also behave correctly with _squaresOnGameArea[i] equal to the weird animating collapse numbers
 				}
+			}
 
-				// Change each of the squares' values in this layer to 
-				// represent the appropriate sprite for the current stage of 
-				// the collapse animation
-				// TODO: *******!!!!!! (if I actually want to represent the animation of collapse with different cell numbers, then I am going to have to refactor each of the places in the code that look at _squaresOnGameArea[i] < 0 and make sure that they also behave correctly with _squaresOnGameArea[i] equal to the weird animating collapse numbers
+			if (layersWereCollapsed) {
+				// Collapsing layers has the potential to complete additional 
+				// layers, so we should check for that now
+				_checkForCompleteLayers();
+
+				// TODO: settle stuff?
 			}
 
 			// Update the blocks
@@ -243,13 +262,7 @@
 					_blocksOnGameArea.splice(i, 1);
 
 					// Check whether this landed block causes the collapse of any layers
-					var completeLayers = _checkForCompleteLayers(newCellPositions);
-					for (i = 0; i < completeLayers.length; ++i) {
-						_layersToCollapse.push({
-							collapseDelay: _layerCollapseDelay,
-							layer: completeLayers[i]
-						});
-					}
+					var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
 
 					// Check whether this was the last active block
 					if (_blocksOnGameArea.length === 0) {
@@ -269,11 +282,11 @@
 						_getNextBlock(nextPreviewWindow);
 					}
 
-					if (completeLayers.length > 0) {
+					if (layersWereCompleted) {
 						createjs.Sound.play("collapse");
-						createjs.Sound.play("landed");// TODO: check whether I actually do want to play these clips simultaneously
+						createjs.Sound.play("land");// TODO: check whether I actually do want to play these clips simultaneously
 					} else {
-						createjs.Sound.play("landed");
+						createjs.Sound.play("land");
 					}
 				}
 
@@ -300,13 +313,9 @@
 			// Loop through each square in the game area and possibly animate 
 			// it with a shimmer
 			// TODO: 
-
-//			log.d("<--game._update");
 		}
 
 		function _draw() {
-//			log.d("-->game._draw");
-
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
@@ -379,8 +388,6 @@
 			}
 
 			_context.restore();
-
-//			log.d("<--game._draw");
 		}
 
 		// Set up a new game
@@ -585,14 +592,19 @@
 				_gestureType = gestureTypeAndCellPos.type;
 				_gestureCellPos = gestureTypeAndCellPos.pos;
 
+				var logMsg = 
+						": start=("+_gestureStartPos.x+","+_gestureStartPos.y+","+_gestureStartTime+
+						");end=("+_gestureCurrentPos.x+","+_gestureCurrentPos.y+","+_gestureCurrentTime+
+						");cellPos=("+_gestureCellPos.x+","+_gestureCellPos.y+")";
+
 				// Check whether the gesture was a sideways move, a drop, or a 
 				// direction change
 				switch (_gestureType) {
 				case _NONE:
-					log.d("---game._finishGesture: _NONE");
+					log.i("---game._finishGesture: _NONE" + logMsg);
 					break;
 				case _ROTATION:
-					log.d("---game._finishGesture: _ROTATION");
+					log.i("---game._finishGesture: _ROTATION" + logMsg);
 
 					// Rotate the selected block
 					var wasAbleToRotate = _selectedBlock.rotate(_squaresOnGameArea, _blocksOnGameArea, true);
@@ -604,21 +616,21 @@
 					}
 					break;
 				case _SIDEWAYS_MOVE:
-					log.d("---game._finishGesture: _SIDEWAYS_MOVE");
+					log.i("---game._finishGesture: _SIDEWAYS_MOVE" + logMsg);
 
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					createjs.Sound.play("move");
 					break;
 				case _DROP:
-					log.d("---game._finishGesture: _DROP");
+					log.i("---game._finishGesture: _DROP" + logMsg);
 
 					_selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
 					createjs.Sound.play("move");
 					break;
 				case _DIRECTION_CHANGE:
-					log.d("---game._finishGesture: _DIRECTION_CHANGE");
+					log.i("---game._finishGesture: _DIRECTION_CHANGE" + logMsg);
 
 					if (_mode5On) {
 						_isPhantomBlockValid = _computeIsPhantomBlockValid(_phantomBlock, _squaresOnGameArea, _blocksOnGameArea);
@@ -641,7 +653,7 @@
 					return;
 				}
 			} else {
-				log.d("---game._finishGesture: <no selected block>");
+				log.i("---game._finishGesture: <no selected block>" + logMsg);
 			}
 
 			_cancelGesture();
@@ -1153,10 +1165,12 @@
 			createjs.Sound.play("newBlock");
 		}
 
-		// Return any layers which are completed by the inclusion of squares 
-		// in the given new cell positions.  In the event of line-collapse 
-		// mode, the line layers will be represented by objects with the 
-		// following properties: side, layer, startCell, endCell (inclusive).
+		// Check for any layers which are completed by the inclusion of 
+		// squares in the given new cell positions.  If no cell positions are 
+		// given, then check for all layers in the game area.  In the event of 
+		// line-collapse mode, the line layers will be represented by objects 
+		// with the following properties: side, layer, startCell, endCell 
+		// (inclusive).  Return true any layers were found to be complete.
 		function _checkForCompleteLayers(newCellPositions) {
 			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
 			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
@@ -1180,19 +1194,29 @@
 			var endI;
 
 			if (_mode2On) { // Collapsing whole squares
-				// Get the layers the given positions are a part of
-				for (i = 0; i < newCellPositions.length; ++i) {
-					deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
-					deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
+				// Check whether we have a limited number of potential layers 
+				// to check
+				if (newCellPositions) {
+					// Get the layers the given positions are a part of
+					for (i = 0; i < newCellPositions.length; ++i) {
+						deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
+						deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
 
-					if (deltaX > deltaY) {
-						layer = Math.ceil(deltaX - _centerSquareCellHalfSize);
-					} else {
-						layer = Math.ceil(deltaY - _centerSquareCellHalfSize);
+						if (deltaX > deltaY) {
+							layer = Math.ceil(deltaX - _centerSquareCellHalfSize);
+						} else {
+							layer = Math.ceil(deltaY - _centerSquareCellHalfSize);
+						}
+
+						// Do not add any layer more than once
+						if (layersToCheck.indexOf(layer) < 0) {
+							layersToCheck.push(layer);
+						}
 					}
-
-					// Do not add any layer more than once
-					if (layersToCheck.indexOf(layer) < 0) {
+				} else {
+					// We will need to check every layer in the game area
+					var maxLayer = (_gameAreaCellSize - _centerSquareCellSize) / 2;
+					for (layer = 1; layer <= maxLayer; ++layer) {
 						layersToCheck.push(layer);
 					}
 				}
@@ -1264,45 +1288,55 @@
 				var minEndI;
 				var maxEndI;
 
-				// Get the layers the given positions are a part of
-				for (i = 0; i < newCellPositions.length; ++i) {
-					deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
-					deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
+				// Check whether we have a limited number of potential layers 
+				// to check
+				if (newCellPositions) {
+					// Get the layers the given positions are a part of
+					for (i = 0; i < newCellPositions.length; ++i) {
+						deltaX = Math.abs(newCellPositions[i].x - centerCellPositionX);
+						deltaY = Math.abs(newCellPositions[i].y - centerCellPositionX);
 
-					if (deltaX > _centerSquareCellHalfSize) {
-						if (newCellPositions[i].x < centerCellPositionX) {
-							side = Block.prototype.LEFT_SIDE;
-						} else {
-							side = Block.prototype.RIGHT_SIDE;
+						if (deltaX > _centerSquareCellHalfSize) {
+							if (newCellPositions[i].x < centerCellPositionX) {
+								side = Block.prototype.LEFT_SIDE;
+							} else {
+								side = Block.prototype.RIGHT_SIDE;
+							}
+
+							layer = {
+								side: side,
+								layer: Math.ceil(deltaX - _centerSquareCellHalfSize)
+							};
+
+							// Do not add any layer more than once
+							if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
+								layersToCheck.push(layer);
+							}
 						}
 
-						layer = {
-							side: side,
-							layer: Math.ceil(deltaX - _centerSquareCellHalfSize)
-						};
+						if (deltaY > _centerSquareCellHalfSize) {
+							if (newCellPositions[i].y < centerCellPositionX) {
+								side = Block.prototype.TOP_SIDE;
+							} else {
+								side = Block.prototype.BOTTOM_SIDE;
+							}
 
-						// Do not add any layer more than once
-						if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
-							layersToCheck.push(layer);
+							layer = {
+								side: side,
+								layer: Math.ceil(deltaY - _centerSquareCellHalfSize)
+							};
+
+							// Do not add any layer more than once
+							if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
+								layersToCheck.push(layer);
+							}
 						}
 					}
-
-					if (deltaY > _centerSquareCellHalfSize) {
-						if (newCellPositions[i].y < centerCellPositionX) {
-							side = Block.prototype.TOP_SIDE;
-						} else {
-							side = Block.prototype.BOTTOM_SIDE;
-						}
-
-						layer = {
-							side: side,
-							layer: Math.ceil(deltaY - _centerSquareCellHalfSize)
-						};
-
-						// Do not add any layer more than once
-						if (_findIndexOfLayerToCheck(layersToCheck, layer) < 0) {
-							layersToCheck.push(layer);
-						}
+				} else {
+					// We will need to check every layer in the game area
+					var maxLayer = (_gameAreaCellSize - _centerSquareCellSize) / 2;
+					for (layer = 1; layer <= maxLayer; ++layer) {
+						layersToCheck.push(layer);
 					}
 				}
 
@@ -1418,7 +1452,25 @@
 				}
 			}
 
-			return completeLayers;
+			// Now save the completed layers to be removed after a short delay
+			for (i = 0; i < completeLayers.length; ++i) {
+				_layersToCollapse.push(completeLayers[i]);
+			}
+
+			if (completeLayers.length > 0) {
+				// There is a small collapse delay between the time when a layer 
+				// is completed and when it is collapsed.  However, if there are 
+				// any other layers waiting to be collapsed, then ALL pending 
+				// layers need to be collapsed simultaneously.  So we can use a 
+				// single timer for any number of pending layers.
+				if (_ellapsedCollapseTime >= _layerCollapseDelay) {
+					_ellapsedCollapseTime = 0;
+				}
+
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		function _findIndexOfLayerToCheck(layers, layerToCheck) {
@@ -1908,5 +1960,5 @@
 	// Make Game available to the rest of the program
 	window.Game = Game;
 
-	log.d("<--game.LOADING_MODULE");
+	log.i("<--game.LOADING_MODULE");
 })();

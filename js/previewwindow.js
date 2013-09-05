@@ -284,5 +284,5 @@
 	// Make PreviewWindow available to the rest of the program
 	window.PreviewWindow = PreviewWindow;
 
-	log.d("<--previewwindow.LOADING_MODULE");
+	log.i("<--previewwindow.LOADING_MODULE");
 })();
