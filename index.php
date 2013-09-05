@@ -107,7 +107,7 @@
 			<p>
 				<label><input type="checkbox" name="mode1" id="mode1" value="mode1"> Enable keyboard control</label>
 				<br>
-				<label><input type="checkbox" name="mode2" id="mode2" value="mode2" checked> Completing squares instead of lines</label>
+				<label><input type="checkbox" name="mode2" id="mode2" value="mode2"> Completing squares instead of lines</label>
 				<br>
 				<label><input type="checkbox" name="mode3" id="mode3" value="mode3" checked> Blocks are allowed to fall past the center</label>
 				<br>

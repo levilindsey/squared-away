@@ -31,9 +31,11 @@
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
-	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.10; // ratio // TODO: test/tweak this
-	var _INITIAL_BLOCK_FALL_SPEED = 0.0015; // in squares per millis
-	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.10; // ratio // TODO: test/tweak this
+	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.10; // linear // TODO: test/tweak this
+
+	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.50; // linear // TODO: test/tweak this
+
 	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 9000; // millis per color
 	var _CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE = -0.10;
 
@@ -61,15 +63,15 @@
 
 	var _blockSelect_SQUARED_DISTANCE_THRESHOLD = 1200; // TODO: test this
 	var _TAP_SQUARED_DISTANCE_THRESHOLD = 100; // TODO: test this
-	var _TAP_TIME_THRESHOLD = 250; // TODO: test this
+	var _TAP_TIME_THRESHOLD = 180; // TODO: test this
 
 	var _INITIAL_COLLAPSE_DELAY = 500; // millis
 	var _COLLAPSE_DELAY_GROWTH_RATE = -0.10;
 
 	var _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE = 140; // pixels
 
-	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 8; // TODO: test/tweak this
-	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.05; // TODO: test/tweak this
+	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 3; // TODO: test/tweak this
+	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.1; // TODO: test/tweak this
 
 	var _BASE_SCORE_PER_SQUARE = 10;
 	var _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED = 0.02; // TODO: test/tweak this
@@ -213,7 +215,7 @@
 			if (_ellapsedCollapseTime >= _layerCollapseDelay) {
 				// Sort the completed layers by descending layer number
 				_layersToCollapse.sort(function(a, b) {
-					if (mode2On) {
+					if (_mode2On) {
 						return b.layer - a.layer;
 					} else {
 						return b - a;
@@ -428,7 +430,7 @@
 			_level = level;
 
 			// Increase the block fall speed
-			_currentBlockFallSpeed = window.utils.getExpGrowthValue(
+			_currentBlockFallSpeed = window.utils.getLinGrowthValue(
 					_INITIAL_BLOCK_FALL_SPEED, 
 					_BLOCK_FALL_SPEED_GROWTH_RATE, 
 					_level);
@@ -442,7 +444,7 @@
 			_centerSquare.setColorPeriod(_currentCenterSquareColorPeriod);
 
 			// Decrease the preview window cooldown time
-			_currentPreviewWindowCoolDownTime = window.utils.getExpGrowthValue(
+			_currentPreviewWindowCoolDownTime = window.utils.getLinGrowthValue(
 					_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
 					_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
 					_level);
@@ -1361,7 +1363,7 @@
 						maxEndI = ((startY + 1) * _gameAreaCellSize) - 1;
 						break;
 					case Block.prototype.RIGHT_SIDE:
-						startX = minCenterSquareCellPositionX - 1 + layer;
+						startX = maxCenterSquareCellPositionX - 1 + layer;
 						startI = startX;
 						deltaI = _gameAreaCellSize;
 						startY = minCenterSquareCellPositionX;
@@ -1580,50 +1582,6 @@
 			addCollapseToScore(squaresCollapsedCount);
 		}
 
-		function addCollapseToScore(squaresCollapsedCount) {
-			_squaresCollapsedCount += squaresCollapsedCount;
-			++_layersCollapsedCount;
-			++_layersCollapsedSinceLastLevel;
-
-			// Give a slight exponential score increase for the number of 
-			// blocks in the current layer collapse
-			var score = window.utils.getExpGrowthValue(
-					_BASE_SCORE_PER_SQUARE, 
-					_mode2On ? _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED : _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED / 4, 
-					squaresCollapsedCount) * squaresCollapsedCount;
-
-			// Give a large exponential score increase if the previous layer 
-			// collapse occurred very recently
-			var currentCollapseTime = Date.now();
-			_recentCollapsesCount = currentCollapseTime - _prevCollapseTime < _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD ? _recentCollapsesCount + 1 : 0;
-			_prevCollapseTime = currentCollapseTime;
-			score = window.utils.getExpGrowthValue(
-					score, 
-					_mode2On ? _SCORE_GROWTH_RATE_PER_RECENT_LAYER : _SCORE_GROWTH_RATE_PER_RECENT_LAYER / 4, 
-					_recentCollapsesCount);
-
-			_score += Math.floor(score);
-
-			_scoreDisplay.innerHTML = _score;
-
-			// Check whether the player has collapsed enough layers to move on 
-			// to the next level
-			if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
-				_setLevel(_level + 1);
-
-				createjs.Sound.play("level");
-			}
-
-			// Check whether the player has earned anything with the new score
-			if (_score > _pointsForPrevBonus + _POINTS_FOR_BONUS) {
-				// TODO: give the player the bonus
-
-				_pointsForPrevBonus += _POINTS_FOR_BONUS;
-
-				createjs.Sound.play("earnedBonus");
-			}
-		}
-
 		// Drop by one each of the layers above the given layer.
 		function _dropHigherLayers(collapsedLayer) {
 			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
@@ -1783,13 +1741,13 @@
 					break;
 				case Block.prototype.RIGHT_SIDE:
 					loopDeltaI = _gameAreaCellSize;
-					dropDeltaI = 1;
+					dropDeltaI = -1;
 					updateStartCellDeltaI = -_gameAreaCellSize + 1;
 					updateEndCellDeltaI = _gameAreaCellSize + 1;
 					break;
 				case Block.prototype.BOTTOM_SIDE:
 					loopDeltaI = 1;
-					dropDeltaI = _gameAreaCellSize;
+					dropDeltaI = -_gameAreaCellSize;
 					updateStartCellDeltaI = _gameAreaCellSize - 1;
 					updateEndCellDeltaI = _gameAreaCellSize + 1;
 					break;
@@ -1828,6 +1786,50 @@
 		// were supporting other higher blocks.
 		function _settleHigherLayers(collapsedLayer) {
 			// TODO: ****
+		}
+
+		function addCollapseToScore(squaresCollapsedCount) {
+			_squaresCollapsedCount += squaresCollapsedCount;
+			++_layersCollapsedCount;
+			++_layersCollapsedSinceLastLevel;
+
+			// Give a slight exponential score increase for the number of 
+			// blocks in the current layer collapse
+			var score = window.utils.getExpGrowthValue(
+					_BASE_SCORE_PER_SQUARE, 
+					_mode2On ? _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED : _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED / 4, 
+					squaresCollapsedCount) * squaresCollapsedCount;
+
+			// Give a large exponential score increase if the previous layer 
+			// collapse occurred very recently
+			var currentCollapseTime = Date.now();
+			_recentCollapsesCount = currentCollapseTime - _prevCollapseTime < _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD ? _recentCollapsesCount + 1 : 0;
+			_prevCollapseTime = currentCollapseTime;
+			score = window.utils.getExpGrowthValue(
+					score, 
+					_mode2On ? _SCORE_GROWTH_RATE_PER_RECENT_LAYER : _SCORE_GROWTH_RATE_PER_RECENT_LAYER / 4, 
+					_recentCollapsesCount);
+
+			_score += Math.floor(score);
+
+			_scoreDisplay.innerHTML = _score;
+
+			// Check whether the player has collapsed enough layers to move on 
+			// to the next level
+			if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
+				_setLevel(_level + 1);
+
+				createjs.Sound.play("level");
+			}
+
+			// Check whether the player has earned anything with the new score
+			if (_score > _pointsForPrevBonus + _POINTS_FOR_BONUS) {
+				// TODO: give the player the bonus
+
+				_pointsForPrevBonus += _POINTS_FOR_BONUS;
+
+				createjs.Sound.play("earnedBonus");
+			}
 		}
 
 		function _getIsPaused() {

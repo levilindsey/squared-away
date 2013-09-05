@@ -54,32 +54,22 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-- when the game tells a block to add itself to the squares list, then also have the game check whether there are any other remaining blocks.  If not, then flip a boolean that forces the closest preview window to drop immediately on the next update().
-- add SFX!!
-    - google a free place
-    - audible events:
-        - a block falling
+**- right now, when attempting to make detailed, single-cell move sideways with a block, it falls and the deltaY quickly overtakes the deltaX.
+    - I need to refactor how my gesture calculations work when re-calculating from a block fall rather than from a drag
+    - OR probably, I need to refactor how the calculations happen at all (because what if I am still just trying to slowly drag to move the block by one space as the block falls??)
+**- there seems to be a bug with all blocks in which the right and bottom portions of the phantom guideline cuts off early for down and right fall directions for all orientations but 1.
+- add an additional game mode which causes higher layers to "settle" when a lower layer collapses
         - a block landing
-        - game over ("GAAAAME OVEEER") (<-- record myself?)
-        - a layer disintegrating
-        - the level progressing
-        - the game starting (a "ta dah!" sound (like opening a chest))
-        - the game pausing (high to low)
-        - the game unpausing (low to high)
-        - a block rotating
-        - a block changing direction
-        - a block being dropped by the player
-        - a block being moved by the player
-        - a sound when the player selects a block
-        - a sound when the player drags a block but hasn't yet dropped it
-        - a sound when block is unable to move how the player chose
 - add keyboard control
 - DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
-- refactor code so that ALL entities store their positions relative to the canvas origin (and then make sure the translation occurs before the first entity is drawn)
+**- add a "?" button to the bottom-left of the canvas that, when pressed, will display the directions/about areas and pause the game
+**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
+    **- also, whenever the game is ended, show a big red circle where the cause is
+**- there is a bug when dragging down past the bottom of the canvas.  the phantom guideline disappears and the gesture is cancelled.
+**- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
+- add a music and sfx combo button to the bottom-right of the canvas that will toggle the music and sfx when pressed
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
-
-- Node.js
-- Spring framework
+- change the logic to allow the player to both drop AND move sideways a block in the same gesture?
 
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
@@ -135,7 +125,8 @@
     - When playing quickly enough
     - New tile/GUI art
     - New music?
-
+- have a captcha for new user accounts for the scores, forums, and bug reports
+- have a simple email button for reporting bugs
 - say at the bottom of the info bit that the site uses cookies?
 
 ----

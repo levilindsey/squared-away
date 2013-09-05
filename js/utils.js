@@ -133,6 +133,10 @@
 		return event;
 	}
 
+	function _getLinGrowthValue(initial, rate, time) {
+		return initial * (1 + rate) * time;
+	}
+
 	function _getExpGrowthValue(initial, rate, time) {
 		return initial * Math.pow((1 + rate), time);
 	}
@@ -147,6 +151,7 @@
 		getElementHeight: _getElementHeight,
 		translateKeyCode: _translateKeyCode,
 		getHourMinSecTime: _getHourMinSecTime,
+		getLinGrowthValue: _getLinGrowthValue,
 		getExpGrowthValue: _getExpGrowthValue,
 		standardizeMouseEvent: _standardizeMouseEvent
 	};
