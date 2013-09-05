@@ -140,6 +140,7 @@
 - add another mode for toggling the appearance of the two special bonus powers
 - tell http://ericskiff.com/music/ that I used his music
 - switch all of the exp growth to simple linear. duh.
+- replace the links to SoundCloud clips with actually functionality for playing the pieces in my site with createjs.Sound
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

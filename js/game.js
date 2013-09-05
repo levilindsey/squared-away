@@ -45,7 +45,7 @@
 	var _COLLAPSE_DELAY_GROWTH_RATE = -0.10;
 
 	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 3; // TODO: test/tweak this
-	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.1; // TODO: test/tweak this
+	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.334; // TODO: test/tweak this
 
 	var _BASE_SCORE_PER_SQUARE = 10;
 	var _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED = 0.02; // TODO: test/tweak this
@@ -208,38 +208,38 @@
 		_currentBlockFallSpeed = utils.getLinGrowthValue(
 				_INITIAL_BLOCK_FALL_SPEED, 
 				_BLOCK_FALL_SPEED_GROWTH_RATE, 
-				_level);
+				_level - 1);
 		Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 		// Increase the rate of the center square color changes
-		_currentCenterSquareColorPeriod = utils.getExpGrowthValue(
+		_currentCenterSquareColorPeriod = utils.getLinGrowthValue(
 				_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
 				_CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE, 
-				_level);
+				_level - 1);
 		gameWindow.setCenterSquareColorPeriod(_currentCenterSquareColorPeriod);
 
 		// Decrease the preview window cooldown time
 		_currentPreviewWindowCoolDownTime = utils.getLinGrowthValue(
 				_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
 				_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
-				_level);
+				_level - 1);
 		for (var i = 0; i < 4; ++i) {
 			_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 		}
 
 		// Decrease the layer collapse delay
-		var layerCollapseDelay = utils.getExpGrowthValue(
+		var layerCollapseDelay = utils.getLinGrowthValue(
 				_INITIAL_COLLAPSE_DELAY, 
 				_COLLAPSE_DELAY_GROWTH_RATE, 
-				_level);
+				_level - 1);
 		gameWindow.setLayerCollapseDelay(layerCollapseDelay);
 
 		// Get how many layers need to be collapsed to progress to the 
 		// next level
-		_layerCountForNextLevel = utils.getExpGrowthValue(
+		_layerCountForNextLevel = utils.getLinGrowthValue(
 				game.mode2On ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
 				_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
-				_level);
+				_level - 1);
 		_layersCollapsedSinceLastLevel = 0;
 
 		_levelDisplay.innerHTML = _level;

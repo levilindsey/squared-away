@@ -62,9 +62,9 @@
 			// Sort the completed layers by descending layer number
 			_layersToCollapse.sort(function(a, b) {
 				if (game.mode2On) {
-					return b.layer - a.layer;
-				} else {
 					return b - a;
+				} else {
+					return b.layer - a.layer;
 				}
 			});
 
