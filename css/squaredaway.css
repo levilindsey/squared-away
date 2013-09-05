@@ -57,6 +57,10 @@ h3 {
 	background-color: #101010;
 }
 
+#directionsArea * {
+	text-align: center;
+}
+
 .directionPanel {
 	border: 2px;
 	border-color: #FFFFFF;/*rgba(255,255,255,0.2);*/
@@ -96,6 +100,9 @@ h3 {
 
 #infoArea>* {
 	margin: 10px;
+}
+
+#musicArea>p {
 	text-align: center;
 }
 
@@ -108,6 +115,11 @@ h3 {
 
 #noJavaScriptArea>* {
 	margin: 10px;
+}
+
+#optionsArea>p {
+	margin: 0px auto;
+	width: 380px;
 }
 
 #pageColumn {
@@ -174,6 +186,12 @@ h3 {
 
 #statsTable>td {
 	width: 150px;
+}
+
+.textColumn {
+	float: left;
+	text-align: left;
+	width: 350px;
 }
 
 #topLevelDisplayArea {
