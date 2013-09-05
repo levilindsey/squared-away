@@ -54,22 +54,30 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-**- right now, when attempting to make detailed, single-cell move sideways with a block, it falls and the deltaY quickly overtakes the deltaX.
-    - I need to refactor how my gesture calculations work when re-calculating from a block fall rather than from a drag
-    - OR probably, I need to refactor how the calculations happen at all (because what if I am still just trying to slowly drag to move the block by one space as the block falls??)
+**- found another bug where the layer is not collapsing:
+    - did a triple-layer complete on the right side with lots of squares extending out to the sides and the collapse mode is single LINE only
+**- there is a bug when dragging down past the bottom of the canvas.  the phantom guideline disappears and the gesture is cancelled.
+**- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
+**- add a music and sfx combo button to the bottom-right of the canvas that will toggle the music and sfx when pressed
+**- add a simple "?" image/button for now in order to pause the game and display all of the text panels
+**- have a list of textboxes (one for each song)
+    - then, give the player the ability to unselect any of these in order to choose which songs are used during the shuffle playback during gameplay
+    - have this panel dynamically expand when "explored"
+    - hook up the music player to shuffle these (and let choices be made in mid-game)
+    - make sure that the music player uses XMLHttpRequests in order to load the music (but not the SFXs?)
+    - don't forget that I deleted pieces in two directories; ALL of the songs are in the Resistor Anthems directory; (but use the songs that are in the others to help determine which checkboxes are pre-checked)
+**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
+    **- also, whenever the game is ended, show a big red circle where the cause is
 **- there seems to be a bug with all blocks in which the right and bottom portions of the phantom guideline cuts off early for down and right fall directions for all orientations but 1.
+
 - add an additional game mode which causes higher layers to "settle" when a lower layer collapses
         - a block landing
 - add keyboard control
 - DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
-**- add a "?" button to the bottom-left of the canvas that, when pressed, will display the directions/about areas and pause the game
-**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
-    **- also, whenever the game is ended, show a big red circle where the cause is
-**- there is a bug when dragging down past the bottom of the canvas.  the phantom guideline disappears and the gesture is cancelled.
-**- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
-- add a music and sfx combo button to the bottom-right of the canvas that will toggle the music and sfx when pressed
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?
+
+
 
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
@@ -96,6 +104,42 @@
 		- two falling from each side always
 - replace a lot of the media loading with ajax??
 - actually animate (slide) the falling of blocks?
+- after the database and login system are in place:
+	- add the ability for people to unlock customizations/access to music, options, and various game modes!!
+		- these are unlocked by either getting to higher levels, spending enough time playing, or getting enough points from a single collapse
+	- store preferences for:
+		- game modes
+		- music
+		- whether music and sfx are turned on or off
+	- store which unlockables have been unlocked
+	- store records representing individual play/log-on sessions, and also cumulative stats
+- dynamic expanding and collapsing:
+    - have the options, directions, and music choices all dynamically expand and collapse
+    - so these should then be in 3 separate circular bubbles below the game area
+    - have these 3 bubbles hover around the center, but slowly orbit each other in and out in tight, overlapping elliptical paths
+    - then, on tap or hover over, expand all of these bubbles to their anchor positions (at which point they should NOT be moving at all)
+    - then, when one is tapped, expand it to fill the main display area, while minimizing the others to one side or both
+    - MAKE ALL OF THIS GENERIC (and, later, apply it to the wedding site?):
+        - parameters:
+			- a list of objects of the form:
+				-	{
+						expElement: <the DOM element containing the expanded content>,
+						anchorPos: <the absolute x and y coords for this bubble's static position, BUT this should be obtained from the values given to the elements from the CSS file>,
+						sideLinesPos: <the secondary static position to place this element when another element is being viewed in its expanded form>
+					}
+			- the absolute x and y coords of the center point around which the "bored" bubbles orbit/hover
+			- the absolute x and y coords to place the main, expanded, selected element at
+			- shrunk width and height
+			- expanded width and height
+			- the orbit/hover rate
+			- the orbit/hover diameter
+        	- (optional): whether each of the bubble anchor positions are interchangeable, or a given bubble always goes to the same anchor position
+		- include all of the relevant style in a separate style sheet
+			- each bubble div:
+				- class="bubble"
+				- a child div with class="shrunkContent"
+				- a child div with class="expandedContent"
+- add another mode for toggling the appearance of the two special bonus powers
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
