@@ -36,7 +36,7 @@
 
 			<div id="pauseScreen">
 				<h3 id="pauseScreenTitle">Game Paused</h3>
-				<button id="unpauseButton" disabled>Play Game</button>
+				<button id="unpauseButton">Play Game</button>
 				<table id="statsTable">
 					<tr>
 						<td>Score:</td>
@@ -178,7 +178,7 @@
 						<option value="20">20</option>
 					</select>
 					<br>
-					<label><input type="checkbox" name="showConsole" id="showConsole" value="showConsole"> Show the debug console</label>
+					<label><input type="checkbox" name="showConsole" id="showConsole" value="showConsole" checked> Show the debug console</label>
 				</p>
 			</div>
 
@@ -227,13 +227,13 @@
 					<label><input type="checkbox" name="searching" id="searching" value="searching" > Searching</label>
 					<a href="https://soundcloud.com/eric-skiff/searching?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="underclocked" id="underclocked" value="underclocked" > Underclocked (underunderclocked mix)</label>
+					<label><input type="checkbox" name="underclocked" id="underclocked" value="underclocked" checked> Underclocked (underunderclocked mix)</label>
 					<a href="https://soundcloud.com/eric-skiff/underclocked-underunderclocked?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
 					<label><input type="checkbox" name="wereAllUnderTheStars" id="wereAllUnderTheStars" value="wereAllUnderTheStars"> We're All Under the Stars</label>
 					<a href="https://soundcloud.com/eric-skiff/were-all-under-the-stars?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" > We're the Resistors</label>
+					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" checked> We're the Resistors</label>
 					<a href="https://soundcloud.com/eric-skiff/were-the-resistors?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 				</div>
 				<br>
@@ -279,6 +279,7 @@
     <script type="text/javascript" src="js/centersquare.js"></script>
     <script type="text/javascript" src="js/gameWindow.js"></script>
     <script type="text/javascript" src="js/input.js"></script>
+    <script type="text/javascript" src="js/sound.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </body>

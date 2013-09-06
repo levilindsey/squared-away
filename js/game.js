@@ -14,6 +14,7 @@
 //		- window.PreviewWindow
 //		- window.gameWindow
 //		- window.input
+//		- window.sound
 //		- utils
 // ------------------------------------------------------------------------- //
 
@@ -347,7 +348,7 @@
 		if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
 			_setLevel(_level + 1);
 
-			game.playSFX("level");
+			sound.playSFX("level");
 		}
 
 		// Check whether the player has earned anything with the new score
@@ -356,7 +357,7 @@
 
 			_pointsForPrevBonus += _POINTS_FOR_BONUS;
 
-			game.playSFX("earnedBonus");
+			sound.playSFX("earnedBonus");
 		}
 	}
 
@@ -374,7 +375,7 @@
 		gameWindow.blocksOnGameWindow.push(block);
 		previewWindow.startNewBlock();
 
-		game.playSFX("newBlock");
+		sound.playSFX("newBlock");
 	}
 
 	function _forceNextBlock() {
@@ -432,12 +433,6 @@
 		gameWindow.init();
 	}
 
-	function _playSFX(sfxId) {
-		if (game.sfxOn) {
-			createjs.Sound.play(sfxId, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, game.sfxVolume, 0);
-		}
-	}
-
 	// Make Game available to the rest of the program
 	window.game = {
 		draw: _draw,
@@ -446,8 +441,6 @@
 		play: _play,
 		pause: _pause,
 		endGame: _endGame,
-
-		playSFX: _playSFX,
 
 		getScore: _getScore,
 		getLevel: _getLevel,
@@ -471,14 +464,8 @@
 		mode5On: false,
 		mode6On: false,
 		mode7On: false,
-		startingLevel: 1,
-
-		musicOn: true,
-		sfxOn: true,
-
-		sfxVolume: 0.45,
-		musicVolume: 0.15
+		startingLevel: 1
 	};
 
 	log.i("<--game.LOADING_MODULE");
-})();
+}());

@@ -147,4 +147,4 @@
 	window.CenterSquare = CenterSquare;
 
 	log.i("<--centersquare.LOADING_MODULE");
-})();
+}());

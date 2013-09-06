@@ -127,4 +127,4 @@
 	window.Sprite = Sprite;
 
 	log.i("<--sprite.LOADING_MODULE");
-})();
+}());

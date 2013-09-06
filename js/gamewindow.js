@@ -118,10 +118,10 @@
 				}
 
 				if (layersWereCompleted) {
-					game.playSFX("collapse");
-					game.playSFX("land");// TODO: check whether I actually do want to play these clips simultaneously
+					sound.playSFX("collapse");
+					sound.playSFX("land");// TODO: check whether I actually do want to play these clips simultaneously
 				} else {
-					game.playSFX("land");
+					sound.playSFX("land");
 				}
 			}
 
@@ -923,4 +923,4 @@
 	};
 
 	log.i("<--gameWindow.LOADING_MODULE");
-})();
+}());

@@ -141,6 +141,8 @@
 - replace the links to SoundCloud clips with actually functionality for playing the pieces in my site with createjs.Sound
 - update the background so that not all of the block shapes include 4 squares
 - have the color-scheme change somehow with higher levels
+- there should be a BIG bonus point increas if the player can clear all squares from the game window (exponentially increasing by level)
+	- this check should start from the center and work its way out....
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

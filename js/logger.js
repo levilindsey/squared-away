@@ -106,4 +106,4 @@ var DEBUG = false;
 	}
 
 	log.i("<--logger.LOADING_MODULE");
-})();
+}());

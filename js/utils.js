@@ -172,4 +172,4 @@
 	};
 
 	log.i("<--utils.LOADING_MODULE");
-})();
+}());

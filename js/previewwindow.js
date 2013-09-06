@@ -273,4 +273,4 @@
 	window.PreviewWindow = PreviewWindow;
 
 	log.i("<--previewwindow.LOADING_MODULE");
-})();
+}());

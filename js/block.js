@@ -142,7 +142,7 @@
 					if (!_hasCollidedWithSquare) {
 						_fall();
 
-						game.playSFX("fall");
+						sound.playSFX("fall");
 					}
 				}
 
@@ -1029,4 +1029,4 @@
 	window.Block = Block;
 
 	log.i("<--block.LOADING_MODULE");
-})();
+}());
