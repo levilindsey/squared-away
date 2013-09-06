@@ -27,11 +27,11 @@
 			<canvas id="gameCanvas"></canvas>
 
 			<div id="topLevelDisplayArea">
-				Level: <span id="topLevelDisplayData"></span>
+				Level: <span id="topLevelDisplayData">1</span>
 			</div>
 
 			<div id="topScoreDisplayArea">
-				Score: <span id="topScoreDisplayData"></span>
+				Score: <span id="topScoreDisplayData">0</span>
 			</div>
 
 			<div id="pauseScreen">
@@ -187,19 +187,19 @@
 			<div id="musicArea">
 				<h2>Music</h2>
 				<div class="textColumn">
-					<label><input type="checkbox" name="aNightOfDizzySpells" id="aNightOfDizzySpells" value="aNightOfDizzySpells" checked> A Night Of Dizzy Spells</label>
+					<label><input type="checkbox" name="aNightOfDizzySpells" id="aNightOfDizzySpells" value="aNightOfDizzySpells" > A Night Of Dizzy Spells</label>
 					<a href="https://soundcloud.com/eric-skiff/a-night-of-dizzy-spells?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="allOfUs" id="allOfUs" value="allOfUs" checked> All of Us</label>
+					<label><input type="checkbox" name="allOfUs" id="allOfUs" value="allOfUs" > All of Us</label>
 					<a href="https://soundcloud.com/eric-skiff/all-of-us?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="arpanauts" id="arpanauts" value="arpanauts" checked> Arpanauts</label>
+					<label><input type="checkbox" name="arpanauts" id="arpanauts" value="arpanauts" > Arpanauts</label>
 					<a href="https://soundcloud.com/eric-skiff/arpanauts?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="ascending" id="ascending" value="ascending" checked> Ascending</label>
+					<label><input type="checkbox" name="ascending" id="ascending" value="ascending" > Ascending</label>
 					<a href="https://soundcloud.com/eric-skiff/ascending?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="chibiNinja" id="chibiNinja" value="chibiNinja" checked> Chibi Ninja</label>
+					<label><input type="checkbox" name="chibiNinja" id="chibiNinja" value="chibiNinja" > Chibi Ninja</label>
 					<a href="https://soundcloud.com/eric-skiff/chibi-ninja?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
 					<label><input type="checkbox" name="comeAndFindMeB" id="comeAndFindMeB" value="comeAndFindMeB"> Come and Find Me - B mix</label>
@@ -208,32 +208,32 @@
 					<label><input type="checkbox" name="comeAndFindMe" id="comeAndFindMe" value="comeAndFindMe"> Come and Find Me</label>
 					<a href="https://soundcloud.com/eric-skiff/come-and-find-me?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="digitalNative" id="digitalNative" value="digitalNative" checked> Digital Native</label>
+					<label><input type="checkbox" name="digitalNative" id="digitalNative" value="digitalNative" > Digital Native</label>
 					<a href="https://soundcloud.com/eric-skiff/digital-native?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 				</div>
 				<div class="textColumn">
 					<label><input type="checkbox" name="hhavokIntro" id="hhavokIntro" value="hhavokIntro"> HHavok-intro</label>
 					<a href="https://soundcloud.com/eric-skiff/hhavok-intro?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="hhavokMain" id="hhavokMain" value="hhavokMain" checked> HHavok-main</label>
+					<label><input type="checkbox" name="hhavokMain" id="hhavokMain" value="hhavokMain" > HHavok-main</label>
 					<a href="https://soundcloud.com/eric-skiff/hhavok-main?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="jumpshot" id="jumpshot" value="jumpshot" checked> Jumpshot</label>
+					<label><input type="checkbox" name="jumpshot" id="jumpshot" value="jumpshot" > Jumpshot</label>
 					<a href="https://soundcloud.com/eric-skiff/jumpshot?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
 					<label><input type="checkbox" name="prologue" id="prologue" value="prologue"> Prologue</label>
 					<a href="https://soundcloud.com/eric-skiff/prologue?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="searching" id="searching" value="searching" checked> Searching</label>
+					<label><input type="checkbox" name="searching" id="searching" value="searching" > Searching</label>
 					<a href="https://soundcloud.com/eric-skiff/searching?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="underclocked" id="underclocked" value="underclocked" checked> Underclocked (underunderclocked mix)</label>
+					<label><input type="checkbox" name="underclocked" id="underclocked" value="underclocked" > Underclocked (underunderclocked mix)</label>
 					<a href="https://soundcloud.com/eric-skiff/underclocked-underunderclocked?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
 					<label><input type="checkbox" name="wereAllUnderTheStars" id="wereAllUnderTheStars" value="wereAllUnderTheStars"> We're All Under the Stars</label>
 					<a href="https://soundcloud.com/eric-skiff/were-all-under-the-stars?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" checked> We're the Resistors</label>
+					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" > We're the Resistors</label>
 					<a href="https://soundcloud.com/eric-skiff/were-the-resistors?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 				</div>
 				<br>

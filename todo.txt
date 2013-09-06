@@ -54,22 +54,20 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-**- found another bug where the layer is not collapsing:
-    - did a triple-layer complete on the right side with lots of squares extending out to the sides and the collapse mode is single LINE only
-**- there is a bug when dragging down past the bottom of the canvas.  the phantom guideline disappears and the gesture is cancelled.
+****- have the color-scheme change somehow with higher levels
+	- for now, just change the transparency or color
+- add the logic to only shuffle through selected songs
+**- add an additional parameter via select dropdown menu:
+	- number of squares in a block: 2, 3, 4, 5, 4&5, 2-5
+**- add slight offsets (according to difs between block widths and heights) to new blocks appearing from the different direction preview windows
+**- when changing block directions, the new quadrant location is often off by one (or two probably)
 **- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
-**- add a music and sfx combo button to the bottom-right of the canvas that will toggle the music and sfx when pressed
-**- add a simple "?" image/button for now in order to pause the game and display all of the text panels
-**- have a list of textboxes (one for each song)
-    - then, give the player the ability to unselect any of these in order to choose which songs are used during the shuffle playback during gameplay
-    - have this panel dynamically expand when "explored"
-    - hook up the music player to shuffle these (and let choices be made in mid-game)
-    - make sure that the music player uses XMLHttpRequests in order to load the music (but not the SFXs?)
-    - don't forget that I deleted pieces in two directories; ALL of the songs are in the Resistor Anthems directory; (but use the songs that are in the others to help determine which checkboxes are pre-checked)
+**- add hover-over images for the help, sfx, and music buttons
 **- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
     **- also, whenever the game is ended, show a big red circle where the cause is
 **- there seems to be a bug with all blocks in which the right and bottom portions of the phantom guideline cuts off early for down and right fall directions for all orientations but 1.
-
+**- add ability to switch the parameters in mid-game?
+    - or, at least, make the checkboxes for changing them DISABLED when a game is in progress (i.e., !game.isEnded())
 - add an additional game mode which causes higher layers to "settle" when a lower layer collapses
         - a block landing
 - add keyboard control
@@ -141,6 +139,8 @@
 - tell http://ericskiff.com/music/ that I used his music
 - switch all of the exp growth to simple linear. duh.
 - replace the links to SoundCloud clips with actually functionality for playing the pieces in my site with createjs.Sound
+- update the background so that not all of the block shapes include 4 squares
+- have the color-scheme change somehow with higher levels
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

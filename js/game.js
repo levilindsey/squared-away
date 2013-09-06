@@ -432,9 +432,9 @@
 		gameWindow.init();
 	}
 
-	function _playSFX(sfxID) {
+	function _playSFX(sfxId) {
 		if (game.sfxOn) {
-			createjs.Sound.play(sfxID);
+			createjs.Sound.play(sfxId, createjs.Sound.INTERRUPT_NONE, 0, 0, 0, game.sfxVolume, 0);
 		}
 	}
 
@@ -473,8 +473,11 @@
 		mode7On: false,
 		startingLevel: 1,
 
-		musicOn: false,
-		sfxOn: true
+		musicOn: true,
+		sfxOn: true,
+
+		sfxVolume: 0.45,
+		musicVolume: 0.15
 	};
 
 	log.i("<--game.LOADING_MODULE");
