@@ -142,7 +142,7 @@
 					if (!_hasCollidedWithSquare) {
 						_fall();
 
-						createjs.Sound.play("fall");
+						game.playSFX("fall");
 					}
 				}
 

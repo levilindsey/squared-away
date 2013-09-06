@@ -64,6 +64,18 @@
 					</tr>
 				</table>
 			</div>
+
+			<div id="playAreaButtons">
+				<div id="playAreaButtonsLeftContainer">
+					<img id="helpButton" src="img/help.png" alt="help">
+				</div>
+				<div id="playAreaButtonsRightContainer">
+					<img id="musicOnButton" src="img/music_on.png" alt="turn music on">
+					<img id="musicOffButton" src="img/music_off.png" alt="turn music off">
+					<img id="sfxOnButton" src="img/sfx_on.png" alt="turn sfx on">
+					<img id="sfxOffButton" src="img/sfx_off.png" alt="turn sfx off">
+				</div>
+			</div>
 		</div>
 
 		<div id="infoArea">

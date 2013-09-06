@@ -134,7 +134,7 @@
 	}
 
 	function _getLinGrowthValue(initial, rate, time) {
-		return initial * (1 + rate) * time;
+		return initial + initial * (1 + rate) * (time - 1);
 	}
 
 	function _getExpGrowthValue(initial, rate, time) {

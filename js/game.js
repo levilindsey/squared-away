@@ -36,7 +36,7 @@
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.10; // linear // TODO: test/tweak this
 
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
-	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.50; // linear // TODO: test/tweak this
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.30; // linear // TODO: test/tweak this
 
 	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 9000; // millis per color
 	var _CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE = -0.10;
@@ -208,21 +208,21 @@
 		_currentBlockFallSpeed = utils.getLinGrowthValue(
 				_INITIAL_BLOCK_FALL_SPEED, 
 				_BLOCK_FALL_SPEED_GROWTH_RATE, 
-				_level - 1);
+				_level);
 		Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 		// Increase the rate of the center square color changes
 		_currentCenterSquareColorPeriod = utils.getLinGrowthValue(
 				_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
 				_CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE, 
-				_level - 1);
+				_level);
 		gameWindow.setCenterSquareColorPeriod(_currentCenterSquareColorPeriod);
 
 		// Decrease the preview window cooldown time
 		_currentPreviewWindowCoolDownTime = utils.getLinGrowthValue(
 				_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
 				_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
-				_level - 1);
+				_level);
 		for (var i = 0; i < 4; ++i) {
 			_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 		}
@@ -231,7 +231,7 @@
 		var layerCollapseDelay = utils.getLinGrowthValue(
 				_INITIAL_COLLAPSE_DELAY, 
 				_COLLAPSE_DELAY_GROWTH_RATE, 
-				_level - 1);
+				_level);
 		gameWindow.setLayerCollapseDelay(layerCollapseDelay);
 
 		// Get how many layers need to be collapsed to progress to the 
@@ -239,7 +239,7 @@
 		_layerCountForNextLevel = utils.getLinGrowthValue(
 				game.mode2On ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
 				_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
-				_level - 1);
+				_level);
 		_layersCollapsedSinceLastLevel = 0;
 
 		_levelDisplay.innerHTML = _level;
@@ -347,7 +347,7 @@
 		if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
 			_setLevel(_level + 1);
 
-			createjs.Sound.play("level");
+			game.playSFX("level");
 		}
 
 		// Check whether the player has earned anything with the new score
@@ -356,7 +356,7 @@
 
 			_pointsForPrevBonus += _POINTS_FOR_BONUS;
 
-			createjs.Sound.play("earnedBonus");
+			game.playSFX("earnedBonus");
 		}
 	}
 
@@ -374,7 +374,7 @@
 		gameWindow.blocksOnGameWindow.push(block);
 		previewWindow.startNewBlock();
 
-		createjs.Sound.play("newBlock");
+		game.playSFX("newBlock");
 	}
 
 	function _forceNextBlock() {
@@ -432,6 +432,12 @@
 		gameWindow.init();
 	}
 
+	function _playSFX(sfxID) {
+		if (game.sfxOn) {
+			createjs.Sound.play(sfxID);
+		}
+	}
+
 	// Make Game available to the rest of the program
 	window.game = {
 		draw: _draw,
@@ -440,6 +446,8 @@
 		play: _play,
 		pause: _pause,
 		endGame: _endGame,
+
+		playSFX: _playSFX,
 
 		getScore: _getScore,
 		getLevel: _getLevel,
@@ -463,7 +471,10 @@
 		mode5On: false,
 		mode6On: false,
 		mode7On: false,
-		startingLevel: 1
+		startingLevel: 1,
+
+		musicOn: false,
+		sfxOn: true
 	};
 
 	log.i("<--game.LOADING_MODULE");

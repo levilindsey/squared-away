@@ -118,10 +118,10 @@
 				}
 
 				if (layersWereCompleted) {
-					createjs.Sound.play("collapse");
-					createjs.Sound.play("land");// TODO: check whether I actually do want to play these clips simultaneously
+					game.playSFX("collapse");
+					game.playSFX("land");// TODO: check whether I actually do want to play these clips simultaneously
 				} else {
-					createjs.Sound.play("land");
+					game.playSFX("land");
 				}
 			}
 

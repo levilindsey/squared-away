@@ -4,12 +4,16 @@
 	padding: 0px;
 }
 
+html {
+	height: 100%;
+}
+
 body {
 /*	background-color: #020202; */
 	background-image: url("../img/background.png");
 	background-repeat: repeat;
-	color: #CAEACA;
-    font-family: sans-serif;
+	color: #DAFADA;
+    font-family: monospace;
 	font-size: 12pt;
 	height: 100%;
 }
@@ -20,17 +24,17 @@ h1, h2, h3 {
 }
 
 h1 {
-	color: #CACAEA;
+	color: #DADAFA;
 	font-size: 24pt;
 }
 
 h2 {
-	color: #EACACA;
+	color: #FADADA;
 	font-size: 18pt;
 }
 
 h3 {
-	color: #CACAEA;
+	color: #DADAFA;
 	font-size: 16pt;
 }
 
@@ -150,11 +154,44 @@ h3 {
 
 #playArea {
 	position: relative;
+	font-weight: bold;
 	height: 720px;
 	left: 0px;
 	margin: 10px 0px;
 	top: 0px;
 	width: 720px;
+}
+
+#playAreaButtons {
+	position: absolute;
+	height: 70px;
+	left: 0px;
+	top: 640px;
+	width: 720px;
+	z-index: 5;
+}
+
+#playAreaButtonsLeftContainer {
+	position: relative;
+	float: left;
+	height: 70px;
+	margin-left: 10px;
+	width: 70px;
+}
+
+#playAreaButtonsRightContainer {
+	position: relative;
+	float: right;
+	height: 70px;
+	margin-right: 10px;
+	width: 70px;
+}
+
+#playAreaButtons img {
+	position: absolute;
+	display: none;
+	height: 70px;
+	width: 70px;
 }
 
 #problemScreen {

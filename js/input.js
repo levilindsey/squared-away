@@ -57,7 +57,7 @@
 		input.selectedBlock = _findNearestValidBlock(_gestureStartPos, gameWindow.blocksOnGameWindow);
 
 		if (input.selectedBlock) {
-			createjs.Sound.play("blockSelect");
+			game.playSFX("blockSelect");
 		}
 
 		// Clear any phantom objects. These will be set when a drag occurs.
@@ -106,9 +106,9 @@
 				var wasAbleToRotate = input.selectedBlock.rotate(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow, true);
 
 				if (wasAbleToRotate) {
-					createjs.Sound.play("rotate");
+					game.playSFX("rotate");
 				} else {
-					createjs.Sound.play("unableToMove");
+					game.playSFX("unableToMove");
 				}
 				break;
 			case _SIDEWAYS_MOVE:
@@ -116,14 +116,14 @@
 
 				input.selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
-				createjs.Sound.play("move");
+				game.playSFX("move");
 				break;
 			case _DROP:
 				log.i("---input._finishGesture: _DROP" + logMsg);
 
 				input.selectedBlock.setCellPosition(_gestureCellPos.x, _gestureCellPos.y);
 
-				createjs.Sound.play("move");
+				game.playSFX("move");
 				break;
 			case _DIRECTION_CHANGE:
 				log.i("---input._finishGesture: _DIRECTION_CHANGE" + logMsg);
@@ -135,14 +135,14 @@
 						_switchPhantomToSelected(input.selectedBlock, input.phantomBlock);
 						input.selectedBlock.switchFallDirection();
 
-						createjs.Sound.play("changeFallDirection");
+						game.playSFX("changeFallDirection");
 					} else {
-						createjs.Sound.play("unableToMove");
+						game.playSFX("unableToMove");
 					}
 				} else {
 					input.selectedBlock.switchFallDirection();
 
-					createjs.Sound.play("changeFallDirection");
+					game.playSFX("changeFallDirection");
 				}
 				break;
 			default:

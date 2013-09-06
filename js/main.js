@@ -118,18 +118,33 @@
 
 		game.setDOMElements(canvas, levelDisplay, scoreDisplay, onGameEnd);
 
-		// Hook up the event handlers
-		var unpauseButton = document.getElementById("unpauseButton");
+		// ---------- Hook up the event handlers ---------- //
+
 		window.addEventListener("blur", pauseGame, false);
+
+		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", onPauseEvent, false);
+		var showConsole = document.getElementById("showConsole");
+		showConsole.addEventListener("click", toggleConsole, false);
+
 		document.addEventListener("keypress", onKeyPress, false);
 		document.addEventListener("keyup", onKeyUp, false);
+
 		canvas.addEventListener("mousedown", onMouseDown, false);
 		document.addEventListener("mouseup", onMouseUp, false);
 		document.addEventListener("mousemove", onMouseMove, false);
 		document.addEventListener("mouseout", onMouseOut, false);
-		var showConsole = document.getElementById("showConsole");
-		showConsole.addEventListener("click", toggleConsole, false);
+
+		var helpButton = document.getElementById("helpButton");
+		helpButton.addEventListener("click", pauseGame, false);
+		var musicOnButton = document.getElementById("musicOnButton");
+		musicOnButton.addEventListener("click", toggleMusic, false);
+		var musicOffButton = document.getElementById("musicOffButton");
+		musicOffButton.addEventListener("click", toggleMusic, false);
+		var sfxOnButton = document.getElementById("sfxOnButton");
+		sfxOnButton.addEventListener("click", toggleSFX, false);
+		var sfxOffButton = document.getElementById("sfxOffButton");
+		sfxOffButton.addEventListener("click", toggleSFX, false);
 
 		// ---------- Hook up sound ---------- //
 
@@ -149,6 +164,13 @@
 		createjs.Sound.addEventListener("loadComplete", onLoadingAudioComplete);
 		createjs.Sound.registerManifest(sfxManifest);
 
+		// ---------- Initialize music/sfx on/off ---------- //
+
+		game.musicOn = !game.musicOn;
+		toggleMusic();
+		game.sfxOn = !game.sfxOn;
+		toggleSFX();
+
 		log.i("<--main.init");
 	}
 
@@ -158,7 +180,7 @@
 
 	function onLoadingAudioComplete() {
         // Start the music
-        //createjs.Sound.play("music", createjs.Sound.INTERRUPT_NONE, 0, 0, -1, 0.4);
+        //game.playSFX("music", createjs.Sound.INTERRUPT_NONE, 0, 0, -1, 0.4);
 
 		++soundsLoadedCount;
 
@@ -194,9 +216,9 @@
 		// match the selected input options
 		if (game.isEnded) {
 			setGameParameters();
-			createjs.Sound.play("gameStart");
+			game.playSFX("gameStart");
 		} else if (game.isPaused) {
-			createjs.Sound.play("unpause");
+			game.playSFX("unpause");
 		}
 
 		game.play();
@@ -215,7 +237,7 @@
 		expandInfoArea();
 
 		if (!game.isPaused && !game.isEnded) {
-			createjs.Sound.play("pause");
+			game.playSFX("pause");
 		}
 
 		game.pause();
@@ -236,7 +258,7 @@
 
 		populateStatsTable();
 
-		createjs.Sound.play("gameOver");
+		game.playSFX("gameOver");
 
 		log.d("<--main.onGameEnd");
 	}
@@ -336,13 +358,49 @@
 	function expandInfoArea() {
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.display = "block";
+		var helpButton = document.getElementById("helpButton");
+		helpButton.style.display = "none";
 		// TODO: switch divs; animate
 	}
 
 	function collapseInfoArea() {
 		var infoArea = document.getElementById("infoArea");
 		infoArea.style.display = "none";
+		var helpButton = document.getElementById("helpButton");
+		helpButton.style.display = "block";
 		// TODO: switch divs; animate
+	}
+
+	function toggleMusic(event) {
+		var musicOnButton = document.getElementById("musicOnButton");
+		var musicOffButton = document.getElementById("musicOffButton");
+
+		if (game.musicOn) {
+			musicOnButton.style.display = "none";
+			musicOffButton.style.display = "block";
+			//****
+			game.musicOn = false;
+		} else {
+			musicOnButton.style.display = "block";
+			musicOffButton.style.display = "none";
+			//****
+			game.musicOn = true;
+		}
+	}
+
+	function toggleSFX(event) {
+		var sfxOnButton = document.getElementById("sfxOnButton");
+		var sfxOffButton = document.getElementById("sfxOffButton");
+
+		if (game.sfxOn) {
+			sfxOnButton.style.display = "none";
+			sfxOffButton.style.display = "block";
+			game.sfxOn = false;
+		} else {
+			sfxOnButton.style.display = "block";
+			sfxOffButton.style.display = "none";
+			game.sfxOn = true;
+		}
 	}
 
 	function onMouseDown(event) {
@@ -414,12 +472,12 @@
 	// This event cancels any current mouse gesture and forces the player to 
 	// start again.  But only if the mouse is leaving the entire window.
 	function onMouseOut(event) {
-		var inElement = event.relatedTarget || event.toElement;
-		if (!inElement || inElement.nodeName == "HTML") {
-			gestureInProgress = false;
+		// var inElement = event.relatedTarget || event.toElement;
+		// if (!inElement || inElement.nodeName == "HTML") {
+			// gestureInProgress = false;
 
-			input.cancelGesture();
-		}
+			// input.cancelGesture();
+		// }
 	}
 
 	function toggleConsole(event) {
