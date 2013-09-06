@@ -134,7 +134,7 @@
 	}
 
 	function _getLinGrowthValue(initial, rate, time) {
-		return initial + initial * (1 + rate) * (time - 1);
+		return initial * (1 + rate * (time - 1));
 	}
 
 	function _getExpGrowthValue(initial, rate, time) {
@@ -145,6 +145,52 @@
 		var deltaX = pos1.x - pos2.x;
 		var deltaY = pos1.y - pos2.y;
 		return deltaX * deltaX + deltaY * deltaY;
+	}
+
+	function _interpolateColors(prevColorRGB, nextColorRGB, progressThroughCurrentColors) {
+		var oneMinusProgress = 1 - progressThroughCurrentColors;
+
+		var r = (prevColorRGB.r * oneMinusProgress) + (nextColorRGB.r * progressThroughCurrentColors);
+		r = Math.min(r, 255);
+		r = Math.floor(r);
+		r = r.toString(16);
+		if (r.length < 2) {
+			r = "0" + r;
+		}
+
+		var g = (prevColorRGB.g * oneMinusProgress) + (nextColorRGB.g * progressThroughCurrentColors);
+		g = Math.min(g, 255);
+		g = Math.floor(g);
+		g = g.toString(16);
+		if (g.length < 2) {
+			g = "0" + g;
+		}
+
+		var b = (prevColorRGB.b * oneMinusProgress) + (nextColorRGB.b * progressThroughCurrentColors);
+		b = Math.min(b, 255);
+		b = Math.floor(b);
+		b = b.toString(16);
+		if (b.length < 2) {
+			b = "0" + b;
+		}
+
+		return "#" + r + g + b;
+	}
+
+	function _decToHexColorStr(decColor) {
+		var r = decColor.r.toString(16);
+		if (r.length < 2) {
+			r = "0" + r;
+		}
+		var g = decColor.g.toString(16);
+		if (g.length < 2) {
+			g = "0" + g;
+		}
+		var b = decColor.b.toString(16);
+		if (b.length < 2) {
+			b = "0" + b;
+		}
+		return "#" + r + g + b;
 	}
 
 	// Make utils available to the rest of the program
@@ -168,7 +214,10 @@
 
 		standardizeMouseEvent: _standardizeMouseEvent,
 
-		getSquaredDistance: _getSquaredDistance
+		getSquaredDistance: _getSquaredDistance,
+
+		interpolateColors: _interpolateColors,
+		decToHexColorStr: _decToHexColorStr
 	};
 
 	log.i("<--utils.LOADING_MODULE");

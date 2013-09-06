@@ -44,6 +44,8 @@
 
 	var _layersToCollapse = [];
 
+	var _currentBackgroundColorIndex = 0;
+
 	// Update each of the game entities with the current time.
 	function _update(deltaTime) {
 		// Update the center square
@@ -138,8 +140,13 @@
 		// Draw the background and the border
 		context.beginPath();
 		context.lineWidth = _NORMAL_STROKE_WIDTH;
-		context.fillStyle = _NORMAL_FILL_COLOR;
-		context.strokeStyle = _NORMAL_STROKE_COLOR;
+		if (_currentBackgroundColorIndex >= 0) {
+			context.fillStyle = utils.decToHexColorStr(game.DARK_COLORS[_currentBackgroundColorIndex]);
+			context.strokeStyle = utils.decToHexColorStr(game.MEDIUM_COLORS[_currentBackgroundColorIndex]);
+		} else {
+			context.fillStyle = _NORMAL_FILL_COLOR;
+			context.strokeStyle = _NORMAL_STROKE_COLOR;
+		}
 		context.rect(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y, gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
 		context.fill();
 		context.stroke();
@@ -893,6 +900,10 @@
 		_centerSquare.setColorPeriod(colorPeriod);
 	}
 
+	function _setCurrentBackgroundColorIndex(currentBackgroundColorIndex) {
+		_currentBackgroundColorIndex = currentBackgroundColorIndex;
+	}
+
 	function _init() {
 		_setUpCenterSquare();
 	}
@@ -908,6 +919,7 @@
 		setCenterSquareCellSize: _setCenterSquareCellSize,
 		setLayerCollapseDelay: _setLayerCollapseDelay,
 		setCenterSquareColorPeriod: _setCenterSquareColorPeriod,
+		setCurrentBackgroundColorIndex: _setCurrentBackgroundColorIndex,
 
 		blocksOnGameWindow: null, // the moving, four-square pieces
 		squaresOnGameWindow: null, // the stationary, single-square pieces

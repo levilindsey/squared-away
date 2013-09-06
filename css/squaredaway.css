@@ -1,4 +1,27 @@
 
+body div a:active {
+	color: #ea566b;
+	text-decoration: none;
+}
+
+a:link {
+	color: #569fea;
+	text-decoration: none;
+}
+
+body a:hover {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #be56ea;
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
 * {
 	margin: 0px;
 	padding: 0px;

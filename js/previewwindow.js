@@ -180,9 +180,46 @@
 		// Start this preview window with a random new block and a fresh cool 
 		// down.
 		function _startNewBlock(coolDownPeriod) {
-			// Change the current block to be a new block of some random type 
-			// (from 0 to 6)
-			var blockType = Math.floor(Math.random() * 7);
+			// Change the current block to be a new block of some random type
+			var lowerIndex;
+			var upperIndex;
+			switch (game.numberOfSquaresInABlock) {
+			case 8: // 1 - 5
+				lowerIndex = Block.prototype.ONE_1;
+				upperIndex = Block.prototype.FIVE_18;
+				break;
+			case 7: // 4 - 5
+				lowerIndex = Block.prototype.FOUR_1;
+				upperIndex = Block.prototype.FIVE_18;
+				break;
+			case 6: // 1 - 4
+				lowerIndex = Block.prototype.ONE_1;
+				upperIndex = Block.prototype.FOUR_7;
+				break;
+			case 5:
+				lowerIndex = Block.prototype.FIVE_1;
+				upperIndex = Block.prototype.FIVE_18;
+				break;
+			case 4:
+				lowerIndex = Block.prototype.FOUR_1;
+				upperIndex = Block.prototype.FOUR_7;
+				break;
+			case 3:
+				lowerIndex = Block.prototype.THREE_1;
+				upperIndex = Block.prototype.THREE_2;
+				break;
+			case 2:
+				lowerIndex = Block.prototype.TWO_1;
+				upperIndex = Block.prototype.TWO_1;
+				break;
+			case 1:
+				lowerIndex = Block.prototype.ONE_1;
+				upperIndex = Block.prototype.ONE_1;
+				break;
+			default:
+				return;
+			}
+			var blockType = Math.floor(Math.random() * ((upperIndex - lowerIndex) + 1)) + lowerIndex;
 
 			var orientation = _previewWindowIndex;
 			var fallDirection = _previewWindowIndex;

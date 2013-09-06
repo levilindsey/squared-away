@@ -174,6 +174,8 @@
 
 		sound.playSFX("gameOver");
 
+		sound.pauseMusic();
+
 		log.d("<--main._onGameEnd");
 	}
 
@@ -234,6 +236,9 @@
 		var centerSquareSizeElem = document.getElementById("centerSquareSize");
 		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value, 10);
 		gameWindow.setCenterSquareCellSize(centerSquareSize);
+		var numberOfSquaresInABlockElem = document.getElementById("numberOfSquaresInABlock");
+		var numberOfSquaresInABlock = parseInt(numberOfSquaresInABlockElem.options[numberOfSquaresInABlockElem.selectedIndex].value, 10);
+		game.numberOfSquaresInABlock = numberOfSquaresInABlock;
 		var startingLevelElem = document.getElementById("startingLevel");
 		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value, 10);
 		game.startingLevel = startingLevel;

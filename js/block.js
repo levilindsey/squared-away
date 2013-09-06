@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------------- //
 // -- window.Block
 // ------------------------------------------------------------------------- //
-// For use with the SquaBlock.prototype.RED Away web app.
+// For use with the Squared Away web app.
 // 
 // All of the Block logic is encapsulated in this anonymous function.  This is 
-// then stoBlock.prototype.RED in the window.Block property.  This has the effect of 
+// then stored in the window.Block property.  This has the effect of 
 // minimizing side-effects and problems when linking multiple script files.
 // 
 // Dependencies:
@@ -23,78 +23,354 @@
 
 	var _SOURCE_SQUARE_SIZE = 16; // in pixels
 
+	// ---------- Color indices ---------- //
+
+	var _GREY_INDEX = 0; // T-shaped block
+	var _BLUE_INDEX = 1; // Square-shaped block
+	var _PURPLE_INDEX = 2; // L-shaped block
+	var _YELLOW_INDEX = 3; // J-shaped block
+	var _GREEN_INDEX = 4; // Z-shaped block
+	var _RED_INDEX = 5; // S-shaped block
+	var _ORANGE_INDEX = 6; // Line-shaped block (defaults to vertical orientation)
+
+	var _COLOR_INDICES = [
+		_GREY_INDEX, // Block.prototype.ONE_1 (Line-shaped block)
+
+		_GREY_INDEX, // Block.prototype.TWO_1 (Line-shaped block)
+
+		_GREEN_INDEX, // Block.prototype.THREE_1 (Line-shaped block)
+		_RED_INDEX, // Block.prototype.THREE_2 (L-shaped block)
+
+		_RED_INDEX, // Block.prototype.FOUR_1 (S-shaped block)
+		_GREEN_INDEX, // Block.prototype.FOUR_2 (Z-shaped block)
+		_PURPLE_INDEX, // Block.prototype.FOUR_3 (L-shaped block)
+		_YELLOW_INDEX, // Block.prototype.FOUR_4 (J-shaped block)
+		_BLUE_INDEX, // Block.prototype.FOUR_5 (Square-shaped block)
+		_ORANGE_INDEX, // Block.prototype.FOUR_6 (Line-shaped block)
+		_GREY_INDEX, // Block.prototype.FOUR_7 (T-shaped block)
+
+		_BLUE_INDEX, // Block.prototype.FIVE_1 (Line-shaped block)
+		_RED_INDEX, // Block.prototype.FIVE_2 (Tall-L-shaped block)
+		_GREEN_INDEX, // Block.prototype.FIVE_3 (Tall-J-shaped block)
+		_BLUE_INDEX, // Block.prototype.FIVE_4 (L-crooked-shaped block)
+		_ORANGE_INDEX, // Block.prototype.FIVE_5 (R-crooked-shaped block)
+		_RED_INDEX, // Block.prototype.FIVE_6 (L-thumbs-up-shaped block)
+		_GREEN_INDEX, // Block.prototype.FIVE_7 (R-thumbs-up-shaped block)
+		_GREY_INDEX, // Block.prototype.FIVE_8 (U-shaped block)
+		_YELLOW_INDEX, // Block.prototype.FIVE_9 (L-bump-shaped block)
+		_PURPLE_INDEX, // Block.prototype.FIVE_10 (R-bump-shaped block)
+		_ORANGE_INDEX, // Block.prototype.FIVE_11 (T-shaped block)
+		_PURPLE_INDEX, // Block.prototype.FIVE_12 (Short-L-shaped block)
+		_GREY_INDEX, // Block.prototype.FIVE_13 (Stairs-shaped block)
+		_PURPLE_INDEX, // Block.prototype.FIVE_14 (S-shaped block)
+		_YELLOW_INDEX, // Block.prototype.FIVE_15 (Z-shaped block)
+		_ORANGE_INDEX, // Block.prototype.FIVE_16 (L-weird-shaped block)
+		_BLUE_INDEX, // Block.prototype.FIVE_17 (R-weird-shaped block)
+		_YELLOW_INDEX  // Block.prototype.FIVE_18 (Cross-shaped block)
+	];
+
+	var CELL_OFFSETS_FROM_TOP_LEFT_TO_CENTER = [
+		{ x: 0.5, y: 0.5 }, // Block.prototype.ONE_1 (Square-shaped block)
+
+		{ x: 0.5, y: 1 }, // Block.prototype.TWO_1 (Line-shaped block)
+
+		{ x: 0.5, y: 1.5 }, // Block.prototype.THREE_1 (Line-shaped block)
+		{ x: 1, y: 1 }, // Block.prototype.THREE_2 (L-shaped block)
+
+		{ x: 1.5, y: 1 }, // Block.prototype.FOUR_1 (S-shaped block)
+		{ x: 1.5, y: 1 }, // Block.prototype.FOUR_2 (Z-shaped block)
+		{ x: 1, y: 1.5 }, // Block.prototype.FOUR_3 (L-shaped block)
+		{ x: 1, y: 1.5 }, // Block.prototype.FOUR_4 (J-shaped block)
+		{ x: 1, y: 1 }, // Block.prototype.FOUR_5 (Square-shaped block)
+		{ x: 0.5, y: 2 }, // Block.prototype.FOUR_6 (Line-shaped block)
+		{ x: 1.5, y: 1 }, // Block.prototype.FOUR_7 (T-shaped block)
+
+		{ x: 0.5, y: 2.5 }, // Block.prototype.FIVE_1 (Line-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_2 (Tall-L-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_3 (Tall-J-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_4 (L-crooked-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_5 (R-crooked-shaped block)
+		{ x: 1, y: 1.5 }, // Block.prototype.FIVE_6 (L-thumbs-up-shaped block)
+		{ x: 1, y: 1.5 }, // Block.prototype.FIVE_7 (R-thumbs-up-shaped block)
+		{ x: 1.5, y: 1 }, // Block.prototype.FIVE_8 (U-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_9 (L-bump-shaped block)
+		{ x: 1, y: 2 }, // Block.prototype.FIVE_10 (R-bump-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_11 (T-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_12 (Short-L-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_13 (Stairs-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_14 (S-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_15 (Z-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_16 (L-weird-shaped block)
+		{ x: 1.5, y: 1.5 }, // Block.prototype.FIVE_17 (R-weird-shaped block)
+		{ x: 1.5, y: 1.5 }  // Block.prototype.FIVE_18 (Cross-shaped block)
+	];
+
 	// These coordinates dictate the position (in cells) of each constituent 
 	// square relative to the position of the parent block
 	var _DEFAULT_SQUARE_CELL_POSITIONS = [
-		[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // Block.prototype.RED (S-shaped block)
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // Block.prototype.GREEN (Z-shaped block)
-		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // Block.prototype.PURPLE (L-shaped block)
-		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // Block.prototype.YELLOW (J-shaped block)
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // Block.prototype.BLUE (Square-shaped block)
-		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }], // Block.prototype.ORANGE (Line-shaped block (defaults to vertical orientation))
-		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }]  // Block.prototype.GREY (T-shaped block)
+		[{ x: 0, y: 0 }], // Block.prototype.ONE_1 (Square-shaped block)
+
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }], // Block.prototype.TWO_1 (Line-shaped block)
+
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // Block.prototype.THREE_1 (Line-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }], // Block.prototype.THREE_2 (L-shaped block)
+
+		[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // Block.prototype.FOUR_1 (S-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // Block.prototype.FOUR_2 (Z-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // Block.prototype.FOUR_3 (L-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // Block.prototype.FOUR_4 (J-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // Block.prototype.FOUR_5 (Square-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }], // Block.prototype.FOUR_6 (Line-shaped block (defaults to vertical orientation))
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }], // Block.prototype.FOUR_7 (T-shaped block)
+
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 0, y: 4 }],  // Block.prototype.FIVE_1 (Line-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 3 }],  // Block.prototype.FIVE_2 (Tall-L-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 3 }],  // Block.prototype.FIVE_3 (Tall-J-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 3 }],  // Block.prototype.FIVE_4 (L-crooked-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 3 }],  // Block.prototype.FIVE_5 (R-crooked-shaped block)
+		[{ x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 }],  // Block.prototype.FIVE_6 (L-thumbs-up-shaped block)
+		[{ x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 0 }],  // Block.prototype.FIVE_7 (R-thumbs-up-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 0 }],  // Block.prototype.FIVE_8 (U-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 1 }],  // Block.prototype.FIVE_9 (L-bump-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 1 }],  // Block.prototype.FIVE_10 (R-bump-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }],  // Block.prototype.FIVE_11 (T-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }],  // Block.prototype.FIVE_12 (Short-L-shaped block)
+		[{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }],  // Block.prototype.FIVE_13 (Stairs-shaped block)
+		[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }],  // Block.prototype.FIVE_14 (S-shaped block)
+		[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }],  // Block.prototype.FIVE_15 (Z-shaped block)
+		[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 1 }],  // Block.prototype.FIVE_16 (L-weird-shaped block)
+		[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 0, y: 1 }],  // Block.prototype.FIVE_17 (R-weird-shaped block)
+		[{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 1 }]   // Block.prototype.FIVE_18 (Cross-shaped block)
 	];
 
 	// These points represent the shape of the given block along the given 
 	// side.  These are relative to the position of the parent block.
 	// NOTE: all points are given in clockwise order
 	var _DEFAULT_SIDE_CELL_POSITIONS = [
-		[ // Block.prototype.RED (S-shaped block)
+		[ // Block.prototype.ONE_1 (Square-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 1 }], // RIGHT_SIDE
+			[{ x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
+			[{ x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+
+		[ // Block.prototype.TWO_1 (Line-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 2 }], // RIGHT_SIDE
+			[{ x: 1, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+
+		[ // Block.prototype.THREE_1 (Line-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 3 }], // RIGHT_SIDE
+			[{ x: 1, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.THREE_2 (L-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }], // RIGHT_SIDE
+			[{ x: 2, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+
+		[ // Block.prototype.FOUR_1 (S-shaped block)
 			[{ x: 1, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }], // ALL_SIDES
 			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
 			[{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }], // RIGHT_SIDE
 			[{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
 			[{ x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
 		],
-		[ // GREEN (Z-shaped block)
+		[ // Block.prototype.FOUR_2 (Z-shaped block)
 			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
 			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }], // TOP_SIDE
 			[{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }], // RIGHT_SIDE
 			[{ x: 3, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
 			[{ x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
 		],
-		[ // PURPLE (L-shaped block)
+		[ // Block.prototype.FOUR_3 (L-shaped block)
 			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
 			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // TOP_SIDE
 			[{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }], // RIGHT_SIDE
 			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
 			[{ x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
 		],
-		[ // YELLOW (J-shaped block)
+		[ // Block.prototype.FOUR_4 (J-shaped block)
 			[{ x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 3 }, { x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }], // ALL_SIDES
 			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
 			[{ x: 2, y: 0 }, { x: 2, y: 3 }], // RIGHT_SIDE
 			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
 			[{ x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
 		],
-		[ // BLUE (Square-shaped block)
+		[ // Block.prototype.FOUR_5 (Square-shaped block)
 			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
 			[{ x: 0, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
 			[{ x: 2, y: 0 }, { x: 2, y: 2 }], // RIGHT_SIDE
 			[{ x: 2, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
 			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
 		],
-		[ // ORANGE (Line-shaped block (defaults to vertical orientation))
+		[ // Block.prototype.FOUR_6 (Line-shaped block (defaults to vertical orientation))
 			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
 			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
 			[{ x: 1, y: 0 }, { x: 1, y: 4 }], // RIGHT_SIDE
 			[{ x: 1, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
 			[{ x: 0, y: 4 }, { x: 0, y: 0 }]  // LEFT_SIDE
 		],
-		[ // GREY (T-shaped block)
+		[ // Block.prototype.FOUR_7 (T-shaped block)
 			[{ x: 0, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
 			[{ x: 0, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
 			[{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }], // RIGHT_SIDE
 			[{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
 			[{ x: 1, y: 2 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+
+		[ // Block.prototype.FIVE_1 (Line-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 5 }, { x: 0, y: 5 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 5 }], // RIGHT_SIDE
+			[{ x: 1, y: 5 }, { x: 0, y: 5 }], // BOTTOM_SIDE
+			[{ x: 0, y: 5 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_2 (Tall-L-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 2, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 3 }, { x: 2, y: 3 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 2, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
+			[{ x: 0, y: 4 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_3 (Tall-J-shaped block)
+			[{ x: 0, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
+			[{ x: 0, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
+			[{ x: 0, y: 4 }, { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_4 (L-crooked-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 1, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 4 }, { x: 1, y: 4 }, { x: 1, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 1, y: 4 }, { x: 1, y: 3 }, { x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_5 (R-crooked-shaped block)
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
+			[{ x: 0, y: 4 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_6 (L-thumbs-up-shaped block)
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_7 (R-thumbs-up-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_8 (U-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
+			[{ x: 3, y: 0 }, { x: 3, y: 2 }], // RIGHT_SIDE
+			[{ x: 3, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_9 (L-bump-shaped block)
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 4 }, { x: 1, y: 4 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 4 }, { x: 1, y: 4 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 1, y: 4 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_10 (R-bump-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 4 }], // RIGHT_SIDE
+			[{ x: 2, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 4 }, { x: 0, y: 4 }], // BOTTOM_SIDE
+			[{ x: 0, y: 4 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_11 (T-shaped block)
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_12 (Short-L-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 2 }, { x: 3, y: 2 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_13 (Stairs-shaped block)
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 2 }], // TOP_SIDE
+			[{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_14 (S-shaped block)
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 3, y: 0 }], // TOP_SIDE
+			[{ x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_15 (Z-shaped block)
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // ALL_SIDES
+			[{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 1 }, { x: 0, y: 1 }], // BOTTOM_SIDE
+			[{ x: 1, y: 3 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: 0, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_16 (L-weird-shaped block)
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // ALL_SIDES
+			[{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 0, y: 3 }], // BOTTOM_SIDE
+			[{ x: 0, y: 3 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_17 (R-weird-shaped block)
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
+		],
+		[ // Block.prototype.FIVE_18 (Cross-shaped block)
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // ALL_SIDES
+			[{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }], // TOP_SIDE
+			[{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }], // RIGHT_SIDE
+			[{ x: 3, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }, { x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }], // BOTTOM_SIDE
+			[{ x: 1, y: 3 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 0 }]  // LEFT_SIDE
 		]
 	];
+
+	// Ratios of the four-square block fall speed
+	var _FIVE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 1.5;
+	var _THREE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.825;
+	var _TWO_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.6;
+	var _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.475;
 
 	var _squareSize;
 	var _gameWindowCellSize = 100;
 	var _centerSquareCellSize = 6;
 	var _centerSquareCellPositionX;
-	var _fallPeriod; // millis / blocks
+	var _oneSquareBlockFallPeriod; // millis / blocks
+	var _twoSquareBlockFallPeriod; // millis / blocks
+	var _threeSquareBlockFallPeriod; // millis / blocks
+	var _fourSquareBlockFallPeriod; // millis / blocks
+	var _fiveSquareBlockFallPeriod; // millis / blocks
 
 	// Constructor
 	// type: which type of block this is (0-6)
@@ -128,8 +404,10 @@
 
 			_timeSinceLastFall += deltaTime;
 
+			var fallPeriod = _getFallPeriod(_type);
+
 			// Check whether this block needs to fall one space
-			if (_timeSinceLastFall > _fallPeriod) {
+			if (_timeSinceLastFall > fallPeriod) {
 				_hasCollidedWithEdgeOfArea = 
 						_checkForCollisionWithGameWindowEdge();
 
@@ -146,7 +424,7 @@
 					}
 				}
 
-				_timeSinceLastFall %= _fallPeriod;
+				_timeSinceLastFall %= fallPeriod;
 			}
 
 			// Check whether this block needs to shimmer
@@ -167,9 +445,13 @@
 			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
+			var colorIndex = _COLOR_INDICES[_type];
+
+			var i;
+
 			// Translate the square positions from block cell space to canvas 
 			// pixel space
-			for (var i = 0; i < positions.length; ++i) {
+			for (i = 0; i < positions.length; ++i) {
 				positions[i].x = _positionPixels.x + 
 								(positions[i].x * _squareSize);
 				positions[i].y = _positionPixels.y + 
@@ -177,14 +459,10 @@
 			}
 
 			// Draw the constituent squares
-			Block.prototype.drawSquare(context, _type, 
-									positions[0].x, positions[0].y);
-			Block.prototype.drawSquare(context, _type, 
-									positions[1].x, positions[1].y);
-			Block.prototype.drawSquare(context, _type, 
-									positions[2].x, positions[2].y);
-			Block.prototype.drawSquare(context, _type, 
-									positions[3].x, positions[3].y);
+			for (i = 0; i < positions.length; ++i) {
+				Block.prototype.drawSquare(context, colorIndex, 
+										positions[i].x, positions[i].y);
+			}
 
 //			log.d("<--block._draw");
 		}
@@ -286,9 +564,10 @@
 		function _addSquaresToGameWindow(squaresOnGameWindow) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
+			var colorIndex = _COLOR_INDICES[_type];
 
 			for (var i = 0; i < positions.length; ++i) {
-				squaresOnGameWindow[indices[i]] = _type;
+				squaresOnGameWindow[indices[i]] = colorIndex;
 			}
 
 			return positions;
@@ -781,6 +1060,20 @@
 	// --------------------------------------------------------------------- //
 	// -- Private static members
 
+	function _getFallPeriod(type) {
+		if (type >= Block.prototype.FIVE_1) {
+			return _fiveSquareBlockFallPeriod;
+		} else if (type >= Block.prototype.FOUR_1) {
+			return _fourSquareBlockFallPeriod;
+		} else if (type >= Block.prototype.THREE_1) {
+			return _threeSquareBlockFallPeriod;
+		} else if (type >= Block.prototype.TWO_1) {
+			return _twoSquareBlockFallPeriod;
+		} else {
+			return _oneSquareBlockFallPeriod;
+		}
+	}
+
 	// Return an array of point objects which represent the all of the points 
 	// along the given outer face of the given block.
 	// NOTE: the given side is taken into consideration AFTER rotating 
@@ -836,8 +1129,11 @@
 		var newPoints = Block.prototype.copyPoints(oldPoints);
 
 		// Don't do anything if we are rotating the block 0 times
-		// The blue block is 90-degrees rotationally symmetric
-		if (numberOfRotations > 0 && type !== Block.prototype.BLUE) {
+		// A couple blocks are 90-degrees rotationally symmetric
+		if (numberOfRotations > 0 && 
+				type !== Block.prototype.ONE_1&& 
+				type !== Block.prototype.FOUR_5 && 
+				type !== Block.prototype.FIVE_18) {
 			var max;
 			var i;
 
@@ -852,7 +1148,12 @@
 				break;
 			case 2:
 				// Some of the blocks 180-degrees rotationally symmetric
-				if (type !== Block.prototype.RED && type !== Block.prototype.GREEN && type !== Block.prototype.ORANGE) {
+				if (type !== Block.prototype.FOUR_1 && 
+						type !== Block.prototype.FOUR_2 && 
+						type !== Block.prototype.FOUR_6 && 
+						type !== Block.prototype.TWO_1 && 
+						type !== Block.prototype.THREE_1 && 
+						type !== Block.prototype.FIVE_1) {
 					max = _findMaxCoords(newPoints);
 					for (i = 0; i < oldPoints.length; ++i) {
 						newPoints[i].x = max.x - oldPoints[i].x;
@@ -911,15 +1212,43 @@
 	// Block inherits from Sprite
 	Block.prototype = utils.object(Sprite);
 
-	// Block types/colors
+	// ---------- Block types ---------- //
+
 	Block.prototype.IGNORE = -1;
-	Block.prototype.RED = 0; // S-shaped block
-	Block.prototype.GREEN = 1; // Z-shaped block
-	Block.prototype.PURPLE = 2; // L-shaped block
-	Block.prototype.YELLOW = 3; // J-shaped block
-	Block.prototype.BLUE = 4; // Square-shaped block
-	Block.prototype.ORANGE = 5; // Line-shaped block (defaults to vertical orientation)
-	Block.prototype.GREY = 6; // T-shaped block
+
+	Block.prototype.ONE_1 = 0; // Line-shaped block
+
+	Block.prototype.TWO_1 = 1; // Line-shaped block
+
+	Block.prototype.THREE_1 = 2; // Line-shaped block
+	Block.prototype.THREE_2 = 3; // L-shaped block
+
+	Block.prototype.FOUR_1 = 4; // S-shaped block
+	Block.prototype.FOUR_2 = 5; // Z-shaped block
+	Block.prototype.FOUR_3 = 6; // L-shaped block
+	Block.prototype.FOUR_4 = 7; // J-shaped block
+	Block.prototype.FOUR_5 = 8; // Square-shaped block
+	Block.prototype.FOUR_6 = 9; // Line-shaped block (defaults to vertical orientation)
+	Block.prototype.FOUR_7 = 10; // T-shaped block
+
+	Block.prototype.FIVE_1 = 11; // Line-shaped block
+	Block.prototype.FIVE_2 = 12; // Tall-L-shaped block
+	Block.prototype.FIVE_3 = 13; // Tall-J-shaped block
+	Block.prototype.FIVE_4 = 14; // L-crooked-shaped block
+	Block.prototype.FIVE_5 = 15; // R-crooked-shaped block
+	Block.prototype.FIVE_6 = 16; // L-thumbs-up-shaped block
+	Block.prototype.FIVE_7 = 17; // R-thumbs-up-shaped block
+	Block.prototype.FIVE_8 = 18; // U-shaped block
+	Block.prototype.FIVE_9 = 19; // L-bump-shaped block
+	Block.prototype.FIVE_10 = 20; // R-bump-shaped block
+	Block.prototype.FIVE_11 = 21; // T-shaped block
+	Block.prototype.FIVE_12 = 22; // Short-L-shaped block
+	Block.prototype.FIVE_13 = 23; // Stairs-shaped block
+	Block.prototype.FIVE_14 = 24; // S-shaped block
+	Block.prototype.FIVE_15 = 25; // Z-shaped block
+	Block.prototype.FIVE_16 = 26; // L-weird-shaped block
+	Block.prototype.FIVE_17 = 27; // R-weird-shaped block
+	Block.prototype.FIVE_18 = 28; // Cross-shaped block
 
 	// Orientations
 	Block.prototype.DEG0 = 0;
@@ -954,67 +1283,36 @@
 	};
 
 	Block.prototype.setFallSpeed = function(fallSpeed) {
-		_fallPeriod = 1 / fallSpeed;
+		_fourSquareBlockFallPeriod = 1 / fallSpeed;
+		_oneSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
+		_twoSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _TWO_SQUARE_BLOCK_FALL_PERIOD_RATIO;
+		_threeSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _THREE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
+		_fiveSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _FIVE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
 	};
 
-	Block.prototype.drawSquare = function(context, squareType, x, y) {
-		if (squareType >= 0) {
-			var sourceY = squareType * _SOURCE_SQUARE_SIZE;
+	Block.prototype.drawSquare = function(context, colorIndex, x, y) {
+		var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
 
-			context.drawImage(resources.get("img/sprites.png"), 
-					0, sourceY, 
-					_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
-					x, y, 
-					_squareSize, _squareSize);
-		}
+		context.drawImage(resources.get("img/sprites.png"), 
+				0, sourceY, 
+				_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
+				x, y, 
+				_squareSize, _squareSize);
 	};
 
 	Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
-		var x = 0;
-		var y = 0;
-
-		switch (blockType) {
-		case Block.prototype.RED: // S-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		case Block.prototype.GREEN: // Z-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		case Block.prototype.PURPLE: // L-shaped block
-			x = 1;
-			y = 1.5;
-			break;
-		case Block.prototype.YELLOW: // J-shaped block
-			x = 1;
-			y = 1.5;
-			break;
-		case Block.prototype.BLUE: // Square-shaped block
-			x = 1;
-			y = 1;
-			break;
-		case Block.prototype.ORANGE: // Line-shaped block
-			x = 0.5;
-			y = 2;
-			break;
-		case Block.prototype.GREY: // T-shaped block
-			x = 1.5;
-			y = 1;
-			break;
-		default:
-			break;
-		}
+		var oldOffset = CELL_OFFSETS_FROM_TOP_LEFT_TO_CENTER[blockType];
+		var newOffset = { x: oldOffset.x, y: oldOffset.y };
 
 		// If the block is oriented 90 degrees off of the default, then swap 
 		// the x and y offsets
 		if (orientation === 1 || orientation === 3) {
-			var tmp = x;
-			x = y;
-			y = tmp;
+			var tmp = newOffset.x;
+			newOffset.x = newOffset.y;
+			newOffset.y = tmp;
 		}
 
-		return { x: x, y: y };
+		return newOffset;
 	};
 
 	Block.prototype.copyPoints = function(oldPoints) {

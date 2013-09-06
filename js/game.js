@@ -33,11 +33,11 @@
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
 	var _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD = 800; // millis
-	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 30000; // in millis
-	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.10; // linear // TODO: test/tweak this
+	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 50000; // in millis
+	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.25; // linear // TODO: test/tweak this
 
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
-	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.30; // linear // TODO: test/tweak this
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.45; // linear // TODO: test/tweak this
 
 	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 9000; // millis per color
 	var _CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE = -0.10;
@@ -54,7 +54,7 @@
 
 	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
 
-	var _POINTS_FOR_BONUS = 8000; // TODO: test/tweak this
+	var _POINTS_FOR_BONUS = 4000; // TODO: test/tweak this
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -213,14 +213,14 @@
 		Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 		// Increase the rate of the center square color changes
-		_currentCenterSquareColorPeriod = utils.getLinGrowthValue(
+		_currentCenterSquareColorPeriod = utils.getExpGrowthValue(
 				_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
 				_CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE, 
 				_level);
 		gameWindow.setCenterSquareColorPeriod(_currentCenterSquareColorPeriod);
 
 		// Decrease the preview window cooldown time
-		_currentPreviewWindowCoolDownTime = utils.getLinGrowthValue(
+		_currentPreviewWindowCoolDownTime = utils.getExpGrowthValue(
 				_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
 				_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
 				_level);
@@ -229,7 +229,7 @@
 		}
 
 		// Decrease the layer collapse delay
-		var layerCollapseDelay = utils.getLinGrowthValue(
+		var layerCollapseDelay = utils.getExpGrowthValue(
 				_INITIAL_COLLAPSE_DELAY, 
 				_COLLAPSE_DELAY_GROWTH_RATE, 
 				_level);
@@ -242,6 +242,9 @@
 				_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
 				_level);
 		_layersCollapsedSinceLastLevel = 0;
+
+		var currentBackgroundColorIndex = (_level - 2) % game.DARK_COLORS.length;
+		gameWindow.setCurrentBackgroundColorIndex(currentBackgroundColorIndex);
 
 		_levelDisplay.innerHTML = _level;
 	}
@@ -464,7 +467,48 @@
 		mode5On: false,
 		mode6On: false,
 		mode7On: false,
-		startingLevel: 1
+		startingLevel: 1,
+		numberOfSquaresInABlock: 7,
+
+		MEDIUM_COLORS: [
+			{ r: 55,	g: 178,	b: 22 },	// Green
+			{ r: 22,	g: 99,	b: 178 },	// Blue
+			{ r: 132,	g: 22,	b: 178 },	// Purple
+			{ r: 178,	g: 22,	b: 44 },	// Red
+			{ r: 178,	g: 99,	b: 22 },	// Orange
+			{ r: 178,	g: 172,	b: 22 },	// Yellow
+			{ r: 100,	g: 100,	b: 100 }	// Grey
+		],
+
+		LIGHT_COLORS: [
+			{ r: 175,	g: 243,	b: 157 },	// Green
+			{ r: 157,	g: 199,	b: 243 },	// Blue
+			{ r: 218,	g: 157,	b: 243 },	// Purple
+			{ r: 243,	g: 157,	b: 169 },	// Red
+			{ r: 243,	g: 199,	b: 157 },	// Orange
+			{ r: 243,	g: 240,	b: 157 },	// Yellow
+			{ r: 200,	g: 200,	b: 200 }	// Grey
+		],
+
+		DARK_COLORS: [
+			{ r: 11,	g: 39,	b: 5 },		// Green
+			{ r: 6,		g: 29,	b: 54 },	// Blue
+			{ r: 37,	g: 6,	b: 50 },	// Purple
+			{ r: 54,	g: 6,	b: 13 },	// Red
+			{ r: 50,	g: 28,	b: 6 },		// Orange
+			{ r: 49,	g: 45,	b: 5 },		// Yellow
+			{ r: 34,	g: 34,	b: 34 }		// Grey
+		]
+
+		// DARK_COLORS: [
+			// { r: 18,	g: 61,	b: 7 },		// Green
+			// { r: 7,		g: 33,	b: 61 },	// Blue
+			// { r: 45,	g: 7,	b: 61 },	// Purple
+			// { r:61 ,	g: 7,	b: 15 },	// Red
+			// { r: 61,	g: 34,	b: 7 },		// Orange
+			// { r: 61,	g: 58,	b: 7 },		// Yellow
+			// { r: 34,	g: 34,	b: 34 }		// Grey
+		// ]
 	};
 
 	log.i("<--game.LOADING_MODULE");
