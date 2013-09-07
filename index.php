@@ -278,8 +278,6 @@
 		</div>
 	</div>
 
-    <!-- <script src="http://code.createjs.com/soundjs-0.4.0.min.js"></script> -->
-
     <script type="text/javascript" src="js/stacktrace-min-0.4.js"></script>
     <script type="text/javascript" src="js/soundjs-0.4.1.min.js"></script>
 

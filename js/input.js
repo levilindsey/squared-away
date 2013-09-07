@@ -269,13 +269,13 @@
 			var blockType = selectedBlock.getType();
 			var fallDirection = selectedBlock.getFallDirection();
 			var orientation = selectedBlock.getOrientation();
-			var oldCellPosition = selectedBlock.getCellPosition();
-			//var currentBlockCenter = selectedBlock.getPixelCenter();
+			var currentBlockCellPosition = selectedBlock.getCellPosition();
+			var currentBlockCenter = selectedBlock.getPixelCenter();
 			var cellOffset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
 			// Determine the direction of the gesture
-			var deltaX = endPos.x - startPos.x;//endPos.x - currentBlockCenter.x;
-			var deltaY = endPos.y - startPos.y;//endPos.y - currentBlockCenter.y;
+			var deltaX = endPos.x - currentBlockCenter.x;//endPos.x - startPos.x;
+			var deltaY = endPos.y - currentBlockCenter.y;//endPos.y - startPos.y;
 			var gestureDirection;
 			if (Math.abs(deltaX) > Math.abs(deltaY)) {
 				if (!chooseShorterDimension) {
@@ -316,8 +316,8 @@
 				y: (cellOffset.y * gameWindow.squarePixelSize) - (gameWindow.squarePixelSize * 0.5)
 			};
 
-			gesturePos.x = oldCellPosition.x;
-			gesturePos.y = oldCellPosition.y;
+			gesturePos.x = currentBlockCellPosition.x;
+			gesturePos.y = currentBlockCellPosition.y;
 
 			var farthestCellAvailable;
 
@@ -326,18 +326,15 @@
 				switch (gestureDirection) {
 				case Block.prototype.DOWNWARD:
 					gestureType = _DROP;
-					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
-					// This prevents the gesture from causing the block to 
-					// actually "drop" backward to an earlier position
-					if (gesturePos.y < oldCellPosition.y) {
-						gestureType = _NONE;
-					}
 					break;
 				case Block.prototype.LEFTWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
 					break;
@@ -345,7 +342,9 @@
 					if (mode4On && Math.abs(deltaY) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 						gestureType = _DIRECTION_CHANGE;
 						if (mode5On) {
-							gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, gameWindow.gameWindowCellSize);
+							gesturePos = _getQuadrantSwitchPosition(
+									currentBlockCellPosition.x, currentBlockCellPosition.y, 
+									blockType, orientation, gameWindow.gameWindowCellSize);
 						}
 					} else {
 						gestureType = _NONE;
@@ -353,7 +352,8 @@
 					break;
 				case Block.prototype.RIGHTWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
 					break;
@@ -365,24 +365,22 @@
 				switch (gestureDirection) {
 				case Block.prototype.DOWNWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 					break;
 				case Block.prototype.LEFTWARD:
 					gestureType = _DROP;
-					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
-					// This prevents the gesture from causing the block to 
-					// actually "drop" backward to an earlier position
-					if (gesturePos.x > oldCellPosition.x) {
-						gestureType = _NONE;
-					}
 					break;
 				case Block.prototype.UPWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 					break;
@@ -390,7 +388,9 @@
 					if (mode4On && Math.abs(deltaX) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 						gestureType = _DIRECTION_CHANGE;
 						if (mode5On) {
-							gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, gameWindow.gameWindowCellSize);
+							gesturePos = _getQuadrantSwitchPosition(
+									currentBlockCellPosition.x, currentBlockCellPosition.y, 
+									blockType, orientation, gameWindow.gameWindowCellSize);
 						}
 					} else {
 						gestureType = _NONE;
@@ -406,7 +406,9 @@
 					if (mode4On && Math.abs(deltaY) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 						gestureType = _DIRECTION_CHANGE;
 						if (mode5On) {
-							gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, gameWindow.gameWindowCellSize);
+							gesturePos = _getQuadrantSwitchPosition(
+									currentBlockCellPosition.x, currentBlockCellPosition.y, 
+									blockType, orientation, gameWindow.gameWindowCellSize);
 						}
 					} else {
 						gestureType = _NONE;
@@ -414,24 +416,22 @@
 					break;
 				case Block.prototype.LEFTWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.max(gesturePos.x, farthestCellAvailable.x);
 					break;
 				case Block.prototype.UPWARD:
 					gestureType = _DROP;
-					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
-					// This prevents the gesture from causing the block to 
-					// actually "drop" backward to an earlier position
-					if (gesturePos.y > oldCellPosition.y) {
-						gestureType = _NONE;
-					}
 					break;
 				case Block.prototype.RIGHTWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
 					break;
@@ -443,7 +443,8 @@
 				switch (gestureDirection) {
 				case Block.prototype.DOWNWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestLeftCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.min(gesturePos.y, farthestCellAvailable.y);
 					break;
@@ -451,7 +452,9 @@
 					if (mode4On && Math.abs(deltaX) > _MIN_DIRECTION_CHANGE_GESTURE_DISTANCE) {
 						gestureType = _DIRECTION_CHANGE;
 						if (mode5On) {
-							gesturePos = _getQuadrantSwitchPosition(oldCellPosition.x, oldCellPosition.y, blockType, orientation, gameWindow.gameWindowCellSize);
+							gesturePos = _getQuadrantSwitchPosition(
+									currentBlockCellPosition.x, currentBlockCellPosition.y, 
+									blockType, orientation, gameWindow.gameWindowCellSize);
 						}
 					} else {
 						gestureType = _NONE;
@@ -459,20 +462,17 @@
 					break;
 				case Block.prototype.UPWARD:
 					gestureType = _SIDEWAYS_MOVE;
-					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestRightCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.y = Math.floor((endPos.y - pixelOffsetForComputingCell.y) / gameWindow.squarePixelSize);
 					gesturePos.y = Math.max(gesturePos.y, farthestCellAvailable.y);
 					break;
 				case Block.prototype.RIGHTWARD:
 					gestureType = _DROP;
-					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 					gesturePos.x = Math.floor((endPos.x - pixelOffsetForComputingCell.x) / gameWindow.squarePixelSize);
 					gesturePos.x = Math.min(gesturePos.x, farthestCellAvailable.x);
-					// This prevents the gesture from causing the block to 
-					// actually "drop" backward to an earlier position
-					if (gesturePos.x < oldCellPosition.x) {
-						gestureType = _NONE;
-					}
 					break;
 				default:
 					return;
@@ -485,7 +485,7 @@
 			// If this gesture was unable to qualify as a direction 
 			// change, then use it as a sideways move
 			if (gestureType === _NONE && !chooseShorterDimension) {
-				_computeGestureTypeAndCellPos(selectedBlock, startPos, 
+				return _computeGestureTypeAndCellPos(selectedBlock, startPos, 
 						startTime, endPos, endTime, mode4On, mode5On, 
 						considerTap, true);
 			}
