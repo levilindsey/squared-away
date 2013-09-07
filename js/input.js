@@ -507,7 +507,7 @@
 		// Now, offset this position to allow the upper-left corner of the 
 		// block to still determine the position
 		var blockHeight = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation).y * 2;
-		newX -= (blockHeight - 1);
+		newX -= blockHeight;
 
 		return {
 			x: newX,
