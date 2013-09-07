@@ -223,7 +223,8 @@
 		case "A":
 			type = input.BONUS_2
 			break;
-		default: break;
+		default:
+			return;
 		}
 
 		input.keyboardControl(type);
@@ -237,7 +238,8 @@
 		case "ESCAPE":
 			_pauseGame();
 			break; // pause only
-		default: break;
+		default:
+			return;
 		}
 	}
 	
@@ -253,7 +255,8 @@
 			_onPauseEvent(event);
 			event.preventDefault();
 			break; // toggle play/pause
-		default: break;
+		default:
+			return;
 		}
 	}
 
