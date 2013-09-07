@@ -81,7 +81,7 @@
 		sfxOnButton.addEventListener("click", sound.toggleAudio, false);
 		var sfxOffButton = document.getElementById("sfxOffButton");
 		sfxOffButton.addEventListener("click", sound.toggleAudio, false);
-4f08dabbf7df039c08c617424fa4b94cb4c69812
+
 		// ---------- Set up the song checkboxes ---------- //
 
 		var musicManifest = sound.getMusicManifest();
