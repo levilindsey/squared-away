@@ -62,8 +62,9 @@
 		var showConsole = document.getElementById("showConsole");
 		showConsole.addEventListener("click", _toggleConsole, false);
 
-		document.addEventListener("keypress", _onKeyPress, false);
+		document.addEventListener("keydown", _onKeyDown, false);
 		document.addEventListener("keyup", _onKeyUp, false);
+		document.addEventListener("keypress", _onKeyPress, false);
 
 		_canvas.addEventListener("mousedown", _onMouseDown, false);
 		document.addEventListener("mouseup", _onMouseUp, false);
@@ -80,7 +81,7 @@
 		sfxOnButton.addEventListener("click", sound.toggleAudio, false);
 		var sfxOffButton = document.getElementById("sfxOffButton");
 		sfxOffButton.addEventListener("click", sound.toggleAudio, false);
-
+4f08dabbf7df039c08c617424fa4b94cb4c69812
 		// ---------- Set up the song checkboxes ---------- //
 
 		var musicManifest = sound.getMusicManifest();
@@ -191,15 +192,41 @@
 		log.d("<--main._onPauseEvent");
 	}
 	
-	function _onKeyPress(event) {
+	function _onKeyDown(event) {
         var keyCode = event.keyCode;
 		var key = utils.translateKeyCode(keyCode);
 
+		var type;
+
 		switch(key) {
-		case "ENTER": _playGame(); break; // play only
-		case "SPACE": _onPauseEvent(event); event.preventDefault(); break; // toggle play/pause
+		case "UP":
+			type = input.UP
+			break;
+		case "RIGHT":
+			type = input.RIGHT
+			break;
+		case "DOWN":
+			type = input.DOWN
+			break;
+		case "LEFT":
+			type = input.LEFT
+			break;
+		case "X":
+			type = input.ROTATE
+			break;
+		case "Z":
+			type = input.SWITCH_BLOCKS
+			break;
+		case "S":
+			type = input.BONUS_1
+			break;
+		case "A":
+			type = input.BONUS_2
+			break;
 		default: break;
 		}
+
+		input.keyboardControl(type);
 	}
 	
 	function _onKeyUp(event) {
@@ -207,7 +234,25 @@
 		var key = utils.translateKeyCode(keyCode);
 
 		switch(key) {
-		case "ESCAPE": _pauseGame(); break; // pause only
+		case "ESCAPE":
+			_pauseGame();
+			break; // pause only
+		default: break;
+		}
+	}
+	
+	function _onKeyPress(event) {
+        var keyCode = event.keyCode;
+		var key = utils.translateKeyCode(keyCode);
+
+		switch(key) {
+		case "ENTER":
+			_playGame();
+			break; // play only
+		case "SPACE":
+			_onPauseEvent(event);
+			event.preventDefault();
+			break; // toggle play/pause
 		default: break;
 		}
 	}

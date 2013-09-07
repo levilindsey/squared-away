@@ -654,6 +654,10 @@
 		return _gestureType === _DIRECTION_CHANGE;
 	}
 
+	function _keyboardControl(type) {
+		// TODO: ****
+	}
+
 	// Make input available to the rest of the program
 	window.input = {
 		startGesture: _startGesture,
@@ -668,7 +672,18 @@
 		phantomBlock: null,
 		phantomBlockPolygon: null,
 		isPhantomBlockValid: false,
-		phantomGuideLinePolygon: null
+		phantomGuideLinePolygon: null,
+
+		keyboardControl: _keyboardControl,
+
+		UP: 0,
+		RIGHT: 1,
+		DOWN: 2,
+		LEFT: 3,
+		ROTATE: 4,
+		SWITCH_BLOCKS: 5,
+		BONUS_1: 6,
+		BONUS_2: 7
 	};
 
 	log.i("<--input.LOADING_MODULE");
