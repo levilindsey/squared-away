@@ -1084,27 +1084,22 @@
 			side = ((((side - 1) - orientation) + 4) % 4) + 1;
 		}
 
+		// We're going to be tampering with this array, so lets not use the 
+		// original
 		var points = _DEFAULT_SIDE_CELL_POSITIONS[type][side];
+		points = Block.prototype.copyPoints(points);
+
+		// Get the max x and y coords of ALL sides of this block, then add 
+		// this to the points list (this prevents the rotation from offsetting 
+		// some sides in un-desired ways)
+		var offset = CELL_OFFSETS_FROM_TOP_LEFT_TO_CENTER[type];
+		var max = { x: offset.x * 2, y: offset.y * 2 };
+		points.push(max);
 
 		// Correct for the given orientation
 		points = _rotatePoints(points, orientation, Block.prototype.IGNORE);
 
-		// Correct some small displacement caused from the rotation function's 
-		// behavior of re-positioning the newly rotated group of points at the 
-		// same origin as before
-		if (side === Block.prototype.RIGHT) { // TODO: ****
-			if (orientation === Block.prototype.DEG90) {
-				
-			} else if (orientation === Block.prototype.DEG180) {
-				
-			}
-		} else if (side === Block.prototype.BOTTOM) {
-			if (orientation === Block.prototype.DEG180) {
-				
-			} else if (orientation === Block.prototype.DEG270) {
-				
-			}
-		}
+		points.pop();
 
 		return points;
 	}
