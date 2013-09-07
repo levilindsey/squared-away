@@ -260,20 +260,20 @@
 
 			switch (_previewWindowIndex) {
 			case 0:
-				startingX = (gameWindow.gameWindowCellSize / 2) - 1;
+				startingX = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.x);
 				startingY = 0;
 				break;
 			case 1:
 				startingX = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
-				startingY = (gameWindow.gameWindowCellSize / 2) - 1;
+				startingY = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.y);
 				break;
 			case 2:
-				startingX = (gameWindow.gameWindowCellSize / 2) - 1;
+				startingX = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.x);
 				startingY = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
 				break;
 			case 3:
 				startingX = 0;
-				startingY = (gameWindow.gameWindowCellSize / 2) - 1;
+				startingY = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.y);
 				break;
 			default:
 				return;
