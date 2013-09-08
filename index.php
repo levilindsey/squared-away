@@ -175,22 +175,68 @@
 			<div id="optionsArea">
 				<h2>Options</h2>
 				<p>
-					<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked> Enable keyboard control</label>
+					<label><input type="checkbox" name="keyboardControlCB" id="keyboardControlCB" class="modeCB" value="keyboardControlCB" checked>
+						Enable keyboard control
+						<span id="keyboardControlCBDefaultComment" class="peanutGallery">Guaranteed to increase your wps!</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode2" id="mode2" value="mode2"> Completing squares instead of lines</label>
+					<label><input type="checkbox" name="completeSquaresCB" id="completeSquaresCB" class="modeCB" value="completeSquaresCB">
+						Completing squares instead of lines
+						<span id="completeSquaresCBDefaultComment" class="peanutGallery">Totally four times as much fun</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode3" id="mode3" value="mode3" checked> Blocks are allowed to fall past the center</label>
+					<label><input type="checkbox" name="blocksFallPastCenterCB" id="blocksFallPastCenterCB" class="modeCB" value="blocksFallPastCenterCB" checked>
+						Blocks are allowed to fall past the center
+						<span id="blocksFallPastCenterCBOffComment" class="peanutGallery">You&apos;re gonna miss the center...</span>
+						<span id="blocksFallPastCenterCBOnComment" class="peanutGallery">I&apos;ll bet you also need bumpers when you bowl...</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode4" id="mode4" value="mode4" checked> Able to change falling direction of blocks</label>
+					<label><input type="checkbox" name="changeFallDirectionCB" id="changeFallDirectionCB" class="modeCB" value="changeFallDirectionCB" checked>
+						Able to change falling direction of blocks
+						<span id="changeFallDirectionCBOffComment" class="peanutGallery">Aw, don&apos;t be constrained to just one dimension</span>
+						<span id="changeFallDirectionCBOnComment" class="peanutGallery">Whoo hoo! Now we can spin around in circles!</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode5" id="mode5" value="mode5" checked> Changing direction moves block to next quadrant</label>
+					<label><input type="checkbox" name="changeQuadrantWithFallDirectionCB" id="changeQuadrantWithFallDirectionCB" class="modeCB" value="changeQuadrantWithFallDirectionCB" checked>
+						Changing direction moves block to next quadrant
+						<span id="changeQuadrantWithFallDirectionCBDefaultComment" class="peanutGallery">Where'd it go?!</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode6" id="mode6" value="mode6" checked> Collapsing a layer causes higher layers to &quot;settle&quot;</label>
+					<label><input type="checkbox" name="settleWithCollapseCB" id="settleWithCollapseCB" class="modeCB" value="settleWithCollapseCB" checked>
+						Collapsing a layer causes higher layers to &quot;settle&quot;
+						<span id="settleWithCollapseCBDefaultComment" class="peanutGallery">Whoo hoo! An auto mistake fixer!</span>
+					</label>
 					<br>
-					<label><input type="checkbox" name="mode7" id="mode7" value="mode7" checked> Bombs on</label>
+					<label><input type="checkbox" name="settleInwardCB" id="settleInwardCB" class="modeCB" value="settleInwardCB" checked>
+						Layers &quot;settle&quot; inwards as well as downwards
+						<span id="settleInwardCBDefaultComment" class="peanutGallery">Well, that's just confusing</span>
+					</label>
+					<br>
+					<label><input type="checkbox" name="bombsCB" id="bombsCB" class="modeCB" value="bombsCB" checked>
+						Bombs on
+						<span id="bombsCBOffComment" class="peanutGallery">You&apos;re no fun...</span>
+						<span id="bombsCBOnComment" class="peanutGallery">Well, duh...</span>
+					</label>
+					<br>
+					<label><input type="checkbox" name="fallOutwardCB" id="fallOutwardCB" class="modeCB" value="fallOutwardCB">
+						Blow my mind
+						<span id="fallOutwardCBDefaultComment" class="peanutGallery">Wait, what?</span>
+						<span id="fallOutwardCBOffComment" class="peanutGallery">Booooooring</span>
+						<span id="fallOutwardCBOnComment" class="peanutGallery">Well, aren&apos;t you brave...</span>
+					</label>
+					<br>
+					<label><input type="checkbox" name="consoleCB" id="consoleCB" class="modeCB" value="consoleCB">
+						Show the debug console
+						<span id="consoleCBDefaultComment" class="peanutGallery">Not that there are any bugs or anything...</span>
+					</label>
+					<br>
+					<label><input type="checkbox" name="peanutGalleryCB" id="peanutGalleryCB" class="modeCB" value="peanutGalleryCB">
+						Peanut gallery
+						<span id="peanutGalleryCBDefaultComment" class="peanutGallery">What? My app wasn&apos;t entertaining enough for you before?!?</span>
+					</label>
 					<br>
 					Size of game area:
-					<select id="gameWindowSize">
+					<select id="gameWindowSize" class="gameParameterSelect">
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="40" selected>40</option>
@@ -205,7 +251,7 @@
 					</select>
 					<br>
 					Size of center square:
-					<select id="centerSquareSize">
+					<select id="centerSquareSize" class="gameParameterSelect">
 						<option value="2">2</option>
 						<option value="4">4</option>
 						<option value="6" selected>6</option>
@@ -218,19 +264,18 @@
 					</select>
 					<br>
 					Number of squares in a block:
-					<select id="numberOfSquaresInABlock">
-						<option value="8" selected>1-5</option>
+					<select id="numberOfSquaresInABlock" class="gameParameterSelect">
+						<option value="8" selected>2-5</option>
 						<option value="7">4-5</option>
-						<option value="6">1-4</option>
+						<option value="6">2-4</option>
 						<option value="5">5</option>
 						<option value="4">4</option>
 						<option value="3">3</option>
 						<option value="2">2</option>
-						<option value="1">1</option>
 					</select>
 					<br>
 					Starting level:
-					<select id="startingLevel">
+					<select id="startingLevel" class="gameParameterSelect">
 						<option value="1" selected>1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -244,8 +289,6 @@
 						<option value="15">15</option>
 						<option value="20">20</option>
 					</select>
-					<br>
-					<label><input type="checkbox" name="showConsole" id="showConsole" value="showConsole"> Show the debug console</label>
 				</p>
 			</div>
 
@@ -300,7 +343,7 @@
 					<label><input type="checkbox" name="wereAllUnderTheStars" id="wereAllUnderTheStars" value="wereAllUnderTheStars"> We're All Under the Stars</label>
 					<a href="https://soundcloud.com/eric-skiff/were-all-under-the-stars?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 					<br>
-					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors" checked> We're the Resistors</label>
+					<label><input type="checkbox" name="wereTheResistors" id="wereTheResistors" value="wereTheResistors"> We're the Resistors</label>
 					<a href="https://soundcloud.com/eric-skiff/were-the-resistors?in=eric-skiff/sets/resistor-anthems" target="_blank">(&#9654;)</a>
 				</div>
 				<br>

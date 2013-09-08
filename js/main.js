@@ -32,6 +32,33 @@
 		_IMAGE_PATH + "sprites.png"
 	];
 
+	var checkBoxIds = [
+		"keyboardControlCB",
+		"completeSquaresCB",
+		"blocksFallPastCenterCB",
+		"changeFallDirectionCB",
+		"changeQuadrantWithFallDirectionCB",
+		"settleWithCollapseCB",
+		"settleInwardCB",
+		"bombsCB",
+		"fallOutwardCB",
+		"consoleCB",
+		"peanutGalleryCB"
+	];
+
+	var dropDownMenuIds = [
+		"gameWindowSize",
+		"centerSquareSize",
+		"numberOfSquaresInABlock",
+		"startingLevel"
+	];
+
+	// These are the drop down menus whose values should not change in mid game
+	var startOfGameDropDownMenuIds = [
+		"gameWindowSize",
+		"centerSquareSize"
+	];
+
 	// Preload all required resources and call _init when done
 	window.resources.onready = _init;
 	window.resources.load(_imageManifest);
@@ -42,6 +69,8 @@
 	// should be the last part to load
 	function _init() {
 		log.d("-->main._init");
+
+		var i;
 
 		_body = document.getElementsByTagName("body")[0];
 		_canvas = document.getElementById("gameCanvas");
@@ -57,13 +86,6 @@
 
 		window.addEventListener("blur", _pauseGame, false);
 
-		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.addEventListener("click", _onPauseEvent, false);
-		var keyboardControlOnElem = document.getElementById("mode1");
-		keyboardControlOnElem.addEventListener("click", _toggleKeyboardControlOn);
-		var showConsole = document.getElementById("showConsole");
-		showConsole.addEventListener("click", _toggleConsole, false);
-
 		document.addEventListener("keydown", _onKeyDown, false);
 		document.addEventListener("keyup", _onKeyUp, false);
 		document.addEventListener("keypress", _onKeyPress, false);
@@ -71,7 +93,19 @@
 		_canvas.addEventListener("mousedown", _onMouseDown, false);
 		document.addEventListener("mouseup", _onMouseUp, false);
 		document.addEventListener("mousemove", _onMouseMove, false);
-		document.addEventListener("mouseout", _onMouseOut, false);
+
+		var modeCBs = document.getElementsByClassName("modeCB");
+		for (i = 0; i < modeCBs.length; ++i) {
+			modeCBs[i].addEventListener("click", _onModeCBClicked, false);
+		}
+
+		var gameParameterSelects = document.getElementsByClassName("gameParameterSelect");
+		for (i = 0; i < gameParameterSelects.length; ++i) {
+			gameParameterSelects[i].addEventListener("change", _onGameParameterSelectionChange, false);
+		}
+
+		var unpauseButton = document.getElementById("unpauseButton");
+		unpauseButton.addEventListener("click", _onPauseEvent, false);
 
 		var helpButton = document.getElementById("helpButton");
 		helpButton.addEventListener("click", _pauseGame, false);
@@ -84,21 +118,20 @@
 		var sfxOffButton = document.getElementById("sfxOffButton");
 		sfxOffButton.addEventListener("click", sound.toggleAudio, false);
 
-		_toggleKeyboardControlOn();
-		_toggleConsole();
+		// Initialize the various modes and game parameters
+		_setInitialModesAndParamsToHtmlValues();
 
 		// ---------- Set up the song checkboxes ---------- //
 
 		var musicManifest = sound.getMusicManifest();
 		var selectedMusic = sound.getSelectedMusic();
 		var songCheckBox;
-		var i;
 
 		for (i = 0; i < musicManifest.length; ++i) {
 			songCheckBox = document.getElementById(musicManifest[i].id);
 			songCheckBox.addEventListener("click", sound.onMusicSelectionChange, false);
 			if (songCheckBox.checked) {
-				selectedMusic.push(songCheckBox.value);
+				selectedMusic.push(songCheckBox.id);
 			}
 		}
 
@@ -131,7 +164,7 @@
 		// If we are starting a new game, then adjust the game parameters to 
 		// match the selected input options
 		if (game.isEnded) {
-			_setGameParameters();
+			_setStartOfGameParameters();
 			sound.playSFX("gameStart");
 		} else if (game.isPaused) {
 			sound.playSFX("unpause");
@@ -195,38 +228,6 @@
 		}
 
 		log.d("<--main._onPauseEvent");
-	}
-
-	// Adjust the game parameters to match the selected input options
-	function _setGameParameters() {
-		log.d("<->main._setGameParameters");
-
-		var mode1 = document.getElementById("mode1");
-		game.keyboardControlOn = mode1.checked;
-		var mode2 = document.getElementById("mode2");
-		game.completingSquaresOn = mode2.checked;
-		var mode3 = document.getElementById("mode3");
-		game.canFallPastCenterOn = mode3.checked;
-		var mode4 = document.getElementById("mode4");
-		game.canChangeFallDirectionOn = mode4.checked;
-		var mode5 = document.getElementById("mode5");
-		game.switchQuadrantsWithFallDirectionOn = mode5.checked;
-		var mode6 = document.getElementById("mode6");
-		game.collapseCausesSettlingOn = mode6.checked;
-		var mode7 = document.getElementById("mode7");
-		game.bombsOn = mode7.checked;
-		var gameWindowSizeElem = document.getElementById("gameWindowSize");
-		var gameWindowSize = parseInt(gameWindowSizeElem.options[gameWindowSizeElem.selectedIndex].value, 10);
-		gameWindow.setGameWindowCellSize(gameWindowSize);
-		var centerSquareSizeElem = document.getElementById("centerSquareSize");
-		var centerSquareSize = parseInt(centerSquareSizeElem.options[centerSquareSizeElem.selectedIndex].value, 10);
-		gameWindow.setCenterSquareCellSize(centerSquareSize);
-		var numberOfSquaresInABlockElem = document.getElementById("numberOfSquaresInABlock");
-		var numberOfSquaresInABlock = parseInt(numberOfSquaresInABlockElem.options[numberOfSquaresInABlockElem.selectedIndex].value, 10);
-		game.numberOfSquaresInABlock = numberOfSquaresInABlock;
-		var startingLevelElem = document.getElementById("startingLevel");
-		var startingLevel = parseInt(startingLevelElem.options[startingLevelElem.selectedIndex].value, 10);
-		game.startingLevel = startingLevel;
 	}
 
 	function _populateStatsTable() {
@@ -452,31 +453,60 @@
 		}
 	}
 
-	// This event cancels any current mouse gesture and forces the player to 
-	// start again.  But only if the mouse is leaving the entire window.
-	function _onMouseOut(event) {
-		// var inElement = event.relatedTarget || event.toElement;
-		// if (!inElement || inElement.nodeName == "HTML") {
-			// _gestureInProgress = false;
-
-			// input.cancelMouseGesture();
-		// }
+	function _onModeCBClicked() {
+		_toggleMode(this.id, this.checked, this);
 	}
 
-	function _toggleConsole() {
-		var showConsole = document.getElementById("showConsole");
-
-		if (showConsole.checked) {
-			Logger.prototype.getConsole().style.display = "block";
-		} else {
-			Logger.prototype.getConsole().style.display = "none";
+	function _toggleMode(modeCBId, isOn, element) {
+		if (!element) {
+			element = document.getElementById(modeCBId);
 		}
+
+		element.checked = isOn;
+
+		switch (modeCBId) {
+		case "keyboardControlCB":
+			_toggleKeyboardControlOn(isOn);
+			break;
+		case "completeSquaresCB":
+			game.completingSquaresOn = isOn;
+			break;
+		case "blocksFallPastCenterCB":
+			game.canFallPastCenterOn = isOn;
+			break;
+		case "changeFallDirectionCB":
+			game.canChangeFallDirectionOn = isOn;
+			break;
+		case "changeQuadrantWithFallDirectionCB":
+			game.switchQuadrantsWithFallDirectionOn = isOn;
+			break;
+		case "settleWithCollapseCB":
+			game.collapseCausesSettlingOn = isOn;
+			break;
+		case "settleInwardCB":
+			game.layersAlsoSettleInwardsOn = isOn;
+			break;
+		case "bombsCB":
+			game.bombsOn = isOn;
+			break;
+		case "fallOutwardCB":
+			game.blocksFallOutwardOn = isOn;
+			break;
+		case "consoleCB":
+			Logger.prototype.getConsole().style.display = isOn ? "block" : "none";
+			break;
+		case "peanutGalleryCB":
+			_togglePeanutGalleryOn(isOn);
+			break;
+		default:
+			return;
+		}
+
+		_setPeanutGalleryComment(modeCBId, isOn);
 	}
 
-	function _toggleKeyboardControlOn() {
-		var keyboardControlOnElem = document.getElementById("mode1");
-
-		game.keyboardControlOn = keyboardControlOnElem.checked;
+	function _toggleKeyboardControlOn(isOn) {
+		game.keyboardControlOn = isOn;
 
 		if (!game.keyboardControlOn) {
 			input.selectedKeyboardBlock = null;
@@ -488,6 +518,168 @@
 
 		for (i = 0; i < keyboardDirectionElems.length; ++i) {
 			keyboardDirectionElems[i].style.display = displayStyle;
+		}
+	}
+
+	function _setPeanutGalleryComment(elementId, isOn, useDefault) {
+		if (game.peanutGalleryOn) {
+			switch (elementId) {
+			case "keyboardControlCB":
+				document.getElementById("keyboardControlCBDefaultComment").style.display = "block";
+				break;
+			case "completeSquaresCB":
+				document.getElementById("completeSquaresCBDefaultComment").style.display = "block";
+				break;
+			case "blocksFallPastCenterCB":
+				if (isOn) {
+					document.getElementById("blocksFallPastCenterCBOnComment").style.display = "block";
+					document.getElementById("blocksFallPastCenterCBOffComment").style.display = "none";
+				} else {
+					document.getElementById("blocksFallPastCenterCBOnComment").style.display = "none";
+					document.getElementById("blocksFallPastCenterCBOffComment").style.display = "block";
+				}
+				break;
+			case "changeFallDirectionCB":
+				if (isOn) {
+					document.getElementById("changeFallDirectionCBOnComment").style.display = "block";
+					document.getElementById("changeFallDirectionCBOffComment").style.display = "none";
+				} else {
+					document.getElementById("changeFallDirectionCBOnComment").style.display = "none";
+					document.getElementById("changeFallDirectionCBOffComment").style.display = "block";
+				}
+				break;
+			case "changeQuadrantWithFallDirectionCB":
+				document.getElementById("changeQuadrantWithFallDirectionCBDefaultComment").style.display = "block";
+				break;
+			case "settleWithCollapseCB":
+				document.getElementById("settleWithCollapseCBDefaultComment").style.display = "block";
+				break;
+			case "settleInwardCB":
+				document.getElementById("settleInwardCBDefaultComment").style.display = "block";
+				break;
+			case "bombsCB":
+				if (isOn) {
+					document.getElementById("bombsCBOnComment").style.display = "block";
+					document.getElementById("bombsCBOffComment").style.display = "none";
+				} else {
+					document.getElementById("bombsCBOnComment").style.display = "none";
+					document.getElementById("bombsCBOffComment").style.display = "block";
+				}
+				break;
+			case "fallOutwardCB":
+				if (useDefault) {
+					document.getElementById("fallOutwardCBDefaultComment").style.display = "block";
+					document.getElementById("fallOutwardCBOnComment").style.display = "none";
+					document.getElementById("fallOutwardCBOffComment").style.display = "none";
+				} else {
+					if (isOn) {
+						document.getElementById("fallOutwardCBDefaultComment").style.display = "none";
+						document.getElementById("fallOutwardCBOnComment").style.display = "block";
+						document.getElementById("fallOutwardCBOffComment").style.display = "none";
+					} else {
+						document.getElementById("fallOutwardCBDefaultComment").style.display = "none";
+						document.getElementById("fallOutwardCBOnComment").style.display = "none";
+						document.getElementById("fallOutwardCBOffComment").style.display = "block";
+					}
+				}
+				break;
+			case "consoleCB":
+				document.getElementById("consoleCBDefaultComment").style.display = "block";
+				break;
+			case "peanutGalleryCB":
+				document.getElementById("peanutGalleryCBDefaultComment").style.display = "block";
+				break;
+			default:
+				return;
+			}
+		}
+	}
+
+	function _togglePeanutGalleryOn(isOn) {
+		game.peanutGalleryOn = isOn;
+
+		var peanutGalleryElems = document.getElementsByClassName("peanutGallery");
+		var element;
+		var i;
+
+		if (game.peanutGalleryOn) {
+			// Show all of the appropriate peanutGallery elements
+			for (i = 0; i < checkBoxIds.length; ++i) {
+				element = document.getElementById(checkBoxIds[i]);
+				_setPeanutGalleryComment(checkBoxIds[i], element.checked, true);
+			}
+		} else {
+			// Hide all of the peanutGallery elements
+			for (i = 0; i < peanutGalleryElems.length; ++i) {
+				peanutGalleryElems[i].style.display = "none";
+			}
+		}
+	}
+
+	function _onGameParameterSelectionChange() {
+		var number = parseInt(this.options[this.selectedIndex].id, 10);
+		if (startOfGameDropDownMenuIds.indexOf(this.id) < 0) {
+			_changeGameParameter(this.id, number, this);
+		}
+	}
+
+	function _changeGameParameter(gameParameterSelectId, number, element) {
+		if (!element) {
+			element = document.getElementById(gameParameterSelectId);
+		}
+
+		element.value = "" + number;
+
+		switch (gameParameterSelectId) {
+		case "gameWindowSize":
+			gameWindow.setGameWindowCellSize(number);
+			break;
+		case "centerSquareSize":
+			gameWindow.setCenterSquareCellSize(number);
+			break;
+		case "numberOfSquaresInABlock":
+			game.numberOfSquaresInABlock = number;
+			break;
+		case "startingLevel":
+			game.startingLevel = number;
+			break;
+
+		default:
+			return;
+		}
+	}
+
+	// Set up all of the game parameters to reflect the html values.
+	function _setInitialModesAndParamsToHtmlValues() {
+		var i;
+		var element;
+		var number;
+
+		// Initialize the various modes
+		for (i = 0; i < checkBoxIds.length; ++i) {
+			element = document.getElementById(checkBoxIds[i]);
+			_toggleMode(checkBoxIds[i], element.checked, element);
+		}
+
+		// Initialize some other game parameters
+		for (i = 0; i < dropDownMenuIds.length; ++i) {
+			element = document.getElementById(dropDownMenuIds[i]);
+			number = parseInt(element.options[element.selectedIndex].value, 10);
+			_changeGameParameter(dropDownMenuIds[i], number, element);
+		}
+	}
+
+	// Set up all of the game parameters that cannot be changed in mid game.
+	function _setStartOfGameParameters() {
+		var i;
+		var element;
+		var number;
+
+		// Initialize some other game parameters
+		for (i = 0; i < startOfGameDropDownMenuIds.length; ++i) {
+			element = document.getElementById(startOfGameDropDownMenuIds[i]);
+			number = parseInt(element.options[element.selectedIndex].value, 10);
+			_changeGameParameter(startOfGameDropDownMenuIds[i], number, element);
 		}
 	}
 

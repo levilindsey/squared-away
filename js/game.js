@@ -534,7 +534,10 @@
 		canChangeFallDirectionOn: false,
 		switchQuadrantsWithFallDirectionOn: false,
 		collapseCausesSettlingOn: false,
+		layersAlsoSettleInwardsOn: true,
+		blocksFallOutwardOn: false,
 		bombsOn: false,
+		peanutGalleryOn: false,
 
 		startingLevel: 1,
 		numberOfSquaresInABlock: 7,

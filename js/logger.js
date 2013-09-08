@@ -98,12 +98,5 @@ var DEBUG = false;
 
 	window.log = new Logger(_CONSOLE_ELEMENT);
 
-	// Hide the console if we are not in debugging mode
-	if (document.getElementById("showConsole").checked) {
-		Logger.prototype.getConsole().style.display = "block";
-	} else {
-		Logger.prototype.getConsole().style.display = "none";
-	}
-
 	log.i("<--logger.LOADING_MODULE");
 }());

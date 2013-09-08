@@ -184,16 +184,16 @@
 			var lowerIndex;
 			var upperIndex;
 			switch (game.numberOfSquaresInABlock) {
-			case 8: // 1 - 5
-				lowerIndex = Block.prototype.ONE_1;
+			case 8: // 2 - 5
+				lowerIndex = Block.prototype.TWO_1;
 				upperIndex = Block.prototype.FIVE_18;
 				break;
 			case 7: // 4 - 5
 				lowerIndex = Block.prototype.FOUR_1;
 				upperIndex = Block.prototype.FIVE_18;
 				break;
-			case 6: // 1 - 4
-				lowerIndex = Block.prototype.ONE_1;
+			case 6: // 2 - 4
+				lowerIndex = Block.prototype.TWO_1;
 				upperIndex = Block.prototype.FOUR_7;
 				break;
 			case 5:
@@ -211,10 +211,6 @@
 			case 2:
 				lowerIndex = Block.prototype.TWO_1;
 				upperIndex = Block.prototype.TWO_1;
-				break;
-			case 1:
-				lowerIndex = Block.prototype.ONE_1;
-				upperIndex = Block.prototype.ONE_1;
 				break;
 			default:
 				return;
