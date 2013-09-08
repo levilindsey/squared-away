@@ -362,10 +362,6 @@
 	var _TWO_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.6;
 	var _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.475;
 
-	var _squareSize;
-	var _gameWindowCellSize = 100;
-	var _centerSquareCellSize = 6;
-	var _centerSquareCellPositionX;
 	var _oneSquareBlockFallPeriod; // millis / blocks
 	var _twoSquareBlockFallPeriod; // millis / blocks
 	var _threeSquareBlockFallPeriod; // millis / blocks
@@ -396,6 +392,7 @@
 		var _timeSinceLastFall = 0;
 		var _hasCollidedWithSquare = false;
 		var _hasCollidedWithEdgeOfArea = false;
+		var _hasCollidedWithBackLineOfCenterSquare = false;
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
@@ -416,9 +413,14 @@
 															blocksOnGameWindow);
 
 					if (!_hasCollidedWithSquare) {
-						_fall();
+						_hasCollidedWithBackLineOfCenterSquare = 
+								_checkForCollisionWithBackLineOfCenterSquare();
 
-						sound.playSFX("fall");
+						if (!_hasCollidedWithBackLineOfCenterSquare) {
+							_fall();
+
+							sound.playSFX("fall");
+						}
 					}
 				}
 
@@ -447,9 +449,9 @@
 			// pixel space
 			for (i = 0; i < positions.length; ++i) {
 				positions[i].x = _positionPixels.x + 
-								(positions[i].x * _squareSize);
+								(positions[i].x * gameWindow.squarePixelSize);
 				positions[i].y = _positionPixels.y + 
-								(positions[i].y * _squareSize);
+								(positions[i].y * gameWindow.squarePixelSize);
 			}
 
 			// Draw the constituent squares
@@ -609,8 +611,8 @@
 
 			_positionCell.x += deltaX;
 			_positionCell.y += deltaY;
-			_positionPixels.x = _positionCell.x * _squareSize;
-			_positionPixels.y = _positionCell.y * _squareSize;
+			_positionPixels.x = _positionCell.x * gameWindow.squarePixelSize;
+			_positionPixels.y = _positionCell.y * gameWindow.squarePixelSize;
 		}
 
 		// Return true if this block has collided with a stationary square on 
@@ -626,13 +628,13 @@
 
 			switch (_fallDirection) {
 			case Block.prototype.DOWNWARD:
-				deltaI = _gameWindowCellSize;
+				deltaI = gameWindow.gameWindowCellSize;
 				break;
 			case Block.prototype.LEFTWARD:
 				deltaI = -1;
 				break;
 			case Block.prototype.UPWARD:
-				deltaI = -_gameWindowCellSize;
+				deltaI = -gameWindow.gameWindowCellSize;
 				break;
 			case Block.prototype.RIGHTWARD:
 				deltaI = 1;
@@ -684,9 +686,9 @@
 			var positions = _getSquareCellPositions();
 
 			for (var i = 0; i < positions.length; ++i) {
-				if (positions[i].x + deltaX >= _gameWindowCellSize || 
+				if (positions[i].x + deltaX >= gameWindow.gameWindowCellSize || 
 						positions[i].x + deltaX < 0 || 
-						positions[i].y + deltaY >= _gameWindowCellSize || 
+						positions[i].y + deltaY >= gameWindow.gameWindowCellSize || 
 						positions[i].y + deltaY < 0) {
 					return true;
 				}
@@ -720,8 +722,8 @@
 				return;
 			}
 
-			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
-			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
+			var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
 
 			var positions = _getSquareCellPositions();
 
@@ -731,6 +733,47 @@
 						positions[i].y + deltaY >= minCenterSquareCellPositionX && 
 						positions[i].y + deltaY < maxCenterSquareCellPositionX) {
 					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function _checkForCollisionWithBackLineOfCenterSquare() {
+			var lastPossibleRow = -1;
+			var lastPossibleCol = -1;
+			var i;
+
+			switch (_fallDirection) {
+			case Block.prototype.DOWNWARD:
+				lastPossibleRow = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
+				break;
+			case Block.prototype.LEFTWARD:
+				lastPossibleCol = gameWindow.centerSquareCellPositionX;
+				break;
+			case Block.prototype.UPWARD:
+				lastPossibleRow = gameWindow.centerSquareCellPositionX;
+				break;
+			case Block.prototype.RIGHTWARD:
+				lastPossibleCol = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
+				break;
+			default:
+				return;
+			}
+
+			var positions = _getSquareCellPositions();
+
+			if (lastPossibleRow >= 0) {
+				for (i = 0; i < positions.length; ++i) {
+					if (positions[i].y === lastPossibleRow) {
+						return true;
+					}
+				}
+			} else {
+				for (i = 0; i < positions.length; ++i) {
+					if (positions[i].x === lastPossibleCol) {
+						return true;
+					}
 				}
 			}
 
@@ -765,7 +808,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.LEFTWARD:
-				deltaI = -_gameWindowCellSize;
+				deltaI = -gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -775,7 +818,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.RIGHTWARD:
-				deltaI = _gameWindowCellSize;
+				deltaI = gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -808,7 +851,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.LEFTWARD:
-				deltaI = _gameWindowCellSize;
+				deltaI = gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -818,7 +861,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.RIGHTWARD:
-				deltaI = -_gameWindowCellSize;
+				deltaI = -gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -846,7 +889,7 @@
 
 			switch (_fallDirection) {
 			case Block.prototype.DOWNWARD:
-				deltaI = _gameWindowCellSize;
+				deltaI = gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = 1;
 				break;
@@ -856,7 +899,7 @@
 				deltaY = 0;
 				break;
 			case Block.prototype.UPWARD:
-				deltaI = -_gameWindowCellSize;
+				deltaI = -gameWindow.gameWindowCellSize;
 				deltaX = 0;
 				deltaY = -1;
 				break;
@@ -873,10 +916,37 @@
 					_getHowManyStepsBlockCanMove(deltaI, deltaX, deltaY, 
 							squaresOnGameWindow, blocksOnGameWindow);
 
-			return { 
+			var farthestCellPos = { 
 				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
 				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
 			};
+
+			if (!game.canFallPastCenterOn) {
+				// Account for the invisible wall at the back side of the center square
+				var half = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
+				switch (_fallDirection) {
+				case Block.prototype.DOWNWARD:
+					farthestCellPos.y = Math.min(farthestCellPos.y, 
+							gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - half.y * 2);
+					break;
+				case Block.prototype.LEFTWARD:
+					farthestCellPos.x = Math.max(farthestCellPos.x, 
+							gameWindow.centerSquareCellPositionX);
+					break;
+				case Block.prototype.UPWARD:
+					farthestCellPos.y = Math.max(farthestCellPos.y, 
+							gameWindow.centerSquareCellPositionX);
+					break;
+				case Block.prototype.RIGHTWARD:
+					farthestCellPos.x = Math.min(farthestCellPos.x, 
+							gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - half.x * 2);
+					break;
+				default:
+					return;
+				}
+			}
+
+			return farthestCellPos;
 		}
 
 		// Return how many steps this block can move using the given delta 
@@ -886,8 +956,8 @@
 				squaresOnGameWindow, blocksOnGameWindow) {
 			var positions = _getSquareCellPositions();
 			var indices = _positionsToIndices(positions);
-			var minCenterSquareCellPositionX = _centerSquareCellPositionX;
-			var maxCenterSquareCellPositionX = _centerSquareCellPositionX + _centerSquareCellSize;
+			var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
+			var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
 			var neighborIndex;
 			var neighborX;
 			var neighborY;
@@ -906,9 +976,9 @@
 					neighborX = positions[j].x + dX;
 					neighborY = positions[j].y + dY;
 
-					if (neighborX >= _gameWindowCellSize || 
+					if (neighborX >= gameWindow.gameWindowCellSize || 
 							neighborX < 0 || 
-							neighborY >= _gameWindowCellSize || 
+							neighborY >= gameWindow.gameWindowCellSize || 
 							neighborY < 0 || 
 							squaresOnGameWindow[neighborIndex] > -1 || 
 							(neighborX >= minCenterSquareCellPositionX && 
@@ -929,8 +999,8 @@
 		function _setCellPosition(x, y) {
 			_positionCell.x = x;
 			_positionCell.y = y;
-			_positionPixels.x = _positionCell.x * _squareSize;
-			_positionPixels.y = _positionCell.y * _squareSize;
+			_positionPixels.x = _positionCell.x * gameWindow.squarePixelSize;
+			_positionPixels.y = _positionCell.y * gameWindow.squarePixelSize;
 		}
 
 		function _getHasCollidedWithEdgeOfArea() {
@@ -939,6 +1009,10 @@
 
 		function _getHasCollidedWithSquare() {
 			return _hasCollidedWithSquare;
+		}
+
+		function _getHasCollidedWithBackLineOfCenterSquare() {
+			return _hasCollidedWithBackLineOfCenterSquare;
 		}
 
 		function _getType() {
@@ -961,8 +1035,8 @@
 			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
 			return {
-				x: _positionPixels.x + (offset.x * _squareSize),
-				y: _positionPixels.y + (offset.y * _squareSize)
+				x: _positionPixels.x + (offset.x * gameWindow.squarePixelSize),
+				y: _positionPixels.y + (offset.y * gameWindow.squarePixelSize)
 			};
 		}
 
@@ -971,8 +1045,8 @@
 
 			// Translate from block cell space to game area pixel space
 			for (var i = 0; i < points.length; ++i) {
-				points[i].x = (points[i].x * _squareSize) + _positionPixels.x;
-				points[i].y = (points[i].y * _squareSize) + _positionPixels.y;
+				points[i].x = (points[i].x * gameWindow.squarePixelSize) + _positionPixels.x;
+				points[i].y = (points[i].y * gameWindow.squarePixelSize) + _positionPixels.y;
 			}
 
 			return points;
@@ -1012,10 +1086,10 @@
 			}
 
 			// Translate from block cell space to game-area pixel space
-			leftPoint.x = (leftPoint.x * _squareSize) + _positionPixels.x;
-			leftPoint.y = (leftPoint.y * _squareSize) + _positionPixels.y;
-			rightPoint.x = (rightPoint.x * _squareSize) + _positionPixels.x;
-			rightPoint.y = (rightPoint.y * _squareSize) + _positionPixels.y;
+			leftPoint.x = (leftPoint.x * gameWindow.squarePixelSize) + _positionPixels.x;
+			leftPoint.y = (leftPoint.y * gameWindow.squarePixelSize) + _positionPixels.y;
+			rightPoint.x = (rightPoint.x * gameWindow.squarePixelSize) + _positionPixels.x;
+			rightPoint.y = (rightPoint.y * gameWindow.squarePixelSize) + _positionPixels.y;
 
 			return { left: leftPoint, right: rightPoint };
 		}
@@ -1035,6 +1109,7 @@
 		this.setCellPosition = _setCellPosition;
 		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
 		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
+		this.getHasCollidedWithBackLineOfCenterSquare = _getHasCollidedWithBackLineOfCenterSquare;
 		this.checkIsOverTopSquare = _checkIsOverTopSquare;
 		this.checkForCollisionWithSquare = _checkForCollisionWithSquare;
 		this.getType = _getType;
@@ -1180,7 +1255,7 @@
 	}
 
 	function _positionToIndex(position) {
-		return (position.y * _gameWindowCellSize) + position.x;
+		return (position.y * gameWindow.gameWindowCellSize) + position.x;
 	}
 
 	function _positionsToIndices(positions) {
@@ -1256,19 +1331,6 @@
 	Block.prototype.BOTTOM_SIDE = 3;
 	Block.prototype.LEFT_SIDE = 4;
 
-	Block.prototype.getSquareSize = function() {
-		return _squareSize;
-	};
-
-	// This should be called once at the start of each game
-	Block.prototype.setGameWindowDimensions = function(squarePixelSize, gameWindowCellSize, 
-			centerSquareSize, centerSquareCellPositionX) {
-		_squareSize = squarePixelSize;
-		_gameWindowCellSize = gameWindowCellSize;
-		_centerSquareCellSize = centerSquareSize;
-		_centerSquareCellPositionX = centerSquareCellPositionX;
-	};
-
 	Block.prototype.setFallSpeed = function(fallSpeed) {
 		_fourSquareBlockFallPeriod = 1 / fallSpeed;
 		_oneSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
@@ -1284,7 +1346,7 @@
 				0, sourceY, 
 				_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
 				x, y, 
-				_squareSize, _squareSize);
+				gameWindow.squarePixelSize, gameWindow.squarePixelSize);
 	};
 
 	Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {

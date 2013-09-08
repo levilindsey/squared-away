@@ -98,17 +98,70 @@
 
 			block.update(deltaTime, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 
+			var addSquares = false;
+
 			// If the block has reached the edge of the game area and is 
 			// trying to fall out, then the game is over and the player 
 			// has lost
 			if (block.getHasCollidedWithEdgeOfArea()) {
 				game.endGame();
-				return;
+				addSquares = true;
 			}
-
 			// Check whether the block has reached a stationary square and 
 			// can no longer fall
-			if (block.getHasCollidedWithSquare()) {
+			else if (block.getHasCollidedWithSquare()) {
+				addSquares = true;
+			}
+			// Check whether the canFallPastCenterOn mode is off and the block 
+			// has reached the back line of the center square
+			else if (!game.canFallPastCenterOn && 
+					block.getHasCollidedWithBackLineOfCenterSquare()) {
+				// ---------- Slide the block inward ---------- //
+
+				var fallDirection = block.getFallDirection();
+				var cellPosition = block.getCellPosition();
+				var farthestCellAvailable;
+				var onLeftOfCenter;
+
+				// Check which side of the center square the block is on
+				switch (fallDirection) {
+				case Block.prototype.DOWNWARD:
+					onLeftOfCenter = cellPosition.x < gameWindow.centerSquareCellPositionX;
+					break;
+				case Block.prototype.LEFTWARD:
+					onLeftOfCenter = cellPosition.y < gameWindow.centerSquareCellPositionX;
+					break;
+				case Block.prototype.UPWARD:
+					onLeftOfCenter = cellPosition.x >= gameWindow.centerSquareCellPositionX;
+					break;
+				case Block.prototype.RIGHTWARD:
+					onLeftOfCenter = cellPosition.y >= gameWindow.centerSquareCellPositionX;
+					break;
+				default:
+					return;
+				}
+
+				// Compute where to slide this block
+				if (onLeftOfCenter) {
+					farthestCellAvailable = block.getFarthestRightCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+				} else {
+					farthestCellAvailable = block.getFarthestLeftCellAvailable(
+							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+				}
+
+				block.setCellPosition(farthestCellAvailable.x, farthestCellAvailable.y);
+
+				addSquares = true;
+			}
+			// In case the selected block falls without the player 
+			// spawning any drag events, the gesture type and phantom 
+			// shapes need to be updated
+			else if (block === input.selectedMouseBlock) {
+				input.dragMouseGesture();
+			}
+
+			if (addSquares) {
 				// Add it's squares to the game area and delete the block 
 				// object
 				var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
@@ -138,17 +191,10 @@
 
 				if (layersWereCompleted) {
 					sound.playSFX("collapse");
-					sound.playSFX("land");// TODO: check whether I actually do want to play these clips simultaneously
+					sound.playSFX("land");
 				} else {
 					sound.playSFX("land");
 				}
-			}
-
-			// In case the selected block falls without the player 
-			// spawning any drag events, the gesture type and phantom 
-			// shapes need to be updated
-			if (block === input.selectedMouseBlock) {
-				input.dragMouseGesture();
 			}
 		}
 	}
@@ -888,15 +934,13 @@
 		gameWindow.gameWindowCellSize = gameWindowCellSize;
 		gameWindow.squarePixelSize = gameWindow.gameWindowPixelSize / gameWindow.gameWindowCellSize;
 
-		Block.prototype.setGameWindowDimensions(gameWindow.squarePixelSize, gameWindow.gameWindowCellSize, gameWindow.centerSquareCellSize, gameWindow.centerSquareCellPositionX);
 		_setUpCenterSquareDimensions();
 	}
 
 	function _setCenterSquareCellSize(centerSquareSize) {
 		gameWindow.centerSquareCellSize = centerSquareSize;
 		_computeCenterSquareCellPosition();
-		
-		Block.prototype.setGameWindowDimensions(gameWindow.squarePixelSize, gameWindow.gameWindowCellSize, gameWindow.centerSquareCellSize, gameWindow.centerSquareCellPositionX);
+
 		_setUpCenterSquareDimensions();
 	}
 

@@ -159,7 +159,6 @@
 							<img src="img/directions_switch_selected_block.png" alt="Switch selected block">
 							<p class="keyboardDirection">
 								Press Z.
-								<br>- OR -<br>
 							</p>
 							<p><p>
 						</td>
@@ -185,7 +184,7 @@
 						<span id="completeSquaresCBDefaultComment" class="peanutGallery">Totally four times as much fun</span>
 					</label>
 					<br>
-					<label><input type="checkbox" name="blocksFallPastCenterCB" id="blocksFallPastCenterCB" class="modeCB" value="blocksFallPastCenterCB" checked>
+					<label><input type="checkbox" name="blocksFallPastCenterCB" id="blocksFallPastCenterCB" class="modeCB" value="blocksFallPastCenterCB">
 						Blocks are allowed to fall past the center
 						<span id="blocksFallPastCenterCBOffComment" class="peanutGallery">You&apos;re gonna miss the center...</span>
 						<span id="blocksFallPastCenterCBOnComment" class="peanutGallery">I&apos;ll bet you also need bumpers when you bowl...</span>

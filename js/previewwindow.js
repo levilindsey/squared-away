@@ -222,8 +222,8 @@
 
 			var cellOffsetFromTopLeftOfBlockToCenter = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
-			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * Block.prototype.getSquareSize());
-			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * Block.prototype.getSquareSize());
+			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * gameWindow.squarePixelSize);
+			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * gameWindow.squarePixelSize);
 
 			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
 
