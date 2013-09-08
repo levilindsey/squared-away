@@ -54,28 +54,25 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-**- can I detect dvorak??
-**- less the amplitude of the "move" sfx
+**- add the collapse and settle bombs
+**- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
+- add an additional game mode which causes higher layers to "settle" when a lower layer collapses
+*<AFTER ADDING BOMBS>- update the direction images to have phantom guidelines
+    - and create the two new images
+**- add hover-over images for the help, sfx, and music buttons
+**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
+    **- also, whenever the game is ended, show a big red circle where the cause is
+**- upload to website!
+    - and create some basic structure on the site
+**- ANOTHER mode: blocks fall out rather than falling in
+**- lessen the amplitude of the "move" sfx
     - because the sound really builds when using keyboard mode
 ****- RE-LOOK AT ALL OF THE MUSIC PLAYING LOGIC....
     - current issue is that _currSongIndex is -1 when _playCurrentSong happens (becuase I reset it in _startNewRandomSong)
     - and only the one song ever plays
-- add the logic to only shuffle through selected songs
-**- add the functionality to disallow blocks traveling past their side of the center square (i.e., force slide them into the center square at their current row/col)
-**- add hover-over images for the help, sfx, and music buttons
-**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
-    **- also, whenever the game is ended, show a big red circle where the cause is
+**- can I detect dvorak??
 **- add ability to switch the parameters in mid-game?
     - or, at least, make the checkboxes for changing them DISABLED when a game is in progress (i.e., !game.isEnded())
-- add an additional game mode which causes higher layers to "settle" when a lower layer collapses
-        - a block landing
-- add keyboard control
-    - only move one space on key down (no holding)
-    - still will want to show the phantom lines, so will need to show them persistently for whichever block is currently selected
-- DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
-***- ANOTHER mode: blocks fall out rather than falling in
-*<AFTER ADDING BOMBS>- update the direction images to have phantom guidelines
-    - and create the two new images
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?
 
