@@ -199,9 +199,9 @@
 
 		// ---------- Initialize music/sfx on/off ---------- //
 
-		sound.musicOn = !sound.musicOn;
+		game.musicOn = !game.musicOn;
 		_toggleMusic();
-		sound.sfxOn = !sound.sfxOn;
+		game.sfxOn = !game.sfxOn;
 		_toggleSFX();
 
 		// ---------- Hook up sound ---------- //
@@ -230,7 +230,7 @@
 	}
 
 	function _playSFX(soundId) {
-		if (sound.sfxOn) {
+		if (game.sfxOn) {
 			createjs.Sound.play(soundId, createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.sfxVolume, 0);
 		}
 	}
@@ -256,16 +256,16 @@
 		var musicOnButton = document.getElementById("musicOnButton");
 		var musicOffButton = document.getElementById("musicOffButton");
 
-		if (sound.musicOn) {
+		if (game.musicOn) {
 			musicOnButton.style.display = "none";
 			musicOffButton.style.display = "block";
 			_pauseMusic();
-			sound.musicOn = false;
+			game.musicOn = false;
 		} else {
 			musicOnButton.style.display = "block";
 			musicOffButton.style.display = "none";
 			_playCurrentMusic();
-			sound.musicOn = true;
+			game.musicOn = true;
 		}
 	}
 
@@ -273,14 +273,14 @@
 		var sfxOnButton = document.getElementById("sfxOnButton");
 		var sfxOffButton = document.getElementById("sfxOffButton");
 
-		if (sound.sfxOn) {
+		if (game.sfxOn) {
 			sfxOnButton.style.display = "none";
 			sfxOffButton.style.display = "block";
-			sound.sfxOn = false;
+			game.sfxOn = false;
 		} else {
 			sfxOnButton.style.display = "block";
 			sfxOffButton.style.display = "none";
-			sound.sfxOn = true;
+			game.sfxOn = true;
 		}
 	}
 
@@ -421,7 +421,7 @@
 				}
 			}
 			
-			if (sound.musicOn && !game.isPaused && !game.isEnded && _currentMusicInstance && 
+			if (game.musicOn && !game.isPaused && !game.isEnded && _currentMusicInstance && 
 					(selectedMusicIndex >= 0 || (_selectedMusic.length === 0 && _currMusicIndex === 0))) {
 				// If a song has been paused, then resume needs to be called to 
 				// start playback where it left off.  Otherwise, a call to resume 
@@ -476,9 +476,6 @@
 
 		getMusicManifest: _getMusicManifest,
 		getSelectedMusic: _getSelectedMusic,
-
-		musicOn: true,
-		sfxOn: true,
 
 		sfxVolume: 0.45,
 		musicVolume: 0.15

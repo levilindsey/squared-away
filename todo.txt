@@ -69,6 +69,7 @@
 - add keyboard control
     - only move one space on key down (no holding)
     - still will want to show the phantom lines, so will need to show them persistently for whichever block is currently selected
+***- ANOTHER mode: blocks fall out rather than falling in
 - DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?

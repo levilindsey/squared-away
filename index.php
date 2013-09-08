@@ -59,8 +59,16 @@
 						<td id="squaresCollapsedData"></td>
 					</tr>
 					<tr>
-						<td>Bonuses used:</td>
-						<td id="bonusesUsedData"></td>
+						<td>Blocks handled:</td>
+						<td id="blocksHandledData"></td>
+					</tr>
+					<tr>
+						<td>Collapse bombs used:</td>
+						<td id="collapseBombsUsedData"></td>
+					</tr>
+					<tr>
+						<td>Settle bombs used:</td>
+						<td id="settleBombsUsedData"></td>
 					</tr>
 				</table>
 			</div>
@@ -89,11 +97,19 @@
 						<td class="directionPanel">
 							<h3>Rotate Block</h3>
 							<img src="img/directions_rotate.png" alt="Rotate block">
+							<p class="keyboardDirection">
+								Press X.
+								<br>- OR -<br>
+							</p>
 							<p>Tap on block.<p>
 						</td>
 						<td class="directionPanel">
 							<h3>Move Block Sideways</h3>
 							<img src="img/directions_move.png" alt="Move block sideways">
+							<p class="keyboardDirection">
+								Press either arrow key sideways from the block&apos;s fall direction.
+								<br>- OR -<br>
+							</p>
 							<p>Press on block, and drag sideways.<p>
 						</td>
 					</tr>
@@ -101,12 +117,51 @@
 						<td class="directionPanel">
 							<h3>Drop Block</h3>
 							<img src="img/directions_drop.png" alt="Drop block">
+							<p class="keyboardDirection">
+								Press the arrow key toward the block&apos;s fall direction.
+								<br>- OR -<br>
+							</p>
 							<p>Press on block, and drag down (toward fall direction).<p>
 						</td>
 						<td class="directionPanel">
 							<h3>Switch Block Fall Direction</h3>
 							<img src="img/directions_switch_fall_direction.png" alt="Switch block fall direction">
+							<p class="keyboardDirection">
+								Tap the arrow key away from the block&apos;s fall direction twice.
+								<br>- OR -<br>
+							</p>
 							<p>Press on block, and drag up (away from current fall direction).<p>
+						</td>
+					</tr>
+					<tr>
+						<td class="directionPanel">
+							<h3>Use Collapse Bomb</h3>
+							<img src="img/directions_use_collapse_bomb.png" alt="Use collapse bomb">
+							<p class="keyboardDirection">
+								Tap A to select a collapse bomb.  Then use the arrow keys to select which side to release the bomb from.  Then tap A again to release the bomb.
+								<br>- OR -<br>
+							</p>
+							<p>Tap on the lower-left collapse bomb area.  Then tap on the side to release the bomb from.<p>
+						</td>
+						<td class="directionPanel">
+							<h3>Use Settle Bomb</h3>
+							<img src="img/directions_use_settle_bomb.png" alt="Use settle bomb">
+							<p class="keyboardDirection">
+								Tap S twice.
+								<br>- OR -<br>
+							</p>
+							<p>Tap twice on the lower-right settle-bomb area.<p>
+						</td>
+					</tr>
+					<tr>
+						<td class="directionPanel keyboardDirection">
+							<h3>Switch Selected Block</h3>
+							<img src="img/directions_switch_selected_block.png" alt="Switch selected block">
+							<p class="keyboardDirection">
+								Press Z.
+								<br>- OR -<br>
+							</p>
+							<p><p>
 						</td>
 					</tr>
 				</table>
@@ -250,8 +305,7 @@
 				</div>
 				<br>
 				<p>
-					All of these pieces are by 
-					<a href="http://ericskiff.com/music/" target="_blank">Eric Skiff</a>.
+					The talented <a href="http://ericskiff.com/music/" target="_blank">Eric Skiff</a> composed of all of this music.
 				</p>
 			</div>
 
@@ -262,9 +316,9 @@
 				<p>
 					This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
 					<br><br>
-					The code is open source, and you can find it on GitHub at 
+					If you&apos;re one of those crazy people who think code is cool, then check out this app's source code on GitHub at 
 					<a href="https://github.com/levisl176/squared_away" target="_blank">
-					https://github.com/levisl176/squared_away</a>.
+					https://github.com/levisl176/squared_away</a>!
 					<br><br>
 					Also, this app is coming soon to the Android marketplace.
 				</p>

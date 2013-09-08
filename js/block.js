@@ -400,8 +400,6 @@
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
 		function _update(deltaTime, squaresOnGameWindow, blocksOnGameWindow) {
-//			log.d("-->block._update");
-
 			_timeSinceLastFall += deltaTime;
 
 			var fallPeriod = _getFallPeriod(_type);
@@ -432,16 +430,12 @@
 					!_hasCollidedWithEdgeOfArea && !_hasCollidedWithSquare) {
 				// TODO: 
 			}
-
-//			log.d("<--block._update");
 		}
 
 		// Render this block on the given drawing context.  The context should 
 		// be transforme beforehand in order to place the origin at the 
 		// top-left corner of the play area.
 		function _draw(context) {
-//			log.d("-->block._draw");
-
 			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
@@ -463,8 +457,6 @@
 				Block.prototype.drawSquare(context, colorIndex, 
 										positions[i].x, positions[i].y);
 			}
-
-//			log.d("<--block._draw");
 		}
 
 		// Rotate the orientation of this block clockwise 90 degrees, if this 

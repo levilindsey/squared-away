@@ -59,6 +59,8 @@
 
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", _onPauseEvent, false);
+		var keyboardControlOnElem = document.getElementById("mode1");
+		keyboardControlOnElem.addEventListener("click", _toggleKeyboardControlOn);
 		var showConsole = document.getElementById("showConsole");
 		showConsole.addEventListener("click", _toggleConsole, false);
 
@@ -191,93 +193,25 @@
 
 		log.d("<--main._onPauseEvent");
 	}
-	
-	function _onKeyDown(event) {
-        var keyCode = event.keyCode;
-		var key = utils.translateKeyCode(keyCode);
-
-		var type;
-
-		switch(key) {
-		case "UP":
-			type = input.UP
-			break;
-		case "RIGHT":
-			type = input.RIGHT
-			break;
-		case "DOWN":
-			type = input.DOWN
-			break;
-		case "LEFT":
-			type = input.LEFT
-			break;
-		case "X":
-			type = input.ROTATE
-			break;
-		case "Z":
-			type = input.SWITCH_BLOCKS
-			break;
-		case "S":
-			type = input.BONUS_1
-			break;
-		case "A":
-			type = input.BONUS_2
-			break;
-		default:
-			return;
-		}
-
-		input.keyboardControl(type);
-	}
-	
-	function _onKeyUp(event) {
-        var keyCode = event.keyCode;
-		var key = utils.translateKeyCode(keyCode);
-
-		switch(key) {
-		case "ESCAPE":
-			_pauseGame();
-			break; // pause only
-		default:
-			return;
-		}
-	}
-	
-	function _onKeyPress(event) {
-        var keyCode = event.keyCode;
-		var key = utils.translateKeyCode(keyCode);
-
-		switch(key) {
-		case "ENTER":
-			_playGame();
-			break; // play only
-		case "SPACE":
-			_onPauseEvent(event);
-			event.preventDefault();
-			break; // toggle play/pause
-		default:
-			return;
-		}
-	}
 
 	// Adjust the game parameters to match the selected input options
 	function _setGameParameters() {
 		log.d("<->main._setGameParameters");
 
 		var mode1 = document.getElementById("mode1");
-		game.mode1On = mode1.checked;
+		game.keyboardControlOn = mode1.checked;
 		var mode2 = document.getElementById("mode2");
-		game.mode2On = mode2.checked;
+		game.completingSquaresOn = mode2.checked;
 		var mode3 = document.getElementById("mode3");
-		game.mode3On = mode3.checked;
+		game.canFallPastCenterOn = mode3.checked;
 		var mode4 = document.getElementById("mode4");
-		game.mode4On = mode4.checked;
+		game.canChangeFallDirectionOn = mode4.checked;
 		var mode5 = document.getElementById("mode5");
-		game.mode5On = mode5.checked;
+		game.switchQuadrantsWithFallDirectionOn = mode5.checked;
 		var mode6 = document.getElementById("mode6");
-		game.mode6On = mode6.checked;
+		game.collapseCausesSettlingOn = mode6.checked;
 		var mode7 = document.getElementById("mode7");
-		game.mode7On = mode7.checked;
+		game.bombsOn = mode7.checked;
 		var gameWindowSizeElem = document.getElementById("gameWindowSize");
 		var gameWindowSize = parseInt(gameWindowSizeElem.options[gameWindowSizeElem.selectedIndex].value, 10);
 		gameWindow.setGameWindowCellSize(gameWindowSize);
@@ -309,8 +243,14 @@
 		var squaresCollapsedData = document.getElementById("squaresCollapsedData");
 		squaresCollapsedData.innerHTML = game.getSquaresCollapsed();
 
-		var bonusesUsedData = document.getElementById("bonusesUsedData");
-		bonusesUsedData.innerHTML = game.getBonusesUsed();
+		var blocksHandledData = document.getElementById("blocksHandledData");
+		blocksHandledData.innerHTML = game.getBlocksHandled();
+
+		var collapseBombsUsedData = document.getElementById("collapseBombsUsedData");
+		collapseBombsUsedData.innerHTML = game.getCollapseBombsUsed();
+
+		var settleBombsUsedData = document.getElementById("settleBombsUsedData");
+		settleBombsUsedData.innerHTML = game.getSettleBombsUsed();
 	}
 
 	function _setupDOMForJavascript() {
@@ -338,6 +278,109 @@
 		// TODO: switch divs; animate
 	}
 
+	function _onKeyDown(event) {
+        var keyCode = event.keyCode;
+		var key = utils.translateKeyCode(keyCode);
+
+		var gameControl;
+
+		switch(key) {
+		case "UP":
+			gameControl = input.UP
+			break;
+		case "RIGHT":
+			gameControl = input.RIGHT
+			break;
+		case "DOWN":
+			gameControl = input.DOWN
+			break;
+		case "LEFT":
+			gameControl = input.LEFT
+			break;
+		case "X":
+			gameControl = input.ROTATE
+			break;
+		case "Z":
+			gameControl = input.SWITCH_BLOCKS
+			break;
+		case "S":
+			gameControl = input.COLLAPSE_BOMB
+			break;
+		case "A":
+			gameControl = input.SETTLE_BOMB
+			break;
+		default:
+			break;
+		}
+
+		if (gameControl) {
+			input.onKeyboardControlOn(gameControl);
+		}
+	}
+
+	function _onKeyUp(event) {
+        var keyCode = event.keyCode;
+		var key = utils.translateKeyCode(keyCode);
+
+		var gameControl;
+
+		switch(key) {
+		case "ESCAPE": // pause only
+			_pauseGame();
+			break;
+
+		case "UP":
+			gameControl = input.UP
+			break;
+		case "RIGHT":
+			gameControl = input.RIGHT
+			break;
+		case "DOWN":
+			gameControl = input.DOWN
+			break;
+		case "LEFT":
+			gameControl = input.LEFT
+			break;
+		case "X":
+			gameControl = input.ROTATE
+			break;
+		case "Z":
+			gameControl = input.SWITCH_BLOCKS
+			break;
+		case "S":
+			gameControl = input.COLLAPSE_BOMB
+			break;
+		case "A":
+			gameControl = input.SETTLE_BOMB
+			break;
+		default:
+			break;
+		}
+
+		if (gameControl) {
+			input.onKeyboardControlOff(gameControl);
+		}
+	}
+
+	function _onKeyPress(event) {
+        var keyCode = event.keyCode;
+		var key = utils.translateKeyCode(keyCode);
+
+		switch(key) {
+		case "ENTER": // play only
+			_playGame();
+			break;
+		case "SPACE": // toggle play/pause
+			_onPauseEvent(event);
+			event.preventDefault();
+			break;
+		default:
+			return;
+		}
+
+		input.onKeyboardControlOn(gameControl);
+	}
+
 	function _onMouseDown(event) {
 		event = utils.standardizeMouseEvent(event);
 
@@ -356,7 +399,7 @@
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			input.startGesture(gameWindowPos, currentTime);
+			input.startMouseGesture(gameWindowPos, currentTime);
 		}
 
 		// It ruins gameplay for the browser to use the mouse drag as a 
@@ -381,7 +424,7 @@
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			input.finishGesture(gameWindowPos, currentTime);
+			input.finishMouseGesture(gameWindowPos, currentTime);
 		}
 	}
 
@@ -400,7 +443,7 @@
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
 			};
 
-			input.dragGesture(gameWindowPos);
+			input.dragMouseGesture(gameWindowPos);
 		}
 	}
 
@@ -411,7 +454,7 @@
 		// if (!inElement || inElement.nodeName == "HTML") {
 			// _gestureInProgress = false;
 
-			// input.cancelGesture();
+			// input.cancelMouseGesture();
 		// }
 	}
 
@@ -422,6 +465,24 @@
 			Logger.prototype.getConsole().style.display = "block";
 		} else {
 			Logger.prototype.getConsole().style.display = "none";
+		}
+	}
+
+	function _toggleKeyboardControlOn(event) {
+		var keyboardControlOnElem = document.getElementById("mode1");
+
+		game.keyboardControlOn = keyboardControlOnElem.checked;
+
+		if (!game.keyboardControlOn) {
+			input.selectedKeyboardBlock = null;
+		}
+
+		var keyboardDirectionElems = document.getElementsByClassName("keyboardDirection");
+		var displayStyle = game.keyboardControlOn ? "block" : "none";
+		var i;
+
+		for (i = 0; i < keyboardDirectionElems.length; ++i) {
+			keyboardDirectionElems[i].style.display = displayStyle;
 		}
 	}
 

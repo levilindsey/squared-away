@@ -25,13 +25,13 @@
 	// ----------------------------------------------------------------- //
 	// -- Private members
 
-	var _NORMAL_STROKE_WIDTH = 1; // in pixels
+	var _NORMAL_STROKE_WIDTH = 2; // in pixels
 
 	var _NORMAL_STROKE_COLOR = "#5a5a5a";
 	var _NORMAL_FILL_COLOR = "#141414";
 
-	var _INVALID_MOVE_FILL_COLOR = "rgba(255,150,150,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,150,150,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_FILL_COLOR = "rgba(255,200,200,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,200,200,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
 	var _VALID_MOVE_FILL_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
@@ -53,6 +53,7 @@
 
 		var i;
 		var layersWereCollapsed = false;
+		var block;
 
 		// There is a small collapse delay between the time when a layer 
 		// is completed and when it is collapsed.  However, if there are 
@@ -63,7 +64,7 @@
 		if (_ellapsedCollapseTime >= _layerCollapseDelay) {
 			// Sort the completed layers by descending layer number
 			_layersToCollapse.sort(function(a, b) {
-				if (game.mode2On) {
+				if (game.completingSquaresOn) {
 					return b - a;
 				} else {
 					return b.layer - a.layer;
@@ -93,31 +94,50 @@
 
 		// Update the blocks
 		for (i = 0; i < gameWindow.blocksOnGameWindow.length; ++i) {
-			gameWindow.blocksOnGameWindow[i].update(deltaTime, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+			block = gameWindow.blocksOnGameWindow[i];
+
+			gameWindow.block.update(deltaTime, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 
 			// If the block has reached the edge of the game area and is 
 			// trying to fall out, then the game is over and the player 
 			// has lost
-			if (gameWindow.blocksOnGameWindow[i].getHasCollidedWithEdgeOfArea()) {
+			if (gameWindow.block.getHasCollidedWithEdgeOfArea()) {
 				game.endGame();
 				return;
 			}
 
 			// Check whether the block has reached a stationary square and 
 			// can no longer fall
-			if (gameWindow.blocksOnGameWindow[i].getHasCollidedWithSquare()) {
+			if (gameWindow.block.getHasCollidedWithSquare()) {
 				// Add it's squares to the game area and delete the block 
 				// object
-				var newCellPositions = gameWindow.blocksOnGameWindow[i].addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
+				var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
 				gameWindow.blocksOnGameWindow.splice(i, 1);
 
-				// Check whether this landed block causes the collapse of any layers
-				var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
+				// If the player is still selecting it, then un-select it
+				if (input.selectedMouseBlock === block) {
+					input.selectedMouseBlock = null;
+				}
+				if (input.selectedKeyboardBlock === block) {
+					// Check whether there currently are any other blocks to 
+					// select automatically
+					if (gameWindow.blocksOnGameWindow.length > 0) {
+						input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+					} else {
+						input.selectedKeyboardBlock = null;
+					}
+				}
 
 				// Check whether this was the last active block
 				if (gameWindow.blocksOnGameWindow.length === 0) {
-					game.forceNextBlock();
+					block = game.forceNextBlock();
+					if (input.onKeyboardControlOn) {
+						input.selectedKeyboardBlock = block;
+					}
 				}
+
+				// Check whether this landed block causes the collapse of any layers
+				var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
 
 				if (layersWereCompleted) {
 					sound.playSFX("collapse");
@@ -130,8 +150,8 @@
 			// In case the selected block falls without the player 
 			// spawning any drag events, the gesture type and phantom 
 			// shapes need to be updated
-			if (gameWindow.blocksOnGameWindow[i] === input.selectedBlock) {
-				input.dragGesture();
+			if (gameWindow.block === input.selectedMouseBlock) {
+				input.dragMouseGesture();
 			}
 		}
 	}
@@ -182,7 +202,8 @@
 		}
 
 		// Check whether the player is currently a selecting a block
-		if (input.selectedBlock && input.phantomBlock) {
+		var selectedBlock = input.selectedMouseBlock || input.selectedKeyboardBlock;
+		if (selectedBlock && input.phantomBlock) {
 			// Check whether the phantom block is in a valid location
 			if (input.isPhantomBlockValid) {
 				// Draw the phantom guide lines
@@ -190,14 +211,14 @@
 
 				if (input.isGestureDirectionChange()) {
 					// Draw an arc arrow from the selected block's current position to where it would be moving
-					_drawArcArrow(context, input.selectedBlock, input.phantomBlock, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+					_drawArcArrow(context, selectedBlock, input.phantomBlock, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 				}
 
 				// Draw the enlarged, phantom, overlay block
 				_drawPolygon(context, input.phantomBlockPolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
 			} else {
 				// Draw an arc arrow from the selected block's current position to where it would be moving
-				_drawArcArrow(context, input.selectedBlock, input.phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+				_drawArcArrow(context, selectedBlock, input.phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 
 				// Draw a polygon at the invalid location where the selected block would be moving
 				_drawPolygon(context, input.phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
@@ -257,7 +278,7 @@
 		var endI;
 		var maxLayer;
 
-		if (game.mode2On) { // Collapsing whole squares
+		if (game.completingSquaresOn) { // Collapsing whole squares
 			// Check whether we have a limited number of potential layers 
 			// to check
 			if (newCellPositions) {
@@ -286,7 +307,7 @@
 			}
 
 			// Check each of the layers
-			mode2Onlayerloop:
+			completingSquaresOnlayerloop:
 			for (j = 0; j < layersToCheck.length; ++j) {
 				layer = layersToCheck[j];
 
@@ -299,7 +320,7 @@
 				endI = (startY * gameWindow.gameWindowCellSize) + endX;
 				for (i = startI; i < endI; i += deltaI) {
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
-						continue mode2Onlayerloop;
+						continue completingSquaresOnlayerloop;
 					}
 				}
 
@@ -312,7 +333,7 @@
 				endI = (endY * gameWindow.gameWindowCellSize) + startX;
 				for (i = startI; i < endI; i += deltaI) {
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
-						continue mode2Onlayerloop;
+						continue completingSquaresOnlayerloop;
 					}
 				}
 
@@ -325,7 +346,7 @@
 				endI = (startY * gameWindow.gameWindowCellSize) + endX;
 				for (i = startI; i < endI; i += deltaI) {
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
-						continue mode2Onlayerloop;
+						continue completingSquaresOnlayerloop;
 					}
 				}
 
@@ -338,7 +359,7 @@
 				endI = (endY * gameWindow.gameWindowCellSize) + startX;
 				for (i = startI; i < endI; i += deltaI) {
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
-						continue mode2Onlayerloop;
+						continue completingSquaresOnlayerloop;
 					}
 				}
 
@@ -556,7 +577,7 @@
 		var deltaI;
 		var squaresCollapsedCount;
 
-		if (game.mode2On) { // Collapsing whole squares
+		if (game.completingSquaresOn) { // Collapsing whole squares
 			var startX;
 			var startY;
 			var startI;
@@ -657,7 +678,7 @@
 		var updateEndCellDeltaI;
 		var currentLayer;
 
-		if (game.mode2On) { // Collapsing whole squares
+		if (game.completingSquaresOn) { // Collapsing whole squares
 			var startX;
 			var startY;
 			var startI;
@@ -841,7 +862,7 @@
 			}
 		}
 
-		if (game.mode6On) {
+		if (game.collapseCausesSettlingOn) {
 			_settleHigherLayers(collapsedLayer);
 		}
 	}

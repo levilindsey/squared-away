@@ -34,7 +34,7 @@
 
 	var _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD = 800; // millis
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 50000; // in millis
-	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.25; // linear // TODO: test/tweak this
+	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.21; // linear // TODO: test/tweak this
 
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
 	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.45; // linear // TODO: test/tweak this
@@ -54,7 +54,7 @@
 
 	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
 
-	var _POINTS_FOR_BONUS = 4000; // TODO: test/tweak this
+	var _POINTS_FOR_BONUS = 2500; // TODO: test/tweak this
 
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -91,7 +91,9 @@
 	var _gameTime = 0; // active (unpaused) time since start of game
 	var _layersCollapsedCount = 0;
 	var _squaresCollapsedCount = 0;
-	var _bonusesUsedCount = 0;
+	var _collapseBombsUsedCount = 0;
+	var _settleBombsUsedCount = 0;
+	var _blocksHandledCount = 0;
 
 	var _currentBlockFallSpeed = _INITIAL_BLOCK_FALL_SPEED; // squares per millis
 	var _currentCenterSquareColorPeriod = _INITIAL_CENTER_SQUARE_COLOR_PERIOD; // millis per color
@@ -134,6 +136,8 @@
 		_gameTime += deltaTime;
 
 		var i;
+
+		input.update(deltaTime);
 
 		gameWindow.update(deltaTime);
 
@@ -185,7 +189,9 @@
 
 		_layersCollapsedCount = 0;
 		_squaresCollapsedCount = 0;
-		_bonusesUsedCount = 0;
+		_collapseBombsUsedCount = 0;
+		_settleBombsUsedCount = 0;
+		_blocksHandledCount = 0;
 
 		var deltaCoolDown = _currentPreviewWindowCoolDownTime / 4;
 
@@ -238,7 +244,7 @@
 		// Get how many layers need to be collapsed to progress to the 
 		// next level
 		_layerCountForNextLevel = utils.getLinGrowthValue(
-				game.mode2On ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
+				game.completingSquaresOn ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
 				_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
 				_level);
 		_layersCollapsedSinceLastLevel = 0;
@@ -329,7 +335,7 @@
 		// blocks in the current layer collapse
 		var score = utils.getExpGrowthValue(
 				_BASE_SCORE_PER_SQUARE, 
-				game.mode2On ? _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED : _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED / 4, 
+				game.completingSquaresOn ? _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED : _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED / 4, 
 				squaresCollapsedCount) * squaresCollapsedCount;
 
 		// Give a large exponential score increase if the previous layer 
@@ -339,7 +345,7 @@
 		_prevCollapseTime = currentCollapseTime;
 		score = utils.getExpGrowthValue(
 				score, 
-				game.mode2On ? _SCORE_GROWTH_RATE_PER_RECENT_LAYER : _SCORE_GROWTH_RATE_PER_RECENT_LAYER / 4, 
+				game.completingSquaresOn ? _SCORE_GROWTH_RATE_PER_RECENT_LAYER : _SCORE_GROWTH_RATE_PER_RECENT_LAYER / 4, 
 				_recentCollapsesCount);
 
 		_score += Math.floor(score);
@@ -377,6 +383,11 @@
 
 		gameWindow.blocksOnGameWindow.push(block);
 		previewWindow.startNewBlock();
+		++_blocksHandledCount;
+
+		if (game.keyboardControlOn && input.selectedKeyboardBlock === null) {
+			input.selectedKeyboardBlock = block;
+		}
 
 		sound.playSFX("newBlock");
 	}
@@ -399,6 +410,40 @@
 		_setupNextBlock(nextPreviewWindow);
 	}
 
+	function _primeCollapseBomb() {
+		// TODO: ****
+		//		- highlight and enlarge the first preview window, and overlay a phantom image of a single block in its center
+		//		- add code to catch the mouse clicks and directional button presses in order to first select other preview windows, and then to release the bomb
+		//		- in the event of keyboard input, highlight only the one selected window
+		//		- in the event of mouse input, highlight ALL preview windows
+		game.isCollapseBombPrimed = true;
+	}
+
+	function _primeSettleBomb() {
+		// TODO: ****
+		//		- highlight the collapse bomb area (which will be on the bottom left)
+		//		- add code to catch the mouse clicks and directional button presses in order to release the bomb
+		game.isSettleBombPrimed = true;
+	}
+
+	function _releaseCollapseBomb() {
+		// TODO: ****
+		//		- replace the block in the currently selected preview window with a new, single-block collapse bomb
+		//		- in addition, set it to have a really short cooldown time (the same as the initial top preview window)
+		//		- in fact, lets make all single-square blocks be collapse bombs, which means:
+		//			- re-set all block square-size parameter ranges to start at 2, not 1
+		//			- whenever deciding on a new block type, give a random chance of picking a collapse bomb; to do so, simply roll a random die before doing the rest of the start-new-block function
+		//			- but give these random bombs the normal cooldown time
+	}
+
+	function _releaseSettleBomb() {
+		// TODO: ****
+		//		- animate the center square so that it vibrates and bounces around briefly
+		//		- settle ALL blocks on the map
+		//		- I will need to figure out how to determine which direction(s) to settle blocks that are in the diagonal areas
+		
+	}
+
 	function _getScore() {
 		return _score;
 	}
@@ -419,8 +464,16 @@
 		return _squaresCollapsedCount;
 	}
 
-	function _getBonusesUsed() {
-		return _bonusesUsedCount;
+	function _getBlocksHandled() {
+		return _blocksHandledCount;
+	}
+
+	function _getCollapseBombsUsed() {
+		return _collapseBombsUsedCount;
+	}
+
+	function _getSettleBombsUsed() {
+		return _settleBombsUsedCount;
 	}
 
 	function _setDOMElements(canvas, levelDisplay, scoreDisplay, onGameEnd) {
@@ -450,7 +503,9 @@
 		getTime: _getTime,
 		getLayersCollapsed: _getLayersCollapsed,
 		getSquaresCollapsed: _getSquaresCollapsed,
-		getBonusesUsed: _getBonusesUsed,
+		getBlocksHandled: _getBlocksHandled,
+		getCollapseBombsUsed: _getCollapseBombsUsed,
+		getSettleBombsUsed: _getSettleBombsUsed,
 
 		addCollapseToScore: _addCollapseToScore,
 
@@ -458,15 +513,28 @@
 
 		forceNextBlock: _forceNextBlock,
 
+		primeCollapseBomb: _primeCollapseBomb,
+		primeSettleBomb: _primeSettleBomb,
+		releaseCollapseBomb: _releaseCollapseBomb,
+		releaseSettleBomb: _releaseSettleBomb,
+
+		isCollapseBombPrimed: false,
+		isSettleBombPrimed: false,
+
 		isPaused: true,
 		isEnded: true,
-		mode1On: false,
-		mode2On: true,
-		mode3On: true,
-		mode4On: false,
-		mode5On: false,
-		mode6On: false,
-		mode7On: false,
+
+		musicOn: true,
+		sfxOn: true,
+
+		keyboardControlOn: false,
+		completingSquaresOn: true,
+		canFallPastCenterOn: true,
+		canChangeFallDirectionOn: false,
+		switchQuadrantsWithFallDirectionOn: false,
+		collapseCausesSettlingOn: false,
+		bombsOn: false,
+
 		startingLevel: 1,
 		numberOfSquaresInABlock: 7,
 
