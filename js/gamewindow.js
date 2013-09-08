@@ -96,19 +96,19 @@
 		for (i = 0; i < gameWindow.blocksOnGameWindow.length; ++i) {
 			block = gameWindow.blocksOnGameWindow[i];
 
-			gameWindow.block.update(deltaTime, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
+			block.update(deltaTime, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 
 			// If the block has reached the edge of the game area and is 
 			// trying to fall out, then the game is over and the player 
 			// has lost
-			if (gameWindow.block.getHasCollidedWithEdgeOfArea()) {
+			if (block.getHasCollidedWithEdgeOfArea()) {
 				game.endGame();
 				return;
 			}
 
 			// Check whether the block has reached a stationary square and 
 			// can no longer fall
-			if (gameWindow.block.getHasCollidedWithSquare()) {
+			if (block.getHasCollidedWithSquare()) {
 				// Add it's squares to the game area and delete the block 
 				// object
 				var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
@@ -131,9 +131,6 @@
 				// Check whether this was the last active block
 				if (gameWindow.blocksOnGameWindow.length === 0) {
 					block = game.forceNextBlock();
-					if (input.onKeyboardControlOn) {
-						input.selectedKeyboardBlock = block;
-					}
 				}
 
 				// Check whether this landed block causes the collapse of any layers
@@ -150,7 +147,7 @@
 			// In case the selected block falls without the player 
 			// spawning any drag events, the gesture type and phantom 
 			// shapes need to be updated
-			if (gameWindow.block === input.selectedMouseBlock) {
+			if (block === input.selectedMouseBlock) {
 				input.dragMouseGesture();
 			}
 		}
@@ -911,6 +908,10 @@
 		gameWindow.blocksOnGameWindow = [];
 		gameWindow.squaresOnGameWindow = utils.initializeArray(
 								gameWindow.gameWindowCellSize * gameWindow.gameWindowCellSize, -1);
+
+		_layersToCollapse = [];
+
+		_currentBackgroundColorIndex = 0;
 	}
 
 	function _setLayerCollapseDelay(layerCollapseDelay) {

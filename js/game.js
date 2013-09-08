@@ -184,6 +184,7 @@
 		_prevTime = 0;
 
 		gameWindow.reset();
+		input.reset();
 
 		_setLevel(game.startingLevel);
 
@@ -385,7 +386,7 @@
 		previewWindow.startNewBlock();
 		++_blocksHandledCount;
 
-		if (game.keyboardControlOn && input.selectedKeyboardBlock === null) {
+		if (game.keyboardControlOn && !input.selectedKeyboardBlock) {
 			input.selectedKeyboardBlock = block;
 		}
 

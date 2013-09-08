@@ -84,6 +84,9 @@
 		var sfxOffButton = document.getElementById("sfxOffButton");
 		sfxOffButton.addEventListener("click", sound.toggleAudio, false);
 
+		_toggleKeyboardControlOn();
+		_toggleConsole();
+
 		// ---------- Set up the song checkboxes ---------- //
 
 		var musicManifest = sound.getMusicManifest();
@@ -282,38 +285,40 @@
         var keyCode = event.keyCode;
 		var key = utils.translateKeyCode(keyCode);
 
-		var gameControl;
+		var gameControl = -1;
 
 		switch(key) {
 		case "UP":
-			gameControl = input.UP
+			gameControl = input.UP;
+			event.preventDefault();
 			break;
 		case "RIGHT":
-			gameControl = input.RIGHT
+			gameControl = input.RIGHT;
 			break;
 		case "DOWN":
-			gameControl = input.DOWN
+			gameControl = input.DOWN;
+			event.preventDefault();
 			break;
 		case "LEFT":
-			gameControl = input.LEFT
+			gameControl = input.LEFT;
 			break;
 		case "X":
-			gameControl = input.ROTATE
+			gameControl = input.ROTATE;
 			break;
 		case "Z":
-			gameControl = input.SWITCH_BLOCKS
+			gameControl = input.SWITCH_BLOCKS;
 			break;
 		case "S":
-			gameControl = input.COLLAPSE_BOMB
+			gameControl = input.COLLAPSE_BOMB;
 			break;
 		case "A":
-			gameControl = input.SETTLE_BOMB
+			gameControl = input.SETTLE_BOMB;
 			break;
 		default:
 			break;
 		}
 
-		if (gameControl) {
+		if (gameControl >= 0) {
 			input.onKeyboardControlOn(gameControl);
 		}
 	}
@@ -322,7 +327,7 @@
         var keyCode = event.keyCode;
 		var key = utils.translateKeyCode(keyCode);
 
-		var gameControl;
+		var gameControl = -1;
 
 		switch(key) {
 		case "ESCAPE": // pause only
@@ -330,34 +335,34 @@
 			break;
 
 		case "UP":
-			gameControl = input.UP
+			gameControl = input.UP;
 			break;
 		case "RIGHT":
-			gameControl = input.RIGHT
+			gameControl = input.RIGHT;
 			break;
 		case "DOWN":
-			gameControl = input.DOWN
+			gameControl = input.DOWN;
 			break;
 		case "LEFT":
-			gameControl = input.LEFT
+			gameControl = input.LEFT;
 			break;
 		case "X":
-			gameControl = input.ROTATE
+			gameControl = input.ROTATE;
 			break;
 		case "Z":
-			gameControl = input.SWITCH_BLOCKS
+			gameControl = input.SWITCH_BLOCKS;
 			break;
 		case "S":
-			gameControl = input.COLLAPSE_BOMB
+			gameControl = input.COLLAPSE_BOMB;
 			break;
 		case "A":
-			gameControl = input.SETTLE_BOMB
+			gameControl = input.SETTLE_BOMB;
 			break;
 		default:
 			break;
 		}
 
-		if (gameControl) {
+		if (gameControl >= 0) {
 			input.onKeyboardControlOff(gameControl);
 		}
 	}
@@ -458,7 +463,7 @@
 		// }
 	}
 
-	function _toggleConsole(event) {
+	function _toggleConsole() {
 		var showConsole = document.getElementById("showConsole");
 
 		if (showConsole.checked) {
@@ -468,7 +473,7 @@
 		}
 	}
 
-	function _toggleKeyboardControlOn(event) {
+	function _toggleKeyboardControlOn() {
 		var keyboardControlOnElem = document.getElementById("mode1");
 
 		game.keyboardControlOn = keyboardControlOnElem.checked;

@@ -38,7 +38,7 @@
 
 	var _PHANTOM_BLOCK_SIZE_RATIO = 1.2;
 
-	var _KEYBOARD_BLOCK_MOVE_PERIOD = 250; // millis / cell
+	var _KEYBOARD_BLOCK_MOVE_PERIOD = 75; // millis / cell
 
 	var _gestureStartTime = 0;
 	var _gestureStartPos = { x: 0, y: 0 };
@@ -52,7 +52,9 @@
 	var _keyboardGesturePos = { x: 0, y: 0 };
 	var _keyboardControl = -1;
 
-	var _prevKeyboardGestureType = _NONE;
+	var _prevKeyboardDownGestureType = _NONE;
+	var _prevUpdateKeyboardGestureType = _NONE;
+
 	var _selectedKeyboardBlockCellPos = { x: 0, y: 0};
 
 	var _timeSinceLastMove = 0;
@@ -60,11 +62,11 @@
 	function _update(deltaTime) {
 		_timeSinceLastMove += deltaTime;
 
-		if (game.keyboardControlOn && input.selectedKeyboardBlock && _keyboardGestureType !== _NONE) {
-			var blockCellPos = selectedBlock.getCellPosition();
+		if (game.keyboardControlOn && input.selectedKeyboardBlock) {
+			var blockCellPos = input.selectedKeyboardBlock.getCellPosition();
 
 			// Check whether this block needs to move one space
-			if (_timeSinceLastMove > _KEYBOARD_BLOCK_MOVE_PERIOD) {
+			if (_timeSinceLastMove > _KEYBOARD_BLOCK_MOVE_PERIOD && _keyboardGestureType !== _NONE) {
 				var fallDirection = input.selectedKeyboardBlock.getFallDirection();
 				var farthestCellAvailable;
 				var gesturePos;
@@ -74,14 +76,14 @@
 					switch (fallDirection) {
 					case Block.prototype.DOWNWARD:
 						if (_keyboardControl === input.LEFT) {
-							farthestCellAvailable = selectedBlock.getFarthestLeftwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestLeftCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.x > farthestCellAvailable.x;
 							if (ableToMove) {
 								gesturePos = { x: blockCellPos.x - 1, y: blockCellPos.y };
 							}
 						} else { // _keyboardControl === input.RIGHT
-							farthestCellAvailable = selectedBlock.getFarthestRightwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestRightCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.x < farthestCellAvailable.x;
 							if (ableToMove) {
@@ -91,14 +93,14 @@
 						break;
 					case Block.prototype.LEFTWARD:
 						if (_keyboardControl === input.UP) {
-							farthestCellAvailable = selectedBlock.getFarthestLeftwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestLeftCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.y > farthestCellAvailable.y;
 							if (ableToMove) {
 								gesturePos = { x: blockCellPos.x, y: blockCellPos.y - 1 };
 							}
 						} else { // _keyboardControl === input.DOWN
-							farthestCellAvailable = selectedBlock.getFarthestRightwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestRightCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.y < farthestCellAvailable.y;
 							if (ableToMove) {
@@ -108,14 +110,14 @@
 						break;
 					case Block.prototype.UPWARD:
 						if (_keyboardControl === input.RIGHT) {
-							farthestCellAvailable = selectedBlock.getFarthestLeftwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestLeftCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.x < farthestCellAvailable.x;
 							if (ableToMove) {
 								gesturePos = { x: blockCellPos.x + 1, y: blockCellPos.y };
 							}
 						} else { // _keyboardControl === input.LEFT
-							farthestCellAvailable = selectedBlock.getFarthestRightwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestRightCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.x > farthestCellAvailable.x;
 							if (ableToMove) {
@@ -125,14 +127,14 @@
 						break;
 					case Block.prototype.RIGHTWARD:
 						if (_keyboardControl === input.DOWN) {
-							farthestCellAvailable = selectedBlock.getFarthestLeftwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestLeftCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.y < farthestCellAvailable.y;
 							if (ableToMove) {
 								gesturePos = { x: blockCellPos.x, y: blockCellPos.y + 1 };
 							}
 						} else { // _keyboardControl === input.UP
-							farthestCellAvailable = selectedBlock.getFarthestRightwardCellAvailable(
+							farthestCellAvailable = input.selectedKeyboardBlock.getFarthestRightCellAvailable(
 									gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 							ableToMove = blockCellPos.y > farthestCellAvailable.y;
 							if (ableToMove) {
@@ -145,12 +147,12 @@
 					}
 
 					if (ableToMove) {
-						_applyKeyboardGesture(gesturePos);
+						_applyKeyboardGesture(_keyboardGestureType, gesturePos);
 					} else {
 						sound.playSFX("unableToMove");
 					}
 				} else if (_keyboardGestureType === _DROP) {
-					farthestCellAvailable = selectedBlock.getFarthestDownwardCellAvailable(
+					farthestCellAvailable = input.selectedKeyboardBlock.getFarthestDownwardCellAvailable(
 							gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 
 					switch (fallDirection) {
@@ -183,7 +185,7 @@
 					}
 
 					if (ableToMove) {
-						_applyKeyboardGesture(gesturePos);
+						_applyKeyboardGesture(_keyboardGestureType, gesturePos);
 					} else {
 						sound.playSFX("unableToMove");
 					}
@@ -195,14 +197,14 @@
 			// Check whether we need to re-compute the phantom block/guideline 
 			// dimensions
 			if (_selectedKeyboardBlockCellPos !== blockCellPos || 
-					(_keyboardGestureType !== _NONE && 
-					_keyboardGestureType !== _prevKeyboardGestureType)) {
-				_prevKeyboardGestureType = _keyboardGestureType;
-				_selectedKeyboardBlockCellPos = blockCellPos;
+					(_prevUpdateKeyboardGestureType !== _keyboardGestureType)) {
+				_prevUpdateKeyboardGestureType = _keyboardGestureType;
+				_selectedKeyboardBlockCellPos = { x: blockCellPos.x, y: blockCellPos.y };
 
 				// Check whether we need to position the the phantom block/
 				// guideline for a potential direction change
-				if (_keyboardGestureType === _DIRECTION_CHANGE) {
+				if (_keyboardGestureType === _DIRECTION_CHANGE || 
+						_prevKeyboardDownGestureType === _DIRECTION_CHANGE) {
 					var blockType = input.selectedKeyboardBlock.getType();
 					var orientation = input.selectedKeyboardBlock.getOrientation();
 					var phantomBlockPos = _selectedKeyboardBlockCellPos;
@@ -213,7 +215,7 @@
 								blockType, orientation, gameWindow.gameWindowCellSize);
 					}
 
-					input.phantomBlock = _computePhantomBlock(_keyboardGestureType, phantomBlockPos, input.selectedKeyboardBlock);
+					input.phantomBlock = _computePhantomBlock(_DIRECTION_CHANGE, phantomBlockPos, input.selectedKeyboardBlock);
 
 					input.isPhantomBlockValid = _computeIsPhantomBlockValid(input.phantomBlock, gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow);
 				} else {
@@ -232,7 +234,7 @@
 		}
 	}
 
-	function _applyKeyboardGesture(gesturePos) {
+	function _applyKeyboardGesture(gestureType, gesturePos) {
 		log.i("<->input._applyKeyboardGesture");
 
 		if (gesturePos) {
@@ -242,7 +244,7 @@
 			_keyboardGesturePos.y = -1;
 		}
 
-		_applyGesture(_keyboardGestureType, _keyboardGesturePos);
+		_applyGesture(input.selectedKeyboardBlock, gestureType, _keyboardGesturePos);
 	}
 
 	function _applyGesture(selectedBlock, gestureType, gesturePos) {
@@ -355,7 +357,7 @@
 
 			log.i("---input._finishMouseGesture: " + logMsg);
 
-			_applyGesture(_mouseGestureType, _mouseGestureCellPos);
+			_applyGesture(input.selectedMouseBlock, _mouseGestureType, _mouseGestureCellPos);
 		} else {
 			log.i("---input._finishMouseGesture: <no selected block>" + logMsg);
 		}
@@ -862,17 +864,45 @@
 		return _mouseGestureType === _DIRECTION_CHANGE;
 	}
 
+	function _switchSelectedKeyboardBlock() {
+		if (gameWindow.blocksOnGameWindow.length > 0) {
+			if (gameWindow.blocksOnGameWindow.length > 1) {
+				var index = gameWindow.blocksOnGameWindow.indexOf(input.selectedKeyboardBlock);
+				if (index >= 0) {
+					input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[(index + 1) % gameWindow.blocksOnGameWindow.length];
+				} else {
+					input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+				}
+
+				sound.playSFX("blockSelect");
+			} else {
+				input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+			}
+		}
+	}
+
 	function _onKeyboardControlOn(keyboardControl) {
 		if (game.keyboardControlOn) {
 			var gestureType = _getGestureFromKeyboardControl(keyboardControl);
 
-			if (gestureType === _DIRECTION_CHANGE && 
-					_keyboardGestureType === _DIRECTION_CHANGE) {
-				_applyKeyboardGesture();
-				_keyboardGestureType = _NONE;
-				return;
-			} else if (gestureType === _ROTATION) {
-				_applyKeyboardGesture();
+			if (gestureType === _DIRECTION_CHANGE) {
+				if (_prevKeyboardDownGestureType === _DIRECTION_CHANGE) {
+					_applyKeyboardGesture(gestureType);
+					_prevKeyboardDownGestureType = _NONE;
+					// As soon as we switch fall directions, this gesture key 
+					// has a different meaning
+					gestureType = _NONE;
+				} else {
+					_prevKeyboardDownGestureType = _DIRECTION_CHANGE;
+				}
+			} else {
+				_prevKeyboardDownGestureType = gestureType;
+			}
+
+			if (gestureType === _ROTATION) {
+				_applyKeyboardGesture(gestureType);
+			} else if (keyboardControl === input.SWITCH_BLOCKS) {
+				_switchSelectedKeyboardBlock();
 			} else if (keyboardControl === input.COLLAPSE_BOMB) {
 				if (game.isCollapseBombPrimed) {
 					game.releaseCollapseBomb();
@@ -910,13 +940,13 @@
 	function _getGestureFromKeyboardControl(keyboardControl) {
 		var gesture;
 
-		if (input.selectedMouseBlock) {
+		if (input.selectedKeyboardBlock) {
 			switch (keyboardControl) {
 			case input.NONE:
 				gesture = _NONE;
 				break;
 			case input.UP:
-				switch (input.selectedMouseBlock.getFallDirection()) {
+				switch (input.selectedKeyboardBlock.getFallDirection()) {
 				case Block.prototype.DOWNWARD:
 					gesture = _DIRECTION_CHANGE;
 					break;
@@ -934,7 +964,7 @@
 				}
 				break;
 			case input.RIGHT:
-				switch (input.selectedMouseBlock.getFallDirection()) {
+				switch (input.selectedKeyboardBlock.getFallDirection()) {
 				case Block.prototype.DOWNWARD:
 					gesture = _SIDEWAYS_MOVE;
 					break;
@@ -952,7 +982,7 @@
 				}
 				break;
 			case input.DOWN:
-				switch (input.selectedMouseBlock.getFallDirection()) {
+				switch (input.selectedKeyboardBlock.getFallDirection()) {
 				case Block.prototype.DOWNWARD:
 					gesture = _DROP;
 					break;
@@ -970,7 +1000,7 @@
 				}
 				break;
 			case input.LEFT:
-				switch (input.selectedMouseBlock.getFallDirection()) {
+				switch (input.selectedKeyboardBlock.getFallDirection()) {
 				case Block.prototype.DOWNWARD:
 					gesture = _SIDEWAYS_MOVE;
 					break;
@@ -1009,9 +1039,37 @@
 		return gesture;
 	}
 
+	function _reset() {
+		input.selectedMouseBlock = null;
+		input.selectedKeyboardBlock = null;
+
+		input.phantomBlock = null;
+		input.phantomBlockPolygon = null;
+		input.isPhantomBlockValid = false;
+		input.phantomGuideLinePolygon = null;
+
+		_gestureStartTime = 0;
+		_gestureStartPos = { x: 0, y: 0 };
+		_gestureCurrentTime = 0;
+		_gestureCurrentPos = { x: 0, y: 0 };
+
+		_mouseGestureType = _NONE;
+		_mouseGestureCellPos = { x: 0, y: 0 };
+
+		_keyboardGestureType = _NONE;
+		_keyboardGesturePos = { x: 0, y: 0 };
+		_keyboardControl = -1;
+
+		_prevKeyboardDownGestureType = _NONE;
+		_selectedKeyboardBlockCellPos = { x: 0, y: 0};
+
+		_timeSinceLastMove = 0;
+	}
+
 	// Make input available to the rest of the program
 	window.input = {
 		update: _update,
+		reset: _reset,
 
 		startMouseGesture: _startMouseGesture,
 		finishMouseGesture: _finishMouseGesture,

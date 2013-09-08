@@ -175,7 +175,7 @@
 			<div id="optionsArea">
 				<h2>Options</h2>
 				<p>
-					<label><input type="checkbox" name="mode1" id="mode1" value="mode1"> Enable keyboard control</label>
+					<label><input type="checkbox" name="mode1" id="mode1" value="mode1" checked> Enable keyboard control</label>
 					<br>
 					<label><input type="checkbox" name="mode2" id="mode2" value="mode2"> Completing squares instead of lines</label>
 					<br>

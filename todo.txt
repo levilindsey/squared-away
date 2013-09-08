@@ -54,6 +54,9 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
+**- can I detect dvorak??
+**- less the amplitude of the "move" sfx
+    - because the sound really builds when using keyboard mode
 ****- RE-LOOK AT ALL OF THE MUSIC PLAYING LOGIC....
     - current issue is that _currSongIndex is -1 when _playCurrentSong happens (becuase I reset it in _startNewRandomSong)
     - and only the one song ever plays
@@ -69,8 +72,10 @@
 - add keyboard control
     - only move one space on key down (no holding)
     - still will want to show the phantom lines, so will need to show them persistently for whichever block is currently selected
-***- ANOTHER mode: blocks fall out rather than falling in
 - DIRECTIONS: swap out the textual descriptions for the input methods for those from a second set when the player toggles the "enable keyboard control" checkbox
+***- ANOTHER mode: blocks fall out rather than falling in
+*<AFTER ADDING BOMBS>- update the direction images to have phantom guidelines
+    - and create the two new images
 - refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?
 
