@@ -297,7 +297,7 @@
 	// given, then check for all layers in the game area.  In the event of 
 	// line-collapse mode, the line layers will be represented by objects 
 	// with the following properties: side, layer, startCell, endCell 
-	// (inclusive).  Return true any layers were found to be complete.
+	// (inclusive).  Return true if any layers were found to be complete.
 	function _checkForCompleteLayers(newCellPositions) {
 		var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
 		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
@@ -464,7 +464,22 @@
 				// We will need to check every layer in the game area
 				maxLayer = (gameWindow.gameWindowCellSize - gameWindow.centerSquareCellSize) / 2;
 				for (layer = 1; layer <= maxLayer; ++layer) {
-					layersToCheck.push(layer);
+					layersToCheck.push({
+						side: Block.prototype.TOP_SIDE,
+						layer: i
+					});
+					layersToCheck.push({
+						side: Block.prototype.LEFT_SIDE,
+						layer: i
+					});
+					layersToCheck.push({
+						side: Block.prototype.BOTTOM_SIDE,
+						layer: i
+					});
+					layersToCheck.push({
+						side: Block.prototype.RIGHT_SIDE,
+						layer: i
+					});
 				}
 			}
 
@@ -761,9 +776,6 @@
 			if (game.layersAlsoSettleInwardsOn) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
 			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
 					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
@@ -782,9 +794,6 @@
 			if (game.layersAlsoSettleInwardsOn) {
 				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
 				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
-			} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-				firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + startX;
-				secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + startX;
 			}
 			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
 					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
@@ -803,9 +812,6 @@
 			if (game.layersAlsoSettleInwardsOn) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
 			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
 					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
@@ -824,9 +830,6 @@
 			if (game.layersAlsoSettleInwardsOn) {
 				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
 				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
-			} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-				firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + startX;
-				secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + startX;
 			}
 			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
 					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
@@ -845,9 +848,6 @@
 			if (game.layersAlsoSettleInwardsOn) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
 			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
 					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
@@ -874,9 +874,6 @@
 				if (game.layersAlsoSettleInwardsOn) {
 					firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
-				} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-					firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
-					secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 				}
 				break;
 			case Block.prototype.RIGHT_SIDE:
@@ -887,9 +884,6 @@
 				if (game.layersAlsoSettleInwardsOn) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX + 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
-				} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-					firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
-					secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
 				}
 				break;
 			case Block.prototype.BOTTOM_SIDE:
@@ -900,9 +894,6 @@
 				if (game.layersAlsoSettleInwardsOn) {
 					firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
-				} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-					firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
-					secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 				}
 				break;
 			case Block.prototype.LEFT_SIDE:
@@ -913,9 +904,6 @@
 				if (game.layersAlsoSettleInwardsOn) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX - 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
-				} else if (settleInwardToTheEdge) { // TODO: REMOVE ME
-					firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
-					secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
 				}
 				break;
 			default:
