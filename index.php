@@ -208,7 +208,7 @@
 						<span id="settleWithCollapseCBDefaultComment" class="peanutGallery">Whoo hoo! An auto mistake fixer!</span>
 					</label>
 					<br>
-					<label><input type="checkbox" name="settleInwardCB" id="settleInwardCB" class="modeCB" value="settleInwardCB" checked>
+					<label><input type="checkbox" name="settleInwardCB" id="settleInwardCB" class="modeCB" value="settleInwardCB">
 						Layers &quot;settle&quot; inwards as well as downwards
 						<span id="settleInwardCBDefaultComment" class="peanutGallery">Well, that's just confusing</span>
 					</label>
