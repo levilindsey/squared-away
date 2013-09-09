@@ -603,7 +603,12 @@
 		var i;
 
 		if (game.peanutGalleryOn) {
-			// Show all of the appropriate peanutGallery elements
+			// First, show ALL of the peanutGallery elements
+			for (i = 0; i < peanutGalleryElems.length; ++i) {
+				peanutGalleryElems[i].style.display = "block";
+			}
+
+			// Then, hide all of the appropriate conditional peanutGallery elements
 			for (i = 0; i < checkBoxIds.length; ++i) {
 				element = document.getElementById(checkBoxIds[i]);
 				_setPeanutGalleryComment(checkBoxIds[i], element.checked, true);

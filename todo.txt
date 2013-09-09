@@ -145,6 +145,18 @@
 - there should be a BIG bonus point increas if the player can clear all squares from the game window (exponentially increasing by level)
 	- this check should start from the center and work its way out....
 - have the smaller blocks appear slightly more frequently
+**- additional peanut gallery comments:
+	- in-game comments:
+		- ...
+	- randomized comments whenever a music selection changes
+		- default:
+			- <NOTHING>
+		- addition:
+			- Wow, you chose THAT song?
+		- removal:
+			- Hey!  I liked that one!
+- animate both the collapse and the settling of blocks/layers
+	- will need to do the bottom layer on one tick, then the next layer in the next tick, and so on
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

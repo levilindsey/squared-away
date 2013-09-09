@@ -90,8 +90,10 @@
 			<div id="directionsArea">
 				<h2>Directions</h2>
 				<table id="directionsTable">
-					<p>
+					<p class="peanutGallery">
 						Just, like, be awesome.  And win.
+						<br>
+						<br>
 					</p>
 					<tr>
 						<td class="directionPanel">
@@ -176,10 +178,10 @@
 				<p>
 					<label><input type="checkbox" name="keyboardControlCB" id="keyboardControlCB" class="modeCB" value="keyboardControlCB" checked>
 						Enable keyboard control
-						<span id="keyboardControlCBDefaultComment" class="peanutGallery">Guaranteed to increase your wps!</span>
+						<span id="keyboardControlCBDefaultComment" class="peanutGallery">Guaranteed to increase your WPM or your money back!</span>
 					</label>
 					<br>
-					<label><input type="checkbox" name="completeSquaresCB" id="completeSquaresCB" class="modeCB" value="completeSquaresCB">
+					<label><input type="checkbox" name="completeSquaresCB" id="completeSquaresCB" class="modeCB" value="completeSquaresCB" checked>
 						Completing squares instead of lines
 						<span id="completeSquaresCBDefaultComment" class="peanutGallery">Totally four times as much fun</span>
 					</label>
@@ -357,11 +359,15 @@
 				<h2>About</h2>
 				<p>
 					This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
-					<br><br>
+				</p>
+				<p>
+					<img src="img/github.png" alt="Github icon">
 					If you&apos;re one of those crazy people who think code is cool, then check out this app's source code on GitHub at 
 					<a href="https://github.com/levisl176/squared_away" target="_blank">
 					https://github.com/levisl176/squared_away</a>!
-					<br><br>
+				</p>
+				<p>
+					<img src="img/android.png" alt="Android icon">
 					Also, this app is coming soon to the Android marketplace.
 				</p>
 			</div>

@@ -30,8 +30,8 @@
 	var _NORMAL_STROKE_COLOR = "#5a5a5a";
 	var _NORMAL_FILL_COLOR = "#141414";
 
-	var _INVALID_MOVE_FILL_COLOR = "rgba(255,200,200,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,200,200,0.4)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_FILL_COLOR = "rgba(255,120,120,0.8)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
+	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,200,200,1.0)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
 	var _VALID_MOVE_FILL_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
@@ -703,25 +703,41 @@
 			}
 		}
 
-		_dropHigherLayers(layer);
+		if (game.collapseCausesSettlingOn) {
+			_settleHigherLayers(layer, false);
+		} else {
+			_dropHigherLayers(layer);
+		}
 
 		game.addCollapseToScore(squaresCollapsedCount);
 	}
 
-	// Drop by one each of the layers above the given layer.
+	// Drop each of the layers above the given layer by one square.
 	function _dropHigherLayers(collapsedLayer) {
+		_lowerHigherLevels(collapsedLayer, false, false);
+	}
+
+	// Drop each of the layers above the given layer until they reach either a 
+	// non-empty cell or the close side of the center square.
+	function _settleHigherLayers(collapsedLayer, forceEntireSquare) {
+		_lowerHigherLevels(collapsedLayer, true, forceEntireSquare);
+	}
+
+	function _lowerHigherLevels(collapsedLayer, settleInsteadOfDrop, forceEntireSquare) {
+		var lowerLayersFn = settleInsteadOfDrop ? _settleLayers : _dropLayers;
+
 		var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
-		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
+		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
 		var centerCellPositionX = gameWindow.gameWindowCellSize / 2;
 
-		var i;
 		var loopDeltaI;
 		var dropDeltaI;
 		var updateStartCellDeltaI;
 		var updateEndCellDeltaI;
-		var currentLayer;
+		var firstInwardSettleStop;
+		var secondInwardSettleStop;
 
-		if (game.completingSquaresOn) { // Collapsing whole squares
+		if (game.completingSquaresOn || forceEntireSquare) { // Collapsing whole squares
 			var startX;
 			var startY;
 			var startI;
@@ -741,22 +757,19 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize;
 			updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (currentLayer = collapsedLayer; 
-					currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startI; i < endI; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
+			if (game.layersAlsoSettleInwardsOn) {
+				firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+				secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
+			} else if (settleInsteadOfDrop) {
+				firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
+				secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
+			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
+					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 
 			// Remove the right side
-			startX = maxCenterSquareCellPositionX - 1 + collapsedLayer;
+			startX = maxCenterSquareCellPositionX + collapsedLayer;
 			startY = minCenterSquareCellPositionX - collapsedLayer;
 			endY = maxCenterSquareCellPositionX + collapsedLayer;
 			startI = (startY * gameWindow.gameWindowCellSize) + startX;
@@ -765,23 +778,20 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (currentLayer = collapsedLayer; 
-					currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startI; i < endI; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
+			if (game.layersAlsoSettleInwardsOn) {
+				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX + 1);
+				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
+			} else if (settleInsteadOfDrop) {
+				firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
+				secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
 			}
+			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
+					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 
 			// Remove the bottom side
 			startX = minCenterSquareCellPositionX - collapsedLayer;
-			startY = maxCenterSquareCellPositionX - 1 + collapsedLayer;
+			startY = maxCenterSquareCellPositionX + collapsedLayer;
 			endX = maxCenterSquareCellPositionX + collapsedLayer;
 			startI = (startY * gameWindow.gameWindowCellSize) + startX;
 			loopDeltaI = 1;
@@ -789,19 +799,16 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (currentLayer = collapsedLayer; 
-					currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startI; i < endI; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
+			if (game.layersAlsoSettleInwardsOn) {
+				firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+				secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
+			} else if (settleInsteadOfDrop) {
+				firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
+				secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
+			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
+					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 
 			// Remove the left side
 			startX = minCenterSquareCellPositionX - collapsedLayer;
@@ -813,50 +820,49 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (currentLayer = collapsedLayer; 
-					currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startI; i < endI; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
+			if (game.layersAlsoSettleInwardsOn) {
+				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX - 1);
+				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
+			} else if (settleInsteadOfDrop) {
+				firstInwardSettleStop = (minCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
+				secondInwardSettleStop = (maxCenterSquareCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
 			}
+			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
+					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 
 			// Remove the first half of the top side
 			startX = minCenterSquareCellPositionX - collapsedLayer;
 			startY = minCenterSquareCellPositionX - collapsedLayer;
-			endX = centerCellPositionX;
+			endX = centerCellPositionX - 1;
 			startI = (startY * gameWindow.gameWindowCellSize) + startX;
 			loopDeltaI = 1;
 			dropDeltaI = gameWindow.gameWindowCellSize;
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = -gameWindow.gameWindowCellSize;
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (currentLayer = collapsedLayer; 
-					currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startI; i < endI; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
+			if (game.layersAlsoSettleInwardsOn) {
+				firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+				secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
+			} else if (settleInsteadOfDrop) {
+				firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + minCenterSquareCellPositionX;
+				secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + maxCenterSquareCellPositionX;
 			}
-
-			// TODO: (drop only half of the top layer first, then drop the other half last)
+			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
+					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 		} else { // Collapsing only lines
 			var side = collapsedLayer.side;
 			var startCell = collapsedLayer.startCell;
 			var endCell = collapsedLayer.endCell;
-			currentLayer = collapsedLayer.layer;
+			var startX;
+			var startY;
+
+			// De-construct the x and y coords from the index if we need them
+			if (game.layersAlsoSettleInwardsOn) {
+				startX = startCell % gameWindow.gameWindowCellSize;
+				startY = Math.floor(startCell / gameWindow.gameWindowCellSize);
+			}
 
 			switch (side) {
 			case Block.prototype.TOP_SIDE:
@@ -864,24 +870,40 @@
 				dropDeltaI = gameWindow.gameWindowCellSize;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				if (game.layersAlsoSettleInwardsOn) {
+					firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+					secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
+				}
 				break;
 			case Block.prototype.RIGHT_SIDE:
 				loopDeltaI = gameWindow.gameWindowCellSize;
 				dropDeltaI = -1;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+				if (game.layersAlsoSettleInwardsOn) {
+					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX + 1);
+					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
+				}
 				break;
 			case Block.prototype.BOTTOM_SIDE:
 				loopDeltaI = 1;
 				dropDeltaI = -gameWindow.gameWindowCellSize;
 				updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+				if (game.layersAlsoSettleInwardsOn) {
+					firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+					secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
+				}
 				break;
 			case Block.prototype.LEFT_SIDE:
 				loopDeltaI = gameWindow.gameWindowCellSize;
 				dropDeltaI = 1;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				if (game.layersAlsoSettleInwardsOn) {
+					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX - 1);
+					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
+				}
 				break;
 			default:
 				return;
@@ -889,33 +911,114 @@
 
 			startCell += updateStartCellDeltaI;
 			endCell += updateEndCellDeltaI;
-			++currentLayer;
 
-			// Loop through each higher layer and consider each to be two-
-			// squares longer than the previous
-			for (; currentLayer <= minCenterSquareCellPositionX; 
-					++currentLayer, startCell += updateStartCellDeltaI, endCell += updateEndCellDeltaI) {
-				// Drop all squares in this layer
-				for (i = startCell; i <= endCell; i += loopDeltaI) {
-					if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
-						gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
-					}
-				}
-			}
-		}
-
-		if (game.collapseCausesSettlingOn) {
-			_settleHigherLayers(collapsedLayer);
+			lowerLayersFn(collapsedLayer.layer + 1, minCenterSquareCellPositionX, 
+					startCell, endCell, updateStartCellDeltaI, updateEndCellDeltaI, 
+					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 		}
 	}
 
-	// Drop each of the blocks that used to be one-layer higher than the 
-	// given collapsed layer.  This dropping then has the possibility to 
-	// cascade to higher layers depending on whether the dropped blocks 
-	// were supporting other higher blocks.
-	function _settleHigherLayers(collapsedLayer) {
-		// TODO: ****
+	function _dropLayers(startLayer, endLayer, startI, endI, 
+			updateStartCellDeltaI, updateEndCellDeltaI, loopDeltaI, 
+			dropDeltaI) {
+		var layer;
+		var i;
+
+		// Loop through each higher layer
+		for (layer = startLayer; 
+				layer <= endLayer; 
+				++layer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+			// Drop all squares in this layer
+			for (i = startI; i <= endI; i += loopDeltaI) {
+				if (gameWindow.squaresOnGameWindow[i] >= 0 && gameWindow.squaresOnGameWindow[i + dropDeltaI] < 0) {
+					gameWindow.squaresOnGameWindow[i + dropDeltaI] = gameWindow.squaresOnGameWindow[i];
+					gameWindow.squaresOnGameWindow[i] = -1;
+				}
+			}
+		}
+	}
+
+	function _settleLayers(startLayer, endLayer, startI, endI, 
+			updateStartCellDeltaI, updateEndCellDeltaI, loopDeltaI, 
+			dropDeltaI, firstInwardSettleStop, secondInwardSettleStop) {
+		var currentLayer;
+		var tempLayer;
+		var totalDropDeltaI;
+		var i;
+		var maxMove;
+		var currentMove;
+
+		// Loop through each higher layer
+		for (currentLayer = startLayer; 
+				currentLayer <= endLayer; 
+				++currentLayer, startI += updateStartCellDeltaI, endI += updateEndCellDeltaI) {
+			// Check whether we need to settle inward
+			if (firstInwardSettleStop) {
+				// The inward settling happens toward the center, so we perform it 
+				// in two separate halves
+				for (i = firstInwardSettleStop - loopDeltaI, maxMove = 1; 
+						i >= startI; 
+						i -= loopDeltaI, ++maxMove) {
+					// Make sure there is a square to settle
+					if (gameWindow.squaresOnGameWindow[i] >= 0) {
+						totalDropDeltaI = loopDeltaI;
+						currentMove = 0;
+
+						// Find how far over to settle the square
+						while (currentMove < maxMove && 
+								gameWindow.squaresOnGameWindow[i + totalDropDeltaI] < 0) {
+							totalDropDeltaI += loopDeltaI;
+							++currentMove;
+						}
+
+						gameWindow.squaresOnGameWindow[i + totalDropDeltaI - loopDeltaI] = gameWindow.squaresOnGameWindow[i];
+						gameWindow.squaresOnGameWindow[i] = -1;
+					}
+				}
+				for (i = secondInwardSettleStop + loopDeltaI, maxMove = 1; 
+						i <= endI; 
+						i += loopDeltaI, ++maxMove) {
+					// Make sure there is a square to settle
+					if (gameWindow.squaresOnGameWindow[i] >= 0) {
+						totalDropDeltaI = -loopDeltaI;
+						currentMove = 0;
+
+						// Find how far over to settle the square
+						while (currentMove < maxMove && 
+								gameWindow.squaresOnGameWindow[i + totalDropDeltaI] < 0) {
+							totalDropDeltaI -= loopDeltaI;
+							++currentMove;
+						}
+
+						gameWindow.squaresOnGameWindow[i + totalDropDeltaI + loopDeltaI] = gameWindow.squaresOnGameWindow[i];
+						gameWindow.squaresOnGameWindow[i] = -1;
+					}
+				}
+
+				// Update the inward stops for the next loop
+				firstInwardSettleStop -= dropDeltaI;
+				secondInwardSettleStop -= dropDeltaI;
+			}
+
+			// Settle downward
+			for (i = startI; i <= endI; i += loopDeltaI) {
+				// Make sure there is a square to settle
+				if (gameWindow.squaresOnGameWindow[i] >= 0) {
+					totalDropDeltaI = dropDeltaI;
+					tempLayer = currentLayer;
+
+					// Find how far down to settle the square
+					while (tempLayer > 1 && 
+							gameWindow.squaresOnGameWindow[i + totalDropDeltaI] < 0) {
+						totalDropDeltaI += dropDeltaI;
+						--tempLayer;
+					}
+
+					gameWindow.squaresOnGameWindow[i + totalDropDeltaI - dropDeltaI] = gameWindow.squaresOnGameWindow[i];
+					gameWindow.squaresOnGameWindow[i] = -1;
+				}
+			}
+		}
 	}
 
 	function _setUpCenterSquare() {
