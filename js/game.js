@@ -605,6 +605,15 @@
 			{ r: 255,	g: 174,	b: 174, a: 1.0, str: "rgba(255,174,174,1.0)" }		// Red
 		],
 
+		DEFAULT_FILL: { r: 20, g: 20, b: 20, a: 1.0, str: "rgba(20,20,20,1.0)" }, // Off-black
+		DEFAULT_STROKE: { r: 90, g: 90, b: 90, a: 1.0, str: "rgba(90,90,90,1.0)" }, // Darkish grey
+
+		VALID_MOVE_FILL: { r: 100, g: 200, b: 255, a: 0.2, str: "rgba(100,200,255,0.2)" }, // Neon blue
+		VALID_MOVE_STROKE: { r: 100, g: 200, b: 255, a: 0.5, str: "rgba(100,200,255,0.5)" }, // Lighter neon blue
+
+		INVALID_MOVE_FILL: { r: 255, g: 120, b: 120, a: 0.8, str: "rgba(255,120,120,0.8)" }, // Neon red
+		INVALID_MOVE_STROKE: { r: 255, g: 200, b: 200, a: 1.0, str: "rgba(255,200,200,1.0)" } // Lighter neon red
+
 		// DARK_COLORS: [
 			// { r: 18,	g: 61,	b: 7 },		// Green
 			// { r: 7,		g: 33,	b: 61 },	// Blue

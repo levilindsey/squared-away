@@ -197,8 +197,8 @@
 		context.beginPath();
 		context.lineWidth = _NORMAL_STROKE_WIDTH;
 		if (_currentBackgroundColorIndex >= 0) {
-			context.fillStyle = utils.decToHexColorStr(game.DARK_COLORS[_currentBackgroundColorIndex]);
-			context.strokeStyle = utils.decToHexColorStr(game.MEDIUM_COLORS[_currentBackgroundColorIndex]);
+			context.fillStyle = game.DARK_COLORS[_currentBackgroundColorIndex].str;
+			context.strokeStyle = game.MEDIUM_COLORS[_currentBackgroundColorIndex].str;
 		} else {
 			context.fillStyle = game.DEFAULT_FILL.str;
 			context.strokeStyle = game.DEFAULT_STROKE.str;

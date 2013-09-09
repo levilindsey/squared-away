@@ -74,8 +74,8 @@
 			// Draw the background and the border
 			context.beginPath();
 			context.lineWidth = _NORMAL_STROKE_WIDTH;
-			context.fillStyle = game.DEFAULT_FILL;
-			context.strokeStyle = game.DEFAULT_STROKE;
+			context.fillStyle = game.DEFAULT_FILL.str;
+			context.strokeStyle = game.DEFAULT_STROKE.str;
 			context.rect(currentPosition.x, currentPosition.y, sideLength, sideLength);
 			context.fill();
 			context.stroke();
