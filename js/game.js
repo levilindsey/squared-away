@@ -12,6 +12,7 @@
 //		- window.Sprite
 //		- window.Block
 //		- window.PreviewWindow
+//		- window.BombWindow
 //		- window.gameWindow
 //		- window.input
 //		- window.sound
@@ -146,6 +147,9 @@
 
 		gameWindow.update(deltaTime);
 
+		_collapseBombWindow.update(deltaTime);
+		_settleBombWindow.update(deltaTime);
+
 		// Update the preview windows
 		for (i = 0; i < 4; ++i) {
 			_previewWindows[i].update(deltaTime);
@@ -168,6 +172,9 @@
 		_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
 		var i;
+
+		_collapseBombWindow.draw();
+		_settleBombWindow.draw();
 
 		// Draw the preview windows
 		for (i = 0; i < 4; ++i) {

@@ -92,7 +92,7 @@
 		function _drawCoolDownFill(context, currentProgress, currentPosition, sideLength) {
 			context.beginPath();
 
-			context.fillStyle = _progressFillColor;
+			context.fillStyle = game.PREVIEW_WINDOW_PROGRESS_FILLS[_previewWindowIndex].str;
 
 			context.moveTo(_positionOfWindowCenter.x, _positionOfWindowCenter.y);
 			context.lineTo(_positionOfWindowCenter.x, currentPosition.y);
@@ -106,7 +106,7 @@
 			context.beginPath();
 
 			context.strokeStyle = game.PREVIEW_WINDOW_PROGRESS_STROKES[_previewWindowIndex].str;
-			context.lineWidth = game.PREVIEW_WINDOW_PROGRESS_FILLS[_previewWindowIndex].str;
+			context.lineWidth = _PROGRESS_STROKE_WIDTH;
 
 			context.moveTo(_positionOfWindowCenter.x, currentPosition.y);
 			_makeCoolDownPathAroundPerimeter(context, currentProgress, currentPosition, sideLength);
