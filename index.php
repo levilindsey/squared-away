@@ -358,7 +358,8 @@
 			<div id="aboutArea">
 				<h2>About</h2>
 				<p>
-					This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.
+					This game was made by <a href="www.jackieandlevi.com/levi.php">Levi Lindsey</a>.  Please let him know if you have any feedback, suggestions, random thoughts or if you find any bugs!  Talk to Levi at: <a href="mailto:info@jackieandlevi.com?subject=That%20Squared%20Away%20app">
+						info@jackieandlevi.com</a>!
 				</p>
 				<p>
 					<img src="img/github.png" alt="Github icon">

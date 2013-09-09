@@ -27,13 +27,6 @@
 
 	var _NORMAL_STROKE_WIDTH = 2; // in pixels
 
-	var _NORMAL_STROKE_COLOR = "#5a5a5a";
-	var _NORMAL_FILL_COLOR = "#141414";
-
-	var _INVALID_MOVE_FILL_COLOR = "rgba(255,120,120,0.8)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _INVALID_MOVE_STROKE_COLOR = "rgba(255,200,200,1.0)"; // TODO: change this to a neon red color, with the stroke lighter than the fill
-	var _VALID_MOVE_FILL_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
-	var _VALID_MOVE_STROKE_COLOR = "rgba(100,200,255,0.2)"; // TODO: change this to a neon blue color, with the stroke lighter than the fill
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 
@@ -207,8 +200,8 @@
 			context.fillStyle = utils.decToHexColorStr(game.DARK_COLORS[_currentBackgroundColorIndex]);
 			context.strokeStyle = utils.decToHexColorStr(game.MEDIUM_COLORS[_currentBackgroundColorIndex]);
 		} else {
-			context.fillStyle = _NORMAL_FILL_COLOR;
-			context.strokeStyle = _NORMAL_STROKE_COLOR;
+			context.fillStyle = game.DEFAULT_FILL.str;
+			context.strokeStyle = game.DEFAULT_STROKE.str;
 		}
 		context.rect(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y, gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
 		context.fill();
@@ -250,21 +243,21 @@
 			// Check whether the phantom block is in a valid location
 			if (input.isPhantomBlockValid) {
 				// Draw the phantom guide lines
-				_drawPolygon(context, input.phantomGuideLinePolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+				_drawPolygon(context, input.phantomGuideLinePolygon, game.VALID_MOVE_FILL.str, game.VALID_MOVE_STROKE.str, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 
 				if (input.isGestureDirectionChange()) {
 					// Draw an arc arrow from the selected block's current position to where it would be moving
-					_drawArcArrow(context, selectedBlock, input.phantomBlock, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+					_drawArcArrow(context, selectedBlock, input.phantomBlock, game.VALID_MOVE_FILL.str, game.VALID_MOVE_STROKE.str, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 				}
 
 				// Draw the enlarged, phantom, overlay block
-				_drawPolygon(context, input.phantomBlockPolygon, _VALID_MOVE_FILL_COLOR, _VALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
+				_drawPolygon(context, input.phantomBlockPolygon, game.VALID_MOVE_FILL.str, game.VALID_MOVE_STROKE.str, _PHANTOM_BLOCK_STROKE_WIDTH);
 			} else {
 				// Draw an arc arrow from the selected block's current position to where it would be moving
-				_drawArcArrow(context, selectedBlock, input.phantomBlock, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
+				_drawArcArrow(context, selectedBlock, input.phantomBlock, game.INVALID_MOVE_FILL.str, game.INVALID_MOVE_STROKE.str, _PHANTOM_GUIDE_LINE_STROKE_WIDTH);
 
 				// Draw a polygon at the invalid location where the selected block would be moving
-				_drawPolygon(context, input.phantomBlockPolygon, _INVALID_MOVE_FILL_COLOR, _INVALID_MOVE_STROKE_COLOR, _PHANTOM_BLOCK_STROKE_WIDTH);
+				_drawPolygon(context, input.phantomBlockPolygon, game.INVALID_MOVE_FILL.str, game.INVALID_MOVE_STROKE.str, _PHANTOM_BLOCK_STROKE_WIDTH);
 			}
 		}
 

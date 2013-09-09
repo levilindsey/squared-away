@@ -56,6 +56,9 @@
 
 	var _POINTS_FOR_BONUS = 2500; // TODO: test/tweak this
 
+	var _INITIAL_COLLAPSE_BOMB_COUNT = 2; // TODO: test/tweak this
+	var _INITIAL_SETTLE_BOMB_COUNT = 2; // TODO: test/tweak this
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -85,6 +88,8 @@
 
 	var _prevTime = 0;
 	var _previewWindows = null;
+	var _collapseBombWindow = null;
+	var _settleBombWindow = null;
 
 	var _score = 0;
 	var _level = 1;
@@ -299,6 +304,29 @@
 		_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
 	}
 
+	function _setUpBombWindows() {
+		var x;
+		var y;
+		var w;
+		var h;
+
+		x = -1;
+		y = -1;
+		w = -1;
+		h = -1;
+		_collapseBombWindow = new BombWindow(x, y, w, h, 
+				BombWindow.prototype.COLLAPSE_BOMB, _INITIAL_COLLAPSE_BOMB_COUNT);
+
+		x = -1;
+		y = -1;
+		w = -1;
+		h = -1;
+		_settleBombWindow = new BombWindow(x, y, w, h, 
+				BombWindow.prototype.SETTLE_BOMB, _INITIAL_SETTLE_BOMB_COUNT);
+
+		// TODO: ****
+	}
+
 	function _play() {
 		// Reset game state if a game is not currently in progress
 		if (game.isEnded) {
@@ -412,37 +440,27 @@
 	}
 
 	function _primeCollapseBomb() {
-		// TODO: ****
-		//		- highlight and enlarge the first preview window, and overlay a phantom image of a single block in its center
-		//		- add code to catch the mouse clicks and directional button presses in order to first select other preview windows, and then to release the bomb
-		//		- in the event of keyboard input, highlight only the one selected window
-		//		- in the event of mouse input, highlight ALL preview windows
-		game.isCollapseBombPrimed = true;
+		_collapseBombWindow.primeBomb();
 	}
 
 	function _primeSettleBomb() {
-		// TODO: ****
-		//		- highlight the collapse bomb area (which will be on the bottom left)
-		//		- add code to catch the mouse clicks and directional button presses in order to release the bomb
-		game.isSettleBombPrimed = true;
+		_settleBombWindow.primeBomb();
 	}
 
 	function _releaseCollapseBomb() {
-		// TODO: ****
-		//		- replace the block in the currently selected preview window with a new, single-block collapse bomb
-		//		- in addition, set it to have a really short cooldown time (the same as the initial top preview window)
-		//		- in fact, lets make all single-square blocks be collapse bombs, which means:
-		//			- re-set all block square-size parameter ranges to start at 2, not 1
-		//			- whenever deciding on a new block type, give a random chance of picking a collapse bomb; to do so, simply roll a random die before doing the rest of the start-new-block function
-		//			- but give these random bombs the normal cooldown time
+		_collapseBombWindow.releaseBomb();
 	}
 
 	function _releaseSettleBomb() {
-		// TODO: ****
-		//		- animate the center square so that it vibrates and bounces around briefly
-		//		- settle ALL blocks on the map
-		//		- I will need to figure out how to determine which direction(s) to settle blocks that are in the diagonal areas
-		
+		_settleBombWindow.releaseBomb();
+	}
+
+	function _getIsCollapseBombPrimed() {
+		return _collapseBombWindow.getIsPrimed();
+	}
+
+	function _getIsSettleBombPrimed() {
+		return _settleBombWindow.getIsPrimed();
 	}
 
 	function _getScore() {
@@ -486,6 +504,7 @@
 
 		_computeDimensions();
 		_setUpPreviewWindows();
+		_setUpBombWindows();
 
 		gameWindow.init();
 	}
@@ -519,8 +538,8 @@
 		releaseCollapseBomb: _releaseCollapseBomb,
 		releaseSettleBomb: _releaseSettleBomb,
 
-		isCollapseBombPrimed: false,
-		isSettleBombPrimed: false,
+		getIsCollapseBombPrimed: _getIsCollapseBombPrimed,
+		getIsSettleBombPrimed: _getIsSettleBombPrimed,
 
 		isPaused: true,
 		isEnded: true,
@@ -543,34 +562,48 @@
 		numberOfSquaresInABlock: 7,
 
 		MEDIUM_COLORS: [
-			{ r: 55,	g: 178,	b: 22 },	// Green
-			{ r: 22,	g: 99,	b: 178 },	// Blue
-			{ r: 132,	g: 22,	b: 178 },	// Purple
-			{ r: 178,	g: 22,	b: 44 },	// Red
-			{ r: 178,	g: 99,	b: 22 },	// Orange
-			{ r: 178,	g: 172,	b: 22 },	// Yellow
-			{ r: 100,	g: 100,	b: 100 }	// Grey
+			{ r: 55,	g: 178,	b: 22, a: 1.0, str: "rgba(55,178,22,1.0)" },	// Green
+			{ r: 22,	g: 99,	b: 178, a: 1.0, str: "rgba(22,99,178,1.0)" },	// Blue
+			{ r: 132,	g: 22,	b: 178, a: 1.0, str: "rgba(132,22,178,1.0)" },	// Purple
+			{ r: 178,	g: 22,	b: 44, a: 1.0, str: "rgba(178,22,44,1.0)" },	// Red
+			{ r: 178,	g: 99,	b: 22, a: 1.0, str: "rgba(178,99,22,1.0)" },	// Orange
+			{ r: 178,	g: 172,	b: 22, a: 1.0, str: "rgba(178,172,22,1.0)" },	// Yellow
+			{ r: 100,	g: 100,	b: 100, a: 1.0, str: "rgba(100,100,100,1.0)" }	// Grey
 		],
 
 		LIGHT_COLORS: [
-			{ r: 175,	g: 243,	b: 157 },	// Green
-			{ r: 157,	g: 199,	b: 243 },	// Blue
-			{ r: 218,	g: 157,	b: 243 },	// Purple
-			{ r: 243,	g: 157,	b: 169 },	// Red
-			{ r: 243,	g: 199,	b: 157 },	// Orange
-			{ r: 243,	g: 240,	b: 157 },	// Yellow
-			{ r: 200,	g: 200,	b: 200 }	// Grey
+			{ r: 175,	g: 243,	b: 157, a: 1.0, str: "rgba(175,243,157,1.0)" },	// Green
+			{ r: 157,	g: 199,	b: 243, a: 1.0, str: "rgba(157,199,243,1.0)" },	// Blue
+			{ r: 218,	g: 157,	b: 243, a: 1.0, str: "rgba(218,157,243,1.0)" },	// Purple
+			{ r: 243,	g: 157,	b: 169, a: 1.0, str: "rgba(243,157,169,1.0)" },	// Red
+			{ r: 243,	g: 199,	b: 157, a: 1.0, str: "rgba(243,199,157,1.0)" },	// Orange
+			{ r: 243,	g: 240,	b: 157, a: 1.0, str: "rgba(243,240,157,1.0)" },	// Yellow
+			{ r: 200,	g: 200,	b: 200, a: 1.0, str: "rgba(200,200,200,1.0)" }	// Grey
 		],
 
 		DARK_COLORS: [
-			{ r: 11,	g: 39,	b: 5 },		// Green
-			{ r: 6,		g: 29,	b: 54 },	// Blue
-			{ r: 37,	g: 6,	b: 50 },	// Purple
-			{ r: 54,	g: 6,	b: 13 },	// Red
-			{ r: 50,	g: 28,	b: 6 },		// Orange
-			{ r: 49,	g: 45,	b: 5 },		// Yellow
-			{ r: 34,	g: 34,	b: 34 }		// Grey
-		]
+			{ r: 11,	g: 39,	b: 5, a: 1.0, str: "rgba(11,39,5,1.0)" },		// Green
+			{ r: 6,		g: 29,	b: 54, a: 1.0, str: "rgba(6,29,54,1.0)" },		// Blue
+			{ r: 37,	g: 6,	b: 50, a: 1.0, str: "rgba(37,6,50,1.0)" },		// Purple
+			{ r: 54,	g: 6,	b: 13, a: 1.0, str: "rgba(54,6,13,1.0)" },		// Red
+			{ r: 50,	g: 28,	b: 6, a: 1.0, str: "rgba(50,28,6,1.0)" },		// Orange
+			{ r: 49,	g: 45,	b: 5, a: 1.0, str: "rgba(49,45,5,1.0)" },		// Yellow
+			{ r: 34,	g: 34,	b: 34, a: 1.0, str: "rgba(34,34,34,1.0)" }		// Grey
+		],
+
+		PREVIEW_WINDOW_PROGRESS_FILLS: [
+			{ r: 33,	g: 51,	b: 63, a: 1.0, str: "rgba(33,51,63,1.0)" },		// Blue
+			{ r: 63,	g: 63,	b: 39, a: 1.0, str: "rgba(63,63,39,1.0)" },		// Yellow
+			{ r: 44,	g: 63,	b: 42, a: 1.0, str: "rgba(44,63,42,1.0)" },		// Green
+			{ r: 63,	g: 43,	b: 43, a: 1.0, str: "rgba(63,43,43,1.0)" }		// Red
+		],
+
+		PREVIEW_WINDOW_PROGRESS_STROKES: [
+			{ r: 132,	g: 206,	b: 255, a: 1.0, str: "rgba(132,206,255,1.0)" },		// Blue
+			{ r: 255,	g: 255,	b: 156, a: 1.0, str: "rgba(255,255,156,1.0)" },		// Yellow
+			{ r: 178,	g: 255,	b: 170, a: 1.0, str: "rgba(178,255,170,1.0)" },		// Green
+			{ r: 255,	g: 174,	b: 174, a: 1.0, str: "rgba(255,174,174,1.0)" }		// Red
+		],
 
 		// DARK_COLORS: [
 			// { r: 18,	g: 61,	b: 7 },		// Green

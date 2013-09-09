@@ -33,9 +33,6 @@
 	var _NORMAL_STROKE_WIDTH = 1; // in pixels
 	var _PROGRESS_STROKE_WIDTH = 4; // in pixels
 
-	var _NORMAL_STROKE_COLOR = "#5a5a5a";
-	var _NORMAL_FILL_COLOR = "#141414";
-
 	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
 
 	function PreviewWindow(x, y, size, previewWindowIndex) {
@@ -57,29 +54,6 @@
 		var _timeSinceLastBlock = 0;
 		var _currentBlock = null;
 
-		var _progressStrokeColor;
-		var _progressFillColor;
-		switch (_previewWindowIndex) {
-		case 0:	// blue
-			_progressStrokeColor = "#84ceff";
-			_progressFillColor = "#21333f";
-			break;
-		case 1:	// yellow
-			_progressStrokeColor = "#ffff9c";
-			_progressFillColor = "#3f3f27";
-			break;
-		case 2:	// green
-			_progressStrokeColor = "#b2ffaa";
-			_progressFillColor = "#2c3f2a";
-			break;
-		case 3:	// red
-			_progressStrokeColor = "#ffaeae";
-			_progressFillColor = "#3f2b2b";
-			break;
-		default:
-			return;
-		}
-
 		function _update(deltaTime) {
 			_timeSinceLastBlock += deltaTime;
 		}
@@ -100,8 +74,8 @@
 			// Draw the background and the border
 			context.beginPath();
 			context.lineWidth = _NORMAL_STROKE_WIDTH;
-			context.fillStyle = _NORMAL_FILL_COLOR;
-			context.strokeStyle = _NORMAL_STROKE_COLOR;
+			context.fillStyle = game.DEFAULT_FILL;
+			context.strokeStyle = game.DEFAULT_STROKE;
 			context.rect(currentPosition.x, currentPosition.y, sideLength, sideLength);
 			context.fill();
 			context.stroke();
@@ -131,8 +105,8 @@
 		function _drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth) {
 			context.beginPath();
 
-			context.strokeStyle = _progressStrokeColor;
-			context.lineWidth = progressLineWidth;
+			context.strokeStyle = game.PREVIEW_WINDOW_PROGRESS_STROKES[_previewWindowIndex].str;
+			context.lineWidth = game.PREVIEW_WINDOW_PROGRESS_FILLS[_previewWindowIndex].str;
 
 			context.moveTo(_positionOfWindowCenter.x, currentPosition.y);
 			_makeCoolDownPathAroundPerimeter(context, currentProgress, currentPosition, sideLength);
