@@ -203,7 +203,7 @@
 						<span id="changeQuadrantWithFallDirectionCBDefaultComment" class="peanutGallery">Where'd it go?!</span>
 					</label>
 					<br>
-					<label><input type="checkbox" name="settleWithCollapseCB" id="settleWithCollapseCB" class="modeCB" value="settleWithCollapseCB" checked>
+					<label><input type="checkbox" name="settleWithCollapseCB" id="settleWithCollapseCB" class="modeCB" value="settleWithCollapseCB">
 						Collapsing a layer causes higher layers to &quot;settle&quot;
 						<span id="settleWithCollapseCBDefaultComment" class="peanutGallery">Whoo hoo! An auto mistake fixer!</span>
 					</label>

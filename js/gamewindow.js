@@ -466,19 +466,19 @@
 				for (layer = 1; layer <= maxLayer; ++layer) {
 					layersToCheck.push({
 						side: Block.prototype.TOP_SIDE,
-						layer: i
+						layer: layer
 					});
 					layersToCheck.push({
 						side: Block.prototype.LEFT_SIDE,
-						layer: i
+						layer: layer
 					});
 					layersToCheck.push({
 						side: Block.prototype.BOTTOM_SIDE,
-						layer: i
+						layer: layer
 					});
 					layersToCheck.push({
 						side: Block.prototype.RIGHT_SIDE,
-						layer: i
+						layer: layer
 					});
 				}
 			}
