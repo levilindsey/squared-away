@@ -1126,7 +1126,7 @@
 		this.getCellPosition = _getCellPosition;
 		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
 		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
-		this.getBombType = _getIsBomb;
+		this.getBombType = _getBombType;
 
 		log.d("<--block.Block");
 	}

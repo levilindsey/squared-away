@@ -158,10 +158,11 @@
 				var bombType = block.getBombType();
 				if (bombType >= 0) {
 					if (bombType === 0) {
-						_handleCollapseBomb(block.getCellPosition());
+						_handleCollapseBomb(block.getCellPosition(), block.getFallDirection());
 					} else {
-						_handleSettleBomb(block.getCellPosition());
+						_handleSettleBomb();
 					}
+					gameWindow.blocksOnGameWindow.splice(i, 1);
 				} else {
 					// Add it's squares to the game area and delete the block 
 					// object
@@ -1024,14 +1025,13 @@
 		}
 	}
 
-	function _handleCollapseBomb(bombCellPos) {
+	function _handleCollapseBomb(cellPos, fallDirection) {
 		// TODO: (COLLAPSE_BOMB_RADIUS (i.e., HALF of side length (...because it blows up a square area)))
-		****
+		//****
 	}
 
-	function _handleSettleBomb(bombCellPos) {
-		// TODO:
-		****
+	function _handleSettleBomb() {
+		_settleHigherLayers(0, true);
 	}
 
 	function _setUpCenterSquare() {
