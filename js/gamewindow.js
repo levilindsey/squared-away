@@ -1026,8 +1026,21 @@
 	}
 
 	function _handleCollapseBomb(cellPos, fallDirection) {
-		// TODO: (COLLAPSE_BOMB_RADIUS (i.e., HALF of side length (...because it blows up a square area)))
-		//****
+		var minXIValue = cellPos.x - BombWindow.prototype.COLLAPSE_BOMB_RADIUS;
+		var minYIValue = (cellPos.y - BombWindow.prototype.COLLAPSE_BOMB_RADIUS) * gameWindow.gameWindowCellSize;
+		var maxXIValue = cellPos.x + BombWindow.prototype.COLLAPSE_BOMB_RADIUS;
+		var maxYIValue = (cellPos.y + BombWindow.prototype.COLLAPSE_BOMB_RADIUS) * gameWindow.gameWindowCellSize;
+
+		var xIValue;
+		var yIValue;
+
+		for (yIValue = minYIValue; yIValue <= maxYIValue; yIValue += gameWindow.gameWindowCellSize) {
+			for (xIValue = minXIValue; xIValue <= maxXIValue; ++xIValue) {
+				gameWindow.squaresOnGameWindow[yIValue + xIValue] = -1;
+			}
+		}
+
+		// TODO: should I add settling here? probably not...
 	}
 
 	function _handleSettleBomb() {

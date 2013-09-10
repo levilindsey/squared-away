@@ -165,7 +165,7 @@
 	// Make BombWindow available to the rest of the program
 	window.BombWindow = BombWindow;
 
-	BombWindow.prototype.COLLAPSE_BOMB_RADIUS = 6;
+	BombWindow.prototype.COLLAPSE_BOMB_RADIUS = 5;
 
 	BombWindow.prototype.COLLAPSE_BOMB = 0;
 	BombWindow.prototype.SETTLE_BOMB = 1;
