@@ -235,23 +235,6 @@
 		}
 	}
 
-	// This function is needed, because the music and SFX toggle buttons are 
-	// actually triangles that form two halves of a square.  Therefore, the 
-	// image regions overlap and without this function, only one of either 
-	// music or SFX would ever be toggled.
-	function _toggleAudio(event) {
-		event = utils.standardizeMouseEvent(event);
-		var rect = this.getBoundingClientRect();
-		var localX = event.pageX - rect.left;
-		var localY = event.pageY - rect.top;
-
-		if (localY + localX < rect.width) {
-			_toggleMusic(event);
-		} else {
-			_toggleSFX(event);
-		}
-	}
-
 	function _toggleMusic(event) {
 		var musicOnButton = document.getElementById("musicOnButton");
 		var musicOffButton = document.getElementById("musicOffButton");
@@ -471,7 +454,8 @@
 		playSFX: _playSFX,
 		playCurrentMusic: _playCurrentMusic,
 		pauseMusic: _pauseMusic,
-		toggleAudio: _toggleAudio,
+		toggleSFX: _toggleSFX,
+		toggleMusic: _toggleMusic,
 		onMusicSelectionChange: _onMusicSelectionChange,
 
 		getMusicManifest: _getMusicManifest,

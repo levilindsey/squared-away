@@ -133,6 +133,16 @@
 		return event;
 	}
 
+	function standardizeClientRect(element) {// TODO: need to return the rect in page coords from the top-left of the entire document, NOT JUST WHAT'S CURRENTLY IN THE VIEWPORT
+	****
+		element.getBoundingClientRect();
+		(((t = document.documentElement) || (t = document.body.parentNode)) && 
+		typeof t.ScrollLeft == 'number' ? t : document.body).ScrollLeft
+		
+		(((t = document.documentElement) || (t = document.body.parentNode)) && 
+		typeof t.ScrollTop == 'number' ? t : document.body).ScrollTop
+	}
+
 	function _getLinGrowthValue(initial, rate, time) {
 		return initial * (1 + rate * (time - 1));
 	}
@@ -213,6 +223,7 @@
 		getExpGrowthValue: _getExpGrowthValue,
 
 		standardizeMouseEvent: _standardizeMouseEvent,
+		standardizeClientRect: _standardizeClientRect,
 
 		getSquaredDistance: _getSquaredDistance,
 

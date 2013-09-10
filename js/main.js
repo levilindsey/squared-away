@@ -110,13 +110,21 @@
 		var helpButton = document.getElementById("helpButton");
 		helpButton.addEventListener("click", _pauseGame, false);
 		var musicOnButton = document.getElementById("musicOnButton");
-		musicOnButton.addEventListener("click", sound.toggleAudio, false);
+		musicOnButton.addEventListener("click", _onAudioClick, false);
+		musicOnButton.addEventListener("mousemove", _onAudioMove, false);
+		musicOnButton.addEventListener("mouseout", _onAudioOut, false);
 		var musicOffButton = document.getElementById("musicOffButton");
-		musicOffButton.addEventListener("click", sound.toggleAudio, false);
+		musicOffButton.addEventListener("click", _onAudioClick, false);
+		musicOffButton.addEventListener("mousemove", _onAudioMove, false);
+		musicOffButton.addEventListener("mouseout", _onAudioOut, false);
 		var sfxOnButton = document.getElementById("sfxOnButton");
-		sfxOnButton.addEventListener("click", sound.toggleAudio, false);
+		sfxOnButton.addEventListener("click", _onAudioClick, false);
+		sfxOnButton.addEventListener("mousemove", _onAudioMove, false);
+		sfxOnButton.addEventListener("mouseout", _onAudioOut, false);
 		var sfxOffButton = document.getElementById("sfxOffButton");
-		sfxOffButton.addEventListener("click", sound.toggleAudio, false);
+		sfxOffButton.addEventListener("click", _onAudioClick, false);
+		sfxOffButton.addEventListener("mousemove", _onAudioMove, false);
+		sfxOffButton.addEventListener("mouseout", _onAudioOut, false);
 
 		// Initialize the various modes and game parameters
 		_setInitialModesAndParamsToHtmlValues();
@@ -399,7 +407,7 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameWindowRect = _canvas.getBoundingClientRect();
+			var gameWindowRect = utils.standardizeClientRect(_canvas);
 			var gameWindowPos = {
 				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
@@ -424,7 +432,7 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameWindowRect = _canvas.getBoundingClientRect();
+			var gameWindowRect = utils.standardizeClientRect(_canvas);
 			var gameWindowPos = {
 				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
@@ -443,7 +451,7 @@
 
 			// Translate the tap position from page coordinates to game-area 
 			// coordinates
-			var gameWindowRect = _canvas.getBoundingClientRect();
+			var gameWindowRect = utils.standardizeClientRect(_canvas);
 			var gameWindowPos = {
 				x: pagePos.x - gameWindowRect.left - gameWindow.gameWindowPosition.x,
 				y: pagePos.y - gameWindowRect.top - gameWindow.gameWindowPosition.y
@@ -451,6 +459,79 @@
 
 			input.dragMouseGesture(gameWindowPos);
 		}
+	}
+
+	// This function is needed, because the music and SFX toggle buttons are 
+	// actually triangles that form two halves of a square.  Therefore, the 
+	// image regions overlap and without this function, only one of either 
+	// music or SFX would ever be toggled.
+	function _onAudioClick(event) {
+		if (_isOverMusic(event, this)) {
+			sound.toggleMusic(event);
+		} else {
+			sound.toggleSFX(event);
+		}
+	}
+
+	function _onAudioMove(event) {
+		if (_isOverMusic(event, this)) {
+			if (game.musicOn) {
+				document.getElementById("musicOnButton").src = "img/music_on_hover.png";
+			} else {
+				document.getElementById("musicOffButton").src = "img/music_off_hover.png";
+			}
+			if (game.sfxOn) {
+				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
+			} else {
+				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
+			}
+		} else {
+			if (game.sfxOn) {
+				document.getElementById("sfxOnButton").src = "img/sfx_on_hover.png";
+			} else {
+				document.getElementById("sfxOffButton").src = "img/sfx_off_hover.png";
+			}
+			if (game.musicOn) {
+				document.getElementById("musicOnButton").src = "img/music_on.png";
+			} else {
+				document.getElementById("musicOffButton").src = "img/music_off.png";
+			}
+		}
+	}
+
+	function _onAudioOut(event) {
+		if (_isOverMusic(event, this)) {
+			if (game.musicOn) {
+				document.getElementById("musicOnButton").src = "img/music_on.png";
+			} else {
+				document.getElementById("musicOffButton").src = "img/music_off.png";
+			}
+			if (game.sfxOn) {
+				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
+			} else {
+				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
+			}
+		} else {
+			if (game.sfxOn) {
+				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
+			} else {
+				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
+			}
+			if (game.musicOn) {
+				document.getElementById("musicOnButton").src = "img/music_on.png";
+			} else {
+				document.getElementById("musicOffButton").src = "img/music_off.png";
+			}
+		}
+	}
+
+	function _isOverMusic(event, that) {
+		event = utils.standardizeMouseEvent(event);
+		var rect = utils.standardizeClientRect(that);
+		var localX = event.pageX - rect.left;
+		var localY = event.pageY - rect.top;
+
+		return localY + localX < rect.width;
 	}
 
 	function _onModeCBClicked() {
