@@ -429,7 +429,11 @@
 			input.selectedKeyboardBlock = block;
 		}
 
-		sound.playSFX("newBlock");
+		if (block.getBombType() < 0) {
+			sound.playSFX("newBlock");
+		} else {
+			sound.playSFX("bombReleased");
+		}
 	}
 
 	function _forceNextBlock() {

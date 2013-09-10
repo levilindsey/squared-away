@@ -958,6 +958,8 @@
 		}
 
 		game.primedWindowIndex = nextPreviewWindowIndex;
+
+		sound.playSFX("move");
 	}
 
 	function _onKeyboardControlOn(keyboardControl) {

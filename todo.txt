@@ -221,6 +221,9 @@
 - animate both the collapse and the settling of blocks/layers
 	- will need to do the bottom layer on one tick, then the next layer in the next tick, and so on
 - with the settle bomb, animate the center square so that it vibrates and bounces around briefly
+****- coop mode!!
+	- 2 or 4 players
+		- with 2, each player controls two opposite sides
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

@@ -118,6 +118,12 @@
 		// Return true if there are any bombs to prime
 		function _primeBomb() {
 			if (_bombCount > 0) {
+				if (_isPrimed) {
+					sound.playSFX("unableToMove");
+				} else {
+					sound.playSFX("bombPrimed");
+				}
+
 				// Un-prime the other bomb window
 				game.unPrimeBomb();
 

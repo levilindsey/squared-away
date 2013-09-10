@@ -40,6 +40,16 @@
 			data: 3
 		},
 		{
+			id: "bombPrimed",
+			src: _SFX_PATH + "bomb_primed.ogg|" + _SFX_PATH + "bomb_primed.m4a",
+			data: 3
+		},
+		{
+			id: "bombReleased",
+			src: _SFX_PATH + "bomb_released.ogg|" + _SFX_PATH + "bomb_released.m4a",
+			data: 3
+		},
+		{
 			id: "changeFallDirection",
 			src: _SFX_PATH + "change_fall_direction.ogg|" + _SFX_PATH + "change_fall_direction.m4a",
 			data: 3
@@ -47,6 +57,11 @@
 		{
 			id: "collapse",
 			src: _SFX_PATH + "collapse.ogg|" + _SFX_PATH + "collapse.m4a",
+			data: 8
+		},
+		{
+			id: "collapseBombDetonate",
+			src: _SFX_PATH + "collapse_bomb_detonate.ogg|" + _SFX_PATH + "collapse_bomb_detonate.m4a",
 			data: 8
 		},
 		{
@@ -97,6 +112,11 @@
 		{
 			id: "rotate",
 			src: _SFX_PATH + "rotate.ogg|" + _SFX_PATH + "rotate.m4a",
+			data: 3
+		},
+		{
+			id: "settleBombDetonate",
+			src: _SFX_PATH + "settle_bomb_detonate.ogg|" + _SFX_PATH + "settle_bomb_detonate.m4a",
 			data: 3
 		},
 		{

@@ -185,6 +185,8 @@
 					} else {
 						bombType = BombWindow.prototype.SETTLE_BOMB;
 					}
+
+					sound.playSFX("bombPrimed");
 				} else {
 					// Change the current block to be a new block of some random type
 					var lowerIndex;

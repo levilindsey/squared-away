@@ -159,8 +159,12 @@
 				if (bombType >= 0) {
 					if (bombType === 0) {
 						_handleCollapseBomb(block.getCellPosition(), block.getFallDirection());
+
+						sound.playSFX("collapseBombDetonate");
 					} else {
 						_handleSettleBomb();
+
+						sound.playSFX("settleBombDetonate");
 					}
 					gameWindow.blocksOnGameWindow.splice(i, 1);
 				} else {
