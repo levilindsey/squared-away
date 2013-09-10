@@ -975,8 +975,11 @@
 							++currentMove;
 						}
 
-						gameWindow.squaresOnGameWindow[i + totalDropDeltaI - loopDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
+						// Don't move it if we've decided it can't move
+						if (totalDropDeltaI !== loopDeltaI) {
+							gameWindow.squaresOnGameWindow[i + totalDropDeltaI - loopDeltaI] = gameWindow.squaresOnGameWindow[i];
+							gameWindow.squaresOnGameWindow[i] = -1;
+						}
 					}
 				}
 				for (i = secondInwardSettleStop + loopDeltaI, maxMove = 1; 
@@ -994,8 +997,11 @@
 							++currentMove;
 						}
 
-						gameWindow.squaresOnGameWindow[i + totalDropDeltaI + loopDeltaI] = gameWindow.squaresOnGameWindow[i];
-						gameWindow.squaresOnGameWindow[i] = -1;
+						// Don't move it if we've decided it can't move
+						if (totalDropDeltaI !== -loopDeltaI) {
+							gameWindow.squaresOnGameWindow[i + totalDropDeltaI + loopDeltaI] = gameWindow.squaresOnGameWindow[i];
+							gameWindow.squaresOnGameWindow[i] = -1;
+						}
 					}
 				}
 
@@ -1018,8 +1024,11 @@
 						--tempLayer;
 					}
 
-					gameWindow.squaresOnGameWindow[i + totalDropDeltaI - dropDeltaI] = gameWindow.squaresOnGameWindow[i];
-					gameWindow.squaresOnGameWindow[i] = -1;
+					// Don't move it if we've decided it can't move
+					if (totalDropDeltaI !== dropDeltaI) {
+						gameWindow.squaresOnGameWindow[i + totalDropDeltaI - dropDeltaI] = gameWindow.squaresOnGameWindow[i];
+						gameWindow.squaresOnGameWindow[i] = -1;
+					}
 				}
 			}
 		}
