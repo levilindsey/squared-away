@@ -25,22 +25,32 @@
 	// ----------------------------------------------------------------- //
 	// -- Private members
 
-	var _NORMAL_STROKE_WIDTH = 2; // in pixels
+	var _NORMAL_STROKE_WIDTH = 2; // pixels
 
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 
-	var _centerSquare = null;
+	var _COLLAPSE_ANIMATION = 1;
+	var _NO_ANIMATION = 1;
 
-	var _layerCollapseDelay = 0.2;
-	var _ellapsedCollapseTime = _layerCollapseDelay;
+	var _START_SHIMMER_ANIMATION_TICK_PERIOD = 50;
+	var _PROB_OF_SHIMMER = 0.002;
+	var _SHIMMER_ANIMATION_PERIOD = 250; // millis
+
+	var _centerSquare = null;
 
 	var _layersToCollapse = [];
 
 	var _currentBackgroundColorIndex = 0;
 
+	var _gameWindowTime = 0;
+	var _timeSinceLastStartShimmerTick = 0;
+
 	// Update each of the game entities with the current time.
 	function _update(deltaTime) {
+		_gameWindowTime += deltaTime;
+		_timeSinceLastStartShimmerTick += deltaTime;
+
 		// Update the center square
 		_centerSquare.update(deltaTime);
 
@@ -53,8 +63,8 @@
 		// any other layers waiting to be collapsed, then ALL pending 
 		// layers need to be collapsed simultaneously.  So we can use a 
 		// single timer for any number of pending layers.
-		_ellapsedCollapseTime += deltaTime;
-		if (_ellapsedCollapseTime >= _layerCollapseDelay) {
+		gameWindow.ellapsedCollapseTime += deltaTime;
+		if (gameWindow.ellapsedCollapseTime >= gameWindow.layerCollapseDelay) {
 			// Sort the completed layers by descending layer number
 			_layersToCollapse.sort(function(a, b) {
 				if (game.completingSquaresOn) {
@@ -69,11 +79,6 @@
 				_collapseLayer(_layersToCollapse[0]);
 				_layersToCollapse.splice(0, 1);
 				layersWereCollapsed = true;
-
-				// Change each of the squares' values in this layer to 
-				// represent the appropriate sprite for the current stage of 
-				// the collapse animation
-				// TODO: *******!!!!!! (if I actually want to represent the animation of collapse with different cell numbers, then I am going to have to refactor each of the places in the code that look at gameWindow.squaresOnGameWindow[i] < 0 and make sure that they also behave correctly with gameWindow.squaresOnGameWindow[i] equal to the weird animating collapse numbers
 			}
 		}
 
@@ -81,8 +86,6 @@
 			// Collapsing layers has the potential to complete additional 
 			// layers, so we should check for that now
 			_checkForCompleteLayers();
-
-			// TODO: settle stuff?
 		}
 
 		// Update the blocks
@@ -159,13 +162,12 @@
 				if (bombType >= 0) {
 					if (bombType === 0) {
 						_handleCollapseBomb(block.getCellPosition(), block.getFallDirection());
-
+						game.incrementCollapseBombUsedCount()
 						sound.playSFX("collapseBombDetonate");
 					} else {
 						_handleSettleBomb();
-
+						game.incrementSettleBombUsedCount()
 						_centerSquare.animateSettleBomb();
-
 						sound.playSFX("settleBombDetonate");
 					}
 					gameWindow.blocksOnGameWindow.splice(i, 1);
@@ -206,6 +208,23 @@
 				}
 			}
 		}
+
+		// Check whether we are ready to possibly start animating some squares with shimmer
+		if (_timeSinceLastStartShimmerTick > _START_SHIMMER_ANIMATION_TICK_PERIOD) {
+			_timeSinceLastStartShimmerTick %= _START_SHIMMER_ANIMATION_TICK_PERIOD;
+
+			// Loop over each square and possibly animate it with a shimmer
+			for (i = 0; i < gameWindow.squaresOnGameWindow.length; ++i) {
+				// Make sure there is a square here and it is not already animating
+				if (gameWindow.squaresOnGameWindow[i] >= 0 && 
+						gameWindow.animatingSquares[i] === _NO_ANIMATION) {
+					// TODO: refactor this so I can call the random number generator only once for the whole set, or at least fewer times than this
+					if (Math.random() < _PROB_OF_SHIMMER) {
+						gameWindow.animatingSquares[i] = _gameWindowTime;
+					}
+				}
+			}
+		}
 	}
 
 	function _draw(context) {
@@ -228,6 +247,16 @@
 		context.save();
 		context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
 
+		var collapseAnimationProgress = gameWindow.layerCollapseDelay - gameWindow.ellapsedCollapseTime;
+		collapseAnimationProgress = Math.max(collapseAnimationProgress, 0);
+		collapseAnimationProgress = 0.9999999 - collapseAnimationProgress / gameWindow.layerCollapseDelay;
+		var collapseAnimationIndex = 
+				Block.prototype.START_INDEX_OF_COLLAPSE_ANIMATION + 
+				Math.floor(collapseAnimationProgress * 
+						Block.prototype.NUMBER_OF_FRAMES_IN_COLLAPSE_ANIMATION);
+
+		var shimmerAnimationProgress;
+		var animationIndex;
 		var i;
 
 		// Draw each of the falling blocks
@@ -237,16 +266,29 @@
 
 		// Draw each of the stationary squares
 		for (i = 0; i < gameWindow.squaresOnGameWindow.length; ++i) {
-			Block.prototype.drawSquare(
-									context, gameWindow.squaresOnGameWindow[i], 
-									(i % gameWindow.gameWindowCellSize) * gameWindow.squarePixelSize, 
-									Math.floor((i / gameWindow.gameWindowCellSize)) * gameWindow.squarePixelSize);
-		}
+			// Check whether we are currently animating this square in some manner
+			if (gameWindow.animatingSquares[i] === _NO_ANIMATION) {
+				animationIndex = 0;
+			} else if (gameWindow.animatingSquares[i] === _COLLAPSE_ANIMATION) {
+				animationIndex = collapseAnimationIndex;
+			} else {
+				shimmerAnimationProgress = (_gameWindowTime - gameWindow.animatingSquares[i]) / _SHIMMER_ANIMATION_PERIOD;
+				if (shimmerAnimationProgress < 1) {
+					animationIndex = 
+							Block.prototype.START_INDEX_OF_SHIMMER_ANIMATION + 
+							Math.floor(shimmerAnimationProgress * 
+									Block.prototype.NUMBER_OF_FRAMES_IN_SHIMMER_ANIMATION);
+				} else {
+					gameWindow.animatingSquares[i] = _NO_ANIMATION;
+					animationIndex = 0;
+				}
+			}
 
-		// Check whether there are currently any disintegrating sections
-		if (true) {// TODO: 
-			// Draw the disintegrating sections
-			// TODO: ?????
+			Block.prototype.drawSquare(
+					context, gameWindow.squaresOnGameWindow[i], 
+					(i % gameWindow.gameWindowCellSize) * gameWindow.squarePixelSize, 
+					Math.floor((i / gameWindow.gameWindowCellSize)) * gameWindow.squarePixelSize, 
+					animationIndex);
 		}
 
 		// Check whether the player is currently a selecting a block
@@ -601,6 +643,11 @@
 					startCell: startCell,
 					endCell: endCell
 				});
+
+				// Mark each square in this layer as collapsing
+				for (i = startCell; i <= endCell; i += deltaI) {
+					gameWindow.animatingSquares[i] = _COLLAPSE_ANIMATION;
+				}
 			}
 		}
 
@@ -615,8 +662,8 @@
 			// any other layers waiting to be collapsed, then ALL pending 
 			// layers need to be collapsed simultaneously.  So we can use a 
 			// single timer for any number of pending layers.
-			if (_ellapsedCollapseTime >= _layerCollapseDelay) {
-				_ellapsedCollapseTime = 0;
+			if (gameWindow.ellapsedCollapseTime >= gameWindow.layerCollapseDelay) {
+				gameWindow.ellapsedCollapseTime = 0;
 			}
 
 			return true;
@@ -661,6 +708,7 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			for (i = startI; i < endI; i += deltaI) {
 				gameWindow.squaresOnGameWindow[i] = -1;
+				gameWindow.animatingSquares[i] = _NO_ANIMATION;
 			}
 
 			// Remove the right side
@@ -672,6 +720,7 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			for (i = startI; i < endI; i += deltaI) {
 				gameWindow.squaresOnGameWindow[i] = -1;
+				gameWindow.animatingSquares[i] = _NO_ANIMATION;
 			}
 
 			// Remove the bottom side
@@ -683,6 +732,7 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			for (i = startI; i < endI; i += deltaI) {
 				gameWindow.squaresOnGameWindow[i] = -1;
+				gameWindow.animatingSquares[i] = _NO_ANIMATION;
 			}
 
 			// Remove the left side
@@ -694,6 +744,7 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			for (i = startI; i < endI; i += deltaI) {
 				gameWindow.squaresOnGameWindow[i] = -1;
+				gameWindow.animatingSquares[i] = _NO_ANIMATION;
 			}
 
 			squaresCollapsedCount = (gameWindow.centerSquareCellSize + layer) * 4;
@@ -724,6 +775,7 @@
 					i <= endCell;
 					i += deltaI, ++squaresCollapsedCount) {
 				gameWindow.squaresOnGameWindow[i] = -1;
+				gameWindow.animatingSquares[i] = _NO_ANIMATION;
 			}
 		}
 
@@ -1097,7 +1149,11 @@
 	function _reset() {
 		gameWindow.blocksOnGameWindow = [];
 		gameWindow.squaresOnGameWindow = utils.initializeArray(
-								gameWindow.gameWindowCellSize * gameWindow.gameWindowCellSize, -1);
+				gameWindow.gameWindowCellSize * gameWindow.gameWindowCellSize, 
+				-1);
+		gameWindow.animatingSquares = utils.initializeArray(
+				gameWindow.gameWindowCellSize * gameWindow.gameWindowCellSize, 
+				_NO_ANIMATION);
 
 		_layersToCollapse = [];
 
@@ -1105,7 +1161,7 @@
 	}
 
 	function _setLayerCollapseDelay(layerCollapseDelay) {
-		_layerCollapseDelay = layerCollapseDelay;
+		gameWindow.layerCollapseDelay = layerCollapseDelay;
 	}
 
 	function _setCenterSquareColorPeriod(colorPeriod) {
@@ -1135,6 +1191,10 @@
 
 		blocksOnGameWindow: null, // the moving, four-square pieces
 		squaresOnGameWindow: null, // the stationary, single-square pieces
+		animatingSquares: null, // the squares that are currently collapsing
+
+		layerCollapseDelay: 0.2,
+		ellapsedCollapseTime: 0.2,
 
 		squarePixelSize: 0, // in pixels
 

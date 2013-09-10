@@ -43,7 +43,6 @@ var DEBUG = false;
 		}
 
 		function _w(msg) {
-			Logger.prototype.getConsole().style.display = "block";
 			_writeLine(msg, "W", _WARNING_FOREGROUND, _WARNING_BACKGROUND);
 		}
 

@@ -393,7 +393,6 @@
 		var _hasCollidedWithSquare = false;
 		var _hasCollidedWithEdgeOfArea = false;
 		var _hasCollidedWithBackLineOfCenterSquare = false;
-
 		var _bombType = bombType;
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
@@ -459,7 +458,7 @@
 			// Draw the constituent squares
 			for (i = 0; i < positions.length; ++i) {
 				Block.prototype.drawSquare(context, colorIndex, 
-										positions[i].x, positions[i].y);
+										positions[i].x, positions[i].y, 0);
 			}
 		}
 
@@ -1338,6 +1337,12 @@
 	Block.prototype.BOTTOM_SIDE = 3;
 	Block.prototype.LEFT_SIDE = 4;
 
+	Block.prototype.NUMBER_OF_FRAMES_IN_COLLAPSE_ANIMATION = 7;
+	Block.prototype.START_INDEX_OF_COLLAPSE_ANIMATION = 5;
+
+	Block.prototype.NUMBER_OF_FRAMES_IN_SHIMMER_ANIMATION = 4;
+	Block.prototype.START_INDEX_OF_SHIMMER_ANIMATION = 1;
+
 	Block.prototype.setFallSpeed = function(fallSpeed) {
 		_fourSquareBlockFallPeriod = 1 / fallSpeed;
 		_oneSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
@@ -1346,11 +1351,12 @@
 		_fiveSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _FIVE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
 	};
 
-	Block.prototype.drawSquare = function(context, colorIndex, x, y) {
+	Block.prototype.drawSquare = function(context, colorIndex, x, y, animationIndex) {
 		var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
+		var sourceX = animationIndex * _SOURCE_SQUARE_SIZE;
 
 		context.drawImage(resources.get("img/sprites.png"), 
-				0, sourceY, 
+				sourceX, sourceY, 
 				_SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
 				x, y, 
 				gameWindow.squarePixelSize, gameWindow.squarePixelSize);

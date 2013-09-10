@@ -462,6 +462,14 @@
 		}
 	}
 
+	function _incrementCollapseBombUsedCount() {
+		++_collapseBombsUsedCount;
+	}
+
+	function _incrementSettleBombUsedCount() {
+		++_settleBombsUsedCount;
+	}
+
 	function _getIsCollapseBombPrimed() {
 		return game.collapseBombWindow.getIsPrimed();
 	}
@@ -555,6 +563,9 @@
 
 		releaseBomb: _releaseBomb,
 		unPrimeBomb: _unPrimeBomb,
+
+		incrementCollapseBombUsedCount: _incrementCollapseBombUsedCount,
+		incrementSettleBombUsedCount: _incrementSettleBombUsedCount,
 
 		getIsCollapseBombPrimed: _getIsCollapseBombPrimed,
 		getIsSettleBombPrimed: _getIsSettleBombPrimed,
