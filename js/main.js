@@ -721,7 +721,7 @@
 	}
 
 	function _onGameParameterSelectionChange() {
-		var number = parseInt(this.options[this.selectedIndex].id, 10);
+		var number = parseInt(this.options[this.selectedIndex].value, 10);
 		if (startOfGameDropDownMenuIds.indexOf(this.id) < 0) {
 			_changeGameParameter(this.id, number, this);
 		}
