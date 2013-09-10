@@ -164,6 +164,8 @@
 					} else {
 						_handleSettleBomb();
 
+						_centerSquare.animateSettleBomb();
+
 						sound.playSFX("settleBombDetonate");
 					}
 					gameWindow.blocksOnGameWindow.splice(i, 1);
@@ -221,10 +223,6 @@
 		context.fill();
 		context.stroke();
 
-		// ---- Draw the center square ---- //
-
-		_centerSquare.draw(context);
-
 		// ---- Draw the main play area ---- //
 
 		context.save();
@@ -276,6 +274,10 @@
 		}
 
 		context.restore();
+
+		// ---- Draw the center square ---- //
+
+		_centerSquare.draw(context);
 	}
 
 	function _drawArcArrow(context, selectedBlock, phantomBlock, fillColor, strokeColor, strokeWidth) {
