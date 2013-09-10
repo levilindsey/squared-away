@@ -722,7 +722,7 @@
 		}
 
 		if (game.collapseCausesSettlingOn) {
-			_settleHigherLayers(layer, false);
+			_settleHigherLayers(layer, false, false);
 		} else {
 			_dropHigherLayers(layer);
 		}
@@ -732,16 +732,16 @@
 
 	// Drop each of the layers above the given layer by one square.
 	function _dropHigherLayers(collapsedLayer) {
-		_lowerHigherLevels(collapsedLayer, false, false);
+		_lowerHigherLevels(collapsedLayer, false, false, false);
 	}
 
 	// Drop each of the layers above the given layer until they reach either a 
 	// non-empty cell or the close side of the center square.
-	function _settleHigherLayers(collapsedLayer, forceEntireSquare) {
-		_lowerHigherLevels(collapsedLayer, true, forceEntireSquare);
+	function _settleHigherLayers(collapsedLayer, forceEntireSquare, forceInwardSettling) {
+		_lowerHigherLevels(collapsedLayer, true, forceEntireSquare, forceInwardSettling);
 	}
 
-	function _lowerHigherLevels(collapsedLayer, settleInsteadOfDrop, forceEntireSquare) {
+	function _lowerHigherLevels(collapsedLayer, settleInsteadOfDrop, forceEntireSquare, forceInwardSettling) {
 		var lowerLayersFn = settleInsteadOfDrop ? _settleLayers : _dropLayers;
 		var settleInwardToTheEdge = false;
 
@@ -776,7 +776,7 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize;
 			updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
 			}
@@ -794,7 +794,7 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
 				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
 			}
@@ -812,7 +812,7 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
 			}
@@ -830,7 +830,7 @@
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
 				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
 			}
@@ -848,7 +848,7 @@
 			endI = (startY * gameWindow.gameWindowCellSize) + endX;
 			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 			updateEndCellDeltaI = -gameWindow.gameWindowCellSize;
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
 			}
@@ -863,7 +863,7 @@
 			var startY;
 
 			// De-construct the x and y coords from the index if we need them
-			if (game.layersAlsoSettleInwardsOn) {
+			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 				startX = startCell % gameWindow.gameWindowCellSize;
 				startY = Math.floor(startCell / gameWindow.gameWindowCellSize);
 			}
@@ -874,7 +874,7 @@
 				dropDeltaI = gameWindow.gameWindowCellSize;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn) {
+				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 					firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
 				}
@@ -884,7 +884,7 @@
 				dropDeltaI = -1;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn) {
+				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX + 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
 				}
@@ -894,7 +894,7 @@
 				dropDeltaI = -gameWindow.gameWindowCellSize;
 				updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn) {
+				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 					firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
 				}
@@ -904,7 +904,7 @@
 				dropDeltaI = 1;
 				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
 				updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
-				if (game.layersAlsoSettleInwardsOn) {
+				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX - 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
 				}
@@ -1044,7 +1044,8 @@
 	}
 
 	function _handleSettleBomb() {
-		_settleHigherLayers(0, true);
+		// TODO: should I continue to force inward settling?
+		_settleHigherLayers(0, true, true);
 	}
 
 	function _setUpCenterSquare() {
