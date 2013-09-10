@@ -101,7 +101,7 @@
 			// trying to fall out, then the game is over and the player 
 			// has lost
 			if (block.getHasCollidedWithEdgeOfArea()) {
-				game.endGame();
+				game.endGame(block.getPixelCenter());
 				addSquares = true;
 			}
 			// Check whether the block has reached a stationary square and 

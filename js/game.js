@@ -60,6 +60,9 @@
 	var _INITIAL_COLLAPSE_BOMB_COUNT = 2; // TODO: test/tweak this
 	var _INITIAL_SETTLE_BOMB_COUNT = 2; // TODO: test/tweak this
 
+	var _GAME_OVER_CIRCLE_RADIUS = 48;
+	var _GAME_OVER_CIRCLE_STROKE_WIDTH = 4;
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -158,10 +161,6 @@
 				_setupNextBlock(game.previewWindows[i]);
 			}
 		}
-
-		// Loop through each square in the game area and possibly animate 
-		// it with a shimmer
-		// TODO: 
 	}
 
 	function _draw() {
@@ -180,6 +179,17 @@
 
 		// Draw the game window
 		gameWindow.draw(_context);
+
+		if (game.isEnded) {
+			// Draw a big, red circle at the cause of the game being over
+			_context.save();
+			_context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
+			_context.beginPath();
+			_context.arc(game.positionOfGameOver.x, game.positionOfGameOver.y, _GAME_OVER_CIRCLE_RADIUS, 0, 2 * Math.PI, false);
+			_context.fillStyle = game.INVALID_MOVE_FILL.str;
+			_context.fill();
+			_context.restore();
+		}
 	}
 
 	// Set up a new game
@@ -350,8 +360,11 @@
 		game.isPaused = true;
 	}
 
-	function _endGame() {
+	function _endGame(positionOfCause) {
 		game.isEnded = true;
+
+		game.positionOfGameOver = positionOfCause;
+
 		_onGameEnd();
 	}
 
@@ -413,16 +426,17 @@
 	function _setupNextBlock(previewWindow) {
 		var block = previewWindow.getCurrentBlock();
 
+		gameWindow.blocksOnGameWindow.push(block);
+		previewWindow.startNewBlock(-1, -1);
+
 		// If there is a square on the game area in the way the 
 		// new block from being added, then the game is over and 
 		// the player has lost
 		if (block.checkIsOverTopSquare(gameWindow.squaresOnGameWindow)) {
-			game.endGame();
+			game.endGame(block.getPixelCenter());
 			return;
 		}
 
-		gameWindow.blocksOnGameWindow.push(block);
-		previewWindow.startNewBlock(-1, -1);
 		++_blocksHandledCount;
 
 		if (game.keyboardControlOn && !input.selectedKeyboardBlock) {
@@ -598,6 +612,8 @@
 
 		startingLevel: 1,
 		numberOfSquaresInABlock: 7,
+
+		positionOfGameOver: null,
 
 		MEDIUM_COLORS: [
 			{ r: 55,	g: 178,	b: 22, a: 1.0, str: "rgba(55,178,22,1.0)" },	// Green
