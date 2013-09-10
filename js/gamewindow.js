@@ -169,25 +169,6 @@
 					var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
 					gameWindow.blocksOnGameWindow.splice(i, 1);
 
-					// If the player is still selecting it, then un-select it
-					if (input.selectedMouseBlock === block) {
-						input.selectedMouseBlock = null;
-					}
-					if (input.selectedKeyboardBlock === block) {
-						// Check whether there currently are any other blocks to 
-						// select automatically
-						if (gameWindow.blocksOnGameWindow.length > 0) {
-							input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
-						} else {
-							input.selectedKeyboardBlock = null;
-						}
-					}
-
-					// Check whether this was the last active block
-					if (gameWindow.blocksOnGameWindow.length === 0) {
-						block = game.forceNextBlock();
-					}
-
 					// Check whether this landed block causes the collapse of any layers
 					var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
 
@@ -197,6 +178,25 @@
 					} else {
 						sound.playSFX("land");
 					}
+				}
+
+				// If the player is still selecting it, then un-select it
+				if (input.selectedMouseBlock === block) {
+					input.selectedMouseBlock = null;
+				}
+				if (input.selectedKeyboardBlock === block) {
+					// Check whether there currently are any other blocks to 
+					// select automatically
+					if (gameWindow.blocksOnGameWindow.length > 0) {
+						input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+					} else {
+						input.selectedKeyboardBlock = null;
+					}
+				}
+
+				// Check whether this was the last active block
+				if (gameWindow.blocksOnGameWindow.length === 0) {
+					block = game.forceNextBlock();
 				}
 			}
 		}

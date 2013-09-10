@@ -499,6 +499,19 @@
 		gameWindow.init();
 	}
 
+	function _unPrimeBomb() {
+		if (game.primedBombType === BombWindow.prototype.COLLAPSE_BOMB) {
+			game.collapseBombWindow.unPrimeBomb();
+		} else {
+			game.settleBombWindow.unPrimeBomb();
+		}
+
+		game.primedWindowIndex = -1;
+		game.primedBombType = -1;
+
+		input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+	}
+
 	// Make Game available to the rest of the program
 	window.game = {
 		draw: _draw,
@@ -524,6 +537,7 @@
 		forceNextBlock: _forceNextBlock,
 
 		releaseBomb: _releaseBomb,
+		unPrimeBomb: _unPrimeBomb,
 
 		getIsCollapseBombPrimed: _getIsCollapseBombPrimed,
 		getIsSettleBombPrimed: _getIsSettleBombPrimed,

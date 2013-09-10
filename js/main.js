@@ -319,10 +319,10 @@
 		case "Z":
 			gameControl = input.SWITCH_BLOCKS;
 			break;
-		case "S":
+		case "A":
 			gameControl = input.COLLAPSE_BOMB;
 			break;
-		case "A":
+		case "S":
 			gameControl = input.SETTLE_BOMB;
 			break;
 		default:
@@ -363,10 +363,10 @@
 		case "Z":
 			gameControl = input.SWITCH_BLOCKS;
 			break;
-		case "S":
+		case "A":
 			gameControl = input.COLLAPSE_BOMB;
 			break;
-		case "A":
+		case "S":
 			gameControl = input.SETTLE_BOMB;
 			break;
 		default:
@@ -393,8 +393,6 @@
 		default:
 			return;
 		}
-
-		input.onKeyboardControlOn(gameControl);
 	}
 
 	function _onMouseDown(event) {

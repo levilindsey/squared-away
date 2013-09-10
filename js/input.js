@@ -313,26 +313,26 @@
 
 		// If this mouse down is consumed as an identifying tap, then do not 
 		// handle it as a higher-level gesture
-		if (_handleAsTap(pos)) {
-			return;
+		if (!_handleAsTap(pos)) {
+			game.unPrimeBomb();
+
+			_gestureStartPos = pos;
+			_gestureStartTime = time;
+
+			// Find the closest block within a certain distance threshold to 
+			// this gesture, if any
+			input.selectedMouseBlock = _findNearestValidBlock(_gestureStartPos, gameWindow.blocksOnGameWindow);
+
+			if (input.selectedMouseBlock) {
+				sound.playSFX("blockSelect");
+			}
+
+			// Clear any phantom objects. These will be set when a drag occurs.
+			input.phantomBlock = null;
+			input.phantomBlockPolygon = null;
+			input.isPhantomBlockValid = false;
+			input.phantomGuideLinePolygon = null;
 		}
-
-		_gestureStartPos = pos;
-		_gestureStartTime = time;
-
-		// Find the closest block within a certain distance threshold to 
-		// this gesture, if any
-		input.selectedMouseBlock = _findNearestValidBlock(_gestureStartPos, gameWindow.blocksOnGameWindow);
-
-		if (input.selectedMouseBlock) {
-			sound.playSFX("blockSelect");
-		}
-
-		// Clear any phantom objects. These will be set when a drag occurs.
-		input.phantomBlock = null;
-		input.phantomBlockPolygon = null;
-		input.isPhantomBlockValid = false;
-		input.phantomGuideLinePolygon = null;
 
 		log.d("<--input._startMouseGesture");
 	}
@@ -385,14 +385,6 @@
 		}
 
 		return false;
-	}
-
-	function _handleAsHelpTap(pos) {
-		
-	}
-
-	function _handleAsAudioToggleTap(pos) {
-		
 	}
 
 	function _finishMouseGesture(pos, time) {
@@ -945,48 +937,88 @@
 		}
 	}
 
+	function _switchPrimedWindow(keyboardDirection) {
+		var nextPreviewWindowIndex;
+
+		switch (keyboardDirection) {
+		case input.UP:
+			nextPreviewWindowIndex = 0;
+			break;
+		case input.RIGHT:
+			nextPreviewWindowIndex = 1;
+			break;
+		case input.DOWN:
+			nextPreviewWindowIndex = 2;
+			break;
+		case input.LEFT:
+			nextPreviewWindowIndex = 3;
+			break;
+		default:
+			return;
+		}
+
+		game.primedWindowIndex = nextPreviewWindowIndex;
+	}
+
 	function _onKeyboardControlOn(keyboardControl) {
 		if (game.keyboardControlOn) {
 			var gestureType = _getGestureFromKeyboardControl(keyboardControl);
+			var handledWithBomb = false;
 
-			if (gestureType === _DIRECTION_CHANGE) {
-				if (_prevKeyboardDownGestureType === _DIRECTION_CHANGE) {
+			// Check whether the current input should be consumed to handle a primed bomb
+			if (game.primedWindowIndex >= 0) {
+				if (keyboardControl === input.UP || 
+						keyboardControl === input.RIGHT || 
+						keyboardControl === input.DOWN || 
+						keyboardControl === input.LEFT) {
+					_switchPrimedWindow(keyboardControl);
+					handledWithBomb = true;
+				} else if (keyboardControl === input.ROTATE || keyboardControl === input.SWITCH_BLOCKS) {
+					game.unPrimeBomb();
+					handledWithBomb = true;
+				}
+			}
+
+			if (!handledWithBomb) {
+				if (gestureType === _DIRECTION_CHANGE) {
+					if (_prevKeyboardDownGestureType === _DIRECTION_CHANGE) {
+						_applyKeyboardGesture(gestureType);
+						_prevKeyboardDownGestureType = _NONE;
+						// As soon as we switch fall directions, this gesture key 
+						// has a different meaning
+						gestureType = _NONE;
+					} else {
+						_prevKeyboardDownGestureType = _DIRECTION_CHANGE;
+					}
+				} else {
+					_prevKeyboardDownGestureType = gestureType;
+				}
+
+				if (gestureType === _ROTATION) {
 					_applyKeyboardGesture(gestureType);
-					_prevKeyboardDownGestureType = _NONE;
-					// As soon as we switch fall directions, this gesture key 
-					// has a different meaning
-					gestureType = _NONE;
-				} else {
-					_prevKeyboardDownGestureType = _DIRECTION_CHANGE;
+				} else if (keyboardControl === input.SWITCH_BLOCKS) {
+					_switchSelectedKeyboardBlock();
+				} else if (keyboardControl === input.COLLAPSE_BOMB) {
+					if (game.collapseBombWindow.getIsPrimed()) {
+						game.releaseBomb();
+					} else {
+						game.collapseBombWindow.primeBomb();
+					}
+				} else if (keyboardControl === input.SETTLE_BOMB) {
+					if (game.settleBombWindow.getIsPrimed()) {
+						game.releaseBomb();
+					} else {
+						game.settleBombWindow.primeBomb();
+					}
 				}
-			} else {
-				_prevKeyboardDownGestureType = gestureType;
-			}
 
-			if (gestureType === _ROTATION) {
-				_applyKeyboardGesture(gestureType);
-			} else if (keyboardControl === input.SWITCH_BLOCKS) {
-				_switchSelectedKeyboardBlock();
-			} else if (keyboardControl === input.COLLAPSE_BOMB) {
-				if (game.collapseBombWindow.getIsPrimed()) {
-					game.releaseBomb();
-				} else {
-					game.collapseBombWindow.primeBomb();
-				}
-			} else if (keyboardControl === input.SETTLE_BOMB) {
-				if (game.settleBombWindow.getIsPrimed()) {
-					game.releaseBomb();
-				} else {
-					game.settleBombWindow.primeBomb();
-				}
+				_keyboardGestureType = gestureType;
+				_keyboardControl = keyboardControl;
+				// Allow the player to potentially move a block faster by tapping 
+				// quickly than by holding down the key and accepting the default 
+				// rate
+				_timeSinceLastMove = _KEYBOARD_BLOCK_MOVE_PERIOD;
 			}
-
-			_keyboardGestureType = gestureType;
-			_keyboardControl = keyboardControl;
-			// Allow the player to potentially move a block faster by tapping 
-			// quickly than by holding down the key and accepting the default 
-			// rate
-			_timeSinceLastMove = _KEYBOARD_BLOCK_MOVE_PERIOD;
 		}
 	}
 

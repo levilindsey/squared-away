@@ -118,9 +118,13 @@
 		// Return true if there are any bombs to prime
 		function _primeBomb() {
 			if (_bombCount > 0) {
+				// Un-prime the other bomb window
+				game.unPrimeBomb();
+
 				game.primedWindowIndex = game.keyboardControlOn ? 0 : 4;
 				game.primedBombType = _bombType;
 				_isPrimed = true;
+				input.selectedKeyboardBlock = null;
 				return true;
 			} else {
 				return false;
@@ -133,6 +137,11 @@
 			_isPrimed = false;
 			game.primedWindowIndex = -1;
 			game.primedBombType = -1;
+			input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+		}
+
+		function _unPrimeBomb() {
+			_isPrimed = false;
 		}
 
 		function _addBomb() {
@@ -155,6 +164,7 @@
 		this.isPointOverWindow = _isPointOverWindow;
 		this.primeBomb = _primeBomb;
 		this.releaseBomb = _releaseBomb;
+		this.unPrimeBomb = _unPrimeBomb;
 		this.addBomb = _addBomb;
 		this.getBombCount = _getBombCount;
 		this.getIsPrimed = _getIsPrimed;
