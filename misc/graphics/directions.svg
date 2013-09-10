@@ -12547,8 +12547,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.48613592"
-     inkscape:cx="-645.13644"
-     inkscape:cy="307.91605"
+     inkscape:cx="-986.60473"
+     inkscape:cy="-844.02516"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -16242,5 +16242,68 @@
        height="64"
        x="-257.36154"
        y="-62.623726" />
+    <g
+       id="g6052"
+       inkscape:export-filename="E:\Repositories\squared_away\img\help_hover.png"
+       inkscape:export-xdpi="27"
+       inkscape:export-ydpi="27">
+      <rect
+         y="917.20337"
+         x="-597.0083"
+         height="400"
+         width="400"
+         id="rect5420-4-3-7"
+         style="fill:#0f457d;fill-opacity:1;stroke:none" />
+      <g
+         transform="translate(364.67443,-209.64634)"
+         id="g5944-3-4">
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-4-5-0"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1494.8497" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-8-1-9"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="929.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-82-2-4"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="561.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-0-8"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1126.8497" />
+      </g>
+      <g
+         transform="translate(364.67919,-209.64338)"
+         id="g5940-1-8">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect5753-6-2"
+           width="32"
+           height="32"
+           x="-777.68274"
+           y="1438.8497" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           d="m -809.6875,1182.8438 0,32 32,0 32,0 32,0 0,-32 -32,0 -32,0 -32,0 z m 96,32 0,32 0,32 0,32 32,0 0,-32 0,-32 0,-32 -32,0 z m 0,96 -32,0 -32,0 0,32 0,32 0,32 32,0 0,-32 0,-32 32,0 0,-32 z m -96,-96 -32,0 0,32 0,32 32,0 0,-32 0,-32 z"
+           id="rect5753-5-4-4"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
   </g>
 </svg>

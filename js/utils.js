@@ -133,14 +133,15 @@
 		return event;
 	}
 
-	function standardizeClientRect(element) {// TODO: need to return the rect in page coords from the top-left of the entire document, NOT JUST WHAT'S CURRENTLY IN THE VIEWPORT
-	****
-		element.getBoundingClientRect();
-		(((t = document.documentElement) || (t = document.body.parentNode)) && 
-		typeof t.ScrollLeft == 'number' ? t : document.body).ScrollLeft
-		
-		(((t = document.documentElement) || (t = document.body.parentNode)) && 
-		typeof t.ScrollTop == 'number' ? t : document.body).ScrollTop
+	function _standardizeClientRect(element) {
+		var rect = element.getBoundingClientRect();
+
+		return {
+			left: rect.left + document.body.scrollLeft + document.documentElement.scrollLeft,
+			top: rect.top + document.body.scrollTop + document.documentElement.scrollTop,
+			width: rect.width,
+			height: rect.height
+		};
 	}
 
 	function _getLinGrowthValue(initial, rate, time) {

@@ -1041,6 +1041,7 @@
 		}
 
 		// TODO: should I add settling here? probably not...
+		//		- OR, should I instead DROP all blocks above the blast?
 	}
 
 	function _handleSettleBomb() {

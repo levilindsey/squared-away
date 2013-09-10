@@ -109,6 +109,8 @@
 
 		var helpButton = document.getElementById("helpButton");
 		helpButton.addEventListener("click", _pauseGame, false);
+		helpButton.addEventListener("mouseover", _onHelpOver, false);
+		helpButton.addEventListener("mouseout", _onHelpOut, false);
 		var musicOnButton = document.getElementById("musicOnButton");
 		musicOnButton.addEventListener("click", _onAudioClick, false);
 		musicOnButton.addEventListener("mousemove", _onAudioMove, false);
@@ -532,6 +534,14 @@
 		var localY = event.pageY - rect.top;
 
 		return localY + localX < rect.width;
+	}
+
+	function _onHelpOver(event) {
+		document.getElementById("helpButton").src = "img/help_hover.png";
+	}
+
+	function _onHelpOut(event) {
+		document.getElementById("helpButton").src = "img/help.png";
 	}
 
 	function _onModeCBClicked() {
