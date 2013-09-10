@@ -30,7 +30,8 @@
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
 
-	var _COLLAPSE_ANIMATION = 1;
+	var _UP_RIGHT_COLLAPSE_ANIMATION = 1;
+	var _SIDEWAYS_COLLAPSE_ANIMATION = 2;
 	var _NO_ANIMATION = 0;
 
 	var _START_SHIMMER_ANIMATION_TICK_PERIOD = 50;
@@ -250,14 +251,19 @@
 		var collapseAnimationProgress = gameWindow.layerCollapseDelay - gameWindow.ellapsedCollapseTime;
 		collapseAnimationProgress = Math.max(collapseAnimationProgress, 0);
 		collapseAnimationProgress = 0.9999999 - collapseAnimationProgress / gameWindow.layerCollapseDelay;
-		var collapseAnimationIndex = 
-				Block.prototype.START_INDEX_OF_COLLAPSE_ANIMATION + 
+		var upRightCollapseAnimationIndex = 
+				Block.prototype.START_INDEX_OF_UP_RIGHT_COLLAPSE_ANIMATION + 
+				Math.floor(collapseAnimationProgress * 
+						Block.prototype.NUMBER_OF_FRAMES_IN_COLLAPSE_ANIMATION);
+		var sidewaysCollapseAnimationIndex = 
+				Block.prototype.START_INDEX_OF_SIDEWAYS_COLLAPSE_ANIMATION + 
 				Math.floor(collapseAnimationProgress * 
 						Block.prototype.NUMBER_OF_FRAMES_IN_COLLAPSE_ANIMATION);
 
 		var shimmerAnimationProgress;
 		var animationIndex;
 		var i;
+		var rotateSprite = false;
 
 		// Draw each of the falling blocks
 		for (i = 0; i < gameWindow.blocksOnGameWindow.length; ++i) {
@@ -269,8 +275,10 @@
 			// Check whether we are currently animating this square in some manner
 			if (gameWindow.animatingSquares[i] === _NO_ANIMATION) {
 				animationIndex = 0;
-			} else if (gameWindow.animatingSquares[i] === _COLLAPSE_ANIMATION) {
-				animationIndex = collapseAnimationIndex;
+			} else if (gameWindow.animatingSquares[i] === _UP_RIGHT_COLLAPSE_ANIMATION) {
+				animationIndex = upRightCollapseAnimationIndex;
+			} else if (gameWindow.animatingSquares[i] === _SIDEWAYS_COLLAPSE_ANIMATION) {
+				animationIndex = sidewaysCollapseAnimationIndex;
 			} else {
 				shimmerAnimationProgress = (_gameWindowTime - gameWindow.animatingSquares[i]) / _SHIMMER_ANIMATION_PERIOD;
 				if (shimmerAnimationProgress < 1) {
@@ -371,8 +379,12 @@
 		var endY;
 		var endI;
 		var maxLayer;
+		var animationValue;
 
 		if (game.completingSquaresOn) { // Collapsing whole squares
+			var collapsingIndices;
+			var sideLength;
+
 			// Check whether we have a limited number of potential layers 
 			// to check
 			if (newCellPositions) {
@@ -404,6 +416,7 @@
 			completingSquaresOnlayerloop:
 			for (j = 0; j < layersToCheck.length; ++j) {
 				layer = layersToCheck[j];
+				collapsingIndices = [];
 
 				// Check the top side
 				startX = minCenterSquareCellPositionX - layer;
@@ -416,6 +429,7 @@
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
 						continue completingSquaresOnlayerloop;
 					}
+					collapsingIndices.push(i);
 				}
 
 				// Check the right side
@@ -429,6 +443,7 @@
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
 						continue completingSquaresOnlayerloop;
 					}
+					collapsingIndices.push(i);
 				}
 
 				// Check the bottom side
@@ -442,6 +457,7 @@
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
 						continue completingSquaresOnlayerloop;
 					}
+					collapsingIndices.push(i);
 				}
 
 				// Check the left side
@@ -455,9 +471,22 @@
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
 						continue completingSquaresOnlayerloop;
 					}
+					collapsingIndices.push(i);
 				}
 
 				completeLayers.push(layer);
+
+				// Mark each square in this layer as collapsing
+				sideLength = gameWindow.centerSquareCellSize + layer * 2;
+				for (i = 0; i < sideLength; ++i) {
+					gameWindow.animatingSquares[collapsingIndices[i]] = _UP_RIGHT_COLLAPSE_ANIMATION;
+				}for (; i < sideLength * 2; ++i) {
+					gameWindow.animatingSquares[collapsingIndices[i]] = _SIDEWAYS_COLLAPSE_ANIMATION;
+				}for (; i < sideLength * 3; ++i) {
+					gameWindow.animatingSquares[collapsingIndices[i]] = _UP_RIGHT_COLLAPSE_ANIMATION;
+				}for (; i < sideLength * 4; ++i) {
+					gameWindow.animatingSquares[collapsingIndices[i]] = _SIDEWAYS_COLLAPSE_ANIMATION;
+				}
 			}
 		} else { // Collapsing only lines
 			var side;
@@ -644,9 +673,15 @@
 					endCell: endCell
 				});
 
+				animationValue =
+						(side === Block.prototype.TOP_SIDE || 
+								side === Block.prototype.BOTTOM_SIDE) ? 
+							_UP_RIGHT_COLLAPSE_ANIMATION : 
+							_SIDEWAYS_COLLAPSE_ANIMATION;
+
 				// Mark each square in this layer as collapsing
 				for (i = startCell; i <= endCell; i += deltaI) {
-					gameWindow.animatingSquares[i] = _COLLAPSE_ANIMATION;
+					gameWindow.animatingSquares[i] = animationValue;
 				}
 			}
 		}

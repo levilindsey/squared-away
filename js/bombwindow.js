@@ -97,7 +97,7 @@
 				// Draw the square representing the bomb
 				squareX = x + w * 0.45 - gameWindow.squarePixelSize;
 				squareY = y + h * 0.5 - gameWindow.squarePixelSize * 0.5;
-				Block.prototype.drawSquare(context, 7 + _bombType, squareX, squareY);
+				Block.prototype.drawSquare(context, 7 + _bombType, squareX, squareY, 0);
 
 				// Draw the text representing how many bombs are left
 				x = x + w * 0.5;

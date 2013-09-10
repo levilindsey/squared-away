@@ -362,6 +362,8 @@
 	var _TWO_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.6;
 	var _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.475;
 
+	var _HALF_PI = Math.PI / 2;
+
 	var _oneSquareBlockFallPeriod; // millis / blocks
 	var _twoSquareBlockFallPeriod; // millis / blocks
 	var _threeSquareBlockFallPeriod; // millis / blocks
@@ -1338,7 +1340,8 @@
 	Block.prototype.LEFT_SIDE = 4;
 
 	Block.prototype.NUMBER_OF_FRAMES_IN_COLLAPSE_ANIMATION = 7;
-	Block.prototype.START_INDEX_OF_COLLAPSE_ANIMATION = 5;
+	Block.prototype.START_INDEX_OF_UP_RIGHT_COLLAPSE_ANIMATION = 5;
+	Block.prototype.START_INDEX_OF_SIDEWAYS_COLLAPSE_ANIMATION = 12;
 
 	Block.prototype.NUMBER_OF_FRAMES_IN_SHIMMER_ANIMATION = 4;
 	Block.prototype.START_INDEX_OF_SHIMMER_ANIMATION = 1;
@@ -1351,7 +1354,8 @@
 		_fiveSquareBlockFallPeriod = _fourSquareBlockFallPeriod * _FIVE_SQUARE_BLOCK_FALL_PERIOD_RATIO;
 	};
 
-	Block.prototype.drawSquare = function(context, colorIndex, x, y, animationIndex) {
+	Block.prototype.drawSquare = function(context, colorIndex, x, y, 
+			animationIndex) {
 		var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
 		var sourceX = animationIndex * _SOURCE_SQUARE_SIZE;
 
