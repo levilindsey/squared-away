@@ -311,6 +311,12 @@
 	function _startMouseGesture(pos, time) {
 		log.d("-->input._startMouseGesture");
 
+		// If this mouse down is consumed as an identifying tap, then do not 
+		// handle it as a higher-level gesture
+		if (_handleAsTap(pos)) {
+			return;
+		}
+
 		_gestureStartPos = pos;
 		_gestureStartTime = time;
 
@@ -329,6 +335,64 @@
 		input.phantomGuideLinePolygon = null;
 
 		log.d("<--input._startMouseGesture");
+	}
+
+	// Return true if this mouse down was consumed as an identifying tap.
+	function _handleAsTap(pos) {
+		if (_handleAsBombWindowTap(pos) || 
+				_handleAsPrimedPreviewWindowTap(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function _handleAsBombWindowTap(gameSpacePos) {
+		var canvasSpacePos = {
+			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
+			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
+		};
+
+		// Check whether this mouse down occurs over a bomb window
+		if (game.collapseBombWindow.isPointOverWindow(canvasSpacePos)) {
+			game.collapseBombWindow.primeBomb();
+			return true;
+		} else if (game.settleBombWindow.isPointOverWindow(canvasSpacePos)) {
+			game.settleBombWindow.primeBomb();
+			return true;
+		}
+
+		return false;
+	}
+
+	function _handleAsPrimedPreviewWindowTap(gameSpacePos) {
+		var canvasSpacePos = {
+			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
+			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
+		};
+
+		var i;
+
+		// Check whether a bomb is primed and this mouse down occurs over a preview window
+		if (game.primedWindowIndex >= 0) {
+			for (i = 0; i < game.previewWindows.length; ++i) {
+				if (game.previewWindows[i].isPointOverWindow(canvasSpacePos)) {
+					game.primedWindowIndex = i;
+					game.releaseBomb();
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	function _handleAsHelpTap(pos) {
+		
+	}
+
+	function _handleAsAudioToggleTap(pos) {
+		
 	}
 
 	function _finishMouseGesture(pos, time) {
@@ -746,7 +810,7 @@
 			fallDirection = (fallDirection + 1) % 4;
 		}
 
-		var phantomBlock = new Block(blockType, -1, -1, orientation, fallDirection);
+		var phantomBlock = new Block(blockType, -1, -1, orientation, fallDirection, -1);
 		phantomBlock.setCellPosition(gestureCellPos.x, gestureCellPos.y);
 
 		return phantomBlock;
@@ -904,16 +968,16 @@
 			} else if (keyboardControl === input.SWITCH_BLOCKS) {
 				_switchSelectedKeyboardBlock();
 			} else if (keyboardControl === input.COLLAPSE_BOMB) {
-				if (game.isCollapseBombPrimed) {
-					game.releaseCollapseBomb();
+				if (game.collapseBombWindow.getIsPrimed()) {
+					game.releaseBomb();
 				} else {
-					game.primeCollapseBomb();
+					game.collapseBombWindow.primeBomb();
 				}
 			} else if (keyboardControl === input.SETTLE_BOMB) {
-				if (game.isCollapseBombPrimed) {
-					game.releaseSettleBomb();
+				if (game.settleBombWindow.getIsPrimed()) {
+					game.releaseBomb();
 				} else {
-					game.primeSettleBomb();
+					game.settleBombWindow.primeBomb();
 				}
 			}
 

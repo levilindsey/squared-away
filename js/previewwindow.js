@@ -35,6 +35,9 @@
 
 	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
 
+	var _NATURAL_BOMB_FREQUENCY = 0.01;
+	var _RATIO_OF_NATURAL_COLLAPSE_BOMBS = 0.5;
+
 	function PreviewWindow(x, y, size, previewWindowIndex) {
 		log.d("-->previewwindow.PreviewWindow");
 
@@ -71,22 +74,40 @@
 				y: _position.y - currentSizePositionOffset
 			};
 
+			var areAllWindowsPrimed = game.primedWindowIndex > 0 && !game.keyboardControlOn;
+			var isThisWindowPrimed = game.primedWindowIndex === _previewWindowIndex;
+
 			// Draw the background and the border
 			context.beginPath();
 			context.lineWidth = _NORMAL_STROKE_WIDTH;
-			context.fillStyle = game.DEFAULT_FILL.str;
+			context.fillStyle = areAllWindowsPrimed || isThisWindowPrimed ? game.MEDIUM_COLORS[2].str : game.DEFAULT_FILL.str;
 			context.strokeStyle = game.DEFAULT_STROKE.str;
 			context.rect(currentPosition.x, currentPosition.y, sideLength, sideLength);
 			context.fill();
 			context.stroke();
 
-			// Show the cool-down progress with a background polygon and with 
-			// a thick line around the perimeter
-			_drawCoolDownFill(context, currentProgress, currentPosition, sideLength);
-			_drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth);
+			// TODO: refactor this messy boolean logic
 
-			// Draw the block in the center of the window
-			_currentBlock.draw(context);
+			// Check whether this preview window is currently primed with a bomb
+			if (areAllWindowsPrimed || isThisWindowPrimed) {
+				// Just show the stroke for the cool-down progress
+				_drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth);
+			} else {
+				// Show the cool-down progress with a background polygon and with 
+				// a thick line around the perimeter
+				_drawCoolDownFill(context, currentProgress, currentPosition, sideLength);
+				_drawCoolDownStroke(context, currentProgress, currentPosition, sideLength, progressLineWidth);
+			}
+
+			if (isThisWindowPrimed) {
+				// Draw the bomb block in the center of the window
+				var x = _positionOfWindowCenter.x - 0.5 * gameWindow.squarePixelSize;
+				var y = _positionOfWindowCenter.y - 0.5 * gameWindow.squarePixelSize;
+				Block.prototype.drawSquare(context, 7 + game.primedBombType, x, y);
+			} else {
+				// Draw the block in the center of the window
+				_currentBlock.draw(context);
+			}
 		}
 
 		function _drawCoolDownFill(context, currentProgress, currentPosition, sideLength) {
@@ -153,43 +174,59 @@
 
 		// Start this preview window with a random new block and a fresh cool 
 		// down.
-		function _startNewBlock(coolDownPeriod) {
-			// Change the current block to be a new block of some random type
-			var lowerIndex;
-			var upperIndex;
-			switch (game.numberOfSquaresInABlock) {
-			case 8: // 2 - 5
-				lowerIndex = Block.prototype.TWO_1;
-				upperIndex = Block.prototype.FIVE_18;
-				break;
-			case 7: // 4 - 5
-				lowerIndex = Block.prototype.FOUR_1;
-				upperIndex = Block.prototype.FIVE_18;
-				break;
-			case 6: // 2 - 4
-				lowerIndex = Block.prototype.TWO_1;
-				upperIndex = Block.prototype.FOUR_7;
-				break;
-			case 5:
-				lowerIndex = Block.prototype.FIVE_1;
-				upperIndex = Block.prototype.FIVE_18;
-				break;
-			case 4:
-				lowerIndex = Block.prototype.FOUR_1;
-				upperIndex = Block.prototype.FOUR_7;
-				break;
-			case 3:
-				lowerIndex = Block.prototype.THREE_1;
-				upperIndex = Block.prototype.THREE_2;
-				break;
-			case 2:
-				lowerIndex = Block.prototype.TWO_1;
-				upperIndex = Block.prototype.TWO_1;
-				break;
-			default:
-				return;
+		function _startNewBlock(coolDownPeriod, bombType) {
+			var blockType;
+
+			if (bombType < 0) {
+				if (game.bombsOn && Math.random() < _NATURAL_BOMB_FREQUENCY) {
+					blockType = Block.prototype.ONE_1;
+					if (Math.random() < _RATIO_OF_NATURAL_COLLAPSE_BOMBS) {
+						bombType = BombWindow.prototype.COLLAPSE_BOMB;
+					} else {
+						bombType = BombWindow.prototype.SETTLE_BOMB;
+					}
+				} else {
+					// Change the current block to be a new block of some random type
+					var lowerIndex;
+					var upperIndex;
+					switch (game.numberOfSquaresInABlock) {
+					case 8: // 2 - 5
+						lowerIndex = Block.prototype.TWO_1;
+						upperIndex = Block.prototype.FIVE_18;
+						break;
+					case 7: // 4 - 5
+						lowerIndex = Block.prototype.FOUR_1;
+						upperIndex = Block.prototype.FIVE_18;
+						break;
+					case 6: // 2 - 4
+						lowerIndex = Block.prototype.TWO_1;
+						upperIndex = Block.prototype.FOUR_7;
+						break;
+					case 5:
+						lowerIndex = Block.prototype.FIVE_1;
+						upperIndex = Block.prototype.FIVE_18;
+						break;
+					case 4:
+						lowerIndex = Block.prototype.FOUR_1;
+						upperIndex = Block.prototype.FOUR_7;
+						break;
+					case 3:
+						lowerIndex = Block.prototype.THREE_1;
+						upperIndex = Block.prototype.THREE_2;
+						break;
+					case 2:
+						lowerIndex = Block.prototype.TWO_1;
+						upperIndex = Block.prototype.TWO_1;
+						break;
+					default:
+						return;
+					}
+					blockType = Math.floor(Math.random() * ((upperIndex - lowerIndex) + 1)) + lowerIndex;
+					bombType = -1;
+				}
+			} else {
+				blockType = Block.prototype.ONE_1;
 			}
-			var blockType = Math.floor(Math.random() * ((upperIndex - lowerIndex) + 1)) + lowerIndex;
 
 			var orientation = _previewWindowIndex;
 			var fallDirection = _previewWindowIndex;
@@ -199,9 +236,9 @@
 			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * gameWindow.squarePixelSize);
 			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * gameWindow.squarePixelSize);
 
-			_currentBlock = new Block(blockType, x, y, orientation, fallDirection);
+			_currentBlock = new Block(blockType, x, y, orientation, fallDirection, bombType);
 
-			if (coolDownPeriod) {
+			if (coolDownPeriod >= 0) {
 				_actualCoolDownPeriod = coolDownPeriod;
 			} else {
 				// Compute a new (random) cool-down period to use, which is based off of _baseCoolDownPeriod
@@ -254,12 +291,27 @@
 			return _currentBlock;
 		}
 
+		function _releaseBomb() {
+			_startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, game.primedBombType);
+		}
+
 		function _isCoolDownFinished() {
 			return _timeSinceLastBlock >= _actualCoolDownPeriod;
 		}
 
 		function _getTimeSinceLastBlock() {
 			return _timeSinceLastBlock;
+		}
+
+		function _getCenterPosition() {
+			return _positionOfWindowCenter;
+		}
+
+		function _isPointOverWindow(point) {
+			return point.x >= _position.x && 
+				point.x <= _position.x + _size && 
+				point.y >= _position.y && 
+				point.y <= _position.y + _size;
 		}
 
 		// ----------------------------------------------------------------- //
@@ -272,12 +324,17 @@
 		this.update = _update;
 		this.draw = _draw;
 		this.getTimeSinceLastBlock = _getTimeSinceLastBlock;
+		this.getCenterPosition = _getCenterPosition;
+		this.isPointOverWindow = _isPointOverWindow;
+		this.releaseBomb = _releaseBomb;
 
 		log.d("<--previewwindow.PreviewWindow");
 	}
 
 	// Make PreviewWindow available to the rest of the program
 	window.PreviewWindow = PreviewWindow;
+
+	PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD = 800; // millis
 
 	log.i("<--previewwindow.LOADING_MODULE");
 }());

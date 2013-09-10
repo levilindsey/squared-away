@@ -33,7 +33,6 @@
 	var _PREVIEW_WINDOW_INNER_MARGIN_RATIO = (1 - (_GAME_AREA_SIZE_RATIO + 
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
-	var _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD = 800; // millis
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 50000; // in millis
 	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.21; // linear // TODO: test/tweak this
 
@@ -75,7 +74,6 @@
 	// ----------------------------------------------------------------- //
 	// -- Private members
 
-	var _previewWindowSizePixels = 0; // in pixels
 	var _previewWindowOuterMarginPixels = 0; // in pixels
 	var _previewWindowInnerMarginPixels = 0; // in pixels
 
@@ -88,9 +86,6 @@
 	var _isLooping = false;
 
 	var _prevTime = 0;
-	var _previewWindows = null;
-	var _collapseBombWindow = null;
-	var _settleBombWindow = null;
 
 	var _score = 0;
 	var _level = 1;
@@ -147,18 +142,18 @@
 
 		gameWindow.update(deltaTime);
 
-		_collapseBombWindow.update(deltaTime);
-		_settleBombWindow.update(deltaTime);
+		game.collapseBombWindow.update(deltaTime);
+		game.settleBombWindow.update(deltaTime);
 
 		// Update the preview windows
 		for (i = 0; i < 4; ++i) {
-			_previewWindows[i].update(deltaTime);
+			game.previewWindows[i].update(deltaTime);
 
 			// If the preview window has finished its cool down, then add 
 			// its block to the game area and start a new block in preview 
 			// window
-			if (_previewWindows[i].isCoolDownFinished()) {
-				_setupNextBlock(_previewWindows[i]);
+			if (game.previewWindows[i].isCoolDownFinished()) {
+				_setupNextBlock(game.previewWindows[i]);
 			}
 		}
 
@@ -173,12 +168,12 @@
 
 		var i;
 
-		_collapseBombWindow.draw();
-		_settleBombWindow.draw();
+		game.collapseBombWindow.draw(_context);
+		game.settleBombWindow.draw(_context);
 
 		// Draw the preview windows
 		for (i = 0; i < 4; ++i) {
-			_previewWindows[i].draw(_context);
+			game.previewWindows[i].draw(_context);
 		}
 
 		// Draw the game window
@@ -209,10 +204,10 @@
 		var deltaCoolDown = _currentPreviewWindowCoolDownTime / 4;
 
 		// Start each of the preview windows
-		for (var i = 0, coolDown = _START_OF_GAME_INITIAL_COOL_DOWN_PERIOD; 
+		for (var i = 0, coolDown = PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD; 
 				i < 4; 
 				++i, coolDown += deltaCoolDown) {
-			_previewWindows[i].startNewBlock(coolDown);
+			game.previewWindows[i].startNewBlock(coolDown, -1);
 		}
 
 		_recentCollapsesCount = 0;
@@ -244,7 +239,7 @@
 				_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
 				_level);
 		for (var i = 0; i < 4; ++i) {
-			_previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
+			game.previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 		}
 
 		// Decrease the layer collapse delay
@@ -270,26 +265,26 @@
 
 	function _computeDimensions() {
 		gameWindow.gameWindowPixelSize = _canvas.width * _GAME_AREA_SIZE_RATIO;
-		_previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
+		game.previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
 		_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
 		_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
-		gameWindow.gameWindowPosition.x = _previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
+		gameWindow.gameWindowPosition.x = game.previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
 		gameWindow.gameWindowPosition.y = gameWindow.gameWindowPosition.x;
 	}
 
 	function _setUpPreviewWindows() {
-		var size = _previewWindowSizePixels;
+		var size = game.previewWindowSizePixels;
 
 		// This is the horizontal distance (in pixels) from the left side 
 		// of the canvas to the left side of the top-side preview window
-		var tmp1 = (_previewWindowSizePixels / 2) + 
+		var tmp1 = (game.previewWindowSizePixels / 2) + 
 					_previewWindowOuterMarginPixels + 
 					_previewWindowInnerMarginPixels + 
 					(gameWindow.gameWindowPixelSize / 2);
 
 		// This is the horizontal distance (in pixels) from the left side 
 		// of the canvas to the left side of the right-side preview window
-		var tmp2 = _previewWindowSizePixels + 
+		var tmp2 = game.previewWindowSizePixels + 
 					_previewWindowOuterMarginPixels + 
 					(_previewWindowInnerMarginPixels * 2) + 
 					gameWindow.gameWindowPixelSize;
@@ -308,7 +303,7 @@
 		var previewWindow3 = new PreviewWindow(x3, y3, size, 2);
 		var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
 
-		_previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
+		game.previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
 	}
 
 	function _setUpBombWindows() {
@@ -317,21 +312,17 @@
 		var w;
 		var h;
 
-		x = -1;
-		y = -1;
-		w = -1;
-		h = -1;
-		_collapseBombWindow = new BombWindow(x, y, w, h, 
+		h = game.previewWindowSizePixels * 0.6667;
+		w = h * 2;
+		y = game.previewWindows[2].getCenterPosition().y - h / 2;
+
+		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.25 - w / 2;
+		game.collapseBombWindow = new BombWindow(x, y, w, h, 
 				BombWindow.prototype.COLLAPSE_BOMB, _INITIAL_COLLAPSE_BOMB_COUNT);
 
-		x = -1;
-		y = -1;
-		w = -1;
-		h = -1;
-		_settleBombWindow = new BombWindow(x, y, w, h, 
+		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.75 - w / 2;
+		game.settleBombWindow = new BombWindow(x, y, w, h, 
 				BombWindow.prototype.SETTLE_BOMB, _INITIAL_SETTLE_BOMB_COUNT);
-
-		// TODO: ****
 	}
 
 	function _play() {
@@ -418,7 +409,7 @@
 		}
 
 		gameWindow.blocksOnGameWindow.push(block);
-		previewWindow.startNewBlock();
+		previewWindow.startNewBlock(-1, -1);
 		++_blocksHandledCount;
 
 		if (game.keyboardControlOn && !input.selectedKeyboardBlock) {
@@ -430,15 +421,15 @@
 
 	function _forceNextBlock() {
 		// Determine which preview window is next
-		var nextPreviewWindow = _previewWindows[0];
-		var longestTime = _previewWindows[0].getTimeSinceLastBlock();
+		var nextPreviewWindow = game.previewWindows[0];
+		var longestTime = game.previewWindows[0].getTimeSinceLastBlock();
 		var currentTime;
 		var i;
 		for (i = 0; i < 4; ++i) {
-			currentTime = _previewWindows[i].getTimeSinceLastBlock();
+			currentTime = game.previewWindows[i].getTimeSinceLastBlock();
 			if (currentTime > longestTime) {
 				longestTime = currentTime;
-				nextPreviewWindow = _previewWindows[i];
+				nextPreviewWindow = game.previewWindows[i];
 			}
 		}
 
@@ -446,28 +437,20 @@
 		_setupNextBlock(nextPreviewWindow);
 	}
 
-	function _primeCollapseBomb() {
-		_collapseBombWindow.primeBomb();
-	}
-
-	function _primeSettleBomb() {
-		_settleBombWindow.primeBomb();
-	}
-
-	function _releaseCollapseBomb() {
-		_collapseBombWindow.releaseBomb();
-	}
-
-	function _releaseSettleBomb() {
-		_settleBombWindow.releaseBomb();
+	function _releaseBomb() {
+		if (game.collapseBombWindow.getIsPrimed()) {
+			game.collapseBombWindow.releaseBomb();
+		} else {
+			game.settleBombWindow.releaseBomb();
+		}
 	}
 
 	function _getIsCollapseBombPrimed() {
-		return _collapseBombWindow.getIsPrimed();
+		return game.collapseBombWindow.getIsPrimed();
 	}
 
 	function _getIsSettleBombPrimed() {
-		return _settleBombWindow.getIsPrimed();
+		return game.settleBombWindow.getIsPrimed();
 	}
 
 	function _getScore() {
@@ -540,13 +523,19 @@
 
 		forceNextBlock: _forceNextBlock,
 
-		primeCollapseBomb: _primeCollapseBomb,
-		primeSettleBomb: _primeSettleBomb,
-		releaseCollapseBomb: _releaseCollapseBomb,
-		releaseSettleBomb: _releaseSettleBomb,
+		releaseBomb: _releaseBomb,
 
 		getIsCollapseBombPrimed: _getIsCollapseBombPrimed,
 		getIsSettleBombPrimed: _getIsSettleBombPrimed,
+
+		previewWindows: null,
+		collapseBombWindow: null,
+		settleBombWindow: null,
+
+		previewWindowSizePixels: 0, // in pixels
+
+		primedWindowIndex: -1,
+		primedBombType: -1,
 
 		isPaused: true,
 		isEnded: true,

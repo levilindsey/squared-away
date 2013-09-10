@@ -378,7 +378,7 @@
 	// NOTE: I choose to represent the cell "position" of a block as the 
 	//		 top-left cell occupied by the bounding box formed by the current 
 	//		 orientation of the block.
-	function Block(type, x, y, orientation, fallDirection) {
+	function Block(type, x, y, orientation, fallDirection, bombType) {
 		log.d("-->block.Block");
 
 		// ----------------------------------------------------------------- //
@@ -393,6 +393,8 @@
 		var _hasCollidedWithSquare = false;
 		var _hasCollidedWithEdgeOfArea = false;
 		var _hasCollidedWithBackLineOfCenterSquare = false;
+
+		var _bombType = bombType;
 
 		// Each block keeps track of its own timers so it can fall and shimmer 
 		// independently.
@@ -441,7 +443,7 @@
 			var positions = _getSquareCellPositionsRelativeToBlockPosition(
 									_type, _orientation);
 
-			var colorIndex = _COLOR_INDICES[_type];
+			var colorIndex = _bombType >= 0 ? 7 + _bombType : _COLOR_INDICES[_type];
 
 			var i;
 
@@ -1094,6 +1096,10 @@
 			return { left: leftPoint, right: rightPoint };
 		}
 
+		function _getBombType() {
+			return _bombType;
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -1120,6 +1126,7 @@
 		this.getCellPosition = _getCellPosition;
 		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
 		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
+		this.getBombType = _getIsBomb;
 
 		log.d("<--block.Block");
 	}

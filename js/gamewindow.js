@@ -155,38 +155,47 @@
 			}
 
 			if (addSquares) {
-				// Add it's squares to the game area and delete the block 
-				// object
-				var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
-				gameWindow.blocksOnGameWindow.splice(i, 1);
-
-				// If the player is still selecting it, then un-select it
-				if (input.selectedMouseBlock === block) {
-					input.selectedMouseBlock = null;
-				}
-				if (input.selectedKeyboardBlock === block) {
-					// Check whether there currently are any other blocks to 
-					// select automatically
-					if (gameWindow.blocksOnGameWindow.length > 0) {
-						input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+				var bombType = block.getBombType();
+				if (bombType >= 0) {
+					if (bombType === 0) {
+						_handleCollapseBomb(block.getCellPosition());
 					} else {
-						input.selectedKeyboardBlock = null;
+						_handleSettleBomb(block.getCellPosition());
 					}
-				}
-
-				// Check whether this was the last active block
-				if (gameWindow.blocksOnGameWindow.length === 0) {
-					block = game.forceNextBlock();
-				}
-
-				// Check whether this landed block causes the collapse of any layers
-				var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
-
-				if (layersWereCompleted) {
-					sound.playSFX("collapse");
-					sound.playSFX("land");
 				} else {
-					sound.playSFX("land");
+					// Add it's squares to the game area and delete the block 
+					// object
+					var newCellPositions = block.addSquaresToGameWindow(gameWindow.squaresOnGameWindow);
+					gameWindow.blocksOnGameWindow.splice(i, 1);
+
+					// If the player is still selecting it, then un-select it
+					if (input.selectedMouseBlock === block) {
+						input.selectedMouseBlock = null;
+					}
+					if (input.selectedKeyboardBlock === block) {
+						// Check whether there currently are any other blocks to 
+						// select automatically
+						if (gameWindow.blocksOnGameWindow.length > 0) {
+							input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+						} else {
+							input.selectedKeyboardBlock = null;
+						}
+					}
+
+					// Check whether this was the last active block
+					if (gameWindow.blocksOnGameWindow.length === 0) {
+						block = game.forceNextBlock();
+					}
+
+					// Check whether this landed block causes the collapse of any layers
+					var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
+
+					if (layersWereCompleted) {
+						sound.playSFX("collapse");
+						sound.playSFX("land");
+					} else {
+						sound.playSFX("land");
+					}
 				}
 			}
 		}
@@ -1013,6 +1022,16 @@
 				}
 			}
 		}
+	}
+
+	function _handleCollapseBomb(bombCellPos) {
+		// TODO: (COLLAPSE_BOMB_RADIUS (i.e., HALF of side length (...because it blows up a square area)))
+		****
+	}
+
+	function _handleSettleBomb(bombCellPos) {
+		// TODO:
+		****
 	}
 
 	function _setUpCenterSquare() {

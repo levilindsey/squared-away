@@ -8,12 +8,6 @@
 // effect of minimizing side-effects and problems when linking multiple script 
 // files.
 // 
-// COLORS:
-//		- Top:		blue
-//		- Right:	yellow
-//		- Bottom:	green
-//		- Left:		red
-// 
 // Dependencies:
 //		- window.log
 //		- window.Sprite
@@ -35,6 +29,8 @@
 
 	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
 
+	var _PRIMED_SIZE_RATIO = 1.75;
+
 	function BombWindow(x, y, w, h, bombType, bombCount) {
 		log.d("-->bombwindow.BombWindow");
 
@@ -42,6 +38,8 @@
 		// -- Private members
 
 		var _rect = { x: x, y: y, w: w, h: h }; // in pixels
+
+		var _fontString = "bold " + Math.floor(h / 2) + "px monospace";
 
 		var _ellapsedTime = 0;
 
@@ -58,37 +56,83 @@
 		// The window, its current cool-down progress, and the next block.  
 		// The size of the window increases as the cool down progresses.
 		function _draw(context) {
-			// TODO: ****
+			if (game.bombsOn) {
+				var x;
+				var y;
+				var w;
+				var h;
+				var strokeWidth;
+				var fill;
+				var stroke;
+				var squareX;
+				var squareY;
+
+				if (_isPrimed) {
+					w = _rect.w * _PRIMED_SIZE_RATIO;
+					h = _rect.h * _PRIMED_SIZE_RATIO;
+					x = _rect.x - (w - _rect.w) / 2;
+					y = _rect.y - (h - _rect.h) / 2;
+					strokeWidth = _PRIMED_STROKE_WIDTH;
+					fill = game.MEDIUM_COLORS[2].str;
+					stroke = game.LIGHT_COLORS[2].str;
+				} else {
+					x = _rect.x;
+					y = _rect.y;
+					w = _rect.w;
+					h = _rect.h;
+					strokeWidth = _NORMAL_STROKE_WIDTH;
+					fill = game.DEFAULT_FILL.str;
+					stroke = game.DEFAULT_STROKE.str;
+				}
+
+				// Draw the background and the border
+				context.beginPath();
+				context.lineWidth = strokeWidth;
+				context.fillStyle = fill;
+				context.strokeStyle = stroke;
+				context.rect(x, y, w, h);
+				context.fill();
+				context.stroke();
+
+				// Draw the square representing the bomb
+				squareX = x + w * 0.45 - gameWindow.squarePixelSize;
+				squareY = y + h * 0.5 - gameWindow.squarePixelSize * 0.5;
+				Block.prototype.drawSquare(context, 7 + _bombType, squareX, squareY);
+
+				// Draw the text representing how many bombs are left
+				x = x + w * 0.5;
+				y = squareY + gameWindow.squarePixelSize;
+				context.fillStyle = "white";
+				context.font = _fontString;
+				context.fillText("x" + _bombCount, x, y);
+			}
 		}
 
-		function _primeBomb() {
-			// TODO: ****COLLAPSE BOMB:
-			//		- highlight and enlarge the first preview window, and overlay a phantom image of a single block in its center
-			//		- add code to catch the mouse clicks and directional button presses in order to first select other preview windows, and then to release the bomb
-			//		- in the event of keyboard input, highlight only the one selected window
-			//		- in the event of mouse input, highlight ALL preview windows
+		function _isPointOverWindow(point) {
+			return point.x >= _rect.x && 
+				point.x <= _rect.x + _rect.w && 
+				point.y >= _rect.y && 
+				point.y <= _rect.y + _rect.h;
+		}
 
-			// TODO: ****SETTLE BOMB:
-			//		- highlight the collapse bomb area (which will be on the bottom left)
-			//		- add code to catch the mouse clicks and directional button presses in order to release the bomb
-			_isPrimed = true;
+		// Return true if there are any bombs to prime
+		function _primeBomb() {
+			if (_bombCount > 0) {
+				game.primedWindowIndex = game.keyboardControlOn ? 0 : 4;
+				game.primedBombType = _bombType;
+				_isPrimed = true;
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		function _releaseBomb() {
-			// TODO: ****COLLAPSE BOMB:
-			//		- replace the block in the currently selected preview window with a new, single-block collapse bomb
-			//		- in addition, set it to have a really short cooldown time (the same as the initial top preview window)
-			//		- in fact, lets make all single-square blocks be collapse bombs, which means:
-			//			- re-set all block square-size parameter ranges to start at 2, not 1
-			//			- whenever deciding on a new block type, give a random chance of picking a collapse bomb; to do so, simply roll a random die before doing the rest of the start-new-block function
-			//			- but give these random bombs the normal cooldown time
-
-			// TODO: ****SETTLE BOMB:
-			//		- animate the center square so that it vibrates and bounces around briefly
-			//		- settle ALL blocks on the map
-			//		- I will need to figure out how to determine which direction(s) to settle blocks that are in the diagonal areas
+			game.previewWindows[game.primedWindowIndex].releaseBomb();
 			--_bombCount;
 			_isPrimed = false;
+			game.primedWindowIndex = -1;
+			game.primedBombType = -1;
 		}
 
 		function _addBomb() {
@@ -108,6 +152,7 @@
 
 		this.update = _update;
 		this.draw = _draw;
+		this.isPointOverWindow = _isPointOverWindow;
 		this.primeBomb = _primeBomb;
 		this.releaseBomb = _releaseBomb;
 		this.addBomb = _addBomb;
@@ -119,6 +164,8 @@
 
 	// Make BombWindow available to the rest of the program
 	window.BombWindow = BombWindow;
+
+	BombWindow.prototype.COLLAPSE_BOMB_RADIUS = 6;
 
 	BombWindow.prototype.COLLAPSE_BOMB = 0;
 	BombWindow.prototype.SETTLE_BOMB = 1;

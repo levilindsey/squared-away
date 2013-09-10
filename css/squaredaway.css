@@ -209,36 +209,21 @@ h3 {
 	width: 720px;
 }
 
-#playAreaButtons {
+.canvasButton {
+	display: none;
 	position: absolute;
 	height: 70px;
-	left: 0px;
 	top: 640px;
-	width: 720px;
+	width: 70px;
 	z-index: 5;
 }
 
-#playAreaButtonsLeftContainer {
-	position: relative;
-	float: left;
-	height: 70px;
-	margin-left: 10px;
-	width: 70px;
+#helpButton { /* Left-side button */
+	left: 10px;
 }
 
-#playAreaButtonsRightContainer {
-	position: relative;
-	float: right;
-	height: 70px;
-	margin-right: 10px;
-	width: 70px;
-}
-
-#playAreaButtons img {
-	position: absolute;
-	display: none;
-	height: 70px;
-	width: 70px;
+#musicOnButton, #musicOffButton, #sfxOnButton, #sfxOffButton { /* Right-side button */
+	left: 640px;
 }
 
 #problemScreen {
