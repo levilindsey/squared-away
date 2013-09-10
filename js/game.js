@@ -54,7 +54,8 @@
 
 	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
 
-	var _POINTS_FOR_BONUS = 2500; // TODO: test/tweak this
+	var _POINTS_FOR_COLLAPSE_BOMB = 4000; // TODO: test/tweak this
+	var _POINTS_FOR_SETTLE_BOMB = 4000; // TODO: test/tweak this
 
 	var _INITIAL_COLLAPSE_BOMB_COUNT = 2; // TODO: test/tweak this
 	var _INITIAL_SETTLE_BOMB_COUNT = 2; // TODO: test/tweak this
@@ -107,7 +108,8 @@
 	var _recentCollapsesCount = 0;
 	var _prevCollapseTime = 0;
 
-	var _pointsForPrevBonus = 0;
+	var _pointsForPrevCollapseBomb = -2000;
+	var _pointsForPrevSettleBomb = 0;
 
 	// The game loop drives the progression of frames and game logic
 	function _gameLoop() {
@@ -387,11 +389,22 @@
 			sound.playSFX("level");
 		}
 
-		// Check whether the player has earned anything with the new score
-		if (_score > _pointsForPrevBonus + _POINTS_FOR_BONUS) {
-			// TODO: give the player the bonus
+		// Check whether the player has earned an extra collapse bomb with 
+		// the new score
+		if (_score > _pointsForPrevCollapseBomb + _POINTS_FOR_COLLAPSE_BOMB) {
+			game.collapseBombWindow.addBomb();
 
-			_pointsForPrevBonus += _POINTS_FOR_BONUS;
+			_pointsForPrevCollapseBomb += _POINTS_FOR_COLLAPSE_BOMB;
+
+			sound.playSFX("earnedBonus");
+		}
+
+		// Check whether the player has earned an extra settle bomb with 
+		// the new score
+		if (_score > _pointsForPrevSettleBomb + _POINTS_FOR_SETTLE_BOMB) {
+			game.settleBombWindow.addBomb();
+
+			_pointsForPrevSettleBomb += _POINTS_FOR_SETTLE_BOMB;
 
 			sound.playSFX("earnedBonus");
 		}
