@@ -601,12 +601,22 @@
 			input.selectedKeyboardBlock = null;
 		}
 
-		var keyboardDirectionElems = document.getElementsByClassName("keyboardDirection");
-		var displayStyle = game.keyboardControlOn ? "block" : "none";
+		var directionElems;
+		var displayStyle;
 		var i;
 
-		for (i = 0; i < keyboardDirectionElems.length; ++i) {
-			keyboardDirectionElems[i].style.display = displayStyle;
+		// Update the keyboard directions' displays
+		directionElems = document.getElementsByClassName("keyboardDirection");
+		displayStyle = game.keyboardControlOn ? "block" : "none";
+		for (i = 0; i < directionElems.length; ++i) {
+			directionElems[i].style.display = displayStyle;
+		}
+
+		// Update the mouse directions' displays
+		directionElems = document.getElementsByClassName("mouseDirection");
+		displayStyle = game.keyboardControlOn ? "none" : "block";
+		for (i = 0; i < directionElems.length; ++i) {
+			directionElems[i].style.display = displayStyle;
 		}
 	}
 
