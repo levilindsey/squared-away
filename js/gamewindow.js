@@ -1149,6 +1149,10 @@
 	function _handleSettleBomb() {
 		// TODO: should I continue to force inward settling?
 		_settleHigherLayers(0, true, true);
+
+		// Settling layers has the potential to complete additional layers, so 
+		// we should check for that now
+		_checkForCompleteLayers();
 	}
 
 	function _setUpCenterSquare() {

@@ -34,7 +34,7 @@
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
-	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.35; // linear // TODO: test/tweak this
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.40; // linear // TODO: test/tweak this
 
 	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 1 / 50000; // in block per millis
 	var _PREVIEW_WINDOW_COOL_DOWN_SPEED_GROWTH_RATE = 0.15; // linear // TODO: test/tweak this
@@ -275,13 +275,31 @@
 		_levelDisplay.innerHTML = _level;
 	}
 
-	function _computeDimensions() {
+	function _computeCanvasDimensions() {
 		gameWindow.gameWindowPixelSize = _canvas.width * _GAME_AREA_SIZE_RATIO;
 		game.previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
 		_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
 		_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
 		gameWindow.gameWindowPosition.x = game.previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
 		gameWindow.gameWindowPosition.y = gameWindow.gameWindowPosition.x;
+	}
+
+	function _getHelpButtonRect() {
+		return {
+			left: game.previewWindows[3].getPosition().x + "px",
+			top: game.previewWindows[2].getPosition().y + "px",
+			width: game.previewWindowSizePixels + "px",
+			height: game.previewWindowSizePixels + "px"
+		};
+	}
+
+	function _getAudioButtonRect() {
+		return {
+			left: game.previewWindows[1].getPosition().x + "px",
+			top: game.previewWindows[2].getPosition().y + "px",
+			width: game.previewWindowSizePixels + "px",
+			height: game.previewWindowSizePixels + "px"
+		};
 	}
 
 	function _setUpPreviewWindows() {
@@ -524,14 +542,14 @@
 		return _settleBombsUsedCount;
 	}
 
-	function _setDOMElements(canvas, levelDisplay, scoreDisplay, onGameEnd) {
+	function _init(canvas, levelDisplay, scoreDisplay, onGameEnd) {
 		_canvas = canvas;
 		_context = _canvas.getContext("2d");
 		_levelDisplay = levelDisplay;
 		_scoreDisplay = scoreDisplay;
 		_onGameEnd = onGameEnd;
 
-		_computeDimensions();
+		_computeCanvasDimensions();
 		_setUpPreviewWindows();
 		_setUpBombWindows();
 
@@ -571,7 +589,10 @@
 
 		addCollapseToScore: _addCollapseToScore,
 
-		setDOMElements: _setDOMElements,
+		init: _init,
+
+		getHelpButtonRect: _getHelpButtonRect,
+		getAudioButtonRect: _getAudioButtonRect,
 
 		forceNextBlock: _forceNextBlock,
 

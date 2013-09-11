@@ -305,6 +305,10 @@
 			return _timeSinceLastBlock;
 		}
 
+		function _getPosition() {
+			return _position;
+		}
+
 		function _getCenterPosition() {
 			return _positionOfWindowCenter;
 		}
@@ -326,6 +330,7 @@
 		this.update = _update;
 		this.draw = _draw;
 		this.getTimeSinceLastBlock = _getTimeSinceLastBlock;
+		this.getPosition = _getPosition;
 		this.getCenterPosition = _getCenterPosition;
 		this.isPointOverWindow = _isPointOverWindow;
 		this.releaseBomb = _releaseBomb;

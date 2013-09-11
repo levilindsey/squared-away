@@ -77,13 +77,13 @@ h3 {
 #betaLabel {
 	background-color: rgba(2,2,2,0.4);
 	padding: 10px 0px;
-	width: 720px;
+	width: 100%;
 }
 
 #banner {
 	background-color: rgba(2,2,2,0.4);
 	padding: 10px 0px;
-	width: 720px;
+	width: 100%;
 }
 
 #banner img {
@@ -114,15 +114,15 @@ h3 {
 }
 
 #gameCanvas {
-	height: 720px;
-	width: 720px;
+	height: 100%;
+	width: 100%;
 	z-index: 1;
 }
 
 #infoArea {
 	background-color: rgba(2,2,2,0.4);
 	padding: 1px 0px;
-	width: 720px;
+	width: 100%;
 }
 
 #infoArea>* {
@@ -161,11 +161,11 @@ h3 {
 #pauseScreen {
 	position: absolute;
 	background-color: rgba(2,2,2,0.65);
-	height: 720px;
+	height: 100%;
 	margin: 0px auto;
 	left: 0px;
 	top: 0px;
-	width: 720px;
+	width: 100%;
 	z-index: 3;
 }
 
@@ -188,7 +188,7 @@ h3 {
 	left: 0px;
 	margin: 10px 0px;
 	top: 0px;
-	width: 720px;
+	width: 100%;
 }
 
 .canvasButton {
@@ -212,11 +212,11 @@ h3 {
 	display: none;
 	position: absolute;
 	background-color: rgba(0,0,0,0.5);
-	height: 720px;
+	height: 100%;
 	margin: 0px auto;
 	left: 0px;
 	top: 0px;
-	width: 720px;
+	width: 100%;
 	z-index: 4;
 }
 

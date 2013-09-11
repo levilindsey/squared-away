@@ -76,14 +76,24 @@
 		_canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
+		var helpButton = document.getElementById("helpButton");
+		var musicOnButton = document.getElementById("musicOnButton");
+		var musicOffButton = document.getElementById("musicOffButton");
+		var sfxOnButton = document.getElementById("sfxOnButton");
+		var sfxOffButton = document.getElementById("sfxOffButton");
+
+		_fitAppToViewPort();
 
 		_canvas.width = utils.getElementWidth(_canvas);
 		_canvas.height = utils.getElementHeight(_canvas);
 
-		game.setDOMElements(_canvas, levelDisplay, scoreDisplay, _onGameEnd);
+		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd);
+
+		_adjustHelpAndAudioButtonDimensions();
 
 		// ---------- Hook up the event handlers ---------- //
 
+		window.addEventListener("resize", _onWindowResize, false)
 		window.addEventListener("blur", _pauseGame, false);
 
 		document.addEventListener("keydown", _onKeyDown, false);
@@ -107,23 +117,18 @@
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.addEventListener("click", _onPauseEvent, false);
 
-		var helpButton = document.getElementById("helpButton");
 		helpButton.addEventListener("click", _pauseGame, false);
 		helpButton.addEventListener("mouseover", _onHelpOver, false);
 		helpButton.addEventListener("mouseout", _onHelpOut, false);
-		var musicOnButton = document.getElementById("musicOnButton");
 		musicOnButton.addEventListener("click", _onAudioClick, false);
 		musicOnButton.addEventListener("mousemove", _onAudioMove, false);
 		musicOnButton.addEventListener("mouseout", _onAudioOut, false);
-		var musicOffButton = document.getElementById("musicOffButton");
 		musicOffButton.addEventListener("click", _onAudioClick, false);
 		musicOffButton.addEventListener("mousemove", _onAudioMove, false);
 		musicOffButton.addEventListener("mouseout", _onAudioOut, false);
-		var sfxOnButton = document.getElementById("sfxOnButton");
 		sfxOnButton.addEventListener("click", _onAudioClick, false);
 		sfxOnButton.addEventListener("mousemove", _onAudioMove, false);
 		sfxOnButton.addEventListener("mouseout", _onAudioOut, false);
-		var sfxOffButton = document.getElementById("sfxOffButton");
 		sfxOffButton.addEventListener("click", _onAudioClick, false);
 		sfxOffButton.addEventListener("mousemove", _onAudioMove, false);
 		sfxOffButton.addEventListener("mouseout", _onAudioOut, false);
@@ -150,16 +155,73 @@
 		log.i("<--main._init");
 	}
 
+	function _onWindowResize() {
+		_fitAppToViewPort();
+		_adjustHelpAndAudioButtonDimensions();
+	}
+
 	function _fitAppToViewPort() {
+		var MARGIN = 20;
+		var pageColumn = document.getElementById("pageColumn");
+		var playArea = document.getElementById("playArea");
+		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
+		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
+
 		var viewportWidth = document.documentElement.clientWidth;
 		var viewportHeight = document.documentElement.clientHeight;
 
 		var canvasRect = utils.standardizeClientRect(_canvas);
-		var verticalScroll = canvasRect.top;
+		var verticalScroll = canvasRect.top - MARGIN;
+		var size = Math.min(viewportWidth, viewportHeight) - MARGIN * 2;
 
-		
+		pageColumn.style.width = size + "px"
+
+		playArea.style.width = size + "px";
+		playArea.style.height = size + "px";
+
+		topLevelDisplayArea.style.width = (size - 20) + "px";
+		topScoreDisplayArea.style.width = (size - 20) + "px";
+
+		_canvas.style.width = size + "px";
+		_canvas.style.height = size + "px";
 
 		window.scrollTo(0, verticalScroll);
+	}
+
+	function _adjustHelpAndAudioButtonDimensions() {
+		var helpButton = document.getElementById("helpButton");
+		var musicOnButton = document.getElementById("musicOnButton");
+		var musicOffButton = document.getElementById("musicOffButton");
+		var sfxOnButton = document.getElementById("sfxOnButton");
+		var sfxOffButton = document.getElementById("sfxOffButton");
+
+		var helpRect = game.getHelpButtonRect();
+		var audioRect = game.getAudioButtonRect();
+
+		helpButton.style.left = helpRect.left;
+		helpButton.style.top = helpRect.top;
+		helpButton.style.width = helpRect.width;
+		helpButton.style.height = helpRect.height;
+
+		musicOnButton.style.left = audioRect.left;
+		musicOnButton.style.top = audioRect.top;
+		musicOnButton.style.width = audioRect.width;
+		musicOnButton.style.height = audioRect.height;
+
+		musicOffButton.style.left = audioRect.left;
+		musicOffButton.style.top = audioRect.top;
+		musicOffButton.style.width = audioRect.width;
+		musicOffButton.style.height = audioRect.height;
+
+		sfxOnButton.style.left = audioRect.left;
+		sfxOnButton.style.top = audioRect.top;
+		sfxOnButton.style.width = audioRect.width;
+		sfxOnButton.style.height = audioRect.height;
+
+		sfxOffButton.style.left = audioRect.left;
+		sfxOffButton.style.top = audioRect.top;
+		sfxOffButton.style.width = audioRect.width;
+		sfxOffButton.style.height = audioRect.height;
 	}
 
 	function _playGame() {
