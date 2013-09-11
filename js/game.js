@@ -33,17 +33,17 @@
 	var _PREVIEW_WINDOW_INNER_MARGIN_RATIO = (1 - (_GAME_AREA_SIZE_RATIO + 
 			((_PREVIEW_WINDOW_SIZE_RATIO + _PREVIEW_WINDOW_OUTER_MARGIN_RATIO) * 2))) / 2; // a ratio of overall canvas size
 
-	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 50000; // in millis
-	var _PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE = -0.21; // linear // TODO: test/tweak this
-
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
-	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.45; // linear // TODO: test/tweak this
+	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.35; // linear // TODO: test/tweak this
 
-	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 9000; // millis per color
-	var _CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE = -0.10;
+	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 1 / 50000; // in block per millis
+	var _PREVIEW_WINDOW_COOL_DOWN_SPEED_GROWTH_RATE = 0.15; // linear // TODO: test/tweak this
 
-	var _INITIAL_COLLAPSE_DELAY = 500; // millis
-	var _COLLAPSE_DELAY_GROWTH_RATE = -0.10;
+	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 1 / 9000; // color per millis
+	var _CENTER_SQUARE_COLOR_CHANGE_SPEED_GROWTH_RATE = 0.15;
+
+	var _INITIAL_COLLAPSE_DELAY = 1 / 500; // collapse per millis
+	var _COLLAPSE_SPEED_GROWTH_RATE = 0.10;
 
 	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 3; // TODO: test/tweak this
 	var _LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE = 0.334; // TODO: test/tweak this
@@ -239,25 +239,25 @@
 		Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 		// Increase the rate of the center square color changes
-		_currentCenterSquareColorPeriod = utils.getExpGrowthValue(
+		_currentCenterSquareColorPeriod = 1 / utils.getLinGrowthValue(
 				_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
-				_CENTER_SQUARE_COLOR_PERIOD_GROWTH_RATE, 
+				_CENTER_SQUARE_COLOR_CHANGE_SPEED_GROWTH_RATE, 
 				_level);
 		gameWindow.setCenterSquareColorPeriod(_currentCenterSquareColorPeriod);
 
 		// Decrease the preview window cooldown time
-		_currentPreviewWindowCoolDownTime = utils.getExpGrowthValue(
+		_currentPreviewWindowCoolDownTime = 1 / utils.getLinGrowthValue(
 				_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
-				_PREVIEW_WINDOW_COOL_DOWN_TIME_GROWTH_RATE, 
+				_PREVIEW_WINDOW_COOL_DOWN_SPEED_GROWTH_RATE, 
 				_level);
 		for (var i = 0; i < 4; ++i) {
 			game.previewWindows[i].setCoolDownPeriod(_currentPreviewWindowCoolDownTime);
 		}
 
 		// Decrease the layer collapse delay
-		var layerCollapseDelay = utils.getExpGrowthValue(
+		var layerCollapseDelay = 1 / utils.getLinGrowthValue(
 				_INITIAL_COLLAPSE_DELAY, 
-				_COLLAPSE_DELAY_GROWTH_RATE, 
+				_COLLAPSE_SPEED_GROWTH_RATE, 
 				_level);
 		gameWindow.setLayerCollapseDelay(layerCollapseDelay);
 

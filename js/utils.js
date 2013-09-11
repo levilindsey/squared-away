@@ -19,18 +19,6 @@
 		return new F();
 	}
 
-	function _getWindowWidth() {
-		return window.innerWidth || // for good browsers
-			document.documentElement.clientWidth || // for IE
-			document.body.clientWidth; // for IE
-	}
-
-	function _getWindowHeight() {
-		return window.innerHeight || // for good browsers
-			document.documentElement.clientHeight || // for IE
-			document.body.clientHeight; // for IE
-	}
-
 	function _getElementWidth(element) {
 		if (typeof element.clip !== "undefined") {
 			return element.clip.width;
@@ -211,8 +199,6 @@
 		initializeArray: _initializeArray,
 		copyArray: _copyArray,
 
-		getWindowWidth: _getWindowWidth,
-		getWindowHeight: _getWindowHeight,
 		getElementWidth: _getElementWidth,
 		getElementHeight: _getElementHeight,
 

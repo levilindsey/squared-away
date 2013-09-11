@@ -150,6 +150,18 @@
 		log.i("<--main._init");
 	}
 
+	function _fitAppToViewPort() {
+		var viewportWidth = document.documentElement.clientWidth;
+		var viewportHeight = document.documentElement.clientHeight;
+
+		var canvasRect = utils.standardizeClientRect(_canvas);
+		var verticalScroll = canvasRect.top;
+
+		
+
+		window.scrollTo(0, verticalScroll);
+	}
+
 	function _playGame() {
 		log.d("-->main._playGame");
 
