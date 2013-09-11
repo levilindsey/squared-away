@@ -126,10 +126,12 @@ h3 {
 }
 
 #infoArea>* {
+	clear: both;
 	margin: 10px;
 }
 
 #musicArea>p {
+	clear: both;
 	text-align: center;
 }
 
@@ -242,7 +244,7 @@ h3 {
 .textColumn {
 	float: left;
 	text-align: left;
-	width: 350px;
+	width: 50%;
 }
 
 #topLevelDisplayArea {

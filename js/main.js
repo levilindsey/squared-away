@@ -84,9 +84,6 @@
 
 		_fitAppToViewPort();
 
-		_canvas.width = utils.getElementWidth(_canvas);
-		_canvas.height = utils.getElementHeight(_canvas);
-
 		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd);
 
 		_adjustHelpAndAudioButtonDimensions();
@@ -157,6 +154,7 @@
 
 	function _onWindowResize() {
 		_fitAppToViewPort();
+		game.updateDimensions();
 		_adjustHelpAndAudioButtonDimensions();
 	}
 

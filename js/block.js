@@ -380,15 +380,15 @@
 	// NOTE: I choose to represent the cell "position" of a block as the 
 	//		 top-left cell occupied by the bounding box formed by the current 
 	//		 orientation of the block.
-	function Block(type, x, y, orientation, fallDirection, bombType) {
+	function Block(type, orientation, fallDirection, bombType) {
 		log.d("-->block.Block");
 
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
 		var _type = type;
-		var _positionPixels = { x: x, y: y }; // pixels // TODO: refactor this to need only one position representation
-		var _positionCell = { x: -1, y: -1 }; // column and row indices
+		var _pixelPosition = { x: -1, y: -1 }; // pixels // TODO: refactor this to need only one position representation
+		var _cellPosition = { x: -1, y: -1 }; // column and row indices
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
 		var _timeSinceLastFall = 0;
@@ -451,9 +451,9 @@
 			// Translate the square positions from block cell space to canvas 
 			// pixel space
 			for (i = 0; i < positions.length; ++i) {
-				positions[i].x = _positionPixels.x + 
+				positions[i].x = _pixelPosition.x + 
 								(positions[i].x * gameWindow.squarePixelSize);
-				positions[i].y = _positionPixels.y + 
+				positions[i].y = _pixelPosition.y + 
 								(positions[i].y * gameWindow.squarePixelSize);
 			}
 
@@ -485,8 +485,8 @@
 
 				// Translate the square positions from block space to canvas space
 				for (i = 0; i < squarePositions.length; ++i) {
-					squarePositions[i].x += _positionCell.x;
-					squarePositions[i].y += _positionCell.y;
+					squarePositions[i].x += _cellPosition.x;
+					squarePositions[i].y += _cellPosition.y;
 				}
 
 				// Get the offset needed so that the lower-left corner of the 
@@ -530,7 +530,7 @@
 
 				if (!collision) {
 					// Save the block offset
-					_setCellPosition(_positionCell.x + offset.x, _positionCell.y + offset.y);
+					_setCellPosition(_cellPosition.x + offset.x, _cellPosition.y + offset.y);
 
 					// Save the orientation change
 					_orientation = (_orientation + 1) % 4;
@@ -578,8 +578,8 @@
 
 			// Translate the square positions from block space to canvas space
 			for (var i = 0; i < positions.length; ++i) {
-				positions[i].x += _positionCell.x;
-				positions[i].y += _positionCell.y;
+				positions[i].x += _cellPosition.x;
+				positions[i].y += _cellPosition.y;
 			}
 
 			return positions;
@@ -612,10 +612,10 @@
 				return;
 			}
 
-			_positionCell.x += deltaX;
-			_positionCell.y += deltaY;
-			_positionPixels.x = _positionCell.x * gameWindow.squarePixelSize;
-			_positionPixels.y = _positionCell.y * gameWindow.squarePixelSize;
+			_cellPosition.x += deltaX;
+			_cellPosition.y += deltaY;
+			_pixelPosition.x = _cellPosition.x * gameWindow.squarePixelSize;
+			_pixelPosition.y = _cellPosition.y * gameWindow.squarePixelSize;
 		}
 
 		// Return true if this block has collided with a stationary square on 
@@ -834,8 +834,8 @@
 							squaresOnGameWindow, blocksOnGameWindow);
 
 			return { 
-				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
+				x: _cellPosition.x + (howManyStepsBlockCanMove * deltaX),
+				y: _cellPosition.y + (howManyStepsBlockCanMove * deltaY)
 			};
 		}
 
@@ -877,8 +877,8 @@
 							squaresOnGameWindow, blocksOnGameWindow);
 
 			return { 
-				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
+				x: _cellPosition.x + (howManyStepsBlockCanMove * deltaX),
+				y: _cellPosition.y + (howManyStepsBlockCanMove * deltaY)
 			};
 		}
 
@@ -920,8 +920,8 @@
 							squaresOnGameWindow, blocksOnGameWindow);
 
 			var farthestCellPos = { 
-				x: _positionCell.x + (howManyStepsBlockCanMove * deltaX),
-				y: _positionCell.y + (howManyStepsBlockCanMove * deltaY)
+				x: _cellPosition.x + (howManyStepsBlockCanMove * deltaX),
+				y: _cellPosition.y + (howManyStepsBlockCanMove * deltaY)
 			};
 
 			if (!game.canFallPastCenterOn) {
@@ -1000,10 +1000,10 @@
 		}
 
 		function _setCellPosition(x, y) {
-			_positionCell.x = x;
-			_positionCell.y = y;
-			_positionPixels.x = _positionCell.x * gameWindow.squarePixelSize;
-			_positionPixels.y = _positionCell.y * gameWindow.squarePixelSize;
+			_cellPosition.x = x;
+			_cellPosition.y = y;
+			_pixelPosition.x = _cellPosition.x * gameWindow.squarePixelSize;
+			_pixelPosition.y = _cellPosition.y * gameWindow.squarePixelSize;
 		}
 
 		function _getHasCollidedWithEdgeOfArea() {
@@ -1031,15 +1031,15 @@
 		}
 
 		function _getCellPosition() {
-			return _positionCell;
+			return _cellPosition;
 		}
 
 		function _getPixelCenter() {
 			var offset = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 
 			return {
-				x: _positionPixels.x + (offset.x * gameWindow.squarePixelSize),
-				y: _positionPixels.y + (offset.y * gameWindow.squarePixelSize)
+				x: _pixelPosition.x + (offset.x * gameWindow.squarePixelSize),
+				y: _pixelPosition.y + (offset.y * gameWindow.squarePixelSize)
 			};
 		}
 
@@ -1048,8 +1048,8 @@
 
 			// Translate from block cell space to game area pixel space
 			for (var i = 0; i < points.length; ++i) {
-				points[i].x = (points[i].x * gameWindow.squarePixelSize) + _positionPixels.x;
-				points[i].y = (points[i].y * gameWindow.squarePixelSize) + _positionPixels.y;
+				points[i].x = (points[i].x * gameWindow.squarePixelSize) + _pixelPosition.x;
+				points[i].y = (points[i].y * gameWindow.squarePixelSize) + _pixelPosition.y;
 			}
 
 			return points;
@@ -1089,16 +1089,21 @@
 			}
 
 			// Translate from block cell space to game-area pixel space
-			leftPoint.x = (leftPoint.x * gameWindow.squarePixelSize) + _positionPixels.x;
-			leftPoint.y = (leftPoint.y * gameWindow.squarePixelSize) + _positionPixels.y;
-			rightPoint.x = (rightPoint.x * gameWindow.squarePixelSize) + _positionPixels.x;
-			rightPoint.y = (rightPoint.y * gameWindow.squarePixelSize) + _positionPixels.y;
+			leftPoint.x = (leftPoint.x * gameWindow.squarePixelSize) + _pixelPosition.x;
+			leftPoint.y = (leftPoint.y * gameWindow.squarePixelSize) + _pixelPosition.y;
+			rightPoint.x = (rightPoint.x * gameWindow.squarePixelSize) + _pixelPosition.x;
+			rightPoint.y = (rightPoint.y * gameWindow.squarePixelSize) + _pixelPosition.y;
 
 			return { left: leftPoint, right: rightPoint };
 		}
 
 		function _getBombType() {
 			return _bombType;
+		}
+
+		function _setPixelPosition(x, y) {
+			_pixelPosition.x = x;
+			_pixelPosition.y = y;
 		}
 
 		// ----------------------------------------------------------------- //
@@ -1128,6 +1133,7 @@
 		this.getSidePointsRelativeToBlockPosition = _getSidePointsRelativeToBlockPosition;
 		this.getLowerLeftAndRightFallDirectionPoints = _getLowerLeftAndRightFallDirectionPoints;
 		this.getBombType = _getBombType;
+		this.setPixelPosition = _setPixelPosition;
 
 		log.d("<--block.Block");
 	}

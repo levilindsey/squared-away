@@ -275,86 +275,6 @@
 		_levelDisplay.innerHTML = _level;
 	}
 
-	function _computeCanvasDimensions() {
-		gameWindow.gameWindowPixelSize = _canvas.width * _GAME_AREA_SIZE_RATIO;
-		game.previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
-		_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
-		_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
-		gameWindow.gameWindowPosition.x = game.previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
-		gameWindow.gameWindowPosition.y = gameWindow.gameWindowPosition.x;
-	}
-
-	function _getHelpButtonRect() {
-		return {
-			left: game.previewWindows[3].getPosition().x + "px",
-			top: game.previewWindows[2].getPosition().y + "px",
-			width: game.previewWindowSizePixels + "px",
-			height: game.previewWindowSizePixels + "px"
-		};
-	}
-
-	function _getAudioButtonRect() {
-		return {
-			left: game.previewWindows[1].getPosition().x + "px",
-			top: game.previewWindows[2].getPosition().y + "px",
-			width: game.previewWindowSizePixels + "px",
-			height: game.previewWindowSizePixels + "px"
-		};
-	}
-
-	function _setUpPreviewWindows() {
-		var size = game.previewWindowSizePixels;
-
-		// This is the horizontal distance (in pixels) from the left side 
-		// of the canvas to the left side of the top-side preview window
-		var tmp1 = (game.previewWindowSizePixels / 2) + 
-					_previewWindowOuterMarginPixels + 
-					_previewWindowInnerMarginPixels + 
-					(gameWindow.gameWindowPixelSize / 2);
-
-		// This is the horizontal distance (in pixels) from the left side 
-		// of the canvas to the left side of the right-side preview window
-		var tmp2 = game.previewWindowSizePixels + 
-					_previewWindowOuterMarginPixels + 
-					(_previewWindowInnerMarginPixels * 2) + 
-					gameWindow.gameWindowPixelSize;
-
-		var x1 = tmp1;
-		var y1 = _previewWindowInnerMarginPixels;
-		var x2 = tmp2;
-		var y2 = tmp1;
-		var x3 = tmp1;
-		var y3 = tmp2;
-		var x4 = _previewWindowInnerMarginPixels;
-		var y4 = tmp1;
-
-		var previewWindow1 = new PreviewWindow(x1, y1, size, 0);
-		var previewWindow2 = new PreviewWindow(x2, y2, size, 1);
-		var previewWindow3 = new PreviewWindow(x3, y3, size, 2);
-		var previewWindow4 = new PreviewWindow(x4, y4, size, 3);
-
-		game.previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
-	}
-
-	function _setUpBombWindows() {
-		var x;
-		var y;
-		var w;
-		var h;
-
-		h = game.previewWindowSizePixels * 0.6667;
-		w = h * 2;
-		y = game.previewWindows[2].getCenterPosition().y - h / 2;
-
-		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.25 - w / 2;
-		game.collapseBombWindow = new BombWindow(x, y, w, h, 
-				BombWindow.prototype.COLLAPSE_BOMB, _INITIAL_COLLAPSE_BOMB_COUNT);
-
-		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.75 - w / 2;
-		game.settleBombWindow = new BombWindow(x, y, w, h, 
-				BombWindow.prototype.SETTLE_BOMB, _INITIAL_SETTLE_BOMB_COUNT);
-	}
-
 	function _play() {
 		// Reset game state if a game is not currently in progress
 		if (game.isEnded) {
@@ -494,6 +414,133 @@
 		}
 	}
 
+	function _unPrimeBomb() {
+		if (game.primedBombType === BombWindow.prototype.COLLAPSE_BOMB) {
+			game.collapseBombWindow.unPrimeBomb();
+		} else {
+			game.settleBombWindow.unPrimeBomb();
+		}
+
+		game.primedWindowIndex = -1;
+		game.primedBombType = -1;
+
+		input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
+	}
+
+	function _init(canvas, levelDisplay, scoreDisplay, onGameEnd) {
+		_canvas = canvas;
+		_context = _canvas.getContext("2d");
+		_levelDisplay = levelDisplay;
+		_scoreDisplay = scoreDisplay;
+		_onGameEnd = onGameEnd;
+
+		_setUpPreviewWindows();
+		_setUpBombWindows();
+
+		gameWindow.init();
+
+		game.updateDimensions();
+	}
+
+	function _setUpPreviewWindows() {
+		var previewWindow1 = new PreviewWindow(0);
+		var previewWindow2 = new PreviewWindow(1);
+		var previewWindow3 = new PreviewWindow(2);
+		var previewWindow4 = new PreviewWindow(3);
+
+		game.previewWindows = [previewWindow1, previewWindow2, previewWindow3, previewWindow4];
+	}
+
+	function _setUpBombWindows() {
+		game.collapseBombWindow = new BombWindow(BombWindow.prototype.COLLAPSE_BOMB, _INITIAL_COLLAPSE_BOMB_COUNT);
+		game.settleBombWindow = new BombWindow(BombWindow.prototype.SETTLE_BOMB, _INITIAL_SETTLE_BOMB_COUNT);
+	}
+
+	function _updateDimensions() {
+		_updateCanvasDimensions();
+		gameWindow.updateDimensions();
+		_updatePreviewWindowDimensions();
+		_updateBombWindowDimensions();
+	}
+
+	function _updateCanvasDimensions() {
+		_canvas.width = utils.getElementWidth(_canvas);
+		_canvas.height = utils.getElementHeight(_canvas);
+		gameWindow.gameWindowPixelSize = _canvas.width * _GAME_AREA_SIZE_RATIO;
+		game.previewWindowSizePixels = _canvas.width * _PREVIEW_WINDOW_SIZE_RATIO;
+		_previewWindowOuterMarginPixels = _canvas.width * _PREVIEW_WINDOW_OUTER_MARGIN_RATIO;
+		_previewWindowInnerMarginPixels = _canvas.width * _PREVIEW_WINDOW_INNER_MARGIN_RATIO;
+		gameWindow.gameWindowPosition.x = game.previewWindowSizePixels + _previewWindowOuterMarginPixels + _previewWindowInnerMarginPixels;
+		gameWindow.gameWindowPosition.y = gameWindow.gameWindowPosition.x;
+	}
+
+	function _updatePreviewWindowDimensions() {
+		var size = game.previewWindowSizePixels;
+
+		// This is the horizontal distance (in pixels) from the left side 
+		// of the canvas to the left side of the top-side preview window
+		var tmp1 = (game.previewWindowSizePixels / 2) + 
+					_previewWindowOuterMarginPixels + 
+					_previewWindowInnerMarginPixels + 
+					(gameWindow.gameWindowPixelSize / 2);
+
+		// This is the horizontal distance (in pixels) from the left side 
+		// of the canvas to the left side of the right-side preview window
+		var tmp2 = game.previewWindowSizePixels + 
+					_previewWindowOuterMarginPixels + 
+					(_previewWindowInnerMarginPixels * 2) + 
+					gameWindow.gameWindowPixelSize;
+
+		var x1 = tmp1;
+		var y1 = _previewWindowInnerMarginPixels;
+		var x2 = tmp2;
+		var y2 = tmp1;
+		var x3 = tmp1;
+		var y3 = tmp2;
+		var x4 = _previewWindowInnerMarginPixels;
+		var y4 = tmp1;
+
+		game.previewWindows[0].updateDimensions(x1, y1, size);
+		game.previewWindows[1].updateDimensions(x2, y2, size);
+		game.previewWindows[2].updateDimensions(x3, y3, size);
+		game.previewWindows[3].updateDimensions(x4, y4, size);
+	}
+
+	function _updateBombWindowDimensions() {
+		var x;
+		var y;
+		var w;
+		var h;
+
+		h = game.previewWindowSizePixels * 0.6667;
+		w = h * 2;
+		y = game.previewWindows[2].getCenterPosition().y - h / 2;
+
+		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.25 - w / 2;
+		game.collapseBombWindow.updateDimensions(x, y, w, h);
+
+		x = gameWindow.gameWindowPosition.x + gameWindow.gameWindowPixelSize * 0.75 - w / 2;
+		game.settleBombWindow.updateDimensions(x, y, w, h);
+	}
+
+	function _getHelpButtonRect() {
+		return {
+			left: game.previewWindows[3].getPosition().x + "px",
+			top: game.previewWindows[2].getPosition().y + "px",
+			width: game.previewWindowSizePixels + "px",
+			height: game.previewWindowSizePixels + "px"
+		};
+	}
+
+	function _getAudioButtonRect() {
+		return {
+			left: game.previewWindows[1].getPosition().x + "px",
+			top: game.previewWindows[2].getPosition().y + "px",
+			width: game.previewWindowSizePixels + "px",
+			height: game.previewWindowSizePixels + "px"
+		};
+	}
+
 	function _incrementCollapseBombUsedCount() {
 		++_collapseBombsUsedCount;
 	}
@@ -542,33 +589,6 @@
 		return _settleBombsUsedCount;
 	}
 
-	function _init(canvas, levelDisplay, scoreDisplay, onGameEnd) {
-		_canvas = canvas;
-		_context = _canvas.getContext("2d");
-		_levelDisplay = levelDisplay;
-		_scoreDisplay = scoreDisplay;
-		_onGameEnd = onGameEnd;
-
-		_computeCanvasDimensions();
-		_setUpPreviewWindows();
-		_setUpBombWindows();
-
-		gameWindow.init();
-	}
-
-	function _unPrimeBomb() {
-		if (game.primedBombType === BombWindow.prototype.COLLAPSE_BOMB) {
-			game.collapseBombWindow.unPrimeBomb();
-		} else {
-			game.settleBombWindow.unPrimeBomb();
-		}
-
-		game.primedWindowIndex = -1;
-		game.primedBombType = -1;
-
-		input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
-	}
-
 	// Make Game available to the rest of the program
 	window.game = {
 		draw: _draw,
@@ -604,6 +624,8 @@
 
 		getIsCollapseBombPrimed: _getIsCollapseBombPrimed,
 		getIsSettleBombPrimed: _getIsSettleBombPrimed,
+
+		updateDimensions: _updateDimensions,
 
 		previewWindows: null,
 		collapseBombWindow: null,

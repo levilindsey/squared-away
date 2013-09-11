@@ -802,7 +802,7 @@
 			fallDirection = (fallDirection + 1) % 4;
 		}
 
-		var phantomBlock = new Block(blockType, -1, -1, orientation, fallDirection, -1);
+		var phantomBlock = new Block(blockType, orientation, fallDirection, -1);
 		phantomBlock.setCellPosition(gestureCellPos.x, gestureCellPos.y);
 
 		return phantomBlock;

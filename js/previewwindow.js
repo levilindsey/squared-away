@@ -38,19 +38,16 @@
 	var _NATURAL_BOMB_FREQUENCY = 0.01;
 	var _RATIO_OF_NATURAL_COLLAPSE_BOMBS = 0.5;
 
-	function PreviewWindow(x, y, size, previewWindowIndex) {
+	function PreviewWindow(previewWindowIndex) {
 		log.d("-->previewwindow.PreviewWindow");
 
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
-		var _position = { x: x, y: y }; // in pixels
-		var _size = size; // in pixels
+		var _position = { x: 0, y: 0 }; // in pixels
+		var _size = 0; // in pixels
 		var _previewWindowIndex = previewWindowIndex;
-		var _positionOfWindowCenter = {
-			x: _position.x + (_size / 2),
-			y: _position.y + (_size / 2)
-		}; // in pixels
+		var _positionOfWindowCenter = { x: 0, y: 0 }; // in pixels
 
 		var _baseCoolDownPeriod = 100000; // 10 sec
 		var _actualCoolDownPeriod = 100000; // 10 sec
@@ -235,10 +232,9 @@
 
 			var cellOffsetFromTopLeftOfBlockToCenter = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
-			var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * gameWindow.squarePixelSize);
-			var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * gameWindow.squarePixelSize);
+			_currentBlock = new Block(blockType, orientation, fallDirection, bombType);
 
-			_currentBlock = new Block(blockType, x, y, orientation, fallDirection, bombType);
+			_updateBlockPosition();
 
 			if (coolDownPeriod >= 0) {
 				_actualCoolDownPeriod = coolDownPeriod;
@@ -320,6 +316,32 @@
 				point.y <= _position.y + _size;
 		}
 
+		function _updateDimensions(x, y, size) {
+			_position.x = x;
+			_position.y = y;
+			_size = size;
+			_positionOfWindowCenter.x = _position.x + (_size / 2);
+			_positionOfWindowCenter.y = _position.y + (_size / 2);
+
+			_updateBlockPosition();
+		}
+
+		function _updateBlockPosition() {
+			if (_currentBlock) {
+				var type = _currentBlock.getType();
+				var orientation = _previewWindowIndex;
+
+				var cellOffsetFromTopLeftOfBlockToCenter = 
+						Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(
+								type, orientation);
+
+				var x = _positionOfWindowCenter.x - (cellOffsetFromTopLeftOfBlockToCenter.x * gameWindow.squarePixelSize);
+				var y = _positionOfWindowCenter.y - (cellOffsetFromTopLeftOfBlockToCenter.y * gameWindow.squarePixelSize);
+
+				_currentBlock.setPixelPosition(x, y);
+			}
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -334,6 +356,7 @@
 		this.getCenterPosition = _getCenterPosition;
 		this.isPointOverWindow = _isPointOverWindow;
 		this.releaseBomb = _releaseBomb;
+		this.updateDimensions = _updateDimensions;
 
 		log.d("<--previewwindow.PreviewWindow");
 	}

@@ -31,15 +31,15 @@
 
 	var _PRIMED_SIZE_RATIO = 1.75;
 
-	function BombWindow(x, y, w, h, bombType, bombCount) {
+	function BombWindow(bombType, bombCount) {
 		log.d("-->bombwindow.BombWindow");
 
 		// ----------------------------------------------------------------- //
 		// -- Private members
 
-		var _rect = { x: x, y: y, w: w, h: h }; // in pixels
+		var _rect = { x: 0, y: 0, w: 0, h: 0 }; // in pixels
 
-		var _fontString = "bold " + Math.floor(h / 2) + "px monospace";
+		var _fontString = "bold " + 0 + "px monospace";
 
 		var _ellapsedTime = 0;
 
@@ -162,6 +162,15 @@
 			return _isPrimed;
 		}
 
+		function _updateDimensions(x, y, w, h) {
+			_rect.x = x;
+			_rect.y = y;
+			_rect.w = w;
+			_rect.h = h;
+
+			_fontString = "bold " + Math.floor(h / 2) + "px monospace";
+		}
+
 		// ----------------------------------------------------------------- //
 		// -- Privileged members
 
@@ -174,6 +183,7 @@
 		this.addBomb = _addBomb;
 		this.getBombCount = _getBombCount;
 		this.getIsPrimed = _getIsPrimed;
+		this.updateDimensions = _updateDimensions;
 
 		log.d("<--bombwindow.BombWindow");
 	}

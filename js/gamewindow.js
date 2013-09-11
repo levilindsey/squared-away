@@ -1157,7 +1157,6 @@
 
 	function _setUpCenterSquare() {
 		_centerSquare = new CenterSquare();
-		_setUpCenterSquareDimensions();
 	}
 
 	function _setUpCenterSquareDimensions() {
@@ -1215,6 +1214,11 @@
 		_setUpCenterSquare();
 	}
 
+	function _updateDimensions() {
+		gameWindow.setGameWindowCellSize(gameWindow.gameWindowCellSize);
+		gameWindow.setCenterSquareCellSize(gameWindow.centerSquareCellSize);
+	}
+
 	// Make GameWindow available to the rest of the program
 	window.gameWindow = {
 		draw: _draw,
@@ -1242,7 +1246,9 @@
 		gameWindowPosition: { x: 0, y: 0 }, // in pixels
 
 		centerSquareCellSize: 6, // in number of squares
-		centerSquareCellPositionX: 47 // in number of squares
+		centerSquareCellPositionX: 47, // in number of squares
+
+		updateDimensions: _updateDimensions
 	};
 
 	log.i("<--gameWindow.LOADING_MODULE");
