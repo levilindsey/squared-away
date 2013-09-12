@@ -93,13 +93,14 @@ h3 {
 }
 
 #console {
-	background-color: #FFFFFF;
+	background-color: #141414;
 	margin: 10px 0px;
+	padding: 10px 0px;
 	width: 100%;
 }
 
 #console>h2 {
-	background-color: #101010;
+	background-color: #141414;
 }
 
 .directionsTable td {

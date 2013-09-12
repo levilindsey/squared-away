@@ -192,6 +192,24 @@
 		return "#" + r + g + b;
 	}
 
+	function _getIntersection(arr1, arr2) {
+		var intersection = [];
+		var k = 0;
+		var i;
+		var j;
+
+		for (i = 0; i < arr1.length; ++i) {
+			for (j = 0; j < arr2.length; ++j) {
+				if (arr1[i] === arr2[j]) {
+					intersection[k] = arr1[i];
+					++k;
+				}
+			}
+		}
+
+		return intersection;
+	}
+
 	// Make utils available to the rest of the program
 	window.utils = {
 		object: _object,
@@ -215,7 +233,9 @@
 		getSquaredDistance: _getSquaredDistance,
 
 		interpolateColors: _interpolateColors,
-		decToHexColorStr: _decToHexColorStr
+		decToHexColorStr: _decToHexColorStr,
+
+		getIntersection: _getIntersection
 	};
 
 	log.i("<--utils.LOADING_MODULE");

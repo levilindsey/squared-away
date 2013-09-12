@@ -30,7 +30,9 @@
 	var _currentMusicInstance = null;
 	var _nextMusicInstance = null;
 
-	var _selectedMusic = [];
+	var _selectedMusicIds = [];
+
+	var _registeredMusicIds = [];
 
 	// The data property represents how many instances of that sound can play simultaneously
 	var _sfxManifest = [
@@ -243,8 +245,7 @@
 		// Register (prepare and preload) all sound effects
 		createjs.Sound.addEventListener("loadComplete", _onLoadingAudioComplete);
 		createjs.Sound.registerManifest(_sfxManifest);
-
-		_startNewRandomSong();
+		createjs.Sound.registerManifest(_musicManifest);
 
 		log.d("<--sound._init");
 	}
@@ -267,7 +268,7 @@
 		} else {
 			musicOnButton.style.display = "block";
 			musicOffButton.style.display = "none";
-			_playCurrentMusic();
+			_playCurrentMusic(false);
 			game.musicOn = true;
 		}
 	}
@@ -287,7 +288,7 @@
 		}
 	}
 
-	function _startNewRandomSong() {
+	function _startNewRandomMusic() {
 		// If this was actually called while the current song is still 
 		// playing, then it will be stopped
 		_killSound(_currentMusicInstance);
@@ -300,8 +301,9 @@
 
 		var nextSong = _chooseRandomNextSong();
 
-		// Register the next song
-		createjs.Sound.registerSound(nextSong.src, nextSong.id);
+		_nextMusicInstance = _getSoundInstance(nextSong.id);
+
+		_onSongEnd(true);
 	}
 
 	function _killSound(soundInstance) {
@@ -310,37 +312,37 @@
 		}
 	}
 
+	function _getSoundInstance(soundId) {
+		var soundInstance = createjs.Sound.createInstance(soundId);
+		soundInstance.addEventListener("complete", _onSongEnd);
+		soundInstance.addEventListener("failed", _onSoundError);
+		return soundInstance;
+	}
+
 	function _onLoadingAudioComplete(event) {
 		// Check whether this was a SFX or a song
-		if (_getManifestIndex(event.id, _musicManifest) >= 0) {
-			// Check whether the song that just loaded is the same song that 
-			// the program now expects to play next
-			if (event.id === _musicManifest[_nextMusicIndex].id) {
-				_killSound(_nextMusicInstance);
+		var musicManifestIndex = _getManifestIndex(event.id, _musicManifest);
+		if (musicManifestIndex >= 0) {
+			log.i("<->sound._onLoadingAudioComplete: MUSIC.id="+event.id);
 
-				// Create the next song instance so we can play it when the 
-				// current song ends
-				_nextMusicInstance = createjs.Sound.createInstance(event.id);
-				_nextMusicInstance.addEventListener("complete", _onSongEnd);
-				_nextMusicInstance.addEventListener("failed", _onSoundError);
+			_registeredMusicIds.push(event.id);
 
-				// If this was the first song instance to be loaded, then we 
-				// should play it immediately
-				if (!_currentMusicInstance) {
-					_onSongEnd();
-				}
-			} else {
-				// If the song took so long to load that the program is now ready 
-				// for some other song to be next instead, then lets start all 
-				// over with an entirely new random song
-				_startNewRandomSong();
+			// Create a sound instance
+			_nextMusicInstance = _getSoundInstance(event.id);
+
+			// If this was the first song instance to be loaded, then we 
+			// should play it immediately
+			if (!_currentMusicInstance) {
+				_nextMusicIndex = musicManifestIndex;
+				_onSongEnd(true);
 			}
 		} else {
+			log.i("<->sound._onLoadingAudioComplete: SFX.id="+event.id);
 			++_sfxLoadedCount;
 		}
 	}
 
-	function _onSongEnd() {
+	function _onSongEnd(playEvenIfNotSelected) {
 		// If this was actually called while the current song is still 
 		// playing, then it will be stopped
 		_killSound(_currentMusicInstance);
@@ -352,22 +354,20 @@
 
 			var nextSong = _chooseRandomNextSong();
 
-			// In the event that the next song is the same as the current 
-			// song, we do NOT want to re-register it.  This will stop the 
-			// playback.
-			if (_currMusicIndex !== _nextMusicIndex) {
-				// Register the next song
-				createjs.Sound.registerSound(nextSong.src, nextSong.id);
-			} else {
-				_nextMusicInstance = _currentMusicInstance;
-			}
+			_nextMusicInstance = _getSoundInstance(nextSong.id);
 
 			// Play the next song
-			_playCurrentMusic();
+			_playCurrentMusic(playEvenIfNotSelected);
 		} else {
 			// The next song has not yet loaded, so simply replay the song 
 			// that just ended
-			_playCurrentMusic();
+			_playCurrentMusic(playEvenIfNotSelected);
+		}
+
+		// Periodically try to re-register any songs which did not register 
+		// successfully before
+		if (_registeredMusicIds.length < _musicManifest.length) {
+			createjs.Sound.registerManifest(_musicManifest);
 		}
 	}
 
@@ -387,45 +387,48 @@
 		_prev1MusicIndex = _currMusicIndex;
 		_currMusicIndex = _nextMusicIndex;
 
-		if (_selectedMusic.length > 0) {
-			// Randomly select the next song to play
-			var randI;
-			var songId;
-			do {
-				randI = Math.floor(Math.random() * _selectedMusic.length);
-				songId = _selectedMusic[randI];
-				_nextMusicIndex = _getManifestIndex(songId, _musicManifest);
-			} while (_selectedMusic.length > 3 && 
-					(_nextMusicIndex === _currMusicIndex || 
-					 _nextMusicIndex === _prev1MusicIndex || 
-					 _nextMusicIndex === _prev2MusicIndex));
+		if (_registeredMusicIds.length > 0) {
+			var validIds = utils.getIntersection(_registeredMusicIds, _selectedMusicIds);
+			if (validIds.length > 0) {
+				// Randomly select the next song to play
+				var randI;
+				var songId;
+				do {
+					randI = Math.floor(Math.random() * validIds.length);
+					songId = validIds[randI];
+					_nextMusicIndex = _getManifestIndex(songId, _musicManifest);
+				} while (validIds.length > 3 && 
+						(_nextMusicIndex === _currMusicIndex || 
+						 _nextMusicIndex === _prev1MusicIndex || 
+						 _nextMusicIndex === _prev2MusicIndex));
+			} else {
+				var firstRegisteredSongId = _registeredMusicIds[0];
+				_nextMusicIndex = _getManifestIndex(firstRegisteredSongId, _musicManifest);
+			}
 		} else {
-			// If the player has turned music on, but has un-selected all of 
-			// the music tracks, then default to playing the first track
-			_nextMusicIndex = 0;
+			_nextMusicIndex = -1;
 		}
 
 		return _musicManifest[_nextMusicIndex];
 	}
 
-	function _playCurrentMusic() {
-		var currSong = _musicManifest[_currMusicIndex];
-
-		// Don't play before things have been initialized
-		if (currSong) {
-			var selectedMusicIndex = _selectedMusic.indexOf(currSong.id);
+	function _playCurrentMusic(playEvenIfNotSelected) {
+		if (_currentMusicInstance) {
+			var currSong = _musicManifest[_currMusicIndex];
+			var selectedMusicIndex = _selectedMusicIds.indexOf(currSong.id);
 
 			// Check whether the player un-selected the current song while it was 
 			// paused
-			if (selectedMusicIndex < 0) {
-				// In the event that nothing is checked, then 0 will be the _currMusicIndex
-				if (_selectedMusic.length !== 0 || _currMusicIndex !== 0) {
-					_startNewRandomSong();
+			if (!playEvenIfNotSelected && selectedMusicIndex < 0) {
+				// Check whether there are any other valid songs
+				var validIds = utils.getIntersection(_registeredMusicIds, _selectedMusicIds);
+				if (validIds.length > 0) {
+					_startNewRandomMusic();
 				}
 			}
-			
-			if (game.musicOn && !game.isPaused && !game.isEnded && _currentMusicInstance && 
-					(selectedMusicIndex >= 0 || (_selectedMusic.length === 0 && _currMusicIndex === 0))) {
+
+			// Check whether we are allowed to play music now
+			if (game.musicOn && !game.isPaused && !game.isEnded) {
 				// If a song has been paused, then resume needs to be called to 
 				// start playback where it left off.  Otherwise, a call to resume 
 				// will return false, so we can then play the song for the first 
@@ -448,15 +451,15 @@
 	}
 
 	function _onMusicSelectionChange(event) {
-		var index = _selectedMusic.indexOf(this.value);
+		var index = _selectedMusicIds.indexOf(this.value);
 
 		if (this.checked) {
 			if (index < 0) {
-				_selectedMusic.push(this.value);
+				_selectedMusicIds.push(this.value);
 			}
 		} else {
 			if (index >= 0) {
-				_selectedMusic.splice(index, 1);
+				_selectedMusicIds.splice(index, 1);
 			}
 		}
 	}
@@ -466,7 +469,7 @@
 	}
 
 	function _getSelectedMusic() {
-		return _selectedMusic;
+		return _selectedMusicIds;
 	}
 
 	window.sound = {
