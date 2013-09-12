@@ -50,13 +50,15 @@
 		"gameWindowSize",
 		"centerSquareSize",
 		"numberOfSquaresInABlock",
+		"numberOfSidesBlocksFallFrom",
 		"startingLevel"
 	];
 
 	// These are the drop down menus whose values should not change in mid game
 	var startOfGameDropDownMenuIds = [
 		"gameWindowSize",
-		"centerSquareSize"
+		"centerSquareSize",
+		"numberOfSidesBlocksFallFrom"
 	];
 
 	// Preload all required resources and call _init when done
@@ -845,6 +847,8 @@
 			break;
 		case "numberOfSquaresInABlock":
 			game.numberOfSquaresInABlock = number;
+		case "numberOfSidesBlocksFallFrom":
+			game.numberOfSidesBlocksFallFrom = number;
 			break;
 		case "startingLevel":
 			game.startingLevel = number;

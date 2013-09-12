@@ -657,6 +657,7 @@
 
 		startingLevel: 1,
 		numberOfSquaresInABlock: 7,
+		numberOfSidesBlocksFallFrom: 4,
 
 		positionOfGameOver: null,
 

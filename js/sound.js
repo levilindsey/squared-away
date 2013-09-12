@@ -34,6 +34,8 @@
 
 	var _registeredMusicIds = [];
 
+	var _SOUND_ERROR_PLAY_AGAIN_DELAY = 3000;
+
 	// The data property represents how many instances of that sound can play simultaneously
 	var _sfxManifest = [
 		{
@@ -263,13 +265,13 @@
 		if (game.musicOn) {
 			musicOnButton.style.display = "none";
 			musicOffButton.style.display = "block";
-			_pauseMusic();
 			game.musicOn = false;
+			_pauseMusic();
 		} else {
 			musicOnButton.style.display = "block";
 			musicOffButton.style.display = "none";
-			_playCurrentMusic(false);
 			game.musicOn = true;
+			_playCurrentMusic(false);
 		}
 	}
 
@@ -323,7 +325,7 @@
 		// Check whether this was a SFX or a song
 		var musicManifestIndex = _getManifestIndex(event.id, _musicManifest);
 		if (musicManifestIndex >= 0) {
-			log.i("<->sound._onLoadingAudioComplete: MUSIC.id="+event.id);
+			log.i("---sound._onLoadingAudioComplete: MUSIC.id="+event.id);
 
 			_registeredMusicIds.push(event.id);
 
@@ -337,7 +339,7 @@
 				_onSongEnd(true);
 			}
 		} else {
-			log.i("<->sound._onLoadingAudioComplete: SFX.id="+event.id);
+			log.i("---sound._onLoadingAudioComplete: SFX.id="+event.id);
 			++_sfxLoadedCount;
 		}
 	}
@@ -366,9 +368,7 @@
 
 		// Periodically try to re-register any songs which did not register 
 		// successfully before
-		if (_registeredMusicIds.length < _musicManifest.length) {
-			createjs.Sound.registerManifest(_musicManifest);
-		}
+		_registerRemainingMusic();
 	}
 
 	function _getManifestIndex(id, manifest) {
@@ -379,6 +379,29 @@
 			}
 		}
 		return -1;
+	}
+
+	function _getUnregisteredMusicIds() {
+		var manifestIds = [];
+		var i;
+		for (i = 0; i < _musicManifest.length; ++i) {
+			manifestIds.push(_musicManifest[i].id);
+		}
+		return utils.getDifference(manifestIds, _registeredMusicIds);
+	}
+
+	function _registerRemainingMusic() {
+		if (_registeredMusicIds.length < _musicManifest.length) {
+			var unregisteredMusicIds = _getUnregisteredMusicIds();
+			var songIndex;
+			var song;
+			var i;
+			for (i = 0; i < unregisteredMusicIds.length; ++i) {
+				songIndex = _getManifestIndex(unregisteredMusicIds[i], _musicManifest);
+				song = _musicManifest[songIndex];
+				createjs.Sound.registerSound(song.src, song.id, song.data);
+			}
+		}
 	}
 
 	function _chooseRandomNextSong() {
@@ -434,7 +457,8 @@
 				// will return false, so we can then play the song for the first 
 				// time.
 				if (!_currentMusicInstance.resume()) {
-					_currentMusicInstance.play(createjs.Sound.INTERRUPT_ANY, 0, 0, -1, sound.musicVolume, 0);
+					log.i("---sound._playCurrentMusic: PLAYING NEW SONG: "+_currentMusicInstance.src);
+					_currentMusicInstance.play(createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.musicVolume, 0);
 				}
 			}
 		}
@@ -447,7 +471,10 @@
 	}
 
 	function _onSoundError(event) {
-		log.e("<->sound._onSoundError: type="+event.type+"; target="+event.target);
+		log.w("---sound._onSoundError: type="+event.type+
+				"; target.src="+event.target.src+
+				"; target.playState="+event.target.playState);
+		setTimeout(_startNewRandomMusic, _SOUND_ERROR_PLAY_AGAIN_DELAY);
 	}
 
 	function _onMusicSelectionChange(event) {

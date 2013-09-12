@@ -198,16 +198,40 @@
 		var i;
 		var j;
 
+		outerLoop:
 		for (i = 0; i < arr1.length; ++i) {
+			innerLoop:
 			for (j = 0; j < arr2.length; ++j) {
 				if (arr1[i] === arr2[j]) {
 					intersection[k] = arr1[i];
 					++k;
+					continue outerLoop;
 				}
 			}
 		}
 
 		return intersection;
+	}
+
+	function _getDifference(arr1, arr2) {
+		var difference = utils.copyArray(arr1);
+		var k;
+		var i;
+		var j;
+
+		outerLoop:
+		for (i = 0, k = 0; i < arr1.length; ++i, ++k) {
+			innerLoop:
+			for (j = 0; j < arr2.length; ++j) {
+				if (arr1[i] === arr2[j]) {
+					difference.splice(k, 1);
+					--k;
+					continue outerLoop;
+				}
+			}
+		}
+
+		return difference;
 	}
 
 	// Make utils available to the rest of the program
@@ -235,7 +259,8 @@
 		interpolateColors: _interpolateColors,
 		decToHexColorStr: _decToHexColorStr,
 
-		getIntersection: _getIntersection
+		getIntersection: _getIntersection,
+		getDifference: _getDifference
 	};
 
 	log.i("<--utils.LOADING_MODULE");
