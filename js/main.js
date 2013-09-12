@@ -207,6 +207,14 @@
 
 		sound.pauseMusic();
 
+		// If this was the effect of a help-button press, then scroll to the 
+		// help area
+		var helpButton = document.getElementById("helpButton");
+		if (this === helpButton) {
+			var infoAreaRect = utils.standardizeClientRect(infoArea);
+			window.scrollTo(0, infoAreaRect.top);
+		}
+
 		log.d("<--main._pauseGame");
 	}
 
