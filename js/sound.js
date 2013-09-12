@@ -44,42 +44,42 @@
 		{
 			id: "blockSelect",
 			src: _SFX_PATH + "block_select.ogg|" + _SFX_PATH + "block_select.m4a",
-			data: 3
+			data: 2
 		},
 		{
 			id: "bombPrimed",
 			src: _SFX_PATH + "bomb_primed.ogg|" + _SFX_PATH + "bomb_primed.m4a",
-			data: 3
+			data: 2
 		},
 		{
 			id: "bombReleased",
 			src: _SFX_PATH + "bomb_released.ogg|" + _SFX_PATH + "bomb_released.m4a",
-			data: 3
+			data: 2
 		},
 		{
 			id: "changeFallDirection",
 			src: _SFX_PATH + "change_fall_direction.ogg|" + _SFX_PATH + "change_fall_direction.m4a",
-			data: 3
+			data: 2
 		},
 		{
 			id: "collapse",
 			src: _SFX_PATH + "collapse.ogg|" + _SFX_PATH + "collapse.m4a",
-			data: 8
+			data: 3
 		},
 		{
 			id: "collapseBombDetonate",
 			src: _SFX_PATH + "collapse_bomb_detonate.ogg|" + _SFX_PATH + "collapse_bomb_detonate.m4a",
-			data: 8
+			data: 2
 		},
 		{
 			id: "earnedBonus",
 			src: _SFX_PATH + "earned_bonus.ogg|" + _SFX_PATH + "earned_bonus.m4a",
-			data: 2
+			data: 1
 		},
 		{
 			id: "fall",
 			src: _SFX_PATH + "fall.ogg|" + _SFX_PATH + "fall.m4a",
-			data: 10
+			data: 4
 		},
 		{
 			id: "gameOver",
@@ -94,7 +94,7 @@
 		{
 			id: "land",
 			src: _SFX_PATH + "land.ogg|" + _SFX_PATH + "land.m4a",
-			data: 8
+			data: 3
 		},
 		{
 			id: "level",
@@ -109,7 +109,7 @@
 		{
 			id: "newBlock",
 			src: _SFX_PATH + "new_block.ogg|" + _SFX_PATH + "new_block.m4a",
-			data: 8
+			data: 3
 		},
 		{
 			id: "pause",
@@ -124,7 +124,7 @@
 		{
 			id: "settleBombDetonate",
 			src: _SFX_PATH + "settle_bomb_detonate.ogg|" + _SFX_PATH + "settle_bomb_detonate.m4a",
-			data: 3
+			data: 2
 		},
 		{
 			id: "unableToMove",
