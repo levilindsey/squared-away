@@ -33,8 +33,11 @@
 	var _selectedMusicIds = [];
 
 	var _registeredMusicIds = [];
+	var _registeredSfxIds = [];
 
 	var _SOUND_ERROR_PLAY_AGAIN_DELAY = 3000;
+	var _RE_REGISTER_MUSIC_DELAY = 60000;
+	var _RE_REGISTER_SFX_DELAY = 10000;
 
 	// The data property represents how many instances of that sound can play simultaneously
 	var _sfxManifest = [
@@ -244,12 +247,70 @@
 			log.w("Mobile browsers restrict sound to inside touch events");
 		}
 
+		_registerSounds();
+
+		log.d("<--sound._init");
+	}
+
+	function _registerSounds() {
 		// Register (prepare and preload) all sound effects
 		createjs.Sound.addEventListener("loadComplete", _onLoadingAudioComplete);
 		createjs.Sound.registerManifest(_sfxManifest);
 		createjs.Sound.registerManifest(_musicManifest);
 
-		log.d("<--sound._init");
+		// Periodically try to re-register any songs which did not register 
+		// successfully before
+		setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
+		setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
+	}
+
+	function _registerRemainingMusic() {
+		if (_registeredMusicIds.length < _musicManifest.length) {
+			setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
+
+			_registerRemainingSounds(_registeredMusicIds, _musicManifest);
+		}
+	}
+
+	function _registerRemainingSfx() {
+		if (_registeredSfxIds.length < _sfxManifest.length) {
+			setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
+
+			_registerRemainingSounds(_registeredSfxIds, _sfxManifest);
+		}
+	}
+
+	function _getManifestIndex(id, manifest) {
+		var i;
+		for (i = 0; i < manifest.length; ++i) {
+			if (manifest[i].id === id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	function _getUnregisteredSoundIds(registeredSoundIds, manifest) {
+		var manifestIds = [];
+		var i;
+		for (i = 0; i < manifest.length; ++i) {
+			manifestIds.push(manifest[i].id);
+		}
+		return utils.getDifference(manifestIds, registeredSoundIds);
+	}
+
+	function _registerRemainingSounds(registeredSoundIds, manifest) {
+		if (registeredSoundIds.length < manifest.length) {
+			var unregisteredSoundIds = _getUnregisteredSoundIds(registeredSoundIds, manifest);
+			var soundIndex;
+			var sound;
+			var i;
+			for (i = 0; i < unregisteredSoundIds.length; ++i) {
+				soundIndex = _getManifestIndex(unregisteredSoundIds[i], manifest);
+				sound = manifest[soundIndex];
+				createjs.Sound.registerSound(sound.src, sound.id, sound.data);
+			}
+		}
 	}
 
 	function _playSFX(soundId) {
@@ -327,7 +388,9 @@
 		if (musicManifestIndex >= 0) {
 			log.i("---sound._onLoadingAudioComplete: MUSIC.id="+event.id);
 
-			_registeredMusicIds.push(event.id);
+			if (_registeredMusicIds.indexOf(event.id) < 0) {
+				_registeredMusicIds.push(event.id);
+			}
 
 			// Create a sound instance
 			_nextMusicInstance = _getSoundInstance(event.id);
@@ -340,7 +403,10 @@
 			}
 		} else {
 			log.i("---sound._onLoadingAudioComplete: SFX.id="+event.id);
-			++_sfxLoadedCount;
+
+			if (_registeredSfxIds.indexOf(event.id) < 0) {
+				_registeredSfxIds.push(event.id);
+			}
 		}
 	}
 
@@ -364,43 +430,6 @@
 			// The next song has not yet loaded, so simply replay the song 
 			// that just ended
 			_playCurrentMusic(playEvenIfNotSelected);
-		}
-
-		// Periodically try to re-register any songs which did not register 
-		// successfully before
-		_registerRemainingMusic();
-	}
-
-	function _getManifestIndex(id, manifest) {
-		var i;
-		for (i = 0; i < manifest.length; ++i) {
-			if (manifest[i].id === id) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	function _getUnregisteredMusicIds() {
-		var manifestIds = [];
-		var i;
-		for (i = 0; i < _musicManifest.length; ++i) {
-			manifestIds.push(_musicManifest[i].id);
-		}
-		return utils.getDifference(manifestIds, _registeredMusicIds);
-	}
-
-	function _registerRemainingMusic() {
-		if (_registeredMusicIds.length < _musicManifest.length) {
-			var unregisteredMusicIds = _getUnregisteredMusicIds();
-			var songIndex;
-			var song;
-			var i;
-			for (i = 0; i < unregisteredMusicIds.length; ++i) {
-				songIndex = _getManifestIndex(unregisteredMusicIds[i], _musicManifest);
-				song = _musicManifest[songIndex];
-				createjs.Sound.registerSound(song.src, song.id, song.data);
-			}
 		}
 	}
 
