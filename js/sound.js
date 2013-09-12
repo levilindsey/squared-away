@@ -224,6 +224,20 @@
 	function _init() {
 		log.d("-->sound._init");
 
+		// If this is on a mobile device, sounds need to be played inside of a touch event
+		if (createjs.Sound.BrowserDetect.isIOS || 
+				createjs.Sound.BrowserDetect.isAndroid || 
+				createjs.Sound.BrowserDetect.isBlackberry) {
+			// TODO: sound may not work... (look at the MobileSafe demo for an example of how I might be able to fix this)
+			game.isMobile = true;
+			log.w("---sound._init: sound will not be played on mobile browsers");
+		}
+		// Test that the browser supports sound
+		else if (!createjs.Sound.initializeDefaultPlugins()) {
+			// TODO: notify the actual user somehow
+			log.e("---sound._init: Browser does not support audio");
+		}
+
 		// ---------- Initialize music/sfx on/off ---------- //
 
 		game.musicOn = !game.musicOn;
@@ -231,21 +245,7 @@
 		game.sfxOn = !game.sfxOn;
 		_toggleSFX();
 
-		// ---------- Hook up sound ---------- //
-
-		// Test that the browser supports sound
-		if (!createjs.Sound.initializeDefaultPlugins()) {
-			// TODO: notify the actual user somehow
-			log.e("Browser does not support audio");
-		}
-
-		// If this is on a mobile device, sounds need to be played inside of a touch event
-		if (createjs.Sound.BrowserDetect.isIOS || 
-				createjs.Sound.BrowserDetect.isAndroid || 
-				createjs.Sound.BrowserDetect.isBlackberry) {
-			// TODO: sound may not work... (look at the MobileSafe demo for an example of how I might be able to fix this)
-			log.w("Mobile browsers restrict sound to inside touch events");
-		}
+		// ---------- Load sounds ---------- //
 
 		_registerSounds();
 
@@ -268,7 +268,9 @@
 		if (_registeredMusicIds.length < _musicManifest.length) {
 			setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
 
-			_registerRemainingSounds(_registeredMusicIds, _musicManifest);
+			var unregisteredSoundIds = _registerRemainingSounds(_registeredMusicIds, _musicManifest);
+
+			_logUnregisteredSounds(unregisteredSoundIds);
 		}
 	}
 
@@ -276,7 +278,9 @@
 		if (_registeredSfxIds.length < _sfxManifest.length) {
 			setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
 
-			_registerRemainingSounds(_registeredSfxIds, _sfxManifest);
+			var unregisteredSoundIds = _registerRemainingSounds(_registeredSfxIds, _sfxManifest);
+
+			_logUnregisteredSounds(unregisteredSoundIds);
 		}
 	}
 
@@ -310,11 +314,21 @@
 				sound = manifest[soundIndex];
 				createjs.Sound.registerSound(sound.src, sound.id, sound.data);
 			}
+			return unregisteredSoundIds;
 		}
 	}
 
+	function _logUnregisteredSounds(unregisteredSoundIds) {
+		var msg = unregisteredSoundIds[0];
+		var i;
+		for (i = 1; i < unregisteredSoundIds.length; ++i) {
+			msg += ", " + unregisteredSoundIds[i];
+		}
+		log.w("---sound.: UNREGISTERED SOUNDS: "+msg);
+	}
+
 	function _playSFX(soundId) {
-		if (game.sfxOn) {
+		if (!game.isMobile && game.sfxOn) {
 			createjs.Sound.play(soundId, createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.sfxVolume, 0);
 		}
 	}
@@ -323,7 +337,7 @@
 		var musicOnButton = document.getElementById("musicOnButton");
 		var musicOffButton = document.getElementById("musicOffButton");
 
-		if (game.musicOn) {
+		if (!game.isMobile && game.musicOn) {
 			musicOnButton.style.display = "none";
 			musicOffButton.style.display = "block";
 			game.musicOn = false;
@@ -340,7 +354,7 @@
 		var sfxOnButton = document.getElementById("sfxOnButton");
 		var sfxOffButton = document.getElementById("sfxOffButton");
 
-		if (game.sfxOn) {
+		if (!game.isMobile && game.sfxOn) {
 			sfxOnButton.style.display = "none";
 			sfxOffButton.style.display = "block";
 			game.sfxOn = false;
@@ -386,8 +400,6 @@
 		// Check whether this was a SFX or a song
 		var musicManifestIndex = _getManifestIndex(event.id, _musicManifest);
 		if (musicManifestIndex >= 0) {
-			log.i("---sound._onLoadingAudioComplete: MUSIC.id="+event.id);
-
 			if (_registeredMusicIds.indexOf(event.id) < 0) {
 				_registeredMusicIds.push(event.id);
 			}
@@ -402,8 +414,6 @@
 				_onSongEnd(true);
 			}
 		} else {
-			log.i("---sound._onLoadingAudioComplete: SFX.id="+event.id);
-
 			if (_registeredSfxIds.indexOf(event.id) < 0) {
 				_registeredSfxIds.push(event.id);
 			}
@@ -465,7 +475,7 @@
 	}
 
 	function _playCurrentMusic(playEvenIfNotSelected) {
-		if (_currentMusicInstance) {
+		if (!game.isMobile && _currentMusicInstance) {
 			var currSong = _musicManifest[_currMusicIndex];
 			var selectedMusicIndex = _selectedMusicIds.indexOf(currSong.id);
 
@@ -545,7 +555,7 @@
 		getSelectedMusic: _getSelectedMusic,
 
 		sfxVolume: 0.45,
-		musicVolume: 0.15
+		musicVolume: 0.1
 	};
 
 	log.i("<--sound.LOADING_MODULE");

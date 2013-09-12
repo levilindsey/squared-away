@@ -100,8 +100,12 @@
 		document.addEventListener("keypress", _onKeyPress, false);
 
 		_canvas.addEventListener("mousedown", _onMouseDown, false);
-		document.addEventListener("mouseup", _onMouseUp, false);
 		document.addEventListener("mousemove", _onMouseMove, false);
+		document.addEventListener("mouseup", _onMouseUp, false);
+		_canvas.addEventListener("touchstart", _onTouchEvent, false);
+		document.addEventListener("touchmove", _onTouchEvent, false);
+		document.addEventListener("touchend", _onTouchEvent, false);
+		document.addEventListener("touchcancel", _onTouchEvent, false);
 
 		var modeCBs = document.getElementsByClassName("modeCB");
 		for (i = 0; i < modeCBs.length; ++i) {
@@ -404,6 +408,29 @@
 			break;
 		default:
 			return;
+		}
+	}
+
+	function _onTouchEvent(event) {
+		switch (event.type) {
+		case "touchstart":
+			_onMouseDown(event);
+			break;
+		case "touchmove":
+			_onMouseMove(event);
+			break;
+		case "touchend":
+			_onMouseUp(event);
+			break;
+		case "touchcancel":
+			input.cancelMouseGesture();
+			break;
+		default:
+			return;
+		}
+
+		if (input.selectedMouseBlock) {
+			event.preventDefault();
 		}
 	}
 

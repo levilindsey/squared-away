@@ -641,6 +641,8 @@
 		isEnded: true,
 		hasAGameStarted: false,
 
+		isMobile: false,
+
 		musicOn: true,
 		sfxOn: true,
 

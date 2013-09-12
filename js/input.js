@@ -337,56 +337,6 @@
 		log.d("<--input._startMouseGesture");
 	}
 
-	// Return true if this mouse down was consumed as an identifying tap.
-	function _handleAsTap(pos) {
-		if (_handleAsBombWindowTap(pos) || 
-				_handleAsPrimedPreviewWindowTap(pos)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function _handleAsBombWindowTap(gameSpacePos) {
-		var canvasSpacePos = {
-			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
-			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
-		};
-
-		// Check whether this mouse down occurs over a bomb window
-		if (game.collapseBombWindow.isPointOverWindow(canvasSpacePos)) {
-			game.collapseBombWindow.primeBomb();
-			return true;
-		} else if (game.settleBombWindow.isPointOverWindow(canvasSpacePos)) {
-			game.settleBombWindow.primeBomb();
-			return true;
-		}
-
-		return false;
-	}
-
-	function _handleAsPrimedPreviewWindowTap(gameSpacePos) {
-		var canvasSpacePos = {
-			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
-			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
-		};
-
-		var i;
-
-		// Check whether a bomb is primed and this mouse down occurs over a preview window
-		if (game.primedWindowIndex >= 0) {
-			for (i = 0; i < game.previewWindows.length; ++i) {
-				if (game.previewWindows[i].isPointOverWindow(canvasSpacePos)) {
-					game.primedWindowIndex = i;
-					game.releaseBomb();
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
 	function _finishMouseGesture(pos, time) {
 		log.d("-->input._finishMouseGesture");
 
@@ -479,6 +429,56 @@
 		input.phantomBlockPolygon = null;
 		input.isPhantomBlockValid = false;
 		input.phantomGuideLinePolygon = null;
+	}
+
+	// Return true if this mouse down was consumed as an identifying tap.
+	function _handleAsTap(pos) {
+		if (_handleAsBombWindowTap(pos) || 
+				_handleAsPrimedPreviewWindowTap(pos)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function _handleAsBombWindowTap(gameSpacePos) {
+		var canvasSpacePos = {
+			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
+			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
+		};
+
+		// Check whether this mouse down occurs over a bomb window
+		if (game.collapseBombWindow.isPointOverWindow(canvasSpacePos)) {
+			game.collapseBombWindow.primeBomb();
+			return true;
+		} else if (game.settleBombWindow.isPointOverWindow(canvasSpacePos)) {
+			game.settleBombWindow.primeBomb();
+			return true;
+		}
+
+		return false;
+	}
+
+	function _handleAsPrimedPreviewWindowTap(gameSpacePos) {
+		var canvasSpacePos = {
+			x: gameSpacePos.x + gameWindow.gameWindowPosition.x,
+			y: gameSpacePos.y + gameWindow.gameWindowPosition.y
+		};
+
+		var i;
+
+		// Check whether a bomb is primed and this mouse down occurs over a preview window
+		if (game.primedWindowIndex >= 0) {
+			for (i = 0; i < game.previewWindows.length; ++i) {
+				if (game.previewWindows[i].isPointOverWindow(canvasSpacePos)) {
+					game.primedWindowIndex = i;
+					game.releaseBomb();
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	// Return the nearest active block to the given position within a 
