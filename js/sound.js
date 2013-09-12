@@ -466,7 +466,11 @@
 
 	function _pauseMusic() {
 		if (_currentMusicInstance) {
-			_currentMusicInstance.pause();
+			try {
+				_currentMusicInstance.pause();
+			} catch (error) {
+				log.w("---sound._pauseMusic: soundjs still has that null value bug: type="+error.type+"; msg="+error.msg);
+			}
 		}
 	}
 
