@@ -86,7 +86,7 @@
 
 		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd);
 
-		_adjustHelpAndAudioButtonDimensions();
+		_adjustButtonDimensions();
 
 		// ---------- Hook up the event handlers ---------- //
 
@@ -150,76 +150,6 @@
 		sound.init();
 
 		log.i("<--main._init");
-	}
-
-	function _onWindowResize() {
-		_fitAppToViewPort();
-		game.updateDimensions();
-		_adjustHelpAndAudioButtonDimensions();
-	}
-
-	function _fitAppToViewPort() {
-		var MARGIN = 20;
-		var pageColumn = document.getElementById("pageColumn");
-		var playArea = document.getElementById("playArea");
-		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
-		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
-
-		var viewportWidth = document.documentElement.clientWidth;
-		var viewportHeight = document.documentElement.clientHeight;
-
-		var canvasRect = utils.standardizeClientRect(_canvas);
-		var verticalScroll = canvasRect.top - MARGIN;
-		var size = Math.min(viewportWidth, viewportHeight) - MARGIN * 2;
-
-		pageColumn.style.width = size + "px"
-
-		playArea.style.width = size + "px";
-		playArea.style.height = size + "px";
-
-		topLevelDisplayArea.style.width = (size - 20) + "px";
-		topScoreDisplayArea.style.width = (size - 20) + "px";
-
-		_canvas.style.width = size + "px";
-		_canvas.style.height = size + "px";
-
-		window.scrollTo(0, verticalScroll);
-	}
-
-	function _adjustHelpAndAudioButtonDimensions() {
-		var helpButton = document.getElementById("helpButton");
-		var musicOnButton = document.getElementById("musicOnButton");
-		var musicOffButton = document.getElementById("musicOffButton");
-		var sfxOnButton = document.getElementById("sfxOnButton");
-		var sfxOffButton = document.getElementById("sfxOffButton");
-
-		var helpRect = game.getHelpButtonRect();
-		var audioRect = game.getAudioButtonRect();
-
-		helpButton.style.left = helpRect.left;
-		helpButton.style.top = helpRect.top;
-		helpButton.style.width = helpRect.width;
-		helpButton.style.height = helpRect.height;
-
-		musicOnButton.style.left = audioRect.left;
-		musicOnButton.style.top = audioRect.top;
-		musicOnButton.style.width = audioRect.width;
-		musicOnButton.style.height = audioRect.height;
-
-		musicOffButton.style.left = audioRect.left;
-		musicOffButton.style.top = audioRect.top;
-		musicOffButton.style.width = audioRect.width;
-		musicOffButton.style.height = audioRect.height;
-
-		sfxOnButton.style.left = audioRect.left;
-		sfxOnButton.style.top = audioRect.top;
-		sfxOnButton.style.width = audioRect.width;
-		sfxOnButton.style.height = audioRect.height;
-
-		sfxOffButton.style.left = audioRect.left;
-		sfxOffButton.style.top = audioRect.top;
-		sfxOffButton.style.width = audioRect.width;
-		sfxOffButton.style.height = audioRect.height;
 	}
 
 	function _playGame() {
@@ -616,6 +546,98 @@
 
 	function _onModeCBClicked() {
 		_toggleMode(this.id, this.checked, this);
+	}
+
+	function _onWindowResize() {
+		_fitAppToViewPort();
+		game.updateDimensions();
+		_adjustButtonDimensions();
+	}
+
+	function _fitAppToViewPort() {
+		var MARGIN = 20;
+		var pageColumn = document.getElementById("pageColumn");
+		var playArea = document.getElementById("playArea");
+		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
+		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
+
+		var viewportWidth = document.documentElement.clientWidth;
+		var viewportHeight = document.documentElement.clientHeight;
+
+		var canvasRect = utils.standardizeClientRect(_canvas);
+		var verticalScroll = canvasRect.top - MARGIN;
+		var size = Math.min(viewportWidth, viewportHeight) - MARGIN * 2;
+
+		pageColumn.style.width = size + "px"
+
+		playArea.style.width = size + "px";
+		playArea.style.height = size + "px";
+
+		topLevelDisplayArea.style.width = (size - 20) + "px";
+		topScoreDisplayArea.style.width = (size - 20) + "px";
+
+		_canvas.style.width = size + "px";
+		_canvas.style.height = size + "px";
+
+		window.scrollTo(0, verticalScroll);
+	}
+
+	function _adjustButtonDimensions() {
+		var helpButton = document.getElementById("helpButton");
+		var musicOnButton = document.getElementById("musicOnButton");
+		var musicOffButton = document.getElementById("musicOffButton");
+		var sfxOnButton = document.getElementById("sfxOnButton");
+		var sfxOffButton = document.getElementById("sfxOffButton");
+
+		var helpRect = game.getHelpButtonRect();
+		var audioRect = game.getAudioButtonRect();
+
+		helpButton.style.left = helpRect.left;
+		helpButton.style.top = helpRect.top;
+		helpButton.style.width = helpRect.width;
+		helpButton.style.height = helpRect.height;
+
+		musicOnButton.style.left = audioRect.left;
+		musicOnButton.style.top = audioRect.top;
+		musicOnButton.style.width = audioRect.width;
+		musicOnButton.style.height = audioRect.height;
+
+		musicOffButton.style.left = audioRect.left;
+		musicOffButton.style.top = audioRect.top;
+		musicOffButton.style.width = audioRect.width;
+		musicOffButton.style.height = audioRect.height;
+
+		sfxOnButton.style.left = audioRect.left;
+		sfxOnButton.style.top = audioRect.top;
+		sfxOnButton.style.width = audioRect.width;
+		sfxOnButton.style.height = audioRect.height;
+
+		sfxOffButton.style.left = audioRect.left;
+		sfxOffButton.style.top = audioRect.top;
+		sfxOffButton.style.width = audioRect.width;
+		sfxOffButton.style.height = audioRect.height;
+
+		_centerPauseButton();
+	}
+
+	function _centerPauseButton() {
+		var pauseScreen = document.getElementById("pauseScreen");
+		var unpauseButton = document.getElementById("unpauseButton");
+		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
+
+		var pauseScreenRect = utils.standardizeClientRect(pauseScreen);
+		var unpauseButtonRect = utils.standardizeClientRect(unpauseButton);
+		var pauseScreenTitleRect = utils.standardizeClientRect(pauseScreenTitle);
+
+		var y;
+
+		y = pauseScreenRect.height / 2 - unpauseButtonRect.height - pauseScreenTitleRect.height - pauseScreenTitle.style.marginBottom;
+		pauseScreenTitle.style.marginTop = y + "px";
+
+		if (!game.hasAGameStarted) {
+			y = (pauseScreenRect.height - unpauseButtonRect.height) / 2;
+			unpauseButton.style.marginTop = y + "px";
+		}
 	}
 
 	function _toggleMode(modeCBId, isOn, element) {

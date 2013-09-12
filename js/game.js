@@ -280,6 +280,7 @@
 		if (game.isEnded) {
 			_reset();
 			game.isEnded = false;
+			game.hasAGameStarted = true;
 		}
 
 		if (game.isPaused || game.isEnded) {
@@ -638,6 +639,7 @@
 
 		isPaused: true,
 		isEnded: true,
+		hasAGameStarted: false,
 
 		musicOn: true,
 		sfxOn: true,
