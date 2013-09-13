@@ -476,8 +476,7 @@
 			var side;
 			var startCell;
 			var endCell;
-			var minStartI2;
-			var minEndI;
+			var minStartI;
 			var maxEndI;
 
 			// Check whether we have a limited number of potential layers 
@@ -634,7 +633,7 @@
 
 				// Determine whether this layer is complete in the 
 				// required middle section
-				for (i = startI; i <= endI; ++i) {
+				for (i = startI; i <= endI; i += deltaI) {
 					if (gameWindow.squaresOnGameWindow[i] < 0) {
 						continue mode2Offlayerloop;
 					}
@@ -652,7 +651,7 @@
 				// Find the first empty cell after the end of the middle 
 				// section
 				i = endI;
-				while (i >= maxEndI && 
+				while (i <= maxEndI && 
 						gameWindow.squaresOnGameWindow[i] >= 0) {
 					endCell = i;
 					i += deltaI;
