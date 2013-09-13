@@ -227,8 +227,14 @@
 				blockType = Block.prototype.ONE_1;
 			}
 
-			var orientation = _previewWindowIndex;
-			var fallDirection = _previewWindowIndex;
+			var orientation;
+			var fallDirection;
+			if (game.blocksFallOutwardOn) {
+				orientation = (_previewWindowIndex + 2) % 4;
+			} else {
+				orientation = _previewWindowIndex;
+			}
+			fallDirection = orientation;
 
 			var cellOffsetFromTopLeftOfBlockToCenter = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
 
@@ -263,25 +269,48 @@
 					Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(
 							type, orientation);
 
-			switch (_previewWindowIndex) {
-			case 0:
-				startingX = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.x);
-				startingY = 0;
-				break;
-			case 1:
-				startingX = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
-				startingY = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.y);
-				break;
-			case 2:
-				startingX = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.x);
-				startingY = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
-				break;
-			case 3:
-				startingX = 0;
-				startingY = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.y);
-				break;
-			default:
-				return;
+			if (game.blocksFallOutwardOn) {
+				switch (_previewWindowIndex) {
+				case 0:
+					startingX = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.x);
+					startingY = gameWindow.centerSquareCellPositionX - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
+					break;
+				case 1:
+					startingX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
+					startingY = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.y);
+					break;
+				case 2:
+					startingX = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.x);
+					startingY = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
+					break;
+				case 3:
+					startingX = gameWindow.centerSquareCellPositionX - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
+					startingY = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.y);
+					break;
+				default:
+					return;
+				}
+			} else {
+				switch (_previewWindowIndex) {
+				case 0:
+					startingX = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.x);
+					startingY = 0;
+					break;
+				case 1:
+					startingX = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.x * 2);
+					startingY = (gameWindow.gameWindowCellSize / 2) - Math.ceil(cellOffsetFromTopLeftOfBlockToCenter.y);
+					break;
+				case 2:
+					startingX = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.x);
+					startingY = gameWindow.gameWindowCellSize - (cellOffsetFromTopLeftOfBlockToCenter.y * 2);
+					break;
+				case 3:
+					startingX = 0;
+					startingY = (gameWindow.gameWindowCellSize / 2) - Math.floor(cellOffsetFromTopLeftOfBlockToCenter.y);
+					break;
+				default:
+					return;
+				}
 			}
 
 			_currentBlock.setCellPosition(startingX, startingY);

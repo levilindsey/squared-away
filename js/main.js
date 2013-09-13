@@ -46,6 +46,10 @@
 		"peanutGalleryCB"
 	];
 
+	var startOfGameCheckBoxIds = [
+		"fallOutwardCB"
+	];
+
 	var dropDownMenuIds = [
 		"gameWindowSize",
 		"centerSquareSize",
@@ -582,7 +586,9 @@
 	}
 
 	function _onModeCBClicked() {
-		_toggleMode(this.id, this.checked, this);
+		if (startOfGameCheckBoxIds.indexOf(this.id) < 0) {
+			_toggleMode(this.id, this.checked, this);
+		}
 	}
 
 	function _onWindowResize() {
@@ -917,6 +923,10 @@
 			element = document.getElementById(startOfGameDropDownMenuIds[i]);
 			number = parseInt(element.options[element.selectedIndex].value, 10);
 			_changeGameParameter(startOfGameDropDownMenuIds[i], number, element);
+		}
+		for (i = 0; i < startOfGameCheckBoxIds.length; ++i) {
+			element = document.getElementById(startOfGameCheckBoxIds[i]);
+			_toggleMode(startOfGameCheckBoxIds[i], element.checked, element);
 		}
 	}
 

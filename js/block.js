@@ -392,8 +392,8 @@
 		var _orientation = orientation;
 		var _fallDirection = fallDirection;
 		var _timeSinceLastFall = 0;
-		var _hasCollidedWithSquare = false;
-		var _hasCollidedWithEdgeOfArea = false;
+		var _hasLanded = false;
+		var _hasCollidedWithOutOfBounds = false;
 		var _hasCollidedWithBackLineOfCenterSquare = false;
 		var _bombType = bombType;
 
@@ -406,23 +406,40 @@
 
 			// Check whether this block needs to fall one space
 			if (_timeSinceLastFall > fallPeriod) {
-				_hasCollidedWithEdgeOfArea = 
-						_checkForCollisionWithGameWindowEdge();
+					
+				if (game.blocksFallOutwardOn) {
+					_hasCollidedWithOutOfBounds = 
+							_checkForCollisionWithCenterSquare();
 
-				if (!_hasCollidedWithEdgeOfArea) {
-					_hasCollidedWithSquare = 
-							_checkForCollisionWithCenterSquare() ||
-							_checkForCollisionWithSquare(squaresOnGameWindow, 
-															blocksOnGameWindow);
+					if (!_hasCollidedWithOutOfBounds) {
+						_hasLanded = 
+								_checkForCollisionWithGameWindowEdge() ||
+								_checkForCollisionWithSquare(squaresOnGameWindow, 
+																blocksOnGameWindow);
 
-					if (!_hasCollidedWithSquare) {
-						_hasCollidedWithBackLineOfCenterSquare = 
-								_checkForCollisionWithBackLineOfCenterSquare();
-
-						if (!_hasCollidedWithBackLineOfCenterSquare) {
+						if (!_hasLanded) {
 							_fall();
 
 							sound.playSFX("fall");
+						}
+					}
+				} else {
+					_hasCollidedWithOutOfBounds = 
+							_checkForCollisionWithGameWindowEdge();
+
+					if (!_hasCollidedWithOutOfBounds) {
+						_hasLanded = 
+								_checkForCollisionWithCenterSquare() ||
+								_checkForCollisionWithSquare(squaresOnGameWindow, 
+																blocksOnGameWindow);
+
+						if (!_hasLanded) {
+							if (!game.canFallPastCenterOn && 
+									!_checkForCollisionWithBackLineOfCenterSquare()) {
+								_fall();
+
+								sound.playSFX("fall");
+							}
 						}
 					}
 				}
@@ -432,7 +449,7 @@
 
 			// Check whether this block needs to shimmer
 			if (false && // TODO: fix the false bit to use a shimmer timer
-					!_hasCollidedWithEdgeOfArea && !_hasCollidedWithSquare) {
+					!_hasCollidedWithOutOfBounds && !_hasLanded) {
 				// TODO: 
 			}
 		}
@@ -924,7 +941,7 @@
 				y: _cellPosition.y + (howManyStepsBlockCanMove * deltaY)
 			};
 
-			if (!game.canFallPastCenterOn) {
+			if (!game.blocksFallOutwardOn && !game.canFallPastCenterOn) {
 				// Account for the invisible wall at the back side of the center square
 				var half = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(_type, _orientation);
 				switch (_fallDirection) {
@@ -1006,12 +1023,12 @@
 			_pixelPosition.y = _cellPosition.y * gameWindow.squarePixelSize;
 		}
 
-		function _getHasCollidedWithEdgeOfArea() {
-			return _hasCollidedWithEdgeOfArea;
+		function _getHasCollidedWithOutOfBounds() {
+			return _hasCollidedWithOutOfBounds;
 		}
 
-		function _getHasCollidedWithSquare() {
-			return _hasCollidedWithSquare;
+		function _getHasLanded() {
+			return _hasLanded;
 		}
 
 		function _getHasCollidedWithBackLineOfCenterSquare() {
@@ -1119,8 +1136,8 @@
 		this.getFarthestRightCellAvailable = _getFarthestRightCellAvailable;
 		this.getFarthestDownwardCellAvailable = _getFarthestDownwardCellAvailable;
 		this.setCellPosition = _setCellPosition;
-		this.getHasCollidedWithEdgeOfArea = _getHasCollidedWithEdgeOfArea;
-		this.getHasCollidedWithSquare = _getHasCollidedWithSquare;
+		this.getHasCollidedWithOutOfBounds = _getHasCollidedWithOutOfBounds;
+		this.getHasLanded = _getHasLanded;
 		this.getHasCollidedWithBackLineOfCenterSquare = _getHasCollidedWithBackLineOfCenterSquare;
 		this.checkIsOverTopSquare = _checkIsOverTopSquare;
 		this.checkForCollisionWithSquare = _checkForCollisionWithSquare;
