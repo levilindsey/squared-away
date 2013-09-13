@@ -142,82 +142,98 @@
 		{
 			id: "aNightOfDizzySpells",
 			src: _MUSIC_PATH + "a_night_of_dizzy_spells.ogg|" + _MUSIC_PATH + "a_night_of_dizzy_spells.m4a",
-			data: 1
+			data: 1,
+			title: "A Night of Dizzy Spells"
 		},
 		{
 			id: "allOfUs",
 			src: _MUSIC_PATH + "all_of_us.ogg|" + _MUSIC_PATH + "all_of_us.m4a",
-			data: 1
+			data: 1,
+			title: "All of Us"
 		},
 		{
 			id: "arpanauts",
 			src: _MUSIC_PATH + "arpanauts.ogg|" + _MUSIC_PATH + "arpanauts.m4a",
-			data: 1
+			data: 1,
+			title: "Arpanauts"
 		},
 		{
 			id: "ascending",
 			src: _MUSIC_PATH + "ascending.ogg|" + _MUSIC_PATH + "ascending.m4a",
-			data: 1
+			data: 1,
+			title: "Ascending"
 		},
 		{
 			id: "chibiNinja",
 			src: _MUSIC_PATH + "chibi_ninja.ogg|" + _MUSIC_PATH + "chibi_ninja.m4a",
-			data: 1
+			data: 1,
+			title: "Chibi Ninja"
 		},
 		{
 			id: "comeAndFindMe",
 			src: _MUSIC_PATH + "come_and_find_me.ogg|" + _MUSIC_PATH + "come_and_find_me.m4a",
-			data: 1
+			data: 1,
+			title: "Come and Find Me"
 		},
 		{
 			id: "comeAndFindMeB",
 			src: _MUSIC_PATH + "come_and_find_me_b_mix.ogg|" + _MUSIC_PATH + "come_and_find_me_b_mix.m4a",
-			data: 1
+			data: 1,
+			title: "Come and Find Me (B Mix)"
 		},
 		{
 			id: "digitalNative",
 			src: _MUSIC_PATH + "digital_native.ogg|" + _MUSIC_PATH + "digital_native.m4a",
-			data: 1
+			data: 1,
+			title: "Digital Native"
 		},
 		{
 			id: "hhavokIntro",
 			src: _MUSIC_PATH + "hhavok_intro.ogg|" + _MUSIC_PATH + "hhavok_intro.m4a",
-			data: 1
+			data: 1,
+			title: "HHavok (Intro)"
 		},
 		{
 			id: "hhavokMain",
 			src: _MUSIC_PATH + "hhavok_main.ogg|" + _MUSIC_PATH + "hhavok_main.m4a",
-			data: 1
+			data: 1,
+			title: "HHavok (Main)"
 		},
 		{
 			id: "jumpshot",
 			src: _MUSIC_PATH + "jumpshot.ogg|" + _MUSIC_PATH + "jumpshot.m4a",
-			data: 1
+			data: 1,
+			title: "Jumpshot"
 		},
 		{
 			id: "prologue",
 			src: _MUSIC_PATH + "prologue.ogg|" + _MUSIC_PATH + "prologue.m4a",
-			data: 1
+			data: 1,
+			title: "Prologue"
 		},
 		{
 			id: "searching",
 			src: _MUSIC_PATH + "searching.ogg|" + _MUSIC_PATH + "searching.m4a",
-			data: 1
+			data: 1,
+			title: "Searching"
 		},
 		{
 			id: "underclocked",
 			src: _MUSIC_PATH + "underclocked.ogg|" + _MUSIC_PATH + "underclocked.m4a",
-			data: 1
+			data: 1,
+			title: "Underclocked (Underunderclocked Mix)"
 		},
 		{
 			id: "wereAllUnderTheStars",
 			src: _MUSIC_PATH + "were_all_under_the_stars.ogg|" + _MUSIC_PATH + "were_all_under_the_stars.m4a",
-			data: 1
+			data: 1,
+			title: "We&apos;re All Under the Stars"
 		},
 		{
 			id: "wereTheResistors",
 			src: _MUSIC_PATH + "were_the_resistors.ogg|" + _MUSIC_PATH + "were_the_resistors.m4a",
-			data: 1
+			data: 1,
+			title: "We&apos;re the Resistors"
 		}
 	];
 
@@ -436,6 +452,10 @@
 
 			// Play the next song
 			_playCurrentMusic(playEvenIfNotSelected);
+
+			// Update the now playing label
+			var nowPlaying = document.getElementById("nowPlaying");
+			nowPlaying.innerHTML = _musicManifest[_currMusicIndex].title;
 		} else {
 			// The next song has not yet loaded, so simply replay the song 
 			// that just ended
@@ -555,7 +575,7 @@
 		getSelectedMusic: _getSelectedMusic,
 
 		sfxVolume: 0.45,
-		musicVolume: 0.1
+		musicVolume: 0.05
 	};
 
 	log.i("<--sound.LOADING_MODULE");

@@ -35,7 +35,7 @@
 	var _NO_ANIMATION = 0;
 
 	var _START_SHIMMER_ANIMATION_TICK_PERIOD = 50;
-	var _PROB_OF_SHIMMER = 0.002;
+	var _PROB_OF_SHIMMER = 0.0013;
 	var _SHIMMER_ANIMATION_PERIOD = 250; // millis
 
 	var _centerSquare = null;
@@ -360,7 +360,7 @@
 	// (inclusive).  Return true if any layers were found to be complete.
 	function _checkForCompleteLayers(newCellPositions) {
 		var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
-		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
+		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
 		var centerCellPositionX = (gameWindow.gameWindowCellSize / 2) - 0.5;
 		var centerSquareCellHalfSize = gameWindow.centerSquareCellSize / 2;
 
@@ -476,7 +476,7 @@
 			var side;
 			var startCell;
 			var endCell;
-			var minStartI;
+			var minStartI2;
 			var minEndI;
 			var maxEndI;
 
@@ -562,113 +562,100 @@
 				startCell = -1;
 				endCell = -1;
 
-				if (game.blocksFallOutwardOn) {
-					startEndAndDeltaI = _checkForCompleteSquareLayerOnOneSide(
-							layer, collapsingIndices, 
-							minCenterSquareCellPositionX, maxCenterSquareCellPositionX, 
-							Block.prototype.LEFT_SIDE);
-					if (!startEndAndDeltaI) {
-						continue;
+				// Only check one side
+				switch (side) {
+				case Block.prototype.TOP_SIDE:
+					if (game.blocksFallOutwardOn) {
+						startY = layer - 1;
+						startX = layer;
+						endX = gameWindow.gameWindowCellSize - layer - 1;
 					} else {
-						startCell = startEndAndDeltaI.startI;
-						endCell = startEndAndDeltaI.endI;
-						deltaI = startEndAndDeltaI.deltaI;
-					}
-				} else {
-					// Only check one side
-					switch (side) {
-					case Block.prototype.TOP_SIDE:
 						startY = minCenterSquareCellPositionX - layer;
-						startI = startY * gameWindow.gameWindowCellSize;
-						deltaI = 1;
 						startX = minCenterSquareCellPositionX;
-						endX = maxCenterSquareCellPositionX - 1;
-						minStartI = (startY * gameWindow.gameWindowCellSize) + startX;
-						minEndI = (startY * gameWindow.gameWindowCellSize) + endX;
-						maxEndI = ((startY + 1) * gameWindow.gameWindowCellSize) - 1;
-						break;
-					case Block.prototype.RIGHT_SIDE:
-						startX = maxCenterSquareCellPositionX - 1 + layer;
-						startI = startX;
-						deltaI = gameWindow.gameWindowCellSize;
-						startY = minCenterSquareCellPositionX;
-						endY = maxCenterSquareCellPositionX - 1;
-						minStartI = (startY * gameWindow.gameWindowCellSize) + startX;
-						minEndI = (endY * gameWindow.gameWindowCellSize) + startX;
-						maxEndI = ((gameWindow.gameWindowCellSize - 1) * gameWindow.gameWindowCellSize) + startX;
-						break;
-					case Block.prototype.BOTTOM_SIDE:
-						startY = maxCenterSquareCellPositionX - 1 + layer;
-						startI = startY * gameWindow.gameWindowCellSize;
-						deltaI = 1;
-						startX = minCenterSquareCellPositionX;
-						endX = maxCenterSquareCellPositionX - 1;
-						minStartI = (startY * gameWindow.gameWindowCellSize) + startX;
-						minEndI = (startY * gameWindow.gameWindowCellSize) + endX;
-						maxEndI = ((startY + 1) * gameWindow.gameWindowCellSize) - 1;
-						break;
-					case Block.prototype.LEFT_SIDE:
-						startX = minCenterSquareCellPositionX - layer;
-						startI = startX;
-						deltaI = gameWindow.gameWindowCellSize;
-						startY = minCenterSquareCellPositionX;
-						endY = maxCenterSquareCellPositionX - 1;
-						minStartI = (startY * gameWindow.gameWindowCellSize) + startX;
-						minEndI = (endY * gameWindow.gameWindowCellSize) + startX;
-						maxEndI = ((gameWindow.gameWindowCellSize - 1) * gameWindow.gameWindowCellSize) + startX;
-						break;
-					default:
-						return;
+						endX = maxCenterSquareCellPositionX;
 					}
-
-					i = startI;
-
-					// Find the first non-empty cell in this line
-					while (i <= minStartI) {
-						if (gameWindow.squaresOnGameWindow[i] >= 0) {
-							startCell = i;
-							i += deltaI;
-							break;
-						}
-						i += deltaI;
-					}
-
-					// We can stop checking this line if the sequence of non-
-					// empty cells did not start early enough
-					if (startCell < 0) {
-						continue mode2Offlayerloop;
-					}
-
-					// Find the last contiguous non-empty cell in this line
-					while (i <= maxEndI) {
-						if (gameWindow.squaresOnGameWindow[i] < 0) {
-							endCell = i - deltaI;
-							i += deltaI;
-							break;
-						}
-						i += deltaI;
-					}
-
-					// We can stop checking this line if the sequence of non-
-					// empty cells was not long enough
-					if (endCell < minEndI) {
-						continue mode2Offlayerloop;
-					}
-
-					// Handle the case where the line extends all the way to 
-					// the edge
-					if (endCell < 0) {
-						endCell = i - deltaI;
+					minStartI = startY * gameWindow.gameWindowCellSize;
+					deltaI = 1;
+					startI = (startY * gameWindow.gameWindowCellSize) + startX;
+					endI = (startY * gameWindow.gameWindowCellSize) + endX;
+					maxEndI = ((startY + 1) * gameWindow.gameWindowCellSize) - 1;
+					break;
+				case Block.prototype.RIGHT_SIDE:
+					if (game.blocksFallOutwardOn) {
+						startX = gameWindow.gameWindowCellSize - layer;
+						startY = layer;
+						endY = gameWindow.gameWindowCellSize - layer - 1;
 					} else {
-						// Ensure that there were no later non-empty cells in 
-						// this line
-						while (i <= maxEndI) {
-							if (gameWindow.squaresOnGameWindow[i] >= 0) {
-								continue mode2Offlayerloop;
-							}
-							i += deltaI;
-						}
+						startX = maxCenterSquareCellPositionX + layer;
+						startY = minCenterSquareCellPositionX;
+						endY = maxCenterSquareCellPositionX;
 					}
+					minStartI = startX;
+					deltaI = gameWindow.gameWindowCellSize;
+					startI = (startY * gameWindow.gameWindowCellSize) + startX;
+					endI = (endY * gameWindow.gameWindowCellSize) + startX;
+					maxEndI = ((gameWindow.gameWindowCellSize - 1) * gameWindow.gameWindowCellSize) + startX;
+					break;
+				case Block.prototype.BOTTOM_SIDE:
+					if (game.blocksFallOutwardOn) {
+						startY = gameWindow.gameWindowCellSize - layer;
+						startX = layer;
+						endX = gameWindow.gameWindowCellSize - layer - 1;
+					} else {
+						startY = maxCenterSquareCellPositionX + layer;
+						startX = minCenterSquareCellPositionX;
+						endX = maxCenterSquareCellPositionX;
+					}
+					minStartI = startY * gameWindow.gameWindowCellSize;
+					deltaI = 1;
+					startI = (startY * gameWindow.gameWindowCellSize) + startX;
+					endI = (startY * gameWindow.gameWindowCellSize) + endX;
+					maxEndI = ((startY + 1) * gameWindow.gameWindowCellSize) - 1;
+					break;
+				case Block.prototype.LEFT_SIDE:
+					if (game.blocksFallOutwardOn) {
+						startX = layer - 1;
+						startY = layer;
+						endY = gameWindow.gameWindowCellSize - layer - 1;
+					} else {
+						startX = minCenterSquareCellPositionX - layer;
+						startY = minCenterSquareCellPositionX;
+						endY = maxCenterSquareCellPositionX;
+					}
+					minStartI = startX;
+					deltaI = gameWindow.gameWindowCellSize;
+					startI = (startY * gameWindow.gameWindowCellSize) + startX;
+					endI = (endY * gameWindow.gameWindowCellSize) + startX;
+					maxEndI = ((gameWindow.gameWindowCellSize - 1) * gameWindow.gameWindowCellSize) + startX;
+					break;
+				default:
+					return;
+				}
+
+				// Determine whether this layer is complete in the 
+				// required middle section
+				for (i = startI; i <= endI; ++i) {
+					if (gameWindow.squaresOnGameWindow[i] < 0) {
+						continue mode2Offlayerloop;
+					}
+				}
+
+				// Find the first empty cell before the start of the 
+				// middle section
+				i = startI;
+				while (i >= minStartI && 
+						gameWindow.squaresOnGameWindow[i] >= 0) {
+					startCell = i;
+					i -= deltaI;
+				}
+
+				// Find the first empty cell after the end of the middle 
+				// section
+				i = endI;
+				while (i >= maxEndI && 
+						gameWindow.squaresOnGameWindow[i] >= 0) {
+					endCell = i;
+					i += deltaI;
 				}
 
 				completeLayers.push({
@@ -737,75 +724,52 @@
 
 		switch (side) {
 		case Block.prototype.TOP_SIDE:
-			// Check the top side
-			if (game.blocksFallOutwardOn) {
-				startX = layer;
-				startY = layer - 1;
-				endX = gameWindow.gameWindowCellSize - layer - 1;
-			} else {
-				startX = minCenterSquareCellPositionX - layer;
-				startY = minCenterSquareCellPositionX - layer;
-				endX = maxCenterSquareCellPositionX + layer;
-			}
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = 1;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			for (i = startI; i < endI; i += deltaI) {
-				if (gameWindow.squaresOnGameWindow[i] < 0) {
-					return false;
-				}
-				collapsingIndices.push(i);
-			}
-			break;
-		case Block.prototype.RIGHT_SIDE:
-			// Check the right side
-			if (game.blocksFallOutwardOn) {
-				startX = gameWindow.gameWindowCellSize - layer;
-				startY = layer;
-				endY = gameWindow.gameWindowCellSize - layer - 1;
-			} else {
-				startX = maxCenterSquareCellPositionX - 1 + layer;
-				startY = minCenterSquareCellPositionX - layer;
-				endY = maxCenterSquareCellPositionX + layer;
-
-			}
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = gameWindow.gameWindowCellSize;
-			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			for (i = startI; i < endI; i += deltaI) {
-				if (gameWindow.squaresOnGameWindow[i] < 0) {
-					return false;
-				}
-				collapsingIndices.push(i);
-			}
-			break;
-		case Block.prototype.BOTTOM_SIDE:
-			// Check the bottom side
-			if (game.blocksFallOutwardOn) {
-				startX = layer;
-				startY = gameWindow.gameWindowCellSize - layer;
-				endX = gameWindow.gameWindowCellSize - layer - 1;
-			} else {
-				startX = minCenterSquareCellPositionX - layer;
-				startY = maxCenterSquareCellPositionX - 1 + layer;
-				endX = maxCenterSquareCellPositionX + layer;
-			}
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = 1;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			for (i = startI; i < endI; i += deltaI) {
-				if (gameWindow.squaresOnGameWindow[i] < 0) {
-					return false;
-				}
-				collapsingIndices.push(i);
-			}
-			break;
-		case Block.prototype.LEFT_SIDE:
-			// Check the left side
 			if (game.blocksFallOutwardOn) {
 				startX = layer - 1;
-				startY = layer;
-				endY = gameWindow.gameWindowCellSize - layer - 1;
+				startY = layer - 1;
+				endX = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endX = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = 1;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			break;
+		case Block.prototype.RIGHT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = gameWindow.gameWindowCellSize - layer;
+				startY = layer - 1;
+				endY = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = maxCenterSquareCellPositionX + layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = gameWindow.gameWindowCellSize;
+			endI = (endY * gameWindow.gameWindowCellSize) + startX;
+			break;
+		case Block.prototype.BOTTOM_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = gameWindow.gameWindowCellSize - layer;
+				endX = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = maxCenterSquareCellPositionX + layer;
+				endX = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = 1;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			break;
+		case Block.prototype.LEFT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = layer - 1;
+				endY = gameWindow.gameWindowCellSize - layer;
 			} else {
 				startX = minCenterSquareCellPositionX - layer;
 				startY = minCenterSquareCellPositionX - layer;
@@ -814,15 +778,18 @@
 			startI = (startY * gameWindow.gameWindowCellSize) + startX;
 			deltaI = gameWindow.gameWindowCellSize;
 			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			for (i = startI; i < endI; i += deltaI) {
-				if (gameWindow.squaresOnGameWindow[i] < 0) {
-					return false;
-				}
-				collapsingIndices.push(i);
-			}
 			break;
 		default:
 			return;
+		}
+
+		for (i = startI; i < endI; i += deltaI) {
+			if (gameWindow.squaresOnGameWindow[i] < 0) {
+				return false;
+			}
+			if (collapsingIndices) {
+				collapsingIndices.push(i);
+			}
 		}
 
 		return {
@@ -846,16 +813,74 @@
 
 		switch (side) {
 		case Block.prototype.TOP_SIDE:
-			**** // TODO: like the above complete function, but for collapsing.  and then integrate this into the below function.
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = layer - 1;
+				endX = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endX = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = 1;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			break;
+		case Block.prototype.RIGHT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = gameWindow.gameWindowCellSize - layer;
+				startY = layer - 1;
+				endY = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = maxCenterSquareCellPositionX + layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = gameWindow.gameWindowCellSize;
+			endI = (endY * gameWindow.gameWindowCellSize) + startX;
+			break;
+		case Block.prototype.BOTTOM_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = gameWindow.gameWindowCellSize - layer;
+				endX = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = maxCenterSquareCellPositionX + layer;
+				endX = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = 1;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			break;
+		case Block.prototype.LEFT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = layer - 1;
+				endY = gameWindow.gameWindowCellSize - layer;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			deltaI = gameWindow.gameWindowCellSize;
+			endI = (endY * gameWindow.gameWindowCellSize) + startX;
 			break;
 		default:
-			break;
+			return;
+		}
+
+		for (i = startI; i < endI; i += deltaI) {
+			gameWindow.squaresOnGameWindow[i] = -1;
+			gameWindow.animatingSquares[i] = _NO_ANIMATION;
 		}
 	}
 
 	function _collapseLayer(layer) { // TODO: should I get rid of this function and modify _dropHigherLayers to make up for it?
 		var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
-		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize;
+		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
 
 		var i;
 		var deltaI;
@@ -869,53 +894,21 @@
 			var endY;
 			var endI;
 
-			// Remove the top side
-			startX = minCenterSquareCellPositionX - layer;
-			startY = minCenterSquareCellPositionX - layer;
-			endX = maxCenterSquareCellPositionX + layer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = 1;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			for (i = startI; i < endI; i += deltaI) {
-				gameWindow.squaresOnGameWindow[i] = -1;
-				gameWindow.animatingSquares[i] = _NO_ANIMATION;
-			}
+			_collapseCompleteSquareLayerOnOneSide(
+					layer, minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, Block.prototype.TOP_SIDE);
 
-			// Remove the right side
-			startX = maxCenterSquareCellPositionX - 1 + layer;
-			startY = minCenterSquareCellPositionX - layer;
-			endY = maxCenterSquareCellPositionX + layer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = gameWindow.gameWindowCellSize;
-			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			for (i = startI; i < endI; i += deltaI) {
-				gameWindow.squaresOnGameWindow[i] = -1;
-				gameWindow.animatingSquares[i] = _NO_ANIMATION;
-			}
+			_collapseCompleteSquareLayerOnOneSide(
+					layer, minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, Block.prototype.RIGHT_SIDE);
 
-			// Remove the bottom side
-			startX = minCenterSquareCellPositionX - layer;
-			startY = maxCenterSquareCellPositionX - 1 + layer;
-			endX = maxCenterSquareCellPositionX + layer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = 1;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			for (i = startI; i < endI; i += deltaI) {
-				gameWindow.squaresOnGameWindow[i] = -1;
-				gameWindow.animatingSquares[i] = _NO_ANIMATION;
-			}
+			_collapseCompleteSquareLayerOnOneSide(
+					layer, minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, Block.prototype.BOTTOM_SIDE);
 
-			// Remove the left side
-			startX = minCenterSquareCellPositionX - layer;
-			startY = minCenterSquareCellPositionX - layer;
-			endY = maxCenterSquareCellPositionX + layer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			deltaI = gameWindow.gameWindowCellSize;
-			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			for (i = startI; i < endI; i += deltaI) {
-				gameWindow.squaresOnGameWindow[i] = -1;
-				gameWindow.animatingSquares[i] = _NO_ANIMATION;
-			}
+			_collapseCompleteSquareLayerOnOneSide(
+					layer, minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, Block.prototype.LEFT_SIDE);
 
 			squaresCollapsedCount = (gameWindow.centerSquareCellSize + layer) * 4;
 		} else { // Collapsing only lines
@@ -958,15 +951,161 @@
 		game.addCollapseToScore(squaresCollapsedCount);
 	}
 
-	// Drop each of the layers above the given layer by one square.
-	function _dropHigherLayers(collapsedLayer) {
-		_lowerHigherLevels(collapsedLayer, false, false, false);
-	}
+	function _lowerCompleteSquareHigherLayersOnOneSide(layer, 
+			minCenterSquareCellPositionX, maxCenterSquareCellPositionX, 
+			centerCellPositionX, settleInward, lowerLayersFn, side, 
+			onlyLowerOneHalf, firstHalf) {
+		var startX;
+		var startY;
+		var endX;
+		var endY;
+		var startI;
+		var endI;
+		var loopDeltaI;
+		var dropDeltaI;
+		var updateStartCellDeltaI;
+		var updateEndCellDeltaI;
+		var firstInwardSettleStop;
+		var secondInwardSettleStop;
+		var i;
 
-	// Drop each of the layers above the given layer until they reach either a 
-	// non-empty cell or the close side of the center square.
-	function _settleHigherLayers(collapsedLayer, forceEntireSquare, forceInwardSettling) {
-		_lowerHigherLevels(collapsedLayer, true, forceEntireSquare, forceInwardSettling);
+		switch (side) {
+		case Block.prototype.TOP_SIDE:
+			if (onlyLowerOneHalf) {
+				if (firstHalf) {
+					if (game.blocksFallOutwardOn) {
+						startX = layer;
+						startY = layer - 1;
+						endX = centerCellPositionX - 1;
+						updateStartCellDeltaI = gameWindow.gameWindowCellSize + 1;
+						updateEndCellDeltaI = gameWindow.gameWindowCellSize;
+					} else {
+						startX = minCenterSquareCellPositionX - layer;
+						startY = minCenterSquareCellPositionX - layer;
+						endX = centerCellPositionX - 1;
+						updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+						updateEndCellDeltaI = -gameWindow.gameWindowCellSize;
+					}
+				} else {
+					if (game.blocksFallOutwardOn) {
+						startX = centerCellPositionX;
+						startY = layer - 1;
+						endX = gameWindow.gameWindowCellSize - layer - 1;
+						updateStartCellDeltaI = gameWindow.gameWindowCellSize;
+						updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+					} else {
+						startX = centerCellPositionX;
+						startY = minCenterSquareCellPositionX - layer;
+						endX = maxCenterSquareCellPositionX + layer;
+						updateStartCellDeltaI = -gameWindow.gameWindowCellSize;
+						updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+					}
+				}
+			} else {
+				if (game.blocksFallOutwardOn) {
+					startX = layer;
+					startY = layer - 1;
+					endX = gameWindow.gameWindowCellSize - layer - 1;
+					updateStartCellDeltaI = gameWindow.gameWindowCellSize + 1;
+					updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				} else {
+					startX = minCenterSquareCellPositionX - layer;
+					startY = minCenterSquareCellPositionX - layer;
+					endX = maxCenterSquareCellPositionX + layer;
+					updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+					updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				}
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			loopDeltaI = 1;
+			dropDeltaI = gameWindow.gameWindowCellSize;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			if (settleInward) {
+				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
+			}
+			break;
+		case Block.prototype.RIGHT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = gameWindow.gameWindowCellSize - layer;
+				startY = layer;
+				endY = gameWindow.gameWindowCellSize - layer - 1;
+				updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				updateEndCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+			} else {
+				startX = maxCenterSquareCellPositionX + layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+				updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			loopDeltaI = gameWindow.gameWindowCellSize;
+			dropDeltaI = -1;
+			endI = (endY * gameWindow.gameWindowCellSize) + startX;
+			if (settleInward) {
+				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
+				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
+			}
+			break;
+		case Block.prototype.BOTTOM_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer;
+				startY = gameWindow.gameWindowCellSize - layer;
+				endX = gameWindow.gameWindowCellSize - layer - 1;
+				updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				updateEndCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = maxCenterSquareCellPositionX + layer;
+				endX = maxCenterSquareCellPositionX + layer;
+				updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			loopDeltaI = 1;
+			dropDeltaI = -gameWindow.gameWindowCellSize;
+			endI = (startY * gameWindow.gameWindowCellSize) + endX;
+			if (settleInward) {
+				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
+				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
+			}
+			break;
+		case Block.prototype.LEFT_SIDE:
+			if (game.blocksFallOutwardOn) {
+				startX = layer - 1;
+				startY = layer;
+				endY = gameWindow.gameWindowCellSize - layer - 1;
+				updateStartCellDeltaI = gameWindow.gameWindowCellSize + 1;
+				updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+			} else {
+				startX = minCenterSquareCellPositionX - layer;
+				startY = minCenterSquareCellPositionX - layer;
+				endY = maxCenterSquareCellPositionX + layer;
+				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+				updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+			}
+			startI = (startY * gameWindow.gameWindowCellSize) + startX;
+			loopDeltaI = gameWindow.gameWindowCellSize;
+			dropDeltaI = 1;
+			endI = (endY * gameWindow.gameWindowCellSize) + startX;
+			if (settleInward) {
+				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
+				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
+			}
+			break;
+		default:
+			return;
+		}
+
+		for (i = startI; i < endI; i += deltaI) {
+			gameWindow.squaresOnGameWindow[i] = -1;
+			gameWindow.animatingSquares[i] = _NO_ANIMATION;
+		}
+
+		lowerLayersFn(layer, minCenterSquareCellPositionX, startI, endI, 
+				updateStartCellDeltaI, updateEndCellDeltaI, loopDeltaI, 
+				dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 	}
 
 	function _lowerHigherLevels(collapsedLayer, settleInsteadOfDrop, forceEntireSquare, forceInwardSettling) {
@@ -976,6 +1115,8 @@
 		var minCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX;
 		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
 		var centerCellPositionX = gameWindow.gameWindowCellSize / 2;
+
+		var settleInward = game.layersAlsoSettleInwardsOn || forceInwardSettling;
 
 		var loopDeltaI;
 		var dropDeltaI;
@@ -994,95 +1135,35 @@
 
 			++collapsedLayer;
 
-			// Remove the second half of the top side
-			startX = centerCellPositionX;
-			startY = minCenterSquareCellPositionX - collapsedLayer;
-			endX = maxCenterSquareCellPositionX + collapsedLayer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			loopDeltaI = 1;
-			dropDeltaI = gameWindow.gameWindowCellSize;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			updateStartCellDeltaI = -gameWindow.gameWindowCellSize;
-			updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			}
-			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
-					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
-					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
+			_lowerCompleteSquareHigherLayersOnOneSide(collapsedLayer, 
+					minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, centerCellPositionX, 
+					settleInward, lowerLayersFn, Block.prototype.TOP_SIDE, 
+					true, false);
 
-			// Remove the right side
-			startX = maxCenterSquareCellPositionX + collapsedLayer;
-			startY = minCenterSquareCellPositionX - collapsedLayer;
-			endY = maxCenterSquareCellPositionX + collapsedLayer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			loopDeltaI = gameWindow.gameWindowCellSize;
-			dropDeltaI = -1;
-			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
-				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
-				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
-			}
-			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
-					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
-					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
+			_lowerCompleteSquareHigherLayersOnOneSide(collapsedLayer, 
+					minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, centerCellPositionX, 
+					settleInward, lowerLayersFn, Block.prototype.RIGHT_SIDE, 
+					false, false);
 
-			// Remove the bottom side
-			startX = minCenterSquareCellPositionX - collapsedLayer;
-			startY = maxCenterSquareCellPositionX + collapsedLayer;
-			endX = maxCenterSquareCellPositionX + collapsedLayer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			loopDeltaI = 1;
-			dropDeltaI = -gameWindow.gameWindowCellSize;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
-			updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			}
-			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
-					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
-					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
+			_lowerCompleteSquareHigherLayersOnOneSide(collapsedLayer, 
+					minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, centerCellPositionX, 
+					settleInward, lowerLayersFn, Block.prototype.BOTTOM_SIDE, 
+					false, false);
 
-			// Remove the left side
-			startX = minCenterSquareCellPositionX - collapsedLayer;
-			startY = minCenterSquareCellPositionX - collapsedLayer;
-			endY = maxCenterSquareCellPositionX + collapsedLayer;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			loopDeltaI = gameWindow.gameWindowCellSize;
-			dropDeltaI = 1;
-			endI = (endY * gameWindow.gameWindowCellSize) + startX;
-			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
-			updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
-			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
-				firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + startX;
-				secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + startX;
-			}
-			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
-					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
-					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
+			_lowerCompleteSquareHigherLayersOnOneSide(collapsedLayer, 
+					minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, centerCellPositionX, 
+					settleInward, lowerLayersFn, Block.prototype.LEFT_SIDE, 
+					false, false);
 
-			// Remove the first half of the top side
-			startX = minCenterSquareCellPositionX - collapsedLayer;
-			startY = minCenterSquareCellPositionX - collapsedLayer;
-			endX = centerCellPositionX - 1;
-			startI = (startY * gameWindow.gameWindowCellSize) + startX;
-			loopDeltaI = 1;
-			dropDeltaI = gameWindow.gameWindowCellSize;
-			endI = (startY * gameWindow.gameWindowCellSize) + endX;
-			updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
-			updateEndCellDeltaI = -gameWindow.gameWindowCellSize;
-			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
-				firstInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
-				secondInwardSettleStop = (startY * gameWindow.gameWindowCellSize) + centerCellPositionX;
-			}
-			lowerLayersFn(collapsedLayer, minCenterSquareCellPositionX, 
-					startI, endI, updateStartCellDeltaI, updateEndCellDeltaI, 
-					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
+			_lowerCompleteSquareHigherLayersOnOneSide(collapsedLayer, 
+					minCenterSquareCellPositionX, 
+					maxCenterSquareCellPositionX, centerCellPositionX, 
+					settleInward, lowerLayersFn, Block.prototype.TOP_SIDE, 
+					true, true);
 		} else { // Collapsing only lines
 			var side = collapsedLayer.side;
 			var startCell = collapsedLayer.startCell;
@@ -1098,41 +1179,69 @@
 
 			switch (side) {
 			case Block.prototype.TOP_SIDE:
-				loopDeltaI = 1;
-				dropDeltaI = gameWindow.gameWindowCellSize;
-				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
-				updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
+				if (game.blocksFallOutwardOn) {
+					loopDeltaI = 1;
+					dropDeltaI = -gameWindow.gameWindowCellSize;
+					updateStartCellDeltaI = gameWindow.gameWindowCellSize + 1;
+					updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				} else {
+					loopDeltaI = 1;
+					dropDeltaI = gameWindow.gameWindowCellSize;
+					updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+					updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				}
+				if (settleInward) {
 					firstInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY - 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
 				}
 				break;
 			case Block.prototype.RIGHT_SIDE:
-				loopDeltaI = gameWindow.gameWindowCellSize;
-				dropDeltaI = -1;
-				updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
-				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
+				if (game.blocksFallOutwardOn) {
+					loopDeltaI = gameWindow.gameWindowCellSize;
+					dropDeltaI = 1;
+					updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
+					updateEndCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+				} else {
+					loopDeltaI = gameWindow.gameWindowCellSize;
+					dropDeltaI = -1;
+					updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+					updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+				}
+				if (settleInward) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX + 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX + 1);
 				}
 				break;
 			case Block.prototype.BOTTOM_SIDE:
-				loopDeltaI = 1;
-				dropDeltaI = -gameWindow.gameWindowCellSize;
-				updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
-				updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
-				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
+				if (game.blocksFallOutwardOn) {
+					loopDeltaI = 1;
+					dropDeltaI = gameWindow.gameWindowCellSize;
+					updateStartCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+					updateEndCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+				} else {
+					loopDeltaI = 1;
+					dropDeltaI = -gameWindow.gameWindowCellSize;
+					updateStartCellDeltaI = gameWindow.gameWindowCellSize - 1;
+					updateEndCellDeltaI = gameWindow.gameWindowCellSize + 1;
+				}
+				if (settleInward) {
 					firstInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX - 1;
 					secondInwardSettleStop = ((startY + 1) * gameWindow.gameWindowCellSize) + centerCellPositionX;
 				}
 				break;
 			case Block.prototype.LEFT_SIDE:
-				loopDeltaI = gameWindow.gameWindowCellSize;
-				dropDeltaI = 1;
-				updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
-				updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
-				if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
+				if (game.blocksFallOutwardOn) {
+					loopDeltaI = gameWindow.gameWindowCellSize;
+					dropDeltaI = -1;
+					updateStartCellDeltaI = gameWindow.gameWindowCellSize + 1;
+					updateEndCellDeltaI = -gameWindow.gameWindowCellSize + 1;
+				} else {
+					loopDeltaI = gameWindow.gameWindowCellSize;
+					dropDeltaI = 1;
+					updateStartCellDeltaI = -gameWindow.gameWindowCellSize - 1;
+					updateEndCellDeltaI = gameWindow.gameWindowCellSize - 1;
+				}
+				if (settleInward) {
 					firstInwardSettleStop = ((centerCellPositionX - 1) * gameWindow.gameWindowCellSize) + (startX - 1);
 					secondInwardSettleStop = (centerCellPositionX * gameWindow.gameWindowCellSize) + (startX - 1);
 				}
@@ -1148,6 +1257,17 @@
 					startCell, endCell, updateStartCellDeltaI, updateEndCellDeltaI, 
 					loopDeltaI, dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
 		}
+	}
+
+	// Drop each of the layers above the given layer by one square.
+	function _dropHigherLayers(collapsedLayer) {
+		_lowerHigherLevels(collapsedLayer, false, false, false);
+	}
+
+	// Drop each of the layers above the given layer until they reach either a 
+	// non-empty cell or the close side of the center square.
+	function _settleHigherLayers(collapsedLayer, forceEntireSquare, forceInwardSettling) {
+		_lowerHigherLevels(collapsedLayer, true, forceEntireSquare, forceInwardSettling);
 	}
 
 	function _dropLayers(startLayer, endLayer, startI, endI, 
