@@ -66,27 +66,13 @@
 		// single timer for any number of pending layers.
 		gameWindow.ellapsedCollapseTime += deltaTime;
 		if (gameWindow.ellapsedCollapseTime >= gameWindow.layerCollapseDelay) {
-			// Sort the completed layers by descending layer number
-			_layersToCollapse.sort(function(a, b) {
-				if (game.completingSquaresOn) {
-					return b - a;
-				} else {
-					return b.layer - a.layer;
-				}
-			});
-
-			// Collapse any pending layers
-			while (_layersToCollapse.length > 0) {
-				_collapseLayer(_layersToCollapse[0]);
-				_layersToCollapse.splice(0, 1);
-				layersWereCollapsed = true;
-			}
+			_forceCollapseAnyPendingLayers();
 		}
 
 		if (layersWereCollapsed) {
 			// Collapsing layers has the potential to complete additional 
 			// layers, so we should check for that now
-			_checkForCompleteLayers();
+			layersWereCollapsed = _checkForCompleteLayers();
 		}
 
 		// Update the blocks
@@ -1261,11 +1247,6 @@
 			return;
 		}
 
-		for (i = startI; i < endI; i += loopDeltaI) {
-			gameWindow.squaresOnGameWindow[i] = -1;
-			gameWindow.animatingSquares[i] = _NO_ANIMATION;
-		}
-
 		lowerLayersFn(layer, minCenterSquareCellPositionX, startI, endI, 
 				updateStartCellDeltaI, updateEndCellDeltaI, loopDeltaI, 
 				dropDeltaI, firstInwardSettleStop, secondInwardSettleStop);
@@ -1310,7 +1291,7 @@
 		var totalDropDeltaI;
 		var i;
 		var maxMove;
-		var currentMove;****// TODO: we're losing mass on the settling again probably dropping things one too many layers?  or are we erasing things out of order?  ...how is the ordering of layers-to-collapse working now that we are falling outward?  ...how is the ordering of settling working?
+		var currentMove;
 
 		// Loop through each higher layer
 		for (currentLayer = startLayer; 
@@ -1339,6 +1320,7 @@
 						if (totalDropDeltaI !== loopDeltaI) {
 							gameWindow.squaresOnGameWindow[i + totalDropDeltaI - loopDeltaI] = gameWindow.squaresOnGameWindow[i];
 							gameWindow.squaresOnGameWindow[i] = -1;
+							gameWindow.animatingSquares[i] = _NO_ANIMATION;
 						}
 					}
 				}
@@ -1361,6 +1343,7 @@
 						if (totalDropDeltaI !== -loopDeltaI) {
 							gameWindow.squaresOnGameWindow[i + totalDropDeltaI + loopDeltaI] = gameWindow.squaresOnGameWindow[i];
 							gameWindow.squaresOnGameWindow[i] = -1;
+							gameWindow.animatingSquares[i] = _NO_ANIMATION;
 						}
 					}
 				}
@@ -1388,6 +1371,7 @@
 					if (totalDropDeltaI !== dropDeltaI) {
 						gameWindow.squaresOnGameWindow[i + totalDropDeltaI - dropDeltaI] = gameWindow.squaresOnGameWindow[i];
 						gameWindow.squaresOnGameWindow[i] = -1;
+						gameWindow.animatingSquares[i] = _NO_ANIMATION;
 					}
 				}
 			}
@@ -1395,6 +1379,8 @@
 	}
 
 	function _handleCollapseBomb(cellPos, fallDirection) {
+		_forceCollapseAnyPendingLayers();
+
 		var minXIValue = cellPos.x - BombWindow.prototype.COLLAPSE_BOMB_RADIUS;
 		var minYIValue = (cellPos.y - BombWindow.prototype.COLLAPSE_BOMB_RADIUS) * gameWindow.gameWindowCellSize;
 		var maxXIValue = cellPos.x + BombWindow.prototype.COLLAPSE_BOMB_RADIUS;
@@ -1414,12 +1400,36 @@
 	}
 
 	function _handleSettleBomb() {
+		_forceCollapseAnyPendingLayers();
+
 		// TODO: should I continue to force inward settling?
 		_settleHigherLayers(0, true, true);
 
 		// Settling layers has the potential to complete additional layers, so 
 		// we should check for that now
 		_checkForCompleteLayers();
+	}
+
+	function _forceCollapseAnyPendingLayers() {
+		var layersWereCollapsed = false;
+
+		// Sort the completed layers by descending layer number
+		_layersToCollapse.sort(function(a, b) {
+			if (game.completingSquaresOn) {
+				return b - a;
+			} else {
+				return b.layer - a.layer;
+			}
+		});
+
+		// Collapse any pending layers
+		while (_layersToCollapse.length > 0) {
+			_collapseLayer(_layersToCollapse[0]);
+			_layersToCollapse.splice(0, 1);
+			layersWereCollapsed = true;
+		}
+
+		return layersWereCollapsed;
 	}
 
 	function _setUpCenterSquare() {
