@@ -219,81 +219,6 @@
 		}
 	}
 
-	// Draw lines marking where layers of squares must extend before being 
-	// recognized as complete and then being collapsed.
-	function _drawCompletionLines(context) {
-		context.lineWidth = _COMPLETION_LINE_STROKE_WIDTH;
-		if (_currentBackgroundColorIndex >= 0) {
-			context.strokeStyle = game.LESS_DARK_COLORS[_currentBackgroundColorIndex].str;
-		} else {
-			context.strokeStyle = game.DARK_COLORS[6].str;
-		}
-
-		var centerSquareBackCoord = _centerSquarePixelX + _centerSquarePixelSize;
-
-		if (game.completingSquaresOn || game.blocksFallOutwardOn) { // Draw four diagonal lines
-			// Top-left line
-			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
-			context.lineTo(0, 0);
-			context.stroke();
-
-			// Top-right line
-			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
-			context.lineTo(gameWindow.gameWindowPixelSize, 0);
-			context.stroke();
-
-			// Bottom-right line
-			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
-			context.lineTo(gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
-			context.stroke();
-
-			// Bottom-left line
-			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
-			context.lineTo(0, gameWindow.gameWindowPixelSize);
-			context.stroke();
-		} else { // draw eight horizontal and vertical lines extending from the corners of the center square
-			// Top side left line
-			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
-			context.lineTo(_centerSquarePixelX, 0);
-			context.stroke();
-
-			// Top side right line
-			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
-			context.lineTo(centerSquareBackCoord, 0);
-			context.stroke();
-
-			// Right side top line
-			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
-			context.lineTo(gameWindow.gameWindowPixelSize, _centerSquarePixelX);
-			context.stroke();
-
-			// Right side bottom line
-			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
-			context.lineTo(gameWindow.gameWindowPixelSize, centerSquareBackCoord);
-			context.stroke();
-
-			// Bottom side right line
-			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
-			context.lineTo(centerSquareBackCoord, gameWindow.gameWindowPixelSize);
-			context.stroke();
-
-			// Bottom side left line
-			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
-			context.lineTo(_centerSquarePixelX, gameWindow.gameWindowPixelSize);
-			context.stroke();
-
-			// Left side bottom line
-			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
-			context.lineTo(0, centerSquareBackCoord);
-			context.stroke();
-
-			// Left side top line
-			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
-			context.lineTo(0, _centerSquarePixelX);
-			context.stroke();
-		}
-	}
-
 	function _draw(context) {
 		// ---- Draw the main play area ---- //
 
@@ -396,6 +321,81 @@
 		_centerSquare.draw(context);
 
 		context.restore();
+	}
+
+	// Draw lines marking where layers of squares must extend before being 
+	// recognized as complete and then being collapsed.
+	function _drawCompletionLines(context) {
+		context.lineWidth = _COMPLETION_LINE_STROKE_WIDTH;
+		if (_currentBackgroundColorIndex >= 0) {
+			context.strokeStyle = game.LESS_DARK_COLORS[_currentBackgroundColorIndex].str;
+		} else {
+			context.strokeStyle = game.DARK_COLORS[6].str;
+		}
+
+		var centerSquareBackCoord = _centerSquarePixelX + _centerSquarePixelSize;
+
+		if (game.completingSquaresOn || game.blocksFallOutwardOn) { // Draw four diagonal lines
+			// Top-left line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(0, 0);
+			context.stroke();
+
+			// Top-right line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(gameWindow.gameWindowPixelSize, 0);
+			context.stroke();
+
+			// Bottom-right line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Bottom-left line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(0, gameWindow.gameWindowPixelSize);
+			context.stroke();
+		} else { // draw eight horizontal and vertical lines extending from the corners of the center square
+			// Top side left line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(_centerSquarePixelX, 0);
+			context.stroke();
+
+			// Top side right line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(centerSquareBackCoord, 0);
+			context.stroke();
+
+			// Right side top line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(gameWindow.gameWindowPixelSize, _centerSquarePixelX);
+			context.stroke();
+
+			// Right side bottom line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(gameWindow.gameWindowPixelSize, centerSquareBackCoord);
+			context.stroke();
+
+			// Bottom side right line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(centerSquareBackCoord, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Bottom side left line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(_centerSquarePixelX, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Left side bottom line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(0, centerSquareBackCoord);
+			context.stroke();
+
+			// Left side top line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(0, _centerSquarePixelX);
+			context.stroke();
+		}
 	}
 
 	function _drawArcArrow(context, selectedBlock, phantomBlock, fillColor, strokeColor, strokeWidth) {
@@ -849,7 +849,7 @@
 			return;
 		}
 
-		for (i = startI; i < endI; i += deltaI) {
+		for (i = startI; i <= endI; i += deltaI) {
 			if (gameWindow.squaresOnGameWindow[i] < 0) {
 				return false;
 			}
@@ -938,7 +938,7 @@
 		game.addCollapseToScore(squaresCollapsedCount);
 	}
 
-	function _collapseCompleteSquareLayerOnOneSide(layer, collapsingIndices, 
+	function _collapseCompleteSquareLayerOnOneSide(layer, 
 			minCenterSquareCellPositionX, maxCenterSquareCellPositionX, 
 			side) {
 		var startX;
@@ -1011,7 +1011,7 @@
 			return;
 		}
 
-		for (i = startI; i < endI; i += deltaI) {
+		for (i = startI; i <= endI; i += deltaI) {
 			gameWindow.squaresOnGameWindow[i] = -1;
 			gameWindow.animatingSquares[i] = _NO_ANIMATION;
 		}
