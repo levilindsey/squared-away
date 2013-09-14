@@ -664,33 +664,43 @@
 		positionOfGameOver: null,
 
 		MEDIUM_COLORS: [
-			{ r: 55,	g: 178,	b: 22, a: 1.0, str: "rgba(55,178,22,1.0)" },	// Green
-			{ r: 22,	g: 99,	b: 178, a: 1.0, str: "rgba(22,99,178,1.0)" },	// Blue
-			{ r: 132,	g: 22,	b: 178, a: 1.0, str: "rgba(132,22,178,1.0)" },	// Purple
-			{ r: 178,	g: 22,	b: 44, a: 1.0, str: "rgba(178,22,44,1.0)" },	// Red
-			{ r: 178,	g: 99,	b: 22, a: 1.0, str: "rgba(178,99,22,1.0)" },	// Orange
-			{ r: 178,	g: 172,	b: 22, a: 1.0, str: "rgba(178,172,22,1.0)" },	// Yellow
-			{ r: 100,	g: 100,	b: 100, a: 1.0, str: "rgba(100,100,100,1.0)" }	// Grey
+			{ r: 55,	g: 178,	b: 22,	a: 1.0,	str: "rgba(55,178,22,1.0)" },	// Green
+			{ r: 22,	g: 99,	b: 178,	a: 1.0,	str: "rgba(22,99,178,1.0)" },	// Blue
+			{ r: 132,	g: 22,	b: 178,	a: 1.0,	str: "rgba(132,22,178,1.0)" },	// Purple
+			{ r: 178,	g: 22,	b: 44,	a: 1.0,	str: "rgba(178,22,44,1.0)" },	// Red
+			{ r: 178,	g: 99,	b: 22,	a: 1.0,	str: "rgba(178,99,22,1.0)" },	// Orange
+			{ r: 178,	g: 172,	b: 22,	a: 1.0,	str: "rgba(178,172,22,1.0)" },	// Yellow
+			{ r: 100,	g: 100,	b: 100,	a: 1.0,	str: "rgba(100,100,100,1.0)" }	// Grey
 		],
 
 		LIGHT_COLORS: [
-			{ r: 175,	g: 243,	b: 157, a: 1.0, str: "rgba(175,243,157,1.0)" },	// Green
-			{ r: 157,	g: 199,	b: 243, a: 1.0, str: "rgba(157,199,243,1.0)" },	// Blue
-			{ r: 218,	g: 157,	b: 243, a: 1.0, str: "rgba(218,157,243,1.0)" },	// Purple
-			{ r: 243,	g: 157,	b: 169, a: 1.0, str: "rgba(243,157,169,1.0)" },	// Red
-			{ r: 243,	g: 199,	b: 157, a: 1.0, str: "rgba(243,199,157,1.0)" },	// Orange
-			{ r: 243,	g: 240,	b: 157, a: 1.0, str: "rgba(243,240,157,1.0)" },	// Yellow
-			{ r: 200,	g: 200,	b: 200, a: 1.0, str: "rgba(200,200,200,1.0)" }	// Grey
+			{ r: 175,	g: 243,	b: 157, a: 1.0,	str: "rgba(175,243,157,1.0)" },	// Green
+			{ r: 157,	g: 199,	b: 243, a: 1.0,	str: "rgba(157,199,243,1.0)" },	// Blue
+			{ r: 218,	g: 157,	b: 243, a: 1.0,	str: "rgba(218,157,243,1.0)" },	// Purple
+			{ r: 243,	g: 157,	b: 169, a: 1.0,	str: "rgba(243,157,169,1.0)" },	// Red
+			{ r: 243,	g: 199,	b: 157, a: 1.0,	str: "rgba(243,199,157,1.0)" },	// Orange
+			{ r: 243,	g: 240,	b: 157, a: 1.0,	str: "rgba(243,240,157,1.0)" },	// Yellow
+			{ r: 200,	g: 200,	b: 200, a: 1.0,	str: "rgba(200,200,200,1.0)" }	// Grey
+		],
+
+		LESS_DARK_COLORS: [
+			{ r: 21,	g: 77,	b: 9,	a: 1.0,	str: "rgba(21,77,9,1.0)" },		// Green
+			{ r: 9,		g: 49,	b: 91,	a: 1.0,	str: "rgba(9,49,91,1.0)" },		// Blue
+			{ r: 63,	g: 9,	b: 87,	a: 1.0,	str: "rgba(63,9,87,1.0)" },		// Purple
+			{ r: 87,	g: 9,	b: 20,	a: 1.0,	str: "rgba(87,9,20,1.0)" },		// Red
+			{ r: 87,	g: 48,	b: 9,	a: 1.0,	str: "rgba(87,48,9,1.0)" },		// Orange
+			{ r: 87,	g: 82,	b: 9,	a: 1.0,	str: "rgba(87,82,9,1.0)" },		// Yellow
+			{ r: 48,	g: 48,	b: 48,	a: 1.0,	str: "rgba(48,48,48,1.0)" }		// Grey
 		],
 
 		DARK_COLORS: [
-			{ r: 11,	g: 39,	b: 5, a: 1.0, str: "rgba(11,39,5,1.0)" },		// Green
-			{ r: 6,		g: 29,	b: 54, a: 1.0, str: "rgba(6,29,54,1.0)" },		// Blue
-			{ r: 37,	g: 6,	b: 50, a: 1.0, str: "rgba(37,6,50,1.0)" },		// Purple
-			{ r: 54,	g: 6,	b: 13, a: 1.0, str: "rgba(54,6,13,1.0)" },		// Red
-			{ r: 50,	g: 28,	b: 6, a: 1.0, str: "rgba(50,28,6,1.0)" },		// Orange
-			{ r: 49,	g: 45,	b: 5, a: 1.0, str: "rgba(49,45,5,1.0)" },		// Yellow
-			{ r: 34,	g: 34,	b: 34, a: 1.0, str: "rgba(34,34,34,1.0)" }		// Grey
+			{ r: 11,	g: 39,	b: 5,	a: 1.0, str: "rgba(11,39,5,1.0)" },		// Green
+			{ r: 6,		g: 29,	b: 54,	a: 1.0, str: "rgba(6,29,54,1.0)" },		// Blue
+			{ r: 37,	g: 6,	b: 50,	a: 1.0, str: "rgba(37,6,50,1.0)" },		// Purple
+			{ r: 54,	g: 6,	b: 13,	a: 1.0, str: "rgba(54,6,13,1.0)" },		// Red
+			{ r: 50,	g: 28,	b: 6,	a: 1.0, str: "rgba(50,28,6,1.0)" },		// Orange
+			{ r: 49,	g: 45,	b: 5,	a: 1.0, str: "rgba(49,45,5,1.0)" },		// Yellow
+			{ r: 34,	g: 34,	b: 34,	a: 1.0, str: "rgba(34,34,34,1.0)" }		// Grey
 		],
 
 		PREVIEW_WINDOW_PROGRESS_FILLS: [
@@ -701,10 +711,10 @@
 		],
 
 		PREVIEW_WINDOW_PROGRESS_STROKES: [
-			{ r: 132,	g: 206,	b: 255, a: 1.0, str: "rgba(132,206,255,1.0)" },		// Blue
-			{ r: 255,	g: 255,	b: 156, a: 1.0, str: "rgba(255,255,156,1.0)" },		// Yellow
-			{ r: 178,	g: 255,	b: 170, a: 1.0, str: "rgba(178,255,170,1.0)" },		// Green
-			{ r: 255,	g: 174,	b: 174, a: 1.0, str: "rgba(255,174,174,1.0)" }		// Red
+			{ r: 132,	g: 206,	b: 255, a: 1.0, str: "rgba(132,206,255,1.0)" },	// Blue
+			{ r: 255,	g: 255,	b: 156, a: 1.0, str: "rgba(255,255,156,1.0)" },	// Yellow
+			{ r: 178,	g: 255,	b: 170, a: 1.0, str: "rgba(178,255,170,1.0)" },	// Green
+			{ r: 255,	g: 174,	b: 174, a: 1.0, str: "rgba(255,174,174,1.0)" }	// Red
 		],
 
 		DEFAULT_FILL: { r: 20, g: 20, b: 20, a: 1.0, str: "rgba(20,20,20,1.0)" }, // Off-black
@@ -715,16 +725,6 @@
 
 		INVALID_MOVE_FILL: { r: 255, g: 120, b: 120, a: 0.8, str: "rgba(255,120,120,0.8)" }, // Neon red
 		INVALID_MOVE_STROKE: { r: 255, g: 200, b: 200, a: 1.0, str: "rgba(255,200,200,1.0)" } // Lighter neon red
-
-		// DARK_COLORS: [
-			// { r: 18,	g: 61,	b: 7 },		// Green
-			// { r: 7,		g: 33,	b: 61 },	// Blue
-			// { r: 45,	g: 7,	b: 61 },	// Purple
-			// { r:61 ,	g: 7,	b: 15 },	// Red
-			// { r: 61,	g: 34,	b: 7 },		// Orange
-			// { r: 61,	g: 58,	b: 7 },		// Yellow
-			// { r: 34,	g: 34,	b: 34 }		// Grey
-		// ]
 	};
 
 	log.i("<--game.LOADING_MODULE");

@@ -54,23 +54,31 @@
 // ---------- DESKTOP POST-IT NOTE
 // ------------------------------------------------------------------------- //
 
-**- add the collapse and settle bombs:
-	- add code to catch the mouse clicks and directional button presses in order to first select other preview windows, and then to release the bomb
-	- COLLAPSE BOMB:
-		- collapse all blocks within a radius
-		- will this need to also cause settling?
-			- if so, it should happen in the direction the bomb fell
-	- SETTLE BOMB:
-		- animate the center square so that it vibrates and bounces around briefly
-		- settle ALL blocks on the map
-**- add four new sound effects:
-	- one for when a bomb is primed (or started naturally)
-		- an alarm/warning-like sound? that oww-ooooooh-gah low sirenish sound?
-	- one for the release of a bomb (or a natural bomb!)
-		- a super slow high-to-low slide (or alternatively, something like the sound of a quick rocket taking off)
-	- one for each of the two types of bombs detonating
-		- collapse: general boom; similar to the normal collapse sound
-		- settle: sizzly, sand-like
+- litter box
+- shave
+- laundry
+- the top chart songs of the year/month/decade
+- same thing for youtube videos
+- look for startup oportunities around silicon valley
+--------------------------------------------
+NEXT:
+	- settling while falling outward
+	- fix the bugs listed in the next section
+	- advertise via email to Alden, Justin, Ben, and Chris
+	- add story mode
+	- add the server-side database
+	- add email address?
+	- add follow-me icons
+	- add pictures
+	- add thesis
+	- fix the email creation of the web app
+	- fix the email receiving/forwarding on the server
+--------------------------------------------
+**- draw very faint guide lines showing how far a complete line must stretch before collapsing
+	- a new set of 7 colors, slightly less dark than the background
+- increase volume of fall sfx slightly
+- add a now-playing <p> below the music title and hook it up
+--------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well
 	- make sure the uploaded logs are STREAM-LINED! (i.e., contain as little data representing as many extracted features as possible)
@@ -98,27 +106,7 @@
 			- average level before dying/quitting
 			- proportion of players using the various modes
 			- proportion of players who even bother touching the modes
-- hook up Google analytics to our site
-- figure out why it doesn't work on Jackie's laptop
-*<AFTER ADDING BOMBS>- update the direction images to have phantom guidelines
-    - and create the two new images
-**- add hover-over images for the help, sfx, and music buttons
-**- make it so that when a new block is placed over existing squares to end the game, that the new block IS SHOWN IN THE RIGHT PLACE
-    **- also, whenever the game is ended, show a big red circle where the cause is
-**- upload to website!
-    - and create some basic structure on the site
-**- ANOTHER mode: blocks fall out rather than falling in
-**- lessen the amplitude of the "move" sfx
-    - because the sound really builds when using keyboard mode
-****- RE-LOOK AT ALL OF THE MUSIC PLAYING LOGIC....
-    - current issue is that _currSongIndex is -1 when _playCurrentSong happens (becuase I reset it in _startNewRandomSong)
-    - and only the one song ever plays
-**- can I detect dvorak??
-- refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
-- refactor my collapse/drop code.  it is way too duplicative.
-- change the logic to allow the player to both drop AND move sideways a block in the same gesture?
-- add a count of how many times the game has been played in total
-- add my github link to my resume
+--------------------------------------------
 ****- fix up jackie and my pages:
 	- update/change/remove all of my wording
 	- give it some structure:
@@ -130,13 +118,32 @@
 	- get rid of the background gradient
 	- change all of the external links in the entire website to open in a new tab
 	- when we get the digital wedding pics, use them for the circle face images
+	- add my thesis
+	- add a back-to-home button
+--------------------------------------------
+**- add the random shimmer to entire blocks (but be careful about the bomb blocks)
+**- handle the event of layers waiting to be collapsed when a settle bomb or collapse bamb detonates
+- animate the bomb detonation
+- refactor my collision detection methods.  right now, they seem to duplicate a LOT of the same functionality...
+- refactor my collapse/drop code.  it is way too duplicative.
+- change the logic to allow the player to both drop AND move sideways a block in the same gesture?
+- add a count of how many times the game has been played in total
+- figure out why it doesn't work on the iPad
+- prevent the body re-sizing on Android
+--------------------------------------------
 **- resume:
+	- add my github link to my resume
 	- correct the wedding page link
 	- add the blurb about the app
 	- add a bit about familiarity with node.js?
 **- fix whatever it is that crashes on the wedding page
 ***- go through all of my old school code/projects, clean them up a LITTLE, and add them to my github!
 ***- NEXT PROJECT: finish my recognizer and port it over as a javascript app!
+**- let blocks fall outward
+
+- Node.js
+- Spring framework
+- small jsfiddle projects
 
 
 // ------------------------------------------------------------------------- //

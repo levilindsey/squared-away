@@ -25,7 +25,8 @@
 	// ----------------------------------------------------------------- //
 	// -- Private members
 
-	var _NORMAL_STROKE_WIDTH = 2; // pixels
+	var _GAME_AREA_BORDER_STROKE_WIDTH = 2; // pixels
+	var _COMPLETION_LINE_STROKE_WIDTH = 2; // pixels
 
 	var _PHANTOM_GUIDE_LINE_STROKE_WIDTH = 1;
 	var _PHANTOM_BLOCK_STROKE_WIDTH = 2;
@@ -46,6 +47,9 @@
 
 	var _gameWindowTime = 0;
 	var _timeSinceLastStartShimmerTick = 0;
+
+	var _centerSquarePixelX;
+	var _centerSquarePixelSize;
 
 	// Update each of the game entities with the current time.
 	function _update(deltaTime) {
@@ -215,10 +219,90 @@
 		}
 	}
 
+	// Draw lines marking where layers of squares must extend before being 
+	// recognized as complete and then being collapsed.
+	function _drawCompletionLines(context) {
+		context.lineWidth = _COMPLETION_LINE_STROKE_WIDTH;
+		if (_currentBackgroundColorIndex >= 0) {
+			context.strokeStyle = game.LESS_DARK_COLORS[_currentBackgroundColorIndex].str;
+		} else {
+			context.strokeStyle = game.DARK_COLORS[6].str;
+		}
+
+		var centerSquareBackCoord = _centerSquarePixelX + _centerSquarePixelSize;
+
+		if (game.completingSquaresOn || game.blocksFallOutwardOn) { // Draw four diagonal lines
+			// Top-left line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(0, 0);
+			context.stroke();
+
+			// Top-right line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(gameWindow.gameWindowPixelSize, 0);
+			context.stroke();
+
+			// Bottom-right line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Bottom-left line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(0, gameWindow.gameWindowPixelSize);
+			context.stroke();
+		} else { // draw eight horizontal and vertical lines extending from the corners of the center square
+			// Top side left line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(_centerSquarePixelX, 0);
+			context.stroke();
+
+			// Top side right line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(centerSquareBackCoord, 0);
+			context.stroke();
+
+			// Right side top line
+			context.moveTo(centerSquareBackCoord, _centerSquarePixelX);
+			context.lineTo(gameWindow.gameWindowPixelSize, _centerSquarePixelX);
+			context.stroke();
+
+			// Right side bottom line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(gameWindow.gameWindowPixelSize, centerSquareBackCoord);
+			context.stroke();
+
+			// Bottom side right line
+			context.moveTo(centerSquareBackCoord, centerSquareBackCoord);
+			context.lineTo(centerSquareBackCoord, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Bottom side left line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(_centerSquarePixelX, gameWindow.gameWindowPixelSize);
+			context.stroke();
+
+			// Left side bottom line
+			context.moveTo(_centerSquarePixelX, centerSquareBackCoord);
+			context.lineTo(0, centerSquareBackCoord);
+			context.stroke();
+
+			// Left side top line
+			context.moveTo(_centerSquarePixelX, _centerSquarePixelX);
+			context.lineTo(0, _centerSquarePixelX);
+			context.stroke();
+		}
+	}
+
 	function _draw(context) {
+		// ---- Draw the main play area ---- //
+
+		context.save();
+		context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
+
 		// Draw the background and the border
 		context.beginPath();
-		context.lineWidth = _NORMAL_STROKE_WIDTH;
+		context.lineWidth = _GAME_AREA_BORDER_STROKE_WIDTH;
 		if (_currentBackgroundColorIndex >= 0) {
 			context.fillStyle = game.DARK_COLORS[_currentBackgroundColorIndex].str;
 			context.strokeStyle = game.MEDIUM_COLORS[_currentBackgroundColorIndex].str;
@@ -226,14 +310,11 @@
 			context.fillStyle = game.DEFAULT_FILL.str;
 			context.strokeStyle = game.DEFAULT_STROKE.str;
 		}
-		context.rect(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y, gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
+		context.rect(0, 0, gameWindow.gameWindowPixelSize, gameWindow.gameWindowPixelSize);
 		context.fill();
 		context.stroke();
 
-		// ---- Draw the main play area ---- //
-
-		context.save();
-		context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
+		_drawCompletionLines(context);
 
 		var collapseAnimationProgress = gameWindow.layerCollapseDelay - gameWindow.ellapsedCollapseTime;
 		collapseAnimationProgress = Math.max(collapseAnimationProgress, 0);
@@ -310,11 +391,11 @@
 			}
 		}
 
-		context.restore();
-
 		// ---- Draw the center square ---- //
 
 		_centerSquare.draw(context);
+
+		context.restore();
 	}
 
 	function _drawArcArrow(context, selectedBlock, phantomBlock, fillColor, strokeColor, strokeWidth) {
@@ -944,7 +1025,7 @@
 		var maxCenterSquareCellPositionX = gameWindow.centerSquareCellPositionX + gameWindow.centerSquareCellSize - 1;
 		var centerCellPositionX = gameWindow.gameWindowCellSize / 2;
 
-		var settleInward = game.layersAlsoSettleInwardsOn || forceInwardSettling;
+		var settleInward = game.layersAlsoSettleInwardsOn || (forceInwardSettling && !game.blocksFallOutwardOn);
 
 		var loopDeltaI;
 		var dropDeltaI;
@@ -1437,10 +1518,10 @@
 	}
 
 	function _setUpCenterSquareDimensions() {
-		var size = gameWindow.centerSquareCellSize * gameWindow.squarePixelSize;
-		var x = gameWindow.gameWindowPosition.x + (gameWindow.gameWindowPixelSize - size) / 2;
+		_centerSquarePixelSize = gameWindow.centerSquareCellSize * gameWindow.squarePixelSize;
+		_centerSquarePixelX = (gameWindow.gameWindowPixelSize - _centerSquarePixelSize) / 2;
 
-		_centerSquare.setDimensions(x, size);
+		_centerSquare.setDimensions(_centerSquarePixelX, _centerSquarePixelSize);
 	}
 
 	function _setGameWindowCellSize(gameWindowCellSize) {
