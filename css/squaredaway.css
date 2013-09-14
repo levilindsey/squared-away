@@ -147,6 +147,10 @@ h3 {
 	margin: 10px;
 }
 
+#nowPlaying {
+	font-style: italic;
+}
+
 #optionsArea>p {
 	margin: 0px auto;
 	width: 100%;

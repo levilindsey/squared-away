@@ -454,8 +454,8 @@
 			_playCurrentMusic(playEvenIfNotSelected);
 
 			// Update the now playing label
-			var nowPlaying = document.getElementById("nowPlaying");
-			nowPlaying.innerHTML = _musicManifest[_currMusicIndex].title;
+			var nowPlayingTitle = document.getElementById("nowPlayingTitle");
+			nowPlayingTitle.innerHTML = _musicManifest[_currMusicIndex].title;
 		} else {
 			// The next song has not yet loaded, so simply replay the song 
 			// that just ended
