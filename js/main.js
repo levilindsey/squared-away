@@ -90,7 +90,8 @@
 
 		_fitAppToViewPort();
 
-		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd);
+		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd, 
+				_toggleMode, _changeGameParameter);
 
 		_adjustButtonDimensions();
 

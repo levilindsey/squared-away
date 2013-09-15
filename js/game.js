@@ -63,6 +63,250 @@
 	var _GAME_OVER_CIRCLE_RADIUS = 48;
 	var _GAME_OVER_CIRCLE_STROKE_WIDTH = 4;
 
+	var _CHAPTER_PARAMETERS = [
+		{ // Chapter 1
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 2
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 3
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 4
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 5
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 6
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 7
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 8
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 9
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		},
+		{ // Chapter 10
+			completeSquaresCB: ,
+			blocksFallPastCenterCB: ,
+			changeFallDirectionCB: ,
+			changeQuadrantWithFallDirectionCB: ,
+			settleWithCollapseCB: ,
+			settleInwardCB: ,
+			bombsCB: ,
+			fallOutwardCB: ,
+
+			gameWindowSize: ,
+			centerSquareSize: ,
+			numberOfSquaresInABlock: ,
+			numberOfSidesBlocksFallFrom: ,
+			startingLevel: ,
+
+			music: ,
+			blockFallSpeed: ,
+			previewWindowSpeed: ,
+			levelColorIndex: ,
+			initialBombCount: ,
+			pointsToEndChapter: ,
+			layersToEndChapter: 
+		}
+		****
+	];
+
 	// A cross-browser compatible requestAnimationFrame. From
 	// https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
 	var _myRequestAnimationFrame = 
@@ -86,6 +330,8 @@
 	var _levelDisplay = null;
 	var _scoreDisplay = null;
 	var _onGameEnd = null;
+	var _toggleMode = null;
+	var _changeGameParameter = null;
 
 	var _isLooping = false;
 
@@ -275,6 +521,13 @@
 		_levelDisplay.innerHTML = _level;
 	}
 
+	function _setChapterParameters(chapterIndex) {
+		// _CHAPTER_PARAMETERS[chapterIndex]
+		// _toggleMode(modeCBId, isOn, element)
+		// _changeGameParameter(gameParameterSelectId, number, element)
+		****
+	}
+
 	function _play() {
 		// Reset game state if a game is not currently in progress
 		if (game.isEnded) {
@@ -343,7 +596,7 @@
 
 		// Check whether the player has earned an extra collapse bomb with 
 		// the new score
-		if (_score > _pointsForPrevCollapseBomb + _POINTS_FOR_COLLAPSE_BOMB) {
+		if (game.bombsOn && _score > _pointsForPrevCollapseBomb + _POINTS_FOR_COLLAPSE_BOMB) {
 			game.collapseBombWindow.addBomb();
 
 			_pointsForPrevCollapseBomb += _POINTS_FOR_COLLAPSE_BOMB;
@@ -353,7 +606,7 @@
 
 		// Check whether the player has earned an extra settle bomb with 
 		// the new score
-		if (_score > _pointsForPrevSettleBomb + _POINTS_FOR_SETTLE_BOMB) {
+		if (game.bombsOn && _score > _pointsForPrevSettleBomb + _POINTS_FOR_SETTLE_BOMB) {
 			game.settleBombWindow.addBomb();
 
 			_pointsForPrevSettleBomb += _POINTS_FOR_SETTLE_BOMB;
@@ -428,12 +681,15 @@
 		input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
 	}
 
-	function _init(canvas, levelDisplay, scoreDisplay, onGameEnd) {
+	function _init(canvas, levelDisplay, scoreDisplay, onGameEnd, toggleMode, 
+			changeGameParameter) {
 		_canvas = canvas;
 		_context = _canvas.getContext("2d");
 		_levelDisplay = levelDisplay;
 		_scoreDisplay = scoreDisplay;
 		_onGameEnd = onGameEnd;
+		_toggleMode = toggleMode;
+		_changeGameParameter = changeGameParameter;
 
 		_setUpPreviewWindows();
 		_setUpBombWindows();

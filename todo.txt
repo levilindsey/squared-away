@@ -62,10 +62,9 @@
 - look for startup oportunities around silicon valley
 --------------------------------------------
 NEXT:
-	- settling while falling outward
-	- fix the bugs listed in the next section
 	- advertise via email to Alden, Justin, Ben, and Chris
-	- add story mode
+	- add story mode:
+		- should display a progress bar showing how far the player is in completing the current chapter
 	- add the server-side database
 	- add email address?
 	- add follow-me icons
@@ -73,11 +72,53 @@ NEXT:
 	- add thesis
 	- fix the email creation of the web app
 	- fix the email receiving/forwarding on the server
+	- animate collapse bombs with the square collapse animation
 --------------------------------------------
-**- draw very faint guide lines showing how far a complete line must stretch before collapsing
-	- a new set of 7 colors, slightly less dark than the background
-- increase volume of fall sfx slightly
-- add a now-playing <p> below the music title and hook it up
+- give my game a more formal structure:
+    - stories/levels:
+        - they are presented as a sequence of squares in a side-scrolling widget over the canvas area
+        - you can only play the ones you have unlocked
+        - each story consists of you playing through three "levels" of the current, regular game
+        - each story then has its own set of modes which makes it play differently than the others
+        - there should be around ten stories?
+        - then, after completing all of the stories, you can play it as it is now, with all of the modes toggleable
+        - each story then needs to have some simple textual/recorded narrative/storyline?
+        - each story definitely needs to only play one song
+        - the intro stories should especially focus on explaining the basic concepts of the gameplay
+    - add another mode!!:
+        - how many sides the blocks fall from
+            - with falling from one side, it should actually force the "center" block to stretch all the way across the area and to be at the bottom
+                - I.e., it should be a lot more like normal tetris
+                - the bounds will also need to be adjusted
+    - possible sequence of concepts:
+        - 2- through 4-square blocks falling from one side
+        - falling from two sides
+        - falling from all sides and now blocks can change directions (and quadrants) (also, their is the guard against falling past the center)
+        - falling with 2- through 5- square blocks
+        - changing direction no longer changes quadrants and the bumpers are off
+        - add bombs
+        - completing squares instead of lines
+        - add falling outward (possible with squares or lines (probably lines))
+        - DONE. enjoy free play.
+    - definitely play with the center square size and the game area size between stories as well
+    - upon entering, they should be able to choose between story mode and free play
+        - however, this form of free at should be limited to only the standard preset of modes. They should only get customizing power after finishing story mode.
+    - some mode controls will need to be available always regardless of story/free play
+        - keyboard
+        - debug mode (except, actually get rid of it as a checkbox)
+
+- there should be both text and audio explaining the explanation/"story" for each chapter
+- text should appear above the canvas area, and should be all instantly visible at the start
+- the text should have spans which highlight the important gameplay features of the story for the current chapter
+- the points-for-leveling, block and window speed, and levels-to-finish-chapter parameters will needed to be adjusted for each chapter
+- example story:
+    - "Welcome to Squared Away.  Like many puzzle games, Squared Away challenges you to piece many blocks together into a complete whole.  Let's start of easy, and place these simple falling blocks into complete lines."
+        - then a quick rundown of how to move the blocks
+- the first chapter should only have one level with a few complete lines and should only use blocks of size 2 and 3  and should have a super small game area size (this level is in addition to the levels mentioned before)
+- "But this is far too boring.  Let's spice things up with some more block sizes"
+- "Still not exciting enough?  Well, what do you think about blocks falling both downward AND upward!?!"
+
+- there can also be inter-/pre-chapter textual/narrative blurbs that the player has to click Next/Start Chapter to get through
 --------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well
@@ -106,6 +147,9 @@ NEXT:
 			- average level before dying/quitting
 			- proportion of players using the various modes
 			- proportion of players who even bother touching the modes
+
+--------------------------------------------
+- increase volume of fall sfx slightly
 --------------------------------------------
 ****- fix up jackie and my pages:
 	- update/change/remove all of my wording
@@ -144,6 +188,7 @@ NEXT:
 - Node.js
 - Spring framework
 - small jsfiddle projects
+
 
 
 // ------------------------------------------------------------------------- //
@@ -231,6 +276,7 @@ NEXT:
 ****- coop mode!!
 	- 2 or 4 players
 		- with 2, each player controls two opposite sides
+- how can I improve efficiency?
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
