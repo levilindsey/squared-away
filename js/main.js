@@ -767,7 +767,7 @@
 		if (game.sfxOn) {
 			sfxElement.src = _buttonManifest[sfxId].on;
 		} else {
-			sfxElement.src = _buttonManifest[sfxId].on;
+			sfxElement.src = _buttonManifest[sfxId].off;
 		}
 	}
 
@@ -808,8 +808,8 @@
 		playArea.style.width = screenSize + "px";
 		playArea.style.height = screenSize + "px";
 
-		var h3Height = screenSize * 0.06;
-		var h4Height = screenSize * 0.03;
+		var h3Height = screenSize * 0.04;
+		var h4Height = screenSize * 0.02;
 		var screenElemMarginBottom = screenSize * 0.01;
 		var screenButtonWidth = screenSize * 0.22;
 		var screenButtonHeight = screenButtonWidth * 90 / 252;
