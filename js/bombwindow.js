@@ -119,9 +119,9 @@
 		function _primeBomb() {
 			if (_bombCount > 0) {
 				if (_isPrimed) {
-					sound.playSFX("unableToMove");
+					sound.playSfx("unableToMove");
 				} else {
-					sound.playSFX("bombPrimed");
+					sound.playSfx("bombPrimed");
 				}
 
 				// Un-prime the other bomb window

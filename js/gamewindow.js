@@ -91,7 +91,7 @@
 			// trying to fall out, then the game is over and the player 
 			// has lost
 			if (block.getHasCollidedWithOutOfBounds()) {
-				game.endGame(block.getPixelCenter());
+				game.endGame(block.getPixelCenter(), false);
 				addSquares = true;
 			}
 			// Check whether the block has reached a stationary square and 
@@ -155,12 +155,12 @@
 					if (bombType === 0) {
 						_handleCollapseBomb(block.getCellPosition(), block.getFallDirection());
 						game.incrementCollapseBombUsedCount()
-						sound.playSFX("collapseBombDetonate");
+						sound.playSfx("collapseBombDetonate");
 					} else {
 						_handleSettleBomb();
 						game.incrementSettleBombUsedCount()
 						_centerSquare.animateSettleBomb();
-						sound.playSFX("settleBombDetonate");
+						sound.playSfx("settleBombDetonate");
 					}
 					gameWindow.blocksOnGameWindow.splice(i, 1);
 				} else {
@@ -173,10 +173,10 @@
 					var layersWereCompleted = _checkForCompleteLayers(newCellPositions);
 
 					if (layersWereCompleted) {
-						sound.playSFX("collapse");
-						sound.playSFX("land");
+						sound.playSfx("collapse");
+						sound.playSfx("land");
 					} else {
-						sound.playSFX("land");
+						sound.playSfx("land");
 					}
 				}
 

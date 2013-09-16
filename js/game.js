@@ -86,7 +86,7 @@
 			levelColorIndexOffset: 0,
 			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
 			initialBombCount: 2,
-			pointsToEndChapter: -1,
+			scoreToEndChapter: -1,
 			layersToEndChapter: -1
 		},
 		{ // Chapter 1
@@ -111,7 +111,7 @@
 			levelColorIndexOffset: 1,
 			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
 			initialBombCount: 0,
-			pointsToEndChapter: -1,
+			scoreToEndChapter: -1,
 			layersToEndChapter: 2
 		}//,
 		// { // Chapter 2
@@ -136,7 +136,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 3
@@ -161,7 +161,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 4
@@ -186,7 +186,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 5
@@ -211,7 +211,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 6
@@ -236,7 +236,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 7
@@ -261,7 +261,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 8
@@ -286,7 +286,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 9
@@ -311,7 +311,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 10
@@ -336,7 +336,7 @@
 			// levelColorIndexOffset: ,
 			// layerCountForNextLevel: ,
 			// initialBombCount: ,
-			// pointsToEndChapter: ,
+			// scoreToEndChapter: ,
 			// layersToEndChapter: 
 		// }
 		// ****
@@ -372,6 +372,8 @@
 
 	var _prevTime = 0;
 
+	var _clearCanvas = false;
+
 	var _score = 0;
 	var _level = 1;
 	var _gameTime = 0; // active (unpaused) time since start of game
@@ -401,7 +403,7 @@
 	var _initialLevelColorIndexOffset = 0;
 	var _initialLayerCountForNextLevel = -1;
 	var _initialBombCount = -1;
-	var _pointsToEndChapter = -1;
+	var _scoreToEndChapter = -1;
 	var _layersToEndChapter = -1;
 
 	// The game loop drives the progression of frames and game logic
@@ -433,52 +435,60 @@
 
 		var i;
 
-		input.update(deltaTime);
+		// Check whether this chapter has been completed
+		if ((_scoreToEndChapter > 0 && _score >= _scoreToEndChapter) || 
+				(_layersToEndChapter > 0 && _layersCollapsedCount >= _layersToEndChapter)) {
+			_endGame(null, true);
+		} else {
+			input.update(deltaTime);
 
-		gameWindow.update(deltaTime);
+			gameWindow.update(deltaTime);
 
-		game.collapseBombWindow.update(deltaTime);
-		game.settleBombWindow.update(deltaTime);
+			game.collapseBombWindow.update(deltaTime);
+			game.settleBombWindow.update(deltaTime);
 
-		// Update the preview windows
-		for (i = 0; i < 4; ++i) {
-			game.previewWindows[i].update(deltaTime);
+			// Update the preview windows
+			for (i = 0; i < 4; ++i) {
+				game.previewWindows[i].update(deltaTime);
 
-			// If the preview window has finished its cool down, then add 
-			// its block to the game area and start a new block in preview 
-			// window
-			if (game.previewWindows[i].isCoolDownFinished()) {
-				_setupNextBlock(game.previewWindows[i]);
+				// If the preview window has finished its cool down, then add 
+				// its block to the game area and start a new block in preview 
+				// window
+				if (game.previewWindows[i].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[i]);
+				}
 			}
 		}
 	}
 
 	function _draw() {
-		// Clear the canvas
-		_context.clearRect(0, 0, _canvas.width, _canvas.height);
+		if (!_clearCanvas) {
+			// Clear the canvas
+			_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
-		var i;
+			var i;
 
-		game.collapseBombWindow.draw(_context);
-		game.settleBombWindow.draw(_context);
+			game.collapseBombWindow.draw(_context);
+			game.settleBombWindow.draw(_context);
 
-		// Draw the preview windows
-		for (i = 0; i < 4; ++i) {
-			game.previewWindows[i].draw(_context);
-		}
+			// Draw the preview windows
+			for (i = 0; i < 4; ++i) {
+				game.previewWindows[i].draw(_context);
+			}
 
-		// Draw the game window
-		gameWindow.draw(_context);
+			// Draw the game window
+			gameWindow.draw(_context);
 
-		if (game.isEnded) {
-			// Draw a big, red circle at the cause of the game being over
-			_context.save();
-			_context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
-			_context.beginPath();
-			_context.arc(game.positionOfGameOver.x, game.positionOfGameOver.y, _GAME_OVER_CIRCLE_RADIUS, 0, 2 * Math.PI, false);
-			_context.fillStyle = game.INVALID_MOVE_FILL.str;
-			_context.fill();
-			_context.restore();
+			if (game.isEnded && game.positionOfGameOver) {
+				// Draw a big, red circle at the cause of the game being over
+				_context.save();
+				_context.translate(gameWindow.gameWindowPosition.x, gameWindow.gameWindowPosition.y);
+				_context.beginPath();
+				_context.arc(game.positionOfGameOver.x, game.positionOfGameOver.y, _GAME_OVER_CIRCLE_RADIUS, 0, 2 * Math.PI, false);
+				_context.fillStyle = game.INVALID_MOVE_FILL.str;
+				_context.fill();
+				_context.restore();
+			}
 		}
 	}
 
@@ -490,6 +500,7 @@
 		_gameTime = 0;
 		game.isPaused = true;
 		game.isEnded = true;
+		game.positionOfGameOver = null;
 		_prevTime = 0;
 
 		gameWindow.reset();
@@ -595,20 +606,27 @@
 			_initialLevelColorIndexOffset = p.levelColorIndexOffset;
 			_initialLayerCountForNextLevel = p.layerCountForNextLevel;
 			_initialBombCount = p.initialBombCount;
-			_pointsToEndChapter = p.pointsToEndChapter;
+			_scoreToEndChapter = p.scoreToEndChapter;
 			_layersToEndChapter = p.layersToEndChapter;
 
 			game.collapseBombWindow.setBombCount(_initialBombCount);
 			game.settleBombWindow.setBombCount(_initialBombCount);
+
+			//****
+			// TODO:
+			//		- set the text in the explanation box
+			//		- set the text in the intermediate screen
+			//		- set the text in the progress-to-complete-chapter box
 		}
 	}
 
 	function _play() {
+		_clearCanvas = false;
+
 		// Reset game state if a game is not currently in progress
 		if (game.isEnded) {
 			_reset();
 			game.isEnded = false;
-			game.hasAGameStarted = true;
 		}
 
 		if (game.isPaused || game.isEnded) {
@@ -627,12 +645,12 @@
 		game.isPaused = true;
 	}
 
-	function _endGame(positionOfCause) {
+	function _endGame(positionOfCause, chapterComplete) {
 		game.isEnded = true;
 
 		game.positionOfGameOver = positionOfCause;
 
-		_onGameEnd();
+		_onGameEnd(chapterComplete);
 	}
 
 	function _addCollapseToScore(squaresCollapsedCount) {
@@ -666,7 +684,7 @@
 		if (_layersCollapsedSinceLastLevel >= _layerCountForNextLevel) {
 			_setLevel(_level + 1);
 
-			sound.playSFX("level");
+			sound.playSfx("level");
 		}
 
 		// Check whether the player has earned an extra collapse bomb with 
@@ -676,7 +694,7 @@
 
 			_pointsForPrevCollapseBomb += _POINTS_FOR_COLLAPSE_BOMB;
 
-			sound.playSFX("earnedBonus");
+			sound.playSfx("earnedBonus");
 		}
 
 		// Check whether the player has earned an extra settle bomb with 
@@ -686,7 +704,7 @@
 
 			_pointsForPrevSettleBomb += _POINTS_FOR_SETTLE_BOMB;
 
-			sound.playSFX("earnedBonus");
+			sound.playSfx("earnedBonus");
 		}
 	}
 
@@ -700,7 +718,7 @@
 		// new block from being added, then the game is over and 
 		// the player has lost
 		if (block.checkIsOverTopSquare(gameWindow.squaresOnGameWindow)) {
-			game.endGame(block.getPixelCenter());
+			game.endGame(block.getPixelCenter(), false);
 			return;
 		}
 
@@ -711,9 +729,9 @@
 		}
 
 		if (block.getBombType() < 0) {
-			sound.playSFX("newBlock");
+			sound.playSfx("newBlock");
 		} else {
-			sound.playSFX("bombReleased");
+			sound.playSfx("bombReleased");
 		}
 	}
 
@@ -857,19 +875,19 @@
 
 	function _getHelpButtonRect() {
 		return {
-			left: game.previewWindows[3].getPosition().x + "px",
-			top: game.previewWindows[2].getPosition().y + "px",
-			width: game.previewWindowSizePixels + "px",
-			height: game.previewWindowSizePixels + "px"
+			left: game.previewWindows[3].getPosition().x,
+			top: game.previewWindows[2].getPosition().y,
+			width: game.previewWindowSizePixels,
+			height: game.previewWindowSizePixels
 		};
 	}
 
 	function _getAudioButtonRect() {
 		return {
-			left: game.previewWindows[1].getPosition().x + "px",
-			top: game.previewWindows[2].getPosition().y + "px",
-			width: game.previewWindowSizePixels + "px",
-			height: game.previewWindowSizePixels + "px"
+			left: game.previewWindows[1].getPosition().x,
+			top: game.previewWindows[2].getPosition().y,
+			width: game.previewWindowSizePixels,
+			height: game.previewWindowSizePixels
 		};
 	}
 
@@ -879,6 +897,11 @@
 
 	function _incrementSettleBombUsedCount() {
 		++_settleBombsUsedCount;
+	}
+
+	function _clearCanvas() {
+		_clearCanvas = true;
+		_context.clearRect(0, 0, _canvas.width, _canvas.height);
 	}
 
 	function _getIsCollapseBombPrimed() {
@@ -961,6 +984,8 @@
 
 		setChapterParameters: _setChapterParameters,
 
+		clearCanvas: _clearCanvas,
+
 		previewWindows: null,
 		collapseBombWindow: null,
 		settleBombWindow: null,
@@ -972,7 +997,6 @@
 
 		isPaused: true,
 		isEnded: true,
-		hasAGameStarted: false,
 
 		isMobile: false,
 

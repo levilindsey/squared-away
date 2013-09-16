@@ -420,7 +420,7 @@
 						if (!_hasLanded) {
 							_fall();
 
-							sound.playSFX("fall");
+							sound.playSfx("fall");
 						}
 					}
 				} else {
@@ -438,7 +438,7 @@
 									!_checkForCollisionWithBackLineOfCenterSquare()) {
 								_fall();
 
-								sound.playSFX("fall");
+								sound.playSfx("fall");
 							}
 						}
 					}

@@ -149,7 +149,7 @@
 					if (ableToMove) {
 						_applyKeyboardGesture(_keyboardGestureType, gesturePos);
 					} else {
-						sound.playSFX("unableToMove");
+						sound.playSfx("unableToMove");
 					}
 				} else if (_keyboardGestureType === _DROP) {
 					farthestCellAvailable = input.selectedKeyboardBlock.getFarthestDownwardCellAvailable(
@@ -187,7 +187,7 @@
 					if (ableToMove) {
 						_applyKeyboardGesture(_keyboardGestureType, gesturePos);
 					} else {
-						sound.playSFX("unableToMove");
+						sound.playSfx("unableToMove");
 					}
 				}
 
@@ -263,9 +263,9 @@
 				var wasAbleToRotate = selectedBlock.rotate(gameWindow.squaresOnGameWindow, gameWindow.blocksOnGameWindow, true);
 
 				if (wasAbleToRotate) {
-					sound.playSFX("rotate");
+					sound.playSfx("rotate");
 				} else {
-					sound.playSFX("unableToMove");
+					sound.playSfx("unableToMove");
 				}
 				break;
 			case _SIDEWAYS_MOVE:
@@ -273,14 +273,14 @@
 
 				selectedBlock.setCellPosition(gesturePos.x, gesturePos.y);
 
-				sound.playSFX("move");
+				sound.playSfx("move");
 				break;
 			case _DROP:
 				log.i("---input._applyGesture: _DROP");
 
 				selectedBlock.setCellPosition(gesturePos.x, gesturePos.y);
 
-				sound.playSFX("move");
+				sound.playSfx("move");
 				break;
 			case _DIRECTION_CHANGE:
 				log.i("---input._applyGesture: _DIRECTION_CHANGE");
@@ -292,14 +292,14 @@
 						_switchPhantomToSelected(selectedBlock, input.phantomBlock);
 						selectedBlock.switchFallDirection();
 
-						sound.playSFX("changeFallDirection");
+						sound.playSfx("changeFallDirection");
 					} else {
-						sound.playSFX("unableToMove");
+						sound.playSfx("unableToMove");
 					}
 				} else {
 					selectedBlock.switchFallDirection();
 
-					sound.playSFX("changeFallDirection");
+					sound.playSfx("changeFallDirection");
 				}
 				break;
 			default:
@@ -324,7 +324,7 @@
 			input.selectedMouseBlock = _findNearestValidBlock(_gestureStartPos, gameWindow.blocksOnGameWindow);
 
 			if (input.selectedMouseBlock) {
-				sound.playSFX("blockSelect");
+				sound.playSfx("blockSelect");
 			}
 
 			// Clear any phantom objects. These will be set when a drag occurs.
@@ -930,7 +930,7 @@
 					input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
 				}
 
-				sound.playSFX("blockSelect");
+				sound.playSfx("blockSelect");
 			} else {
 				input.selectedKeyboardBlock = gameWindow.blocksOnGameWindow[0];
 			}
@@ -959,7 +959,7 @@
 
 		game.primedWindowIndex = nextPreviewWindowIndex;
 
-		sound.playSFX("move");
+		sound.playSfx("move");
 	}
 
 	function _onKeyboardControlOn(keyboardControl) {

@@ -66,6 +66,11 @@
 			data: 2
 		},
 		{
+			id: "chapterComplete",
+			src: _SFX_PATH + "earned_bonus.ogg|" + _SFX_PATH + "earned_bonus.m4a",// TODO: add a new sound file for this
+			data: 1
+		},
+		{
 			id: "collapse",
 			src: _SFX_PATH + "collapse.ogg|" + _SFX_PATH + "collapse.m4a",
 			data: 3
@@ -265,7 +270,7 @@
 		game.musicOn = !game.musicOn;
 		_toggleMusic();
 		game.sfxOn = !game.sfxOn;
-		_toggleSFX();
+		_toggleSfx();
 
 		// ---------- Load sounds ---------- //
 
@@ -371,7 +376,7 @@
 		_startNewRandomMusic();
 	}
 
-	function _playSFX(soundId) {
+	function _playSfx(soundId) {
 		if (!game.isMobile && game.sfxOn) {
 			createjs.Sound.play(soundId, createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.sfxVolume, 0);
 		}
@@ -389,7 +394,7 @@
 		_onAudioToggle();
 	}
 
-	function _toggleSFX(event) {
+	function _toggleSfx(event) {
 		if (!game.isMobile && game.sfxOn) {
 			game.sfxOn = false;
 		} else {
@@ -589,10 +594,10 @@
 
 	window.sound = {
 		init: _init,
-		playSFX: _playSFX,
+		playSfx: _playSfx,
 		playCurrentMusic: _playCurrentMusic,
 		pauseMusic: _pauseMusic,
-		toggleSFX: _toggleSFX,
+		toggleSfx: _toggleSfx,
 		toggleMusic: _toggleMusic,
 		onMusicSelectionChange: _onMusicSelectionChange,
 
