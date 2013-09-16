@@ -434,8 +434,10 @@
 																blocksOnGameWindow);
 
 						if (!_hasLanded) {
+							_hasCollidedWithBackLineOfCenterSquare = 
+									_checkForCollisionWithBackLineOfCenterSquare();
 							if (!game.canFallPastCenterOn && 
-									!_checkForCollisionWithBackLineOfCenterSquare()) {
+									!_hasCollidedWithBackLineOfCenterSquare) {
 								_fall();
 
 								sound.playSfx("fall");
