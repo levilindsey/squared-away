@@ -62,6 +62,186 @@ h3 {
 	font-size: 16pt;
 }
 
+/* ---------- Chapter select screen ---------- */
+
+#mainMenuScreen {
+	position: absolute;
+	background-color: rgba(2,2,2,0.65);
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 3;
+}
+
+#mainMenuScreen>* {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: block;
+}
+
+#quickPlayButton {
+	left: 10px;
+	top: 10px;
+	width: 252px;
+	height: 90px;
+}
+
+#customPlayButton {
+	left: 458px;
+	top: 10px;
+	width: 252px;
+	height: 90px;
+}
+
+#prevChapterButton {
+	display: none;
+	left: 10px;
+	top: 315px;
+	width: 69px;
+	height: 90px;
+}
+
+#nextChapterButton {
+	left: 641px;
+	top: 330px;
+	width: 69px;
+	height: 90px;
+}
+
+#chapterProgressIndicator {
+	color: white;
+	font-size: 22px;
+	left: 310px;
+	top: 680px;
+	text-align: center;
+	width: 100px;
+	height: 30px;
+}
+
+#chapterList {
+	left: 110px;
+	top: 110px;
+	width: 500px;
+	height: 500px;
+	overflow: hidden;
+}
+
+.chapterItem {
+	position: absolute;
+	left: 500px;
+	top: 0px;
+	visibility: hidden;
+	width: 100%;
+	height: 100%;
+	transition-property: left, visibility;
+	transition-duration: .2s;
+	transition-timing-function: cubic-bezier(.7,.15,.75,1);
+	transition-delay: 0s;
+	-webkit-transition-property: left, visibility;
+	-webkit-transition-duration: .2s;
+	-webkit-transition-timing-function: cubic-bezier(.7,.15,.75,1);
+	-webkit-transition-delay: 0s;
+}
+
+/* ---------- Pause screen ---------- */
+
+#pauseScreen {
+	position: absolute;
+	display: none;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(2,2,2,0.65);
+	z-index: 3;
+}
+
+#pauseScreenTitle {
+	display: none;
+	margin: 180px auto 10px auto;
+	width: 300px;
+}
+
+#statsTable {
+	display: none;
+	margin: 10px auto;
+	width: 300px;
+}
+
+#statsTable>td {
+	width: 150px;
+	text-align: left;
+}
+
+#unpauseButton {
+	display: block;
+	width: 252px;
+	height: 90px;
+	font-size: 18pt;
+	margin: 315px auto 0px auto;
+}
+
+/* ---------- Game area ---------- */
+
+#gameCanvas {
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+}
+
+.canvasButton {
+	display: none;
+	position: absolute;
+	height: 70px;
+	top: 640px;
+	width: 70px;
+	z-index: 5;
+}
+
+#helpButton { /* Left-side button */
+	left: 10px;
+}
+
+#musicButton, #sfxButton { /* Right-side button */
+	left: 640px;
+}
+
+#topLevelDisplayArea {
+	display: none;
+	position: absolute;
+	color: #FFFFFF;
+	font-size: 14pt;
+	left: 10px;
+	text-align: left;
+	top: 10px;
+	width: 700px;
+	z-index: 2;
+}
+
+#topScoreDisplayArea {
+	display: none;
+	position: absolute;
+	color: #FFFFFF;
+	font-size: 14pt;
+	left: 10px;
+	text-align: right;
+	top: 10px;
+	width: 700px;
+	z-index: 2;
+}
+
+/* ---------- Miscellaneous ---------- */
+
+.button:hover {
+	cursor: pointer;
+}
+
+.customControl {
+	display: none;
+}
+
 #aboutArea img {
 	float: left;
 	margin-right: 10px;
@@ -114,12 +294,6 @@ h3 {
 	border-collapse: collapse;
 }
 
-#gameCanvas {
-	height: 100%;
-	width: 100%;
-	z-index: 1;
-}
-
 #infoArea {
 	background-color: rgba(2,2,2,0.4);
 	padding: 1px 0px;
@@ -165,23 +339,6 @@ h3 {
 	width: 720px;
 }
 
-#pauseScreen {
-	position: absolute;
-	background-color: rgba(2,2,2,0.65);
-	height: 100%;
-	margin: 0px auto;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	z-index: 3;
-}
-
-#pauseScreenTitle {
-	display: none;
-	margin: 180px auto 10px auto;
-	width: 300px;
-}
-
 .peanutGallery {
 	color: #FAFADA;
 	font-style: italic;
@@ -192,27 +349,8 @@ h3 {
 	position: relative;
 	font-weight: bold;
 	height: 720px;
-	left: 0px;
 	margin: 10px 0px;
-	top: 0px;
 	width: 100%;
-}
-
-.canvasButton {
-	display: none;
-	position: absolute;
-	height: 70px;
-	top: 640px;
-	width: 70px;
-	z-index: 5;
-}
-
-#helpButton { /* Left-side button */
-	left: 10px;
-}
-
-#musicOnButton, #musicOffButton, #sfxOnButton, #sfxOffButton { /* Right-side button */
-	left: 640px;
 }
 
 #problemScreen {
@@ -220,7 +358,6 @@ h3 {
 	position: absolute;
 	background-color: rgba(0,0,0,0.5);
 	height: 100%;
-	margin: 0px auto;
 	left: 0px;
 	top: 0px;
 	width: 100%;
@@ -236,51 +373,8 @@ h3 {
 	width: 100%;
 }
 
-#statsTable {
-	display: none;
-	margin: 10px auto;
-	width: 300px;
-}
-
-#statsTable>td {
-	width: 150px;
-	text-align: left;
-}
-
 .textColumn {
 	float: left;
 	text-align: left;
 	width: 50%;
-}
-
-#topLevelDisplayArea {
-	display: none;
-	position: absolute;
-	color: #FFFFFF;
-	font-size: 14pt;
-	left: 10px;
-	text-align: left;
-	top: 10px;
-	width: 700px;
-	z-index: 2;
-}
-
-#topScoreDisplayArea {
-	display: none;
-	position: absolute;
-	color: #FFFFFF;
-	font-size: 14pt;
-	left: 10px;
-	text-align: right;
-	top: 10px;
-	width: 700px;
-	z-index: 2;
-}
-
-#unpauseButton {
-	display: block;
-	font-size: 18pt;
-	height: 84px;
-	margin: 339px auto 0px auto;
-	width: 136px;
 }

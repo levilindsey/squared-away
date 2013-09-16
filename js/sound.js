@@ -20,6 +20,8 @@
 	var _SFX_PATH = "sfx/";
 	var _MUSIC_PATH = "music/";
 
+	var _onAudioToggle;
+
 	var _sfxLoadedCount = 0;
 
 	var _nextMusicIndex = -1;
@@ -237,8 +239,10 @@
 		}
 	];
 
-	function _init() {
+	function _init(onAudioToggle) {
 		log.d("-->sound._init");
+
+		_onAudioToggle = onAudioToggle;
 
 		// If this is on a mobile device, sounds need to be played inside of a touch event
 		if (createjs.Sound.BrowserDetect.isIOS || 
@@ -350,35 +354,25 @@
 	}
 
 	function _toggleMusic(event) {
-		var musicOnButton = document.getElementById("musicOnButton");
-		var musicOffButton = document.getElementById("musicOffButton");
-
 		if (!game.isMobile && game.musicOn) {
-			musicOnButton.style.display = "none";
-			musicOffButton.style.display = "block";
 			game.musicOn = false;
 			_pauseMusic();
 		} else {
-			musicOnButton.style.display = "block";
-			musicOffButton.style.display = "none";
 			game.musicOn = true;
 			_playCurrentMusic(false);
 		}
+
+		_onAudioToggle();
 	}
 
 	function _toggleSFX(event) {
-		var sfxOnButton = document.getElementById("sfxOnButton");
-		var sfxOffButton = document.getElementById("sfxOffButton");
-
 		if (!game.isMobile && game.sfxOn) {
-			sfxOnButton.style.display = "none";
-			sfxOffButton.style.display = "block";
 			game.sfxOn = false;
 		} else {
-			sfxOnButton.style.display = "block";
-			sfxOffButton.style.display = "none";
 			game.sfxOn = true;
 		}
+
+		_onAudioToggle();
 	}
 
 	function _startNewRandomMusic() {

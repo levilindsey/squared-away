@@ -40,7 +40,7 @@
 
 			<div id="pauseScreen">
 				<h3 id="pauseScreenTitle">Game Paused</h3>
-				<button id="unpauseButton">Play Game</button>
+				<img id="unpauseButton" class="button" src="img/play_game.png" alt="Start game button">
 				<table id="statsTable">
 					<tr>
 						<td>Score:</td>
@@ -77,29 +77,32 @@
 				</table>
 			</div>
 
-			<div id="chapterSelectScreen">
-				<div id="quickPlay" class="topChapterButton">Quick Play</div>
-				<div id="customPlay" class="topChapterButton">Custom Play</div>
+			<div id="mainMenuScreen">
+				<img id="quickPlayButton" class="button" src="img/quick_play.png" alt="Quick play button">
+				<img id="customPlayButton" src="img/top_button_locked.png" alt="Custom play button">
+
+				<img id="prevChapterButton" class="button" src="img/prev_chapter.png" alt="Previous chapter button">
+				<img id="nextChapterButton" class="button" src="img/next_chapter.png" alt="Next chapter button">
+
 				<div id="chapterList">
-					<div id="chapter1" class="chapter">Chapter 1</div>
-					<div id="chapter2" class="chapter">Chapter 2</div>
-					<div id="chapter3" class="chapter">Chapter 3</div>
-					<div id="chapter4" class="chapter">Chapter 4</div>
-					<div id="chapter5" class="chapter">Chapter 5</div>
-					<div id="chapter6" class="chapter">Chapter 6</div>
-					<div id="chapter7" class="chapter">Chapter 7</div>
-					<div id="chapter8" class="chapter">Chapter 8</div>
-					<div id="chapter9" class="chapter">Chapter 9</div>
-					<div id="chapter10" class="chapter">Chapter 10</div>
+					<img id="chapter1" class="chapterItem" src="img/chapter_1.png" alt="Chapter 1">
+					<img id="chapter2" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 2">
+					<img id="chapter3" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 3">
+					<img id="chapter4" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 4">
+					<img id="chapter5" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 5">
+					<img id="chapter6" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 6">
+					<img id="chapter7" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 7">
+					<img id="chapter8" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 8">
+					<img id="chapter9" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 9">
+					<img id="chapter10" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 10">
 				</div>
+
 				<div id="chapterProgressIndicator">1/10</div>
 			</div>
 
-			<img id="helpButton" class="canvasButton" src="img/help.png" alt="help">
-			<img id="musicOnButton" class="canvasButton" src="img/music_on.png" alt="turn music on">
-			<img id="musicOffButton" class="canvasButton" src="img/music_off.png" alt="turn music off">
-			<img id="sfxOnButton" class="canvasButton" src="img/sfx_on.png" alt="turn sfx on">
-			<img id="sfxOffButton" class="canvasButton" src="img/sfx_off.png" alt="turn sfx off">
+			<img id="helpButton" class="canvasButton button" src="img/help.png" alt="help">
+			<img id="musicButton" class="canvasButton button" src="img/music_on.png" alt="toggle music">
+			<img id="sfxButton" class="canvasButton button" src="img/sfx_on.png" alt="toggle sfx">
 		</div>
 
 		<div id="infoArea">
@@ -181,131 +184,180 @@
 
 			<div id="optionsArea">
 				<h2>Options</h2>
-				<p>
-					<label><input type="checkbox" name="keyboardControlCB" id="keyboardControlCB" class="modeCB" value="keyboardControlCB">
+				<div>
+					<label><input type="checkbox" 
+							name="keyboardControlCB" 
+							id="keyboardControlCB" 
+							class="modeCB" 
+							value="keyboardControlCB">
 						Enable keyboard control
 						<span id="keyboardControlCBDefaultComment" class="peanutGallery">Guaranteed to increase your WPM or your money back!</span>
 					</label>
-					<br>
-					<label><input type="checkbox" name="completeSquaresCB" id="completeSquaresCB" class="modeCB" value="completeSquaresCB">
-						Completing squares instead of lines
-						<span id="completeSquaresCBDefaultComment" class="peanutGallery">Totally four times as much fun</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="blocksFallPastCenterCB" id="blocksFallPastCenterCB" class="modeCB" value="blocksFallPastCenterCB">
-						Blocks are allowed to fall past the center
-						<span id="blocksFallPastCenterCBOffComment" class="peanutGallery">I&apos;ll bet you also need bumpers when you bowl...</span>
-						<span id="blocksFallPastCenterCBOnComment" class="peanutGallery">You&apos;re gonna miss the center...</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="changeFallDirectionCB" id="changeFallDirectionCB" class="modeCB" value="changeFallDirectionCB" checked>
-						Able to change falling direction of blocks
-						<span id="changeFallDirectionCBOffComment" class="peanutGallery">Aw, don&apos;t be constrained to just one dimension</span>
-						<span id="changeFallDirectionCBOnComment" class="peanutGallery">Whoo hoo! Now we can spin around in circles!</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="changeQuadrantWithFallDirectionCB" id="changeQuadrantWithFallDirectionCB" class="modeCB" value="changeQuadrantWithFallDirectionCB" checked>
-						Changing direction moves block to next quadrant
-						<span id="changeQuadrantWithFallDirectionCBDefaultComment" class="peanutGallery">Where'd it go?!</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="settleWithCollapseCB" id="settleWithCollapseCB" class="modeCB" value="settleWithCollapseCB">
-						Collapsing a layer causes higher layers to &quot;settle&quot;
-						<span id="settleWithCollapseCBDefaultComment" class="peanutGallery">Whoo hoo! An auto mistake fixer!</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="settleInwardCB" id="settleInwardCB" class="modeCB" value="settleInwardCB">
-						Layers &quot;settle&quot; inwards as well as downwards
-						<span id="settleInwardCBDefaultComment" class="peanutGallery">Well, that's just confusing</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="bombsCB" id="bombsCB" class="modeCB" value="bombsCB" checked>
-						Bombs on
-						<span id="bombsCBOffComment" class="peanutGallery">You&apos;re no fun...</span>
-						<span id="bombsCBOnComment" class="peanutGallery">Well, duh...</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="fallOutwardCB" id="fallOutwardCB" class="modeCB" value="fallOutwardCB">
-						Blow my mind
-						<span id="fallOutwardCBDefaultComment" class="peanutGallery">Wait, what?</span>
-						<span id="fallOutwardCBOffComment" class="peanutGallery">Booooooring</span>
-						<span id="fallOutwardCBOnComment" class="peanutGallery">Well, aren&apos;t you brave...</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="consoleCB" id="consoleCB" class="modeCB" value="consoleCB">
-						Show the debug console
-						<span id="consoleCBDefaultComment" class="peanutGallery">Not that there are any bugs or anything...</span>
-					</label>
-					<br>
-					<label><input type="checkbox" name="peanutGalleryCB" id="peanutGalleryCB" class="modeCB" value="peanutGalleryCB">
-						Peanut gallery
-						<span id="peanutGalleryCBDefaultComment" class="peanutGallery">What? My app wasn&apos;t entertaining enough for you before?!?</span>
-					</label>
-					<br>
-					Size of game area:
-					<select id="gameWindowSize" class="gameParameterSelect">
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="40" selected>40</option>
-						<option value="60">60</option>
-						<option value="80">80</option>
-						<option value="100">100</option>
-						<option value="120">120</option>
-						<option value="140">140</option>
-						<option value="160">160</option>
-						<option value="180">180</option>
-						<option value="200">200</option>
-					</select>
-					<br>
-					Size of center square:
-					<select id="centerSquareSize" class="gameParameterSelect">
-						<option value="2">2</option>
-						<option value="4">4</option>
-						<option value="6" selected>6</option>
-						<option value="8">8</option>
-						<option value="8">10</option>
-						<option value="12">12</option>
-						<option value="14">14</option>
-						<option value="16">16</option>
-						<option value="18">18</option>
-						<option value="20">20</option>
-					</select>
-					<br>
-					Number of squares in a block:
-					<select id="numberOfSquaresInABlock" class="gameParameterSelect">
-						<option value="8" selected>2-5</option>
-						<option value="7">4-5</option>
-						<option value="6">2-4</option>
-						<option value="5">5</option>
-						<option value="4">4</option>
-						<option value="3">3</option>
-						<option value="2">2</option>
-					</select>
-					<br>
-					Number of sides blocks fall from:
-					<select id="numberOfSidesBlocksFallFrom" class="gameParameterSelect">
-						<option value="4" selected>4</option>
-						<option value="3">3</option>
-						<option value="2">2</option>
-						<option value="1">1</option>
-					</select>
-					<br>
-					Starting level:
-					<select id="startingLevel" class="gameParameterSelect">
-						<option value="1" selected>1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="15">15</option>
-						<option value="20">20</option>
-					</select>
-				</p>
+					<div class="customControl">
+						<br>
+						<label><input type="checkbox" 
+								name="completeSquaresCB" 
+								id="completeSquaresCB" 
+								class="modeCB" 
+								value="completeSquaresCB">
+							Completing squares instead of lines
+							<span id="completeSquaresCBDefaultComment" class="peanutGallery">Totally four times as much fun</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="blocksFallPastCenterCB" 
+								id="blocksFallPastCenterCB" 
+								class="modeCB" 
+								value="blocksFallPastCenterCB">
+							Blocks are allowed to fall past the center
+							<span id="blocksFallPastCenterCBOffComment" class="peanutGallery">I&apos;ll bet you also need bumpers when you bowl...</span>
+							<span id="blocksFallPastCenterCBOnComment" class="peanutGallery">You&apos;re gonna miss the center...</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="changeFallDirectionCB" 
+								id="changeFallDirectionCB" 
+								class="modeCB" 
+								value="changeFallDirectionCB" 
+								checked>
+							Able to change falling direction of blocks
+							<span id="changeFallDirectionCBOffComment" class="peanutGallery">Aw, don&apos;t be constrained to just one dimension</span>
+							<span id="changeFallDirectionCBOnComment" class="peanutGallery">Whoo hoo! Now we can spin around in circles!</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="changeQuadrantWithFallDirectionCB" 
+								id="changeQuadrantWithFallDirectionCB" 
+								class="modeCB" 
+								value="changeQuadrantWithFallDirectionCB" 
+								checked>
+							Changing direction moves block to next quadrant
+							<span id="changeQuadrantWithFallDirectionCBDefaultComment" class="peanutGallery">Where'd it go?!</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="settleWithCollapseCB" 
+								id="settleWithCollapseCB" 
+								class="modeCB" 
+								value="settleWithCollapseCB">
+							Collapsing a layer causes higher layers to &quot;settle&quot;
+							<span id="settleWithCollapseCBDefaultComment" class="peanutGallery">Whoo hoo! An auto mistake fixer!</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="settleInwardCB" 
+								id="settleInwardCB" 
+								class="modeCB" 
+								value="settleInwardCB">
+							Layers &quot;settle&quot; inwards as well as downwards
+							<span id="settleInwardCBDefaultComment" class="peanutGallery">Well, that's just confusing</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="bombsCB" 
+								id="bombsCB" 
+								class="modeCB" 
+								value="bombsCB" 
+								checked>
+							Bombs on
+							<span id="bombsCBOffComment" class="peanutGallery">You&apos;re no fun...</span>
+							<span id="bombsCBOnComment" class="peanutGallery">Well, duh...</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="fallOutwardCB" 
+								id="fallOutwardCB" 
+								class="modeCB" 
+								value="fallOutwardCB">
+							Blow my mind
+							<span id="fallOutwardCBDefaultComment" class="peanutGallery">Wait, what?</span>
+							<span id="fallOutwardCBOffComment" class="peanutGallery">Booooooring</span>
+							<span id="fallOutwardCBOnComment" class="peanutGallery">Well, aren&apos;t you brave...</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="consoleCB" 
+								id="consoleCB" 
+								class="modeCB" 
+								value="consoleCB">
+							Show the debug console
+							<span id="consoleCBDefaultComment" class="peanutGallery">Not that there are any bugs or anything...</span>
+						</label>
+						<br>
+						<label><input type="checkbox" 
+								name="peanutGalleryCB" 
+								id="peanutGalleryCB" 
+								class="modeCB" 
+								value="peanutGalleryCB">
+							Peanut gallery
+							<span id="peanutGalleryCBDefaultComment" class="peanutGallery">What? My app wasn&apos;t entertaining enough for you before?!?</span>
+						</label>
+						<br>
+						Size of game area:
+						<select id="gameWindowSize" class="gameParameterSelect">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="40" selected>40</option>
+							<option value="60">60</option>
+							<option value="80">80</option>
+							<option value="100">100</option>
+							<option value="120">120</option>
+							<option value="140">140</option>
+							<option value="160">160</option>
+							<option value="180">180</option>
+							<option value="200">200</option>
+						</select>
+						<br>
+						Size of center square:
+						<select id="centerSquareSize" class="gameParameterSelect">
+							<option value="2">2</option>
+							<option value="4">4</option>
+							<option value="6" selected>6</option>
+							<option value="8">8</option>
+							<option value="8">10</option>
+							<option value="12">12</option>
+							<option value="14">14</option>
+							<option value="16">16</option>
+							<option value="18">18</option>
+							<option value="20">20</option>
+						</select>
+						<br>
+						Number of squares in a block:
+						<select id="numberOfSquaresInABlock" class="gameParameterSelect">
+							<option value="8" selected>2-5</option>
+							<option value="7">4-5</option>
+							<option value="6">2-4</option>
+							<option value="5">5</option>
+							<option value="4">4</option>
+							<option value="3">3</option>
+							<option value="2">2</option>
+						</select>
+						<br>
+						Number of sides blocks fall from:
+						<select id="numberOfSidesBlocksFallFrom" class="gameParameterSelect">
+							<option value="4" selected>4</option>
+							<option value="3">3</option>
+							<option value="2">2</option>
+							<option value="1">1</option>
+						</select>
+						<br>
+						Starting level:
+						<select id="startingLevel" class="gameParameterSelect">
+							<option value="1" selected>1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="15">15</option>
+							<option value="20">20</option>
+						</select>
+					</div>
+				</div>
 			</div>
 
 			<hr>
@@ -313,8 +365,8 @@
 			<div id="musicArea">
 				<h2>Music</h2>
 				<p id="nowPlaying">Now playing: <span id="nowPlayingTitle"></span></p>
-				<br>
-				<div class="textColumn">
+				<div class="textColumn customControl">
+					<br>
 					<label><input type="checkbox" name="aNightOfDizzySpells" id="aNightOfDizzySpells" value="aNightOfDizzySpells" checked> A Night of Dizzy Spells</label>
 					<a href="https://soundcloud.com/eric-skiff/a-night-of-dizzy-spells?in=eric-skiff/sets/resistor-anthems" target="_blank">&#9654;</a>
 					<br>
@@ -339,7 +391,8 @@
 					<label><input type="checkbox" name="digitalNative" id="digitalNative" value="digitalNative"> Digital Native</label>
 					<a href="https://soundcloud.com/eric-skiff/digital-native?in=eric-skiff/sets/resistor-anthems" target="_blank">&#9654;</a>
 				</div>
-				<div class="textColumn">
+				<div class="textColumn customControl">
+					<br>
 					<label><input type="checkbox" name="hhavokIntro" id="hhavokIntro" value="hhavokIntro"> HHavok (Intro)</label>
 					<a href="https://soundcloud.com/eric-skiff/hhavok-intro?in=eric-skiff/sets/resistor-anthems" target="_blank">&#9654;</a>
 					<br>

@@ -234,6 +234,13 @@
 		return difference;
 	}
 
+	function _setRect(elem, x, y, w, h) {
+		elem.style.left = x + "px";
+		elem.style.top = y + "px";
+		elem.style.width = w + "px";
+		elem.style.height = h + "px";
+	}
+
 	// Make utils available to the rest of the program
 	window.utils = {
 		object: _object,
@@ -260,7 +267,9 @@
 		decToHexColorStr: _decToHexColorStr,
 
 		getIntersection: _getIntersection,
-		getDifference: _getDifference
+		getDifference: _getDifference,
+
+		setRect: _setRect
 	};
 
 	log.i("<--utils.LOADING_MODULE");

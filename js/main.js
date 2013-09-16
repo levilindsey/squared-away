@@ -21,16 +21,88 @@
 
 	log.d("-->main.LOADING_MODULE");
 
+	var _ANIMATION_STEP_SIZE = 25;
+
+	var _VIEWPORT_MARGIN = 20;
+
 	var _IMAGE_PATH = "img/";
+
+	var _NUMBER_OF_CHAPTERS = 10;
 
 	var _canvas = null;
 	var _body = null;
 
 	var _gestureInProgress = false;
 
+	var _selectedChapterIndex = 1;
+	var _highestCompletedChapter = 0;
+
+	var _chapterItemWidth = 500;
+
 	var _imageManifest = [
 		_IMAGE_PATH + "sprites.png"
 	];
+
+	var _buttonManifest = {
+		quickPlayButton: {
+			normal: "img/quick_play.png", hover: "img/quick_play_hover.png"
+		},
+		customPlayButton: {
+			normal: "img/custom_play.png", hover: "img/custom_play_hover.png"
+		},
+		nextChapterButton: {
+			normal: "img/next_chapter.png", hover: "img/next_chapter_hover.png"
+		},
+		prevChapterButton: {
+			normal: "img/prev_chapter.png", hover: "img/prev_chapter_hover.png"
+		},
+		helpButton: {
+			normal: "img/help.png", hover: "img/help_hover.png"
+		},
+		chapter1: {
+			normal: "img/chapter_1.png", hover: "img/chapter_1_hover.png"
+		},
+		chapter2: {
+			normal: "img/chapter_2.png", hover: "img/chapter_2_hover.png"
+		},
+		chapter3: {
+			normal: "img/chapter_3.png", hover: "img/chapter_3_hover.png"
+		},
+		chapter4: {
+			normal: "img/chapter_4.png", hover: "img/chapter_4_hover.png"
+		},
+		chapter5: {
+			normal: "img/chapter_5.png", hover: "img/chapter_5_hover.png"
+		},
+		chapter6: {
+			normal: "img/chapter_6.png", hover: "img/chapter_6_hover.png"
+		},
+		chapter7: {
+			normal: "img/chapter_7.png", hover: "img/chapter_7_hover.png"
+		},
+		chapter8: {
+			normal: "img/chapter_8.png", hover: "img/chapter_8_hover.png"
+		},
+		chapter9: {
+			normal: "img/chapter_9.png", hover: "img/chapter_9_hover.png"
+		},
+		chapter10: {
+			normal: "img/chapter_10.png", hover: "img/chapter_10_hover.png"
+		},
+		unpauseButton: {
+			playGameNormal: "img/play_game.png", playGameHover: "img/play_game_hover.png",
+			unpauseNormal: "img/unpause.png", unpauseHover: "img/unpause_hover.png",
+			playAgainNormal: "img/play_again.png", playAgainHover: "img/play_again_hover.png"
+		},
+		musicButton: {
+			on: "img/music_on.png", onHover: "img/music_on_hover.png",
+			off: "img/music_off.png", offHover: "img/music_off_hover.png"
+		},
+		sfxButton: {
+			on: "img/sfx_on.png", onHover: "img/sfx_on_hover.png",
+			off: "img/sfx_off.png", offHover: "img/sfx_off_hover.png"
+		}
+	};
 
 	var checkBoxIds = [
 		"keyboardControlCB",
@@ -82,18 +154,20 @@
 		_canvas = document.getElementById("gameCanvas");
 		var levelDisplay = document.getElementById("topLevelDisplayData");
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
+		var unpauseButton = document.getElementById("unpauseButton");
+		var quickPlayButton = document.getElementById("quickPlayButton");
+		var nextChapterButton = document.getElementById("nextChapterButton");
+		var prevChapterButton = document.getElementById("prevChapterButton");
 		var helpButton = document.getElementById("helpButton");
-		var musicOnButton = document.getElementById("musicOnButton");
-		var musicOffButton = document.getElementById("musicOffButton");
-		var sfxOnButton = document.getElementById("sfxOnButton");
-		var sfxOffButton = document.getElementById("sfxOffButton");
+		var musicButton = document.getElementById("musicButton");
+		var sfxButton = document.getElementById("sfxButton");
 
 		_fitAppToViewPort();
 
 		game.init(_canvas, levelDisplay, scoreDisplay, _onGameEnd, 
 				_toggleMode, _changeGameParameter);
 
-		_adjustButtonDimensions();
+		_adjustGameAreaElements();
 
 		// ---------- Hook up the event handlers ---------- //
 
@@ -122,24 +196,29 @@
 			gameParameterSelects[i].addEventListener("change", _onGameParameterSelectionChange, false);
 		}
 
-		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.addEventListener("click", _onPauseEvent, false);
-
+		unpauseButton.addEventListener("click", _onUnpauseClick, false);
+		unpauseButton.addEventListener("mouseover", _onUnpauseOver, false);
+		unpauseButton.addEventListener("mouseout", _onUnpauseOut, false);
+		quickPlayButton.addEventListener("click", _onQuickPlayClick, false);
+		quickPlayButton.addEventListener("mouseover", _onButtonOver, false);
+		quickPlayButton.addEventListener("mouseout", _onButtonOut, false);
+		nextChapterButton.addEventListener("click", _onNextChapterClick, false);
+		nextChapterButton.addEventListener("mouseover", _onButtonOver, false);
+		nextChapterButton.addEventListener("mouseout", _onButtonOut, false);
+		prevChapterButton.addEventListener("click", _onPrevChapterClick, false);
+		prevChapterButton.addEventListener("mouseover", _onButtonOver, false);
+		prevChapterButton.addEventListener("mouseout", _onButtonOut, false);
 		helpButton.addEventListener("click", _pauseGame, false);
-		helpButton.addEventListener("mouseover", _onHelpOver, false);
-		helpButton.addEventListener("mouseout", _onHelpOut, false);
-		musicOnButton.addEventListener("click", _onAudioClick, false);
-		musicOnButton.addEventListener("mousemove", _onAudioMove, false);
-		musicOnButton.addEventListener("mouseout", _onAudioOut, false);
-		musicOffButton.addEventListener("click", _onAudioClick, false);
-		musicOffButton.addEventListener("mousemove", _onAudioMove, false);
-		musicOffButton.addEventListener("mouseout", _onAudioOut, false);
-		sfxOnButton.addEventListener("click", _onAudioClick, false);
-		sfxOnButton.addEventListener("mousemove", _onAudioMove, false);
-		sfxOnButton.addEventListener("mouseout", _onAudioOut, false);
-		sfxOffButton.addEventListener("click", _onAudioClick, false);
-		sfxOffButton.addEventListener("mousemove", _onAudioMove, false);
-		sfxOffButton.addEventListener("mouseout", _onAudioOut, false);
+		helpButton.addEventListener("mouseover", _onButtonOver, false);
+		helpButton.addEventListener("mouseout", _onButtonOut, false);
+		musicButton.addEventListener("click", _onAudioClick, false);
+		musicButton.addEventListener("mousemove", _onAudioMove, false);
+		musicButton.addEventListener("mouseout", _onAudioOut, false);
+		sfxButton.addEventListener("click", _onAudioClick, false);
+		sfxButton.addEventListener("mousemove", _onAudioMove, false);
+		sfxButton.addEventListener("mouseout", _onAudioOut, false);
+
+		_setHighestCompletedChapter(0);
 
 		// Initialize the various modes and game parameters
 		_setInitialModesAndParamsToHtmlValues();
@@ -158,7 +237,7 @@
 			}
 		}
 
-		sound.init();
+		sound.init(_onAudioOut);
 
 		log.i("<--main._init");
 	}
@@ -174,7 +253,7 @@
 		pauseScreenTitle.innerHTML = "Game Paused";
 		var unpauseButton = document.getElementById("unpauseButton");
 		unpauseButton.style.marginTop = "0px";
-		unpauseButton.innerHTML = "Unpause";
+		unpauseButton.src = _buttonManifest["unpauseButton"].unpauseNormal;
 		var statsTable = document.getElementById("statsTable");
 		statsTable.style.display = "block";
 		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
@@ -187,7 +266,8 @@
 		// If we are starting a new game, then adjust the game parameters to 
 		// match the selected input options
 		if (game.isEnded) {
-			_setStartOfGameParameters();
+			game.setChapterParameters(_selectedChapterIndex);
+
 			sound.playSFX("gameStart");
 		} else if (game.isPaused) {
 			sound.playSFX("unpause");
@@ -238,7 +318,7 @@
 		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
 		pauseScreenTitle.innerHTML = "Game Over";
 		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.innerHTML = "Play Again";
+		unpauseButton.src = _buttonManifest["unpauseButton"].playAgainNormal;
 
 		_populateStatsTable();
 
@@ -247,18 +327,6 @@
 		sound.pauseMusic();
 
 		log.d("<--main._onGameEnd");
-	}
-
-	function _onPauseEvent() {
-		log.d("-->main._onPauseEvent");
-
-		if (game.isPaused || game.isEnded) {
-			_playGame();
-		} else {
-			_pauseGame();
-		}
-
-		log.d("<--main._onPauseEvent");
 	}
 
 	function _populateStatsTable() {
@@ -363,7 +431,9 @@
 
 		switch(key) {
 		case "ESCAPE": // pause only
-			_pauseGame();
+			if (!game.isPaused && !game.isEnded) {
+				_pauseGame();
+			}
 			break;
 
 		case "UP":
@@ -405,10 +475,16 @@
 
 		switch(key) {
 		case "ENTER": // play only
-			_playGame();
+			if (game.isPaused || game.isEnded) {
+				_playGame();
+			}
 			break;
 		case "SPACE": // toggle play/pause
-			_onPauseEvent(event);
+			if (game.isPaused || game.isEnded) {
+				_playGame();
+			} else {
+				_pauseGame();
+			}
 			event.preventDefault();
 			break;
 		default:
@@ -505,6 +581,137 @@
 		}
 	}
 
+	function _onChapterClick() {
+		game.setChapterParameters(_selectedChapterIndex);
+	}
+
+	function _onUnpauseClick() {
+		if (game.isEnded) {
+			_playGame();
+		} else if (game.isPaused) {
+			_playGame();
+		} else {
+			_pauseGame();
+		}
+	}
+
+	function _onStartGameClick() {
+		// Check whether we are in custom play
+		if (_selectedChapterIndex === -1) {
+			_setCustomStartOfGameParameters();
+		}
+	}
+
+	function _onQuickPlayClick() {
+		_selectedChapterIndex = 0;
+		_playGame();
+	}
+
+	function _onCustomPlayClick() {
+		_showCustomControls();
+		//****// TODO: show the custom play screen
+	}
+
+	function _showCustomControls() {
+		var customControls = document.getElementsByClassName("customControl");
+		var i;
+		for (i = 0; i < customControls.length; ++i) {
+			customControls[i].style.display = "block";
+		}
+	}
+
+	function _onNextChapterClick() {
+		if (_selectedChapterIndex < _NUMBER_OF_CHAPTERS) {
+			++_selectedChapterIndex;
+
+			_slideNextChapterItem(_selectedChapterIndex - 1, true);
+		}
+
+		if (_selectedChapterIndex === _NUMBER_OF_CHAPTERS) {
+			var nextChapterButton = document.getElementById("nextChapterButton");
+			nextChapterButton.style.display = "none";
+		}
+
+		if (_selectedChapterIndex === 2) {
+			var prevChapterButton = document.getElementById("prevChapterButton");
+			prevChapterButton.style.display = "block";
+		}
+
+		_updateChapterProgressIndicator();
+	}
+
+	function _onPrevChapterClick() {
+		if (_selectedChapterIndex > 1) {
+			--_selectedChapterIndex;
+
+			_slideNextChapterItem(_selectedChapterIndex + 1, false);
+		}
+
+		if (_selectedChapterIndex === 1) {
+			var prevChapterButton = document.getElementById("prevChapterButton");
+			prevChapterButton.style.display = "none";
+		}
+
+		if (_selectedChapterIndex === _NUMBER_OF_CHAPTERS - 1) {
+			var nextChapterButton = document.getElementById("nextChapterButton");
+			nextChapterButton.style.display = "block";
+		}
+
+		_updateChapterProgressIndicator();
+	}
+
+	function _updateChapterProgressIndicator() {
+		var chapterProgressIndicator = document.getElementById("chapterProgressIndicator");
+		chapterProgressIndicator.innerHTML = _selectedChapterIndex + "/" + _NUMBER_OF_CHAPTERS;
+	}
+
+	function _slideNextChapterItem(oldIndex, slideLeft) {
+		var oldChapterItemId = "chapter" + oldIndex;
+		var oldChapterItemElem = document.getElementById(oldChapterItemId);
+		var newChapterItemId = "chapter" + _selectedChapterIndex;
+		var newChapterItemElem = document.getElementById(newChapterItemId);
+
+		if (slideLeft) {
+			oldChapterItemElem.style.left = (-_chapterItemWidth) + "px";
+		} else {
+			oldChapterItemElem.style.left = (_chapterItemWidth) + "px";
+		}
+		newChapterItemElem.style.left = "0px";
+
+		oldChapterItemElem.style.visibility = "hidden";
+		newChapterItemElem.style.visibility = "visible";
+	}
+
+	function _onButtonOver(event) {
+		document.getElementById(this.id).src = _buttonManifest[this.id].hover;
+	}
+
+	function _onButtonOut(event) {
+		document.getElementById(this.id).src = _buttonManifest[this.id].normal;
+	}
+
+	function _onUnpauseOver(event) {
+		var unpauseButton = document.getElementById("unpauseButton");
+		if (!game.hasAGameStarted) {
+			unpauseButton.src = _buttonManifest["unpauseButton"].playGameHover;
+		} else if (!game.isEnded) {
+			unpauseButton.src = _buttonManifest["unpauseButton"].unpauseHover;
+		} else {
+			unpauseButton.src = _buttonManifest["unpauseButton"].playAgainHover;
+		}
+	}
+
+	function _onUnpauseOut(event) {
+		var unpauseButton = document.getElementById("unpauseButton");
+		if (!game.hasAGameStarted) {
+			unpauseButton.src = _buttonManifest["unpauseButton"].playGameNormal;
+		} else if (!game.isEnded) {
+			unpauseButton.src = _buttonManifest["unpauseButton"].unpauseNormal;
+		} else {
+			unpauseButton.src = _buttonManifest["unpauseButton"].playAgainNormal;
+		}
+	}
+
 	// This function is needed, because the music and SFX toggle buttons are 
 	// actually triangles that form two halves of a square.  Therefore, the 
 	// image regions overlap and without this function, only one of either 
@@ -518,54 +725,54 @@
 	}
 
 	function _onAudioMove(event) {
+		var musicId = "musicButton";
+		var musicElement = document.getElementById(musicId);
+		var sfxId = "sfxButton";
+		var sfxElement = document.getElementById(sfxId);
+
 		if (_isOverMusic(event, this)) {
 			if (game.musicOn) {
-				document.getElementById("musicOnButton").src = "img/music_on_hover.png";
+				musicElement.src = _buttonManifest[musicId].onHover;
 			} else {
-				document.getElementById("musicOffButton").src = "img/music_off_hover.png";
+				musicElement.src = _buttonManifest[musicId].offHover;
 			}
+
 			if (game.sfxOn) {
-				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
+				sfxElement.src = _buttonManifest[sfxId].on;
 			} else {
-				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
+				sfxElement.src = _buttonManifest[sfxId].on;
 			}
 		} else {
 			if (game.sfxOn) {
-				document.getElementById("sfxOnButton").src = "img/sfx_on_hover.png";
+				sfxElement.src = _buttonManifest[sfxId].onHover;
 			} else {
-				document.getElementById("sfxOffButton").src = "img/sfx_off_hover.png";
+				sfxElement.src = _buttonManifest[sfxId].onHover;
 			}
+
 			if (game.musicOn) {
-				document.getElementById("musicOnButton").src = "img/music_on.png";
+				musicElement.src = _buttonManifest[musicId].on;
 			} else {
-				document.getElementById("musicOffButton").src = "img/music_off.png";
+				musicElement.src = _buttonManifest[musicId].off;
 			}
 		}
 	}
 
-	function _onAudioOut(event) {
-		if (_isOverMusic(event, this)) {
-			if (game.musicOn) {
-				document.getElementById("musicOnButton").src = "img/music_on.png";
-			} else {
-				document.getElementById("musicOffButton").src = "img/music_off.png";
-			}
-			if (game.sfxOn) {
-				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
-			} else {
-				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
-			}
+	function _onAudioOut() {
+		var musicId = "musicButton";
+		var musicElement = document.getElementById(musicId);
+		var sfxId = "sfxButton";
+		var sfxElement = document.getElementById(sfxId);
+
+		if (game.musicOn) {
+			musicElement.src = _buttonManifest[musicId].on;
 		} else {
-			if (game.sfxOn) {
-				document.getElementById("sfxOnButton").src = "img/sfx_on.png";
-			} else {
-				document.getElementById("sfxOffButton").src = "img/sfx_off.png";
-			}
-			if (game.musicOn) {
-				document.getElementById("musicOnButton").src = "img/music_on.png";
-			} else {
-				document.getElementById("musicOffButton").src = "img/music_off.png";
-			}
+			musicElement.src = _buttonManifest[musicId].off;
+		}
+
+		if (game.sfxOn) {
+			sfxElement.src = _buttonManifest[sfxId].on;
+		} else {
+			sfxElement.src = _buttonManifest[sfxId].on;
 		}
 	}
 
@@ -578,14 +785,6 @@
 		return localY + localX < rect.width;
 	}
 
-	function _onHelpOver(event) {
-		document.getElementById("helpButton").src = "img/help_hover.png";
-	}
-
-	function _onHelpOut(event) {
-		document.getElementById("helpButton").src = "img/help.png";
-	}
-
 	function _onModeCBClicked() {
 		if (startOfGameCheckBoxIds.indexOf(this.id) < 0) {
 			_toggleMode(this.id, this.checked, this);
@@ -595,76 +794,105 @@
 	function _onWindowResize() {
 		_fitAppToViewPort();
 		game.updateDimensions();
-		_adjustButtonDimensions();
+		_adjustGameAreaElements();
 	}
 
 	function _fitAppToViewPort() {
-		var MARGIN = 20;
 		var pageColumn = document.getElementById("pageColumn");
 		var playArea = document.getElementById("playArea");
-		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
-		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
 
 		var viewportWidth = document.documentElement.clientWidth;
 		var viewportHeight = document.documentElement.clientHeight;
 
 		var canvasRect = utils.standardizeClientRect(_canvas);
-		var verticalScroll = canvasRect.top - MARGIN;
-		var size = Math.min(viewportWidth, viewportHeight) - MARGIN * 2;
+		var verticalScroll = canvasRect.top - _VIEWPORT_MARGIN;
+		var size = Math.min(viewportWidth, viewportHeight) - _VIEWPORT_MARGIN * 2;
 
 		pageColumn.style.width = size + "px"
 
 		playArea.style.width = size + "px";
 		playArea.style.height = size + "px";
 
-		topLevelDisplayArea.style.width = (size - 20) + "px";
-		topScoreDisplayArea.style.width = (size - 20) + "px";
-
-		_canvas.style.width = size + "px";
-		_canvas.style.height = size + "px";
+		_adjustMainMenuScreen(size);
+		_adjustPauseScreen(size);
+		_adjustGameOverScreen(size);
 
 		window.scrollTo(0, verticalScroll);
 	}
 
-	function _adjustButtonDimensions() {
+	function _adjustGameAreaElements(size) {
+		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
+		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
+
 		var helpButton = document.getElementById("helpButton");
-		var musicOnButton = document.getElementById("musicOnButton");
-		var musicOffButton = document.getElementById("musicOffButton");
-		var sfxOnButton = document.getElementById("sfxOnButton");
-		var sfxOffButton = document.getElementById("sfxOffButton");
+		var musicButton = document.getElementById("musicButton");
+		var sfxButton = document.getElementById("sfxButton");
 
 		var helpRect = game.getHelpButtonRect();
 		var audioRect = game.getAudioButtonRect();
 
-		helpButton.style.left = helpRect.left;
-		helpButton.style.top = helpRect.top;
-		helpButton.style.width = helpRect.width;
-		helpButton.style.height = helpRect.height;
+		_canvas.style.width = size + "px";
+		_canvas.style.height = size + "px";
 
-		musicOnButton.style.left = audioRect.left;
-		musicOnButton.style.top = audioRect.top;
-		musicOnButton.style.width = audioRect.width;
-		musicOnButton.style.height = audioRect.height;
+		topLevelDisplayArea.style.width = (size - 20) + "px";
+		topScoreDisplayArea.style.width = (size - 20) + "px";
 
-		musicOffButton.style.left = audioRect.left;
-		musicOffButton.style.top = audioRect.top;
-		musicOffButton.style.width = audioRect.width;
-		musicOffButton.style.height = audioRect.height;
-
-		sfxOnButton.style.left = audioRect.left;
-		sfxOnButton.style.top = audioRect.top;
-		sfxOnButton.style.width = audioRect.width;
-		sfxOnButton.style.height = audioRect.height;
-
-		sfxOffButton.style.left = audioRect.left;
-		sfxOffButton.style.top = audioRect.top;
-		sfxOffButton.style.width = audioRect.width;
-		sfxOffButton.style.height = audioRect.height;
-
-		_centerPauseButton();
+		utils.setRect(helpButton, helpRect.left, helpRect.top, helpRect.width, helpRect.height);
+		utils.setRect(musicButton, audioRect.left, audioRect.top, audioRect.width, audioRect.height);
+		utils.setRect(sfxButton, audioRect.left, audioRect.top, audioRect.width, audioRect.height);
 	}
 
-	function _centerPauseButton() {
+	function _adjustMainMenuScreen(size) {
+		var quickPlayButton = document.getElementById("quickPlayButton");
+		var customPlayButton = document.getElementById("customPlayButton");
+		var prevChapterButton = document.getElementById("prevChapterButton");
+		var nextChapterButton = document.getElementById("nextChapterButton");
+		var chapterList = document.getElementById("chapterList");
+		var chapterProgressIndicator = document.getElementById("chapterProgressIndicator");
+
+		var halfSize = size / 2;
+		_chapterItemWidth = 0.55 * size;
+		var topButtonWidth = 0.36 * size;
+		var topButtonHeight = topButtonWidth * 90 / 252;
+		var sideButtonHeight = topButtonHeight;
+		var sideButtonWidth = sideButtonHeight * 0.69 / 0.90;
+		var progressIndicatorWidth = _chapterItemWidth / 3;
+
+		var x, y, w, h;
+
+		w = topButtonWidth;
+		h = topButtonHeight;
+		x = 10;
+		y = 10;
+		utils.setRect(quickPlayButton, x, y, w, h);
+
+		x = size - 10 - w;
+		utils.setRect(customPlayButton, x, y, w, h);
+
+		w = _chapterItemWidth;
+		h = _chapterItemWidth;
+		x = halfSize - w / 2;
+		y = x;
+		utils.setRect(chapterList, x, y, w, h);
+
+		w = sideButtonWidth;
+		h = sideButtonHeight;
+		x = 10;
+		y = y + (_chapterItemWidth - sideButtonHeight) / 2;
+		utils.setRect(prevChapterButton, x, y, w, h);
+
+		x = size - 10 - w;
+		utils.setRect(nextChapterButton, x, y, w, h);
+
+		w = progressIndicatorWidth;
+		h = progressIndicatorWidth / 4;
+		x = halfSize - w / 2;
+		y = size - 10 - h;
+		utils.setRect(chapterProgressIndicator, x, y, w, h);
+		chapterProgressIndicator.style.fontSize = h + "px";
+	}
+
+	function _adjustPauseScreen(size) {
 		var pauseScreen = document.getElementById("pauseScreen");
 		var unpauseButton = document.getElementById("unpauseButton");
 		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
@@ -677,11 +905,11 @@
 
 		y = pauseScreenRect.height / 2 - unpauseButtonRect.height - pauseScreenTitleRect.height - pauseScreenTitle.style.marginBottom;
 		pauseScreenTitle.style.marginTop = y + "px";
+		//****
+	}
 
-		if (!game.hasAGameStarted) {
-			y = (pauseScreenRect.height - unpauseButtonRect.height) / 2;
-			unpauseButton.style.marginTop = y + "px";
-		}
+	function _adjustGameOverScreen(size) {
+		//****
 	}
 
 	function _toggleMode(modeCBId, isOn, element) {
@@ -914,7 +1142,7 @@
 	}
 
 	// Set up all of the game parameters that cannot be changed in mid game.
-	function _setStartOfGameParameters() {
+	function _setCustomStartOfGameParameters() {
 		var i;
 		var element;
 		var number;
@@ -929,6 +1157,56 @@
 			element = document.getElementById(startOfGameCheckBoxIds[i]);
 			_toggleMode(startOfGameCheckBoxIds[i], element.checked, element);
 		}
+	}
+
+	function _setHighestCompletedChapter(highestCompletedChapter) {
+		_highestCompletedChapter = highestCompletedChapter;
+
+		_selectedChapterIndex = _highestCompletedChapter + 1;
+		if (_selectedChapterIndex > _NUMBER_OF_CHAPTERS) {
+			_selectedChapterIndex = 1;
+		}
+
+		var chapterItems = document.getElementsByClassName("chapterItem");
+		var chapterNumber;
+		var i;
+
+		// Set the appropriate chapters as unlocked
+		for (i = 0; i < chapterItems.length; ++i) {
+			chapterNumber = parseInt(chapterItems[i].id.substring(7), 10);
+			if (chapterNumber <= _highestCompletedChapter + 1) {
+				_unlockButton(chapterItems[i]);
+			}
+		}
+
+		// Set the appropriate relative positions of the chapter items
+		for (i = 0; i < chapterItems.length; ++i) {
+			chapterNumber = parseInt(chapterItems[i].id.substring(7), 10);
+			if (chapterNumber < _selectedChapterIndex) {
+				chapterItems[i].style.visibility = "hidden";
+				chapterItems[i].style.left = -_chapterItemWidth + "px";
+			} else if (chapterNumber > _selectedChapterIndex) {
+				chapterItems[i].style.visibility = "hidden";
+				chapterItems[i].style.left = _chapterItemWidth + "px";
+			} else {
+				chapterItems[i].style.visibility = "visible";
+				chapterItems[i].style.left = "0px";
+			}
+		}
+
+		// Unlock custom play if all chapters have been completed
+		if (_highestCompletedChapter >= _NUMBER_OF_CHAPTERS) {
+			_unlockButton(customPlayButton);
+			customPlayButton.onclick = _onCustomPlayClick;
+		}
+	}
+
+	function _unlockButton(button) {
+		button.className += " button";
+		button.src = _buttonManifest[button.id].normal;
+		button.onclick = _onUnpauseClick;
+		button.onmouseover = _onButtonOver;
+		button.onmouseout = _onButtonOut;
 	}
 
 	log.i("<--main.LOADING_MODULE");

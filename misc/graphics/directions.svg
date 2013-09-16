@@ -15058,9 +15058,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.48613592"
-     inkscape:cx="-426.29954"
-     inkscape:cy="-1119.5637"
+     inkscape:zoom="1.9445436"
+     inkscape:cx="896.92375"
+     inkscape:cy="775.75625"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -15078,7 +15078,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -15089,10 +15089,10 @@
     <rect
        style="fill:#0f7d7d;fill-opacity:1;stroke:none"
        id="rect6066"
-       width="2752"
-       height="5137.4546"
-       x="-808.72723"
-       y="-1122.9091" />
+       width="1270.9327"
+       height="3182.3206"
+       x="-364.40704"
+       y="-293.44876" />
     <rect
        style="fill:#ffffff;fill-opacity:0;stroke:none"
        id="rect11113"
@@ -17930,10 +17930,7 @@
          style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
     </g>
     <g
-       id="g6102"
-       inkscape:export-filename="E:\Repositories\squared_away\img\sfx_on_hover.png"
-       inkscape:export-xdpi="27"
-       inkscape:export-ydpi="27">
+       id="g6420">
       <path
          id="path8493-0-2"
          d="m -659.63637,-190.54545 16,0 0,304 -304,0 0,-16.000001 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-15.9999995 16,0 0,-16.0000005 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-15.999999 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 16,0 0,-16 z"
@@ -18917,6 +18914,2005 @@
          id="rect3761-1-4-9-8-2"
          d="m 348.46721,346.26286 0,69.72867 -69.72867,0 0,69.72867 69.72867,0 69.72867,0 69.72867,0 69.72867,0 0,-69.72867 -69.72867,0 -69.72867,0 0,-69.72867 -69.72867,0 z"
          style="color:#000000;fill:#64c8ff;fill-opacity:0.2;fill-rule:nonzero;stroke:#65c8ff;stroke-width:4.35804176;stroke-miterlimit:4;stroke-opacity:0.49803922;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:47.68497467px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-248.22374"
+       y="-145.48936"
+       id="text6389"
+       sodipodi:linespacing="125%"
+       transform="scale(0.88920371,1.1246017)"><tspan
+         sodipodi:role="line"
+         id="tspan6391"
+         x="-248.22374"
+         y="-145.48936"
+         style="font-size:114.44393921px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">SFX</tspan></text>
+    <g
+       id="g6712">
+      <path
+         transform="matrix(0.30187562,0.0633005,-0.04450121,0.21222313,33.087077,59.65514)"
+         d="m 139.87857,183.3082 a 102.85189,102.85189 0 1 1 -205.703781,0 102.85189,102.85189 0 1 1 205.703781,0 z"
+         sodipodi:ry="102.85189"
+         sodipodi:rx="102.85189"
+         sodipodi:cy="183.3082"
+         sodipodi:cx="37.02668"
+         id="path6393"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path6399"
+         d="m 61.953542,104.02673 0.07132,-150.953668 C 73.841454,-8.1665908 132.01003,-6.0994027 87.84451,50.263868"
+         style="fill:none;stroke:#ffffff;stroke-width:11;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <g
+       id="g7873"
+       inkscape:export-filename="E:\Repositories\squared_away\img\sfx_on.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7554-8"
+         d="m -2074.3578,-992.86259 384.9688,0 0,-384.96871 -384.9688,384.96871 z"
+         style="fill:#37b216;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         y="-1024.8502"
+         x="-2089.3896"
+         height="32"
+         width="400"
+         id="rect5418-7-4-5-8-4-1-9"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="1689.3896"
+         x="-1392.8501"
+         height="32"
+         width="400"
+         id="rect5418-7-82-2-8-5-5-0"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-2195.4727"
+         x="241.61601"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-7"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920371,1.1246017)"
+         sodipodi:linespacing="125%"
+         id="text6389-8"
+         y="-927.2041"
+         x="-2158.8984"
+         style="font-size:47.68497467px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:114.44393921px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-927.2041"
+           x="-2158.8984"
+           id="tspan6391-1"
+           sodipodi:role="line">SFX</tspan></text>
+    </g>
+    <g
+       id="g7881"
+       inkscape:export-filename="E:\Repositories\squared_away\img\music_on.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7552"
+         d="m -2135.3382,-1399.0336 -385,0 0,385 385,-385 z"
+         style="fill:#37b216;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="2488.3386"
+         x="-1399.0211"
+         height="32"
+         width="400"
+         id="rect5418-7-8-1-3-0-6"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1399.0211"
+         x="-2520.3386"
+         height="32"
+         width="400"
+         id="rect5418-7-0-3-9-7"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-2504.5632"
+         x="541.97943"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <g
+         id="g6712-5"
+         transform="translate(-2477.0579,-1298.594)">
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="path6393-8"
+           sodipodi:cx="37.02668"
+           sodipodi:cy="183.3082"
+           sodipodi:rx="102.85189"
+           sodipodi:ry="102.85189"
+           d="m 139.87857,183.3082 c 0,56.80353 -46.048359,102.85189 -102.85189,102.85189 -56.803531,0 -102.851891,-46.04836 -102.851891,-102.85189 0,-56.80353 46.04836,-102.851894 102.851891,-102.851894 56.803531,0 102.85189,46.048364 102.85189,102.851894 z"
+           transform="matrix(0.30187562,0.0633005,-0.04450121,0.21222313,33.087077,59.65514)" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:11;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 61.953542,104.02673 0.07132,-150.953668 C 73.841454,-8.1665908 132.01003,-6.0994027 87.84451,50.263868"
+           id="path6399-6"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
+       id="g7865"
+       inkscape:export-filename="E:\Repositories\squared_away\img\sfx_off.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7554-8-6"
+         d="m -2090.2212,-457.28437 384.9688,0 0,-384.96871 -384.9688,384.96871 z"
+         style="fill:#b2162c;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         y="-489.272"
+         x="-2105.2532"
+         height="32"
+         width="400"
+         id="rect5418-7-4-5-8-4-1-9-5"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="1705.2531"
+         x="-857.27185"
+         height="32"
+         width="400"
+         id="rect5418-7-82-2-8-5-5-0-3"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-1827.9788"
+         x="631.54413"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-7-9"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920371,1.1246017)"
+         sodipodi:linespacing="125%"
+         id="text6389-8-2"
+         y="-450.96597"
+         x="-2176.7385"
+         style="font-size:47.68497467px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:114.44393921px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-450.96597"
+           x="-2176.7385"
+           id="tspan6391-1-4"
+           sodipodi:role="line">SFX</tspan></text>
+    </g>
+    <g
+       id="g7890"
+       inkscape:export-filename="E:\Repositories\squared_away\img\music_off.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7552-5"
+         d="m -2151.2016,-863.45538 -385,0 0,385 385,-385 z"
+         style="fill:#b2162c;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="2504.2021"
+         x="-863.44287"
+         height="32"
+         width="400"
+         id="rect5418-7-8-1-3-0-6-8"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         y="-863.44287"
+         x="-2536.2021"
+         height="32"
+         width="400"
+         id="rect5418-7-0-3-9-7-6"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-2137.0693"
+         x="931.90753"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-2"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <g
+         id="g6712-5-6"
+         transform="translate(-2492.9213,-763.01578)">
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="path6393-8-1"
+           sodipodi:cx="37.02668"
+           sodipodi:cy="183.3082"
+           sodipodi:rx="102.85189"
+           sodipodi:ry="102.85189"
+           d="m 139.87857,183.3082 c 0,56.80353 -46.048359,102.85189 -102.85189,102.85189 -56.803531,0 -102.851891,-46.04836 -102.851891,-102.85189 0,-56.80353 46.04836,-102.851894 102.851891,-102.851894 56.803531,0 102.85189,46.048364 102.85189,102.851894 z"
+           transform="matrix(0.30187562,0.0633005,-0.04450121,0.21222313,33.087077,59.65514)" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:11;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 61.953542,104.02673 0.07132,-150.953668 C 73.841454,-8.1665908 132.01003,-6.0994027 87.84451,50.263868"
+           id="path6399-6-8"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
+       id="g7857"
+       inkscape:export-filename="E:\Repositories\squared_away\img\sfx_on_hover.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7554-8-7"
+         d="m -2064.0394,171.07926 384.9688,0 0,-384.96871 -384.9688,384.96871 z"
+         style="fill:#154b09;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         y="139.09163"
+         x="-2079.0713"
+         height="32"
+         width="400"
+         id="rect5418-7-4-5-8-4-1-9-6"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="1679.0713"
+         x="-228.90825"
+         height="32"
+         width="400"
+         id="rect5418-7-82-2-8-5-5-0-2"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-1365.1453"
+         x="1057.351"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-7-95"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920371,1.1246017)"
+         sodipodi:linespacing="125%"
+         id="text6389-8-20"
+         y="107.77729"
+         x="-2147.2944"
+         style="font-size:47.68497467px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:114.44393921px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="107.77729"
+           x="-2147.2944"
+           id="tspan6391-1-0"
+           sodipodi:role="line">SFX</tspan></text>
+    </g>
+    <g
+       id="g7899"
+       inkscape:export-filename="E:\Repositories\squared_away\img\music_on_hover.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7552-2"
+         d="m -2125.0198,-235.09175 -385,0 0,385 385,-385 z"
+         style="fill:#154b09;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="2478.0203"
+         x="-235.07927"
+         height="32"
+         width="400"
+         id="rect5418-7-8-1-3-0-6-1"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         y="-235.07927"
+         x="-2510.0203"
+         height="32"
+         width="400"
+         id="rect5418-7-0-3-9-7-1"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-1674.2358"
+         x="1357.7144"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-9"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <g
+         id="g6712-5-3"
+         transform="translate(-2466.7395,-134.65215)">
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="path6393-8-9"
+           sodipodi:cx="37.02668"
+           sodipodi:cy="183.3082"
+           sodipodi:rx="102.85189"
+           sodipodi:ry="102.85189"
+           d="m 139.87857,183.3082 c 0,56.80353 -46.048359,102.85189 -102.85189,102.85189 -56.803531,0 -102.851891,-46.04836 -102.851891,-102.85189 0,-56.80353 46.04836,-102.851894 102.851891,-102.851894 56.803531,0 102.85189,46.048364 102.85189,102.851894 z"
+           transform="matrix(0.30187562,0.0633005,-0.04450121,0.21222313,33.087077,59.65514)" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:11;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 61.953542,104.02673 0.07132,-150.953668 C 73.841454,-8.1665908 132.01003,-6.0994027 87.84451,50.263868"
+           id="path6399-6-1"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
+       id="g7849"
+       inkscape:export-filename="E:\Repositories\squared_away\img\sfx_off_hover.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7554-8-2"
+         d="m -2096.0394,694.71562 384.9688,0 0,-384.96871 -384.9688,384.96871 z"
+         style="fill:#6c0c1a;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         y="662.72797"
+         x="-2111.0713"
+         height="32"
+         width="400"
+         id="rect5418-7-4-5-8-4-1-9-52"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="1711.0713"
+         x="294.72812"
+         height="32"
+         width="400"
+         id="rect5418-7-82-2-8-5-5-0-5"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-1017.5059"
+         x="1450.2452"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-7-8"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920371,1.1246017)"
+         sodipodi:linespacing="125%"
+         id="text6389-8-6"
+         y="573.39667"
+         x="-2183.2817"
+         style="font-size:47.68497467px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:114.44393921px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="573.39667"
+           x="-2183.2817"
+           id="tspan6391-1-7"
+           sodipodi:role="line">SFX</tspan></text>
+    </g>
+    <g
+       id="g7908"
+       inkscape:export-filename="E:\Repositories\squared_away\img\music_off_hover.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <path
+         id="path7552-8"
+         d="m -2157.0198,288.54461 -385,0 0,385 385,-385 z"
+         style="fill:#6c0c1a;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         transform="matrix(0,1,-1,0,0,0)"
+         y="2510.0203"
+         x="288.5571"
+         height="32"
+         width="400"
+         id="rect5418-7-8-1-3-0-6-19"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         y="288.5571"
+         x="-2542.0203"
+         height="32"
+         width="400"
+         id="rect5418-7-0-3-9-7-5"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <rect
+         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+         y="-1326.5964"
+         x="1750.6086"
+         height="32"
+         width="501.82336"
+         id="rect5418-7-82-2-8-5-5-2-3"
+         style="fill:#9dc7f3;fill-opacity:1;stroke:none" />
+      <g
+         id="g6712-5-7"
+         transform="translate(-2498.7395,388.98421)">
+        <path
+           sodipodi:type="arc"
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="path6393-8-2"
+           sodipodi:cx="37.02668"
+           sodipodi:cy="183.3082"
+           sodipodi:rx="102.85189"
+           sodipodi:ry="102.85189"
+           d="m 139.87857,183.3082 c 0,56.80353 -46.048359,102.85189 -102.85189,102.85189 -56.803531,0 -102.851891,-46.04836 -102.851891,-102.85189 0,-56.80353 46.04836,-102.851894 102.851891,-102.851894 56.803531,0 102.85189,46.048364 102.85189,102.851894 z"
+           transform="matrix(0.30187562,0.0633005,-0.04450121,0.21222313,33.087077,59.65514)" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:11;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m 61.953542,104.02673 0.07132,-150.953668 C 73.841454,-8.1665908 132.01003,-6.0994027 87.84451,50.263868"
+           id="path6399-6-2"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
+       id="g8035"
+       inkscape:export-filename="E:\Repositories\squared_away\img\help_hover.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <rect
+         y="826.73895"
+         x="-2468.1443"
+         height="400"
+         width="400"
+         id="rect5420-4-3-7-2"
+         style="fill:#0f457d;fill-opacity:1;stroke:none" />
+      <g
+         transform="translate(-1506.4615,-300.11073)"
+         id="g5944-3-4-5">
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-4-5-0-0"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1494.8497" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-8-1-9-8"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="929.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-82-2-4-3"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="561.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-0-8-9"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1126.8497" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text8010"
+         y="1171.0745"
+         x="-2377.1462"
+         style="font-size:56.64446259px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:396.51123047px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans"
+           y="1171.0745"
+           x="-2377.1462"
+           id="tspan8012"
+           sodipodi:role="line">?</tspan></text>
+    </g>
+    <g
+       id="g8045"
+       inkscape:export-filename="E:\Repositories\squared_away\img\help.png"
+       inkscape:export-xdpi="26.999996"
+       inkscape:export-ydpi="26.999996">
+      <rect
+         y="1258.6265"
+         x="-2469.6814"
+         height="400"
+         width="400"
+         id="rect5420-4-3-4"
+         style="fill:#1663b2;fill-opacity:1;stroke:none" />
+      <g
+         transform="translate(-1507.9986,131.7767)"
+         id="g5944-3-1">
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-4-5-9"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1494.8497" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-8-1-6"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="929.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-82-2-9"
+           width="400"
+           height="32"
+           x="1126.8497"
+           y="561.68274"
+           transform="matrix(0,1,-1,0,0,0)" />
+        <rect
+           style="fill:#9dc7f3;fill-opacity:1;stroke:none"
+           id="rect5418-7-0-82"
+           width="400"
+           height="32"
+           x="-961.68274"
+           y="1126.8497" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text8010-7"
+         y="1602.9619"
+         x="-2378.6833"
+         style="font-size:56.64446259px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:396.51123047px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Sans;-inkscape-font-specification:Sans"
+           y="1602.9619"
+           x="-2378.6833"
+           id="tspan8012-9"
+           sodipodi:role="line">?</tspan></text>
+    </g>
+    <g
+       id="g7576"
+       transform="translate(3.7193298e-5,-8.4533691)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\prev_chapter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1861.1824"
+         x="-159.75459"
+         height="89.999985"
+         width="69"
+         id="rect8055-9-1"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1856.1825"
+         x="-154.75459"
+         height="80"
+         width="59"
+         id="rect8057-7-1"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(0.16719545,0,0,0.289591,-105.2461,-1069.2422)"
+         inkscape:transform-center-x="11.060142"
+         d="m -56.870655,-2506.7776 -62.800745,-36.2581 -62.80075,-36.258 62.80075,-36.258 62.800752,-36.2581 -3e-6,72.5161 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="false"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.0471976"
+         sodipodi:r2="41.867165"
+         sodipodi:r1="83.734329"
+         sodipodi:cy="-2579.2937"
+         sodipodi:cx="-98.737816"
+         sodipodi:sides="3"
+         id="path6608"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="star" />
+    </g>
+    <g
+       id="g7571"
+       transform="translate(-7.6293945e-6,-8.4533691)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\next_chapter.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         transform="scale(-1,1)"
+         y="-1861.1824"
+         x="13.014764"
+         height="89.999985"
+         width="69"
+         id="rect8055-9-1-1"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         transform="scale(-1,1)"
+         y="-1856.1825"
+         x="18.014765"
+         height="80"
+         width="59"
+         id="rect8057-7-1-6"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(-0.16719545,0,0,0.289591,-67.5233,-1069.2422)"
+         inkscape:transform-center-x="11.060142"
+         d="m -56.870655,-2506.7776 -62.800745,-36.2581 -62.80075,-36.258 62.80075,-36.258 62.800752,-36.2581 -3e-6,72.5161 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="false"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.0471976"
+         sodipodi:r2="41.867165"
+         sodipodi:r1="83.734329"
+         sodipodi:cy="-2579.2937"
+         sodipodi:cx="-98.737816"
+         sodipodi:sides="3"
+         id="path6608-8"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="star" />
+    </g>
+    <g
+       id="g7566"
+       transform="translate(-2.5749207e-5,-8.4533691)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\prev_chapter_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1861.1824"
+         x="-4.2749624"
+         height="89.999985"
+         width="69"
+         id="rect8055-9-1-7"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1856.1825"
+         x="0.72503769"
+         height="80"
+         width="59"
+         id="rect8057-7-1-61"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(0.16719545,0,0,0.289591,50.2335,-1069.2422)"
+         inkscape:transform-center-x="11.060142"
+         d="m -56.870655,-2506.7776 -62.800745,-36.2581 -62.80075,-36.258 62.80075,-36.258 62.800752,-36.2581 -3e-6,72.5161 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="false"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.0471976"
+         sodipodi:r2="41.867165"
+         sodipodi:r1="83.734329"
+         sodipodi:cy="-2579.2937"
+         sodipodi:cx="-98.737816"
+         sodipodi:sides="3"
+         id="path6608-89"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="star" />
+    </g>
+    <g
+       id="g7561"
+       transform="translate(2.9563904e-5,-8.4533691)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\next_chapter_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         transform="scale(-1,1)"
+         y="-1861.1824"
+         x="-142.46477"
+         height="89.999985"
+         width="69"
+         id="rect8055-9-1-1-7"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         transform="scale(-1,1)"
+         y="-1856.1825"
+         x="-137.46477"
+         height="80"
+         width="59"
+         id="rect8057-7-1-6-9"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <path
+         transform="matrix(-0.16719545,0,0,0.289591,87.9562,-1069.2422)"
+         inkscape:transform-center-x="11.060142"
+         d="m -56.870655,-2506.7776 -62.800745,-36.2581 -62.80075,-36.258 62.80075,-36.258 62.800752,-36.2581 -3e-6,72.5161 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="false"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.0471976"
+         sodipodi:r2="41.867165"
+         sodipodi:r1="83.734329"
+         sodipodi:cy="-2579.2937"
+         sodipodi:cx="-98.737816"
+         sodipodi:sides="3"
+         id="path6608-8-5"
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         sodipodi:type="star" />
+    </g>
+    <g
+       id="g7202"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_1_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,-1435.8124)"
+         id="g6679">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">One</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7194"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_1.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,-1941.1652)"
+         id="g6672">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">One</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7210"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_2_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,-922.60436)"
+         id="g6679-8">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-2"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-45"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-5"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-1"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-7"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Two</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7186"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,-1427.9572)"
+         id="g6672-1">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-1"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-5"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-2"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-7"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-6"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Two</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7218"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_3_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,-409.39623)"
+         id="g6679-4">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-23"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-2"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-2"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-16"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-8"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Three</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7178"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_3.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,-914.74907)"
+         id="g6672-5">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-7"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-6"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-1"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-8"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-9"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Three</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7226"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_4_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,103.81184)"
+         id="g6679-7">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-9"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-5"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-4"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-3"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-1"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Four</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7170"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_4.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,-401.541)"
+         id="g6672-2">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-3"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-3"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-4"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-1"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-1"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Four</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7234"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_5_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,617.01994)"
+         id="g6679-87">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-4"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-27"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-7"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-93"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-19"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Five</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7162"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_5.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,111.6671)"
+         id="g6672-8">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-6"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-50"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-28"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-6"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-0"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Five</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7242"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_6_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,1130.2281)"
+         id="g6679-86">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-5"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-0"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-9"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-0"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-0"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Six</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7154"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_6.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,624.87526)"
+         id="g6672-6">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-13"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-8"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-9"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-3"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-4"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Six</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7250"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_7_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,1643.4362)"
+         id="g6679-6">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-0"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-6"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-6"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-18"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-49"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Seven</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7146"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_7.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,1138.0834)"
+         id="g6672-63">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-78"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-82"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-91"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-35"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-98"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Seven</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7258"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_8_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,2156.6443)"
+         id="g6679-76">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-3"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-61"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-54"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-2"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-09"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Eight</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7138"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_8.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,1651.2915)"
+         id="g6672-7">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-37"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-2"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-6"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-0"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-16"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Eight</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7266"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_9_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,2669.8524)"
+         id="g6679-75">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-41"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-20"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-01"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-4"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-6"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Nine</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7130"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_9.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,2164.4996)"
+         id="g6672-0">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-71"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-7"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-7"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-77"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-3"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Nine</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7274"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_10_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(42.256944,3183.0605)"
+         id="g6679-9">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-98"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-1436.0801" />
+        <rect
+           style="fill:#505050;fill-opacity:1;stroke:none"
+           id="rect6538-1-1"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-1431.0801" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-1205.1709"
+           id="text6599-8"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-26"
+             x="1895.0536"
+             y="-1205.1709"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-1105.431"
+             id="tspan6603-60"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Ten</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g7122"
+       inkscape:export-filename="E:\Repositories\squared_away\img\chapter_10.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(552.80239,2677.7077)"
+         id="g6672-3">
+        <rect
+           style="fill:#eeeeee;fill-opacity:1;stroke:none"
+           id="rect6538-7-8"
+           width="500"
+           height="500"
+           x="1645.2727"
+           y="-930.72723" />
+        <rect
+           style="fill:#222222;fill-opacity:1;stroke:none"
+           id="rect6538-1-4-0"
+           width="490"
+           height="490"
+           x="1650.2727"
+           y="-925.72723" />
+        <text
+           xml:space="preserve"
+           style="font-size:99.73983002px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           x="1895.0536"
+           y="-699.81805"
+           id="text6599-0-12"
+           sodipodi:linespacing="100%"><tspan
+             sodipodi:role="line"
+             id="tspan6601-9-5"
+             x="1895.0536"
+             y="-699.81805"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Chapter</tspan><tspan
+             sodipodi:role="line"
+             x="1895.0536"
+             y="-600.07825"
+             id="tspan6603-4-09"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Monospace;-inkscape-font-specification:Monospace Bold">Ten</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g6692"
+       inkscape:export-filename="E:\Repositories\squared_away\img\custom_play.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="-421.15768"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="-416.15768"
+         height="80"
+         width="242"
+         id="rect8057-7-18-5"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0"
+         y="-1611.8864"
+         x="-445.39523"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           id="tspan7581"
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="-445.39523"
+           sodipodi:role="line">Custom Play</tspan></text>
+    </g>
+    <g
+       id="g7591"
+       transform="translate(-2.3841858e-5,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\quick_play.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="-681.23407"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-8"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="-676.23413"
+         height="80"
+         width="242"
+         id="rect8057-7-18-3"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1"
+         y="-1611.8864"
+         x="-727.38318"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="-727.38318"
+           id="tspan6391-5"
+           sodipodi:role="line">Quick Play</tspan></text>
+    </g>
+    <g
+       id="g7639"
+       inkscape:export-filename="E:\Repositories\squared_away\img\play_game.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="-1463.4534"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-3"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="-1458.4534"
+         height="80"
+         width="242"
+         id="rect8057-7-18"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-7"
+         y="-1611.8864"
+         x="-1628.1827"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="-1628.1827"
+           id="tspan6391-5-2-6"
+           sodipodi:role="line">Play Chapter</tspan></text>
+    </g>
+    <g
+       id="g7597"
+       transform="translate(-2.3841858e-5,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\unpause.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="-941.97382"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-01"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="-936.97382"
+         height="80"
+         width="242"
+         id="rect8057-7-18-78"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-3"
+         y="-1613.2946"
+         x="-989.06116"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1613.2946"
+           x="-989.06116"
+           id="tspan6391-5-2-4"
+           sodipodi:role="line">Unpause</tspan></text>
+    </g>
+    <g
+       id="g7603"
+       transform="translate(3.7193298e-5,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\play_again.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="-1202.7136"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-05"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="-1197.7136"
+         height="80"
+         width="242"
+         id="rect8057-7-18-4"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-5"
+         y="-1611.8864"
+         x="-1314.3931"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="-1314.3931"
+           id="tspan6391-5-2-5"
+           sodipodi:role="line">Play Again</tspan></text>
+    </g>
+    <g
+       id="g6698"
+       inkscape:export-filename="E:\Repositories\squared_away\img\custom_play_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="933.42389"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-35"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="938.42389"
+         height="80"
+         width="242"
+         id="rect8057-7-18-1"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-2"
+         y="-1611.8864"
+         x="1077.9694"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="1077.9694"
+           id="tspan6391-5-2-7"
+           sodipodi:role="line">Custom Play</tspan></text>
+    </g>
+    <g
+       id="g7621"
+       transform="translate(-2.3841858e-5,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\quick_play_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="672.68414"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-8-6"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="677.68414"
+         height="80"
+         width="242"
+         id="rect8057-7-18-1-2"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-2"
+         y="-1611.8864"
+         x="795.23541"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="795.23541"
+           id="tspan6391-5-20"
+           sodipodi:role="line">Quick Play</tspan></text>
+    </g>
+    <g
+       id="g7615"
+       transform="translate(6.6757202e-6,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\unpause_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="411.94434"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-01-8"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="416.94434"
+         height="80"
+         width="242"
+         id="rect8057-7-18-1-0"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-3-7"
+         y="-1613.2946"
+         x="533.55743"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1613.2946"
+           x="533.55743"
+           id="tspan6391-5-2-4-8"
+           sodipodi:role="line">Unpause</tspan></text>
+    </g>
+    <g
+       id="g7609"
+       transform="translate(-8.5830688e-6,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\play_again_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="151.20459"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-05-6"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="156.20459"
+         height="80"
+         width="242"
+         id="rect8057-7-18-1-1"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-5-9"
+         y="-1611.8864"
+         x="208.22543"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="208.22543"
+           id="tspan6391-5-2-5-2"
+           sodipodi:role="line">Play Again</tspan></text>
+    </g>
+    <g
+       id="g7633"
+       transform="translate(3.7193298e-5,0)"
+       inkscape:export-filename="E:\Repositories\squared_away\img\play_game_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-1869.6357"
+         x="1194.1636"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-3-1"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1864.6357"
+         x="1199.1636"
+         height="80"
+         width="242"
+         id="rect8057-7-18-1-6"
+         style="fill:#505050;fill-opacity:1;stroke:none" />
+      <text
+         transform="scale(0.88920378,1.1246016)"
+         sodipodi:linespacing="125%"
+         id="text6389-1-0-7-1"
+         y="-1611.8864"
+         x="1360.5775"
+         style="font-size:14.30549049px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:34.33317947px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace Bold"
+           y="-1611.8864"
+           x="1360.5775"
+           id="tspan6391-5-2-6-7"
+           sodipodi:role="line">Play Chapter</tspan></text>
+    </g>
+    <g
+       id="g6762">
+      <rect
+         y="-1483.4546"
+         x="750.72729"
+         height="500"
+         width="500"
+         id="rect6538-7-6-0"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-1478.4546"
+         x="755.72729"
+         height="490"
+         width="490"
+         id="rect6538-1-4-50-9"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <g
+         id="g6784">
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           d="m 1000.7429,-1397.5143 c -39.03125,0 -70.46873,31.4375 -70.46873,70.4688 l 0,112.0938 c 0,39.0312 31.43748,70.4687 70.46873,70.4687 39.0313,0 70.4375,-31.4375 70.4375,-70.4687 l 0,-112.0938 c 0,-39.0313 -31.4062,-70.4688 -70.4375,-70.4688 z m 0,23.5313 c 26.0209,0 46.9688,20.9479 46.9688,46.9687 l 0,74.7188 c 0,26.0208 -20.9479,46.9688 -46.9688,46.9688 -26.02083,0 -46.96873,-20.948 -46.96873,-46.9688 l 0,-74.7188 c 0,-26.0208 20.9479,-46.9687 46.96873,-46.9687 z"
+           id="rect6680"
+           inkscape:connector-curvature="0" />
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect5910"
+           width="200"
+           height="200"
+           x="900.72729"
+           y="-1275.9877" />
+        <g
+           id="g6717"
+           transform="translate(930.27417,35.454525)"
+           style="fill:#222222;fill-opacity:1">
+          <path
+             transform="translate(10.089489,4.3140589)"
+             d="m 81.454546,-1238.5454 c 0,11.6482 -9.442722,21.0909 -21.09091,21.0909 -11.648188,0 -21.09091,-9.4427 -21.09091,-21.0909 0,-11.6482 9.442722,-21.0909 21.09091,-21.0909 11.648188,0 21.09091,9.4427 21.09091,21.0909 z"
+             sodipodi:ry="21.09091"
+             sodipodi:rx="21.09091"
+             sodipodi:cy="-1238.5454"
+             sodipodi:cx="60.363636"
+             id="path6707"
+             style="fill:#222222;fill-opacity:1;stroke:none"
+             sodipodi:type="arc" />
+          <path
+             transform="matrix(1.1269149,0,0,2.9473368,-1.6694285,2301.4052)"
+             inkscape:transform-center-y="-14.626735"
+             d="m 81.191194,-1176.9837 -17.191194,0 -17.191194,0 8.595596,-14.888 8.595598,-14.888 8.595598,14.888 z"
+             inkscape:randomized="0"
+             inkscape:rounded="0"
+             inkscape:flatsided="false"
+             sodipodi:arg2="1.5707963"
+             sodipodi:arg1="0.52359878"
+             sodipodi:r2="9.9253416"
+             sodipodi:r1="19.850681"
+             sodipodi:cy="-1186.9091"
+             sodipodi:cx="64"
+             sodipodi:sides="3"
+             id="path6709"
+             style="fill:#222222;fill-opacity:1;stroke:none"
+             sodipodi:type="star" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="g6772"
+       inkscape:export-filename="E:\Repositories\squared_away\img\top_button_locked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="-725.72723"
+         x="823.81824"
+         height="89.999985"
+         width="251.99998"
+         id="rect8055-9-7"
+         style="fill:#eeeeee;fill-opacity:1;stroke:none" />
+      <rect
+         y="-720.72723"
+         x="828.81824"
+         height="80"
+         width="242"
+         id="rect8057-7-18-5-4"
+         style="fill:#222222;fill-opacity:1;stroke:none" />
+      <g
+         id="g6784-4"
+         transform="matrix(0.22221307,0,0,0.22221307,727.44355,-405.905)">
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           d="m 1000.7429,-1397.5143 c -39.03125,0 -70.46873,31.4375 -70.46873,70.4688 l 0,112.0938 c 0,39.0312 31.43748,70.4687 70.46873,70.4687 39.0313,0 70.4375,-31.4375 70.4375,-70.4687 l 0,-112.0938 c 0,-39.0313 -31.4062,-70.4688 -70.4375,-70.4688 z m 0,23.5313 c 26.0209,0 46.9688,20.9479 46.9688,46.9687 l 0,74.7188 c 0,26.0208 -20.9479,46.9688 -46.9688,46.9688 -26.02083,0 -46.96873,-20.948 -46.96873,-46.9688 l 0,-74.7188 c 0,-26.0208 20.9479,-46.9687 46.96873,-46.9687 z"
+           id="rect6680-8"
+           inkscape:connector-curvature="0" />
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect5910-8"
+           width="200"
+           height="200"
+           x="900.72729"
+           y="-1275.9877" />
+        <g
+           id="g6717-2"
+           transform="translate(930.27417,35.454525)"
+           style="fill:#222222;fill-opacity:1">
+          <path
+             transform="translate(10.089489,4.3140589)"
+             d="m 81.454546,-1238.5454 c 0,11.6482 -9.442722,21.0909 -21.09091,21.0909 -11.648188,0 -21.09091,-9.4427 -21.09091,-21.0909 0,-11.6482 9.442722,-21.0909 21.09091,-21.0909 11.648188,0 21.09091,9.4427 21.09091,21.0909 z"
+             sodipodi:ry="21.09091"
+             sodipodi:rx="21.09091"
+             sodipodi:cy="-1238.5454"
+             sodipodi:cx="60.363636"
+             id="path6707-4"
+             style="fill:#222222;fill-opacity:1;stroke:none"
+             sodipodi:type="arc" />
+          <path
+             transform="matrix(1.1269149,0,0,2.9473368,-1.6694285,2301.4052)"
+             inkscape:transform-center-y="-14.626735"
+             d="m 81.191194,-1176.9837 -17.191194,0 -17.191194,0 8.595596,-14.888 8.595598,-14.888 8.595598,14.888 z"
+             inkscape:randomized="0"
+             inkscape:rounded="0"
+             inkscape:flatsided="false"
+             sodipodi:arg2="1.5707963"
+             sodipodi:arg1="0.52359878"
+             sodipodi:r2="9.9253416"
+             sodipodi:r1="19.850681"
+             sodipodi:cy="-1186.9091"
+             sodipodi:cx="64"
+             sodipodi:sides="3"
+             id="path6709-5"
+             style="fill:#222222;fill-opacity:1;stroke:none"
+             sodipodi:type="star" />
+        </g>
+      </g>
     </g>
   </g>
 </svg>
