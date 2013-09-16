@@ -158,6 +158,10 @@
 			return _bombCount;
 		}
 
+		function _setBombCount(bombCount) {
+			_bombCount = bombCount;
+		}
+
 		function _getIsPrimed() {
 			return _isPrimed;
 		}
@@ -182,6 +186,7 @@
 		this.unPrimeBomb = _unPrimeBomb;
 		this.addBomb = _addBomb;
 		this.getBombCount = _getBombCount;
+		this.setBombCount = _setBombCount;
 		this.getIsPrimed = _getIsPrimed;
 		this.updateDimensions = _updateDimensions;
 

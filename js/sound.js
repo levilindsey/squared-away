@@ -24,6 +24,8 @@
 
 	var _sfxLoadedCount = 0;
 
+	var _singleLoopMusicId = false;
+
 	var _nextMusicIndex = -1;
 	var _currMusicIndex = -1;
 	var _prev1MusicIndex = -1;
@@ -347,6 +349,28 @@
 		log.w("---sound.: UNREGISTERED SOUNDS: "+msg);
 	}
 
+	function _playMusicOnSingleLoop(musicId) {
+		_singleLoopMusicId = musicId;
+
+		_killSound(_currentMusicInstance);
+		_killSound(_nextMusicInstance);
+
+		_nextMusicIndex = _getManifestIndex(_singleLoopMusicId, _musicManifest);
+		_prev2MusicIndex = _nextMusicIndex;
+		_prev1MusicIndex = _nextMusicIndex;
+		_currMusicIndex = _nextMusicIndex;
+
+		_nextMusicInstance = _getSoundInstance(_singleLoopMusicId);
+
+		_onSongEnd(true);
+	}
+
+	function _shuffleMusic() {
+		_singleLoopMusicId = null;
+
+		_startNewRandomMusic();
+	}
+
 	function _playSFX(soundId) {
 		if (!game.isMobile && game.sfxOn) {
 			createjs.Sound.play(soundId, createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.sfxVolume, 0);
@@ -376,21 +400,23 @@
 	}
 
 	function _startNewRandomMusic() {
-		// If this was actually called while the current song is still 
-		// playing, then it will be stopped
-		_killSound(_currentMusicInstance);
-		_killSound(_nextMusicInstance);
+		if (!_singleLoopMusicId) {
+			// If this was actually called while the current song is still 
+			// playing, then it will be stopped
+			_killSound(_currentMusicInstance);
+			_killSound(_nextMusicInstance);
 
-		_prev2MusicIndex = -1;
-		_prev1MusicIndex = -1;
-		_currMusicIndex = -1;
-		_nextMusicIndex = -1;
+			_prev2MusicIndex = -1;
+			_prev1MusicIndex = -1;
+			_currMusicIndex = -1;
+			_nextMusicIndex = -1;
 
-		var nextSong = _chooseRandomNextSong();
+			var nextSong = _chooseRandomNextSong();
 
-		_nextMusicInstance = _getSoundInstance(nextSong.id);
+			_nextMusicInstance = _getSoundInstance(nextSong.id);
 
-		_onSongEnd(true);
+			_onSongEnd(true);
+		}
 	}
 
 	function _killSound(soundInstance) {
@@ -440,11 +466,16 @@
 			_currentMusicInstance = _nextMusicInstance;
 			_nextMusicInstance = null;
 
-			var nextSong = _chooseRandomNextSong();
+			// Pick the next song to play
+			var nextSongId;
+			if (_singleLoopMusicId) {
+				nextSongId = _singleLoopMusicId;
+			} else {
+				nextSongId = _chooseRandomNextSong().id;
+			}
+			_nextMusicInstance = _getSoundInstance(nextSongId);
 
-			_nextMusicInstance = _getSoundInstance(nextSong.id);
-
-			// Play the next song
+			// Play the new song
 			_playCurrentMusic(playEvenIfNotSelected);
 
 			// Update the now playing label
@@ -567,6 +598,9 @@
 
 		getMusicManifest: _getMusicManifest,
 		getSelectedMusic: _getSelectedMusic,
+
+		playMusicOnSingleLoop: _playMusicOnSingleLoop, 
+		shuffleMusic: _shuffleMusic, 
 
 		sfxVolume: 0.45,
 		musicVolume: 0.05

@@ -277,6 +277,7 @@ NEXT:
 	- 2 or 4 players
 		- with 2, each player controls two opposite sides
 - how can I improve efficiency?
+- add a test for older (non-supported) browsers, and tell the user
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

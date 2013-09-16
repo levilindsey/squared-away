@@ -36,13 +36,13 @@
 	var _INITIAL_BLOCK_FALL_SPEED = 0.001; // in squares per millis
 	var _BLOCK_FALL_SPEED_GROWTH_RATE = 0.40; // linear // TODO: test/tweak this
 
-	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME = 1 / 50000; // in block per millis
+	var _INITIAL_PREVIEW_WINDOW_COOL_DOWN_SPEED = 1 / 50000; // in block per millis
 	var _PREVIEW_WINDOW_COOL_DOWN_SPEED_GROWTH_RATE = 0.15; // linear // TODO: test/tweak this
 
-	var _INITIAL_CENTER_SQUARE_COLOR_PERIOD = 1 / 9000; // color per millis
+	var _INITIAL_CENTER_SQUARE_COLOR_SPEED = 1 / 9000; // color per millis
 	var _CENTER_SQUARE_COLOR_CHANGE_SPEED_GROWTH_RATE = 0.15;
 
-	var _INITIAL_COLLAPSE_DELAY = 1 / 500; // collapse per millis
+	var _INITIAL_COLLAPSE_SPEED = 1 / 500; // collapse per millis
 	var _COLLAPSE_SPEED_GROWTH_RATE = 0.10;
 
 	var _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL = 3; // TODO: test/tweak this
@@ -52,7 +52,7 @@
 	var _SCORE_GROWTH_RATE_PER_SQUARE_COLLAPSED = 0.02; // TODO: test/tweak this
 	var _SCORE_GROWTH_RATE_PER_RECENT_LAYER = 0.50; // TODO: test/tweak this
 
-	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_DELAY + 200;
+	var _TIME_BETWEEN_RECENT_COLLAPSES_THRESHOLD = _INITIAL_COLLAPSE_SPEED + 200;
 
 	var _POINTS_FOR_COLLAPSE_BOMB = 4000; // TODO: test/tweak this
 	var _POINTS_FOR_SETTLE_BOMB = 4000; // TODO: test/tweak this
@@ -64,54 +64,56 @@
 	var _GAME_OVER_CIRCLE_STROKE_WIDTH = 4;
 
 	var _CHAPTER_PARAMETERS = [
-		// { // Quick play
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+		{ // Quick play
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: false,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: true,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: true,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 8,
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// music: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndex: ,
-			// initialBombCount: ,
-			// pointsToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 1
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: null,
+			blockFallSpeed: _INITIAL_BLOCK_FALL_SPEED, // in squares per millis
+			previewWindowSpeed: _INITIAL_PREVIEW_WINDOW_COOL_DOWN_SPEED, // in blocks per millis
+			levelColorIndexOffset: 0,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 2,
+			pointsToEndChapter: -1,
+			layersToEndChapter: -1
+		},
+		{ // Chapter 1
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: false,
+			changeFallDirectionCB: false,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: false,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 60,
+			centerSquareSize: 12,
+			numberOfSquaresInABlock: 3,
+			numberOfSidesBlocksFallFrom: 1,
+			startingLevel: 1,
 
-			// music: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndex: ,
-			// initialBombCount: ,
-			// pointsToEndChapter: ,
-			// layersToEndChapter: 
-		// },
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.002, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 1,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			pointsToEndChapter: -1,
+			layersToEndChapter: 2
+		}//,
 		// { // Chapter 2
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
@@ -128,10 +130,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -152,10 +155,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -176,10 +180,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -200,10 +205,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -224,10 +230,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -248,10 +255,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -272,10 +280,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -296,10 +305,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -320,10 +330,11 @@
 			// numberOfSidesBlocksFallFrom: ,
 			// startingLevel: ,
 
-			// music: ,
+			// musicId: ,
 			// blockFallSpeed: ,
 			// previewWindowSpeed: ,
-			// levelColorIndex: ,
+			// levelColorIndexOffset: ,
+			// layerCountForNextLevel: ,
 			// initialBombCount: ,
 			// pointsToEndChapter: ,
 			// layersToEndChapter: 
@@ -370,12 +381,12 @@
 	var _settleBombsUsedCount = 0;
 	var _blocksHandledCount = 0;
 
-	var _currentBlockFallSpeed = _INITIAL_BLOCK_FALL_SPEED; // squares per millis
-	var _currentCenterSquareColorPeriod = _INITIAL_CENTER_SQUARE_COLOR_PERIOD; // millis per color
+	var _currentBlockFallSpeed = -1; // squares per millis
+	var _currentCenterSquareColorPeriod = -1; // millis per color
 
-	var _currentPreviewWindowCoolDownTime = _INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME; // in millis
+	var _currentPreviewWindowCoolDownTime = -1; // in millis
 
-	var _layerCountForNextLevel = _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL;
+	var _layerCountForNextLevel = -1;
 	var _layersCollapsedSinceLastLevel = 0;
 
 	var _recentCollapsesCount = 0;
@@ -383,6 +394,15 @@
 
 	var _pointsForPrevCollapseBomb = -2000;
 	var _pointsForPrevSettleBomb = 0;
+
+	// ---------- From the chapter parameters
+	var _initialBlockFallSpeed = -1;
+	var _initialPreviewWindowSpeed = -1;
+	var _initialLevelColorIndexOffset = 0;
+	var _initialLayerCountForNextLevel = -1;
+	var _initialBombCount = -1;
+	var _pointsToEndChapter = -1;
+	var _layersToEndChapter = -1;
 
 	// The game loop drives the progression of frames and game logic
 	function _gameLoop() {
@@ -503,21 +523,21 @@
 
 		// Increase the block fall speed
 		_currentBlockFallSpeed = utils.getLinGrowthValue(
-				_INITIAL_BLOCK_FALL_SPEED, 
+				_initialBlockFallSpeed, 
 				_BLOCK_FALL_SPEED_GROWTH_RATE, 
 				_level);
 		Block.prototype.setFallSpeed(_currentBlockFallSpeed);
 
 		// Increase the rate of the center square color changes
 		_currentCenterSquareColorPeriod = 1 / utils.getLinGrowthValue(
-				_INITIAL_CENTER_SQUARE_COLOR_PERIOD, 
+				_INITIAL_CENTER_SQUARE_COLOR_SPEED, 
 				_CENTER_SQUARE_COLOR_CHANGE_SPEED_GROWTH_RATE, 
 				_level);
 		gameWindow.setCenterSquareColorPeriod(_currentCenterSquareColorPeriod);
 
 		// Decrease the preview window cooldown time
 		_currentPreviewWindowCoolDownTime = 1 / utils.getLinGrowthValue(
-				_INITIAL_PREVIEW_WINDOW_COOL_DOWN_TIME, 
+				_initialPreviewWindowSpeed, 
 				_PREVIEW_WINDOW_COOL_DOWN_SPEED_GROWTH_RATE, 
 				_level);
 		for (var i = 0; i < 4; ++i) {
@@ -526,7 +546,7 @@
 
 		// Decrease the layer collapse delay
 		var layerCollapseDelay = 1 / utils.getLinGrowthValue(
-				_INITIAL_COLLAPSE_DELAY, 
+				_INITIAL_COLLAPSE_SPEED, 
 				_COLLAPSE_SPEED_GROWTH_RATE, 
 				_level);
 		gameWindow.setLayerCollapseDelay(layerCollapseDelay);
@@ -534,12 +554,12 @@
 		// Get how many layers need to be collapsed to progress to the 
 		// next level
 		_layerCountForNextLevel = utils.getLinGrowthValue(
-				game.completingSquaresOn ? _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL : _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL * 4, 
+				game.completingSquaresOn ? _initialLayerCountForNextLevel : _initialLayerCountForNextLevel * 4, 
 				_LAYER_COUNT_FOR_NEXT_LEVEL_GROWTH_RATE, 
 				_level);
 		_layersCollapsedSinceLastLevel = 0;
 
-		var currentBackgroundColorIndex = (_level - 2) % game.DARK_COLORS.length;
+		var currentBackgroundColorIndex = (_initialLevelColorIndexOffset + _level - 2) % game.DARK_COLORS.length;
 		gameWindow.setCurrentBackgroundColorIndex(currentBackgroundColorIndex);
 
 		_levelDisplay.innerHTML = _level;
@@ -547,11 +567,39 @@
 
 	function _setChapterParameters(chapterIndex) {
 		if (chapterIndex >= 0) {
-			// **INDEX 0 IS QUICK PLAY!
-			// _CHAPTER_PARAMETERS[chapterIndex]
-			// _toggleMode(modeCBId, isOn, element)
-			// _changeGameParameter(gameParameterSelectId, number, element)
-			//****
+			var p = _CHAPTER_PARAMETERS[chapterIndex];
+
+			_toggleMode("completeSquaresCB", p.completeSquaresCB, null);
+			_toggleMode("blocksFallPastCenterCB", p.blocksFallPastCenterCB, null);
+			_toggleMode("changeFallDirectionCB", p.changeFallDirectionCB, null);
+			_toggleMode("changeQuadrantWithFallDirectionCB", p.changeQuadrantWithFallDirectionCB, null);
+			_toggleMode("settleWithCollapseCB", p.settleWithCollapseCB, null);
+			_toggleMode("settleInwardCB", p.settleInwardCB, null);
+			_toggleMode("bombsCB", p.bombsCB, null);
+			_toggleMode("fallOutwardCB", p.fallOutwardCB, null);
+
+			_changeGameParameter("gameWindowSize", p.gameWindowSize, null);
+			_changeGameParameter("centerSquareSize", p.centerSquareSize, null);
+			_changeGameParameter("numberOfSquaresInABlock", p.numberOfSquaresInABlock, null);
+			_changeGameParameter("numberOfSidesBlocksFallFrom", p.numberOfSidesBlocksFallFrom, null);
+			_changeGameParameter("startingLevel", p.startingLevel, null);
+
+			if (p.musicId) {
+				sound.playMusicOnSingleLoop(p.musicId);
+			} else {
+				sound.shuffleMusic();
+			}
+
+			_initialBlockFallSpeed = p.blockFallSpeed;
+			_initialPreviewWindowSpeed = p.previewWindowSpeed;
+			_initialLevelColorIndexOffset = p.levelColorIndexOffset;
+			_initialLayerCountForNextLevel = p.layerCountForNextLevel;
+			_initialBombCount = p.initialBombCount;
+			_pointsToEndChapter = p.pointsToEndChapter;
+			_layersToEndChapter = p.layersToEndChapter;
+
+			game.collapseBombWindow.setBombCount(_initialBombCount);
+			game.settleBombWindow.setBombCount(_initialBombCount);
 		}
 	}
 

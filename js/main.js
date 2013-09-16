@@ -954,6 +954,7 @@
 			_togglePeanutGalleryOn(isOn);
 			break;
 		default:
+			log.e("---main._toggleMode: modeCBId=" + modeCBId);
 			return;
 		}
 
@@ -1109,6 +1110,7 @@
 			break;
 		case "numberOfSquaresInABlock":
 			game.numberOfSquaresInABlock = number;
+			break;
 		case "numberOfSidesBlocksFallFrom":
 			game.numberOfSidesBlocksFallFrom = number;
 			break;
@@ -1117,6 +1119,7 @@
 			break;
 
 		default:
+			log.e("---main._changeGameParameter: gameParameterSelectId=" + gameParameterSelectId);
 			return;
 		}
 	}
