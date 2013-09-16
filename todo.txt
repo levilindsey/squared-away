@@ -62,6 +62,28 @@
 - look for startup oportunities around silicon valley
 --------------------------------------------
 NEXT:
+	- refactor the pause screen:
+		- remove that stupid single unpause button
+		- create a new div for the game over screen
+			- three buttons:
+				- Play Next Chapter (usually display none, unless level is successfully completed)
+				- Play Again
+				- Main Menu
+			- change "Game Over" to "Chapter Complete" when appropriate
+			- h2: Quick Play/Chapter #/Custom Play (will need to change it on game start)
+		- create a separate new div for the pause screen
+			- the pause screen div does NOT need the stats table
+			- three buttons:
+				- Unpause
+				- Restart (triggers a confirmation dialogue: "Are you sure?  This will delete your progress in the current game.")
+				- Main Menu (triggers a confirmation dialogue: "Are you sure?  This will delete your progress in the current game.")
+			- h2: Quick Play/Chapter #/Custom Play (will need to change it on game start)
+		- create a separate new div for the custom mode screen
+			- h1: Custom Play
+			- h2: Change the game parameters with the controls below
+			- two buttons:
+				- Play Game
+				- Main Menu
 	- advertise via email to Alden, Justin, Ben, and Chris
 	- add story mode:
 		- should display a progress bar showing how far the player is in completing the current chapter
@@ -189,8 +211,6 @@ NEXT:
 - Spring framework
 - small jsfiddle projects
 
-
-
 // ------------------------------------------------------------------------- //
 // ---------- EVENTUALLY
 // ------------------------------------------------------------------------- //
@@ -278,6 +298,7 @@ NEXT:
 		- with 2, each player controls two opposite sides
 - how can I improve efficiency?
 - add a test for older (non-supported) browsers, and tell the user
+- make the github/android icons be links
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

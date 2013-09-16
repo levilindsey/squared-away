@@ -44,56 +44,29 @@
 	];
 
 	var _buttonManifest = {
-		quickPlayButton: {
-			normal: "img/quick_play.png", hover: "img/quick_play_hover.png"
-		},
-		customPlayButton: {
-			normal: "img/custom_play.png", hover: "img/custom_play_hover.png"
-		},
-		nextChapterButton: {
-			normal: "img/next_chapter.png", hover: "img/next_chapter_hover.png"
-		},
-		prevChapterButton: {
-			normal: "img/prev_chapter.png", hover: "img/prev_chapter_hover.png"
-		},
-		helpButton: {
-			normal: "img/help.png", hover: "img/help_hover.png"
-		},
-		chapter1: {
-			normal: "img/chapter_1.png", hover: "img/chapter_1_hover.png"
-		},
-		chapter2: {
-			normal: "img/chapter_2.png", hover: "img/chapter_2_hover.png"
-		},
-		chapter3: {
-			normal: "img/chapter_3.png", hover: "img/chapter_3_hover.png"
-		},
-		chapter4: {
-			normal: "img/chapter_4.png", hover: "img/chapter_4_hover.png"
-		},
-		chapter5: {
-			normal: "img/chapter_5.png", hover: "img/chapter_5_hover.png"
-		},
-		chapter6: {
-			normal: "img/chapter_6.png", hover: "img/chapter_6_hover.png"
-		},
-		chapter7: {
-			normal: "img/chapter_7.png", hover: "img/chapter_7_hover.png"
-		},
-		chapter8: {
-			normal: "img/chapter_8.png", hover: "img/chapter_8_hover.png"
-		},
-		chapter9: {
-			normal: "img/chapter_9.png", hover: "img/chapter_9_hover.png"
-		},
-		chapter10: {
-			normal: "img/chapter_10.png", hover: "img/chapter_10_hover.png"
-		},
-		unpauseButton: {
-			playGameNormal: "img/play_game.png", playGameHover: "img/play_game_hover.png",
-			unpauseNormal: "img/unpause.png", unpauseHover: "img/unpause_hover.png",
-			playAgainNormal: "img/play_again.png", playAgainHover: "img/play_again_hover.png"
-		},
+		quickPlayButton: { normal: "img/quick_play.png", hover: "img/quick_play_hover.png" },
+		customPlayButton: { normal: "img/custom_play.png", hover: "img/custom_play_hover.png" },
+		prevButton: { normal: "img/prev.png", hover: "img/prev_hover.png" },
+		nextButton: { normal: "img/next.png", hover: "img/next_hover.png" },
+		helpButton: { normal: "img/help.png", hover: "img/help_hover.png" },
+		chapter1: { normal: "img/chapter_1.png", hover: "img/chapter_1_hover.png" },
+		chapter2: { normal: "img/chapter_2.png", hover: "img/chapter_2_hover.png" },
+		chapter3: { normal: "img/chapter_3.png", hover: "img/chapter_3_hover.png" },
+		chapter4: { normal: "img/chapter_4.png", hover: "img/chapter_4_hover.png" },
+		chapter5: { normal: "img/chapter_5.png", hover: "img/chapter_5_hover.png" },
+		chapter6: { normal: "img/chapter_6.png", hover: "img/chapter_6_hover.png" },
+		chapter7: { normal: "img/chapter_7.png", hover: "img/chapter_7_hover.png" },
+		chapter8: { normal: "img/chapter_8.png", hover: "img/chapter_8_hover.png" },
+		chapter9: { normal: "img/chapter_9.png", hover: "img/chapter_9_hover.png" },
+		chapter10: { normal: "img/chapter_10.png", hover: "img/chapter_10_hover.png" },
+		playGameButton: { normal: "img/play_game.png", hover: "img/play_game_hover.png" },
+		customPlayMainMenuButton: { normal: "img/main_menu.png", hover: "img/main_menu_hover.png" },
+		unpauseButton: { normal: "img/unpause.png", hover: "img/unpause_hover.png" },
+		restartButton: { normal: "img/restart.png", hover: "img/restart_hover.png" },
+		pauseMainMenuButton: { normal: "img/main_menu.png", hover: "img/main_menu_hover.png" },
+		nextChapterButton: { normal: "img/next_chapter.png", hover: "img/next_chapter_hover.png" },
+		playAgainButton: { normal: "img/play_again.png", hover: "img/play_again_hover.png" },
+		gameOverMainMenuButton: { normal: "img/main_menu.png", hover: "img/main_menu_hover.png" },
 		musicButton: {
 			on: "img/music_on.png", onHover: "img/music_on_hover.png",
 			off: "img/music_off.png", offHover: "img/music_off_hover.png"
@@ -156,8 +129,8 @@
 		var scoreDisplay = document.getElementById("topScoreDisplayData");
 		var unpauseButton = document.getElementById("unpauseButton");
 		var quickPlayButton = document.getElementById("quickPlayButton");
-		var nextChapterButton = document.getElementById("nextChapterButton");
-		var prevChapterButton = document.getElementById("prevChapterButton");
+		var nextButton = document.getElementById("nextButton");
+		var prevButton = document.getElementById("prevButton");
 		var helpButton = document.getElementById("helpButton");
 		var musicButton = document.getElementById("musicButton");
 		var sfxButton = document.getElementById("sfxButton");
@@ -196,18 +169,7 @@
 			gameParameterSelects[i].addEventListener("change", _onGameParameterSelectionChange, false);
 		}
 
-		unpauseButton.addEventListener("click", _onUnpauseClick, false);
-		unpauseButton.addEventListener("mouseover", _onUnpauseOver, false);
-		unpauseButton.addEventListener("mouseout", _onUnpauseOut, false);
-		quickPlayButton.addEventListener("click", _onQuickPlayClick, false);
-		quickPlayButton.addEventListener("mouseover", _onButtonOver, false);
-		quickPlayButton.addEventListener("mouseout", _onButtonOut, false);
-		nextChapterButton.addEventListener("click", _onNextChapterClick, false);
-		nextChapterButton.addEventListener("mouseover", _onButtonOver, false);
-		nextChapterButton.addEventListener("mouseout", _onButtonOut, false);
-		prevChapterButton.addEventListener("click", _onPrevChapterClick, false);
-		prevChapterButton.addEventListener("mouseover", _onButtonOver, false);
-		prevChapterButton.addEventListener("mouseout", _onButtonOut, false);
+		// Game area screen buttons
 		helpButton.addEventListener("click", _pauseGame, false);
 		helpButton.addEventListener("mouseover", _onButtonOver, false);
 		helpButton.addEventListener("mouseout", _onButtonOut, false);
@@ -217,6 +179,50 @@
 		sfxButton.addEventListener("click", _onAudioClick, false);
 		sfxButton.addEventListener("mousemove", _onAudioMove, false);
 		sfxButton.addEventListener("mouseout", _onAudioOut, false);
+
+		// Main menu screen buttons
+		quickPlayButton.addEventListener("click", _onQuickPlayClick, false);
+		quickPlayButton.addEventListener("mouseover", _onButtonOver, false);
+		quickPlayButton.addEventListener("mouseout", _onButtonOut, false);
+		customPlayButton.addEventListener("click", _onCustomPlayClick, false);
+		customPlayButton.addEventListener("mouseover", _onButtonOver, false);
+		customPlayButton.addEventListener("mouseout", _onButtonOut, false);
+		nextButton.addEventListener("click", _onNextClick, false);
+		nextButton.addEventListener("mouseover", _onButtonOver, false);
+		nextButton.addEventListener("mouseout", _onButtonOut, false);
+		prevButton.addEventListener("click", _onPrevClick, false);
+		prevButton.addEventListener("mouseover", _onButtonOver, false);
+		prevButton.addEventListener("mouseout", _onButtonOut, false);
+
+		// Game over screen buttons
+		nextChapterButton.addEventListener("click", _onNextChapterClick, false);
+		nextChapterButton.addEventListener("mouseover", _onButtonOver, false);
+		nextChapterButton.addEventListener("mouseout", _onButtonOut, false);
+		playAgainButton.addEventListener("click", _onPlayAgainClick, false);
+		playAgainButton.addEventListener("mouseover", _onButtonOver, false);
+		playAgainButton.addEventListener("mouseout", _onButtonOut, false);
+		gameOverMainMenuButton.addEventListener("click", _onMainMenuButtonClick, false);
+		gameOverMainMenuButton.addEventListener("mouseover", _onButtonOver, false);
+		gameOverMainMenuButton.addEventListener("mouseout", _onButtonOut, false);
+
+		// Pause screen buttons
+		unpauseButton.addEventListener("click", _onUnpauseClick, false);
+		unpauseButton.addEventListener("mouseover", _onButtonOver, false);
+		unpauseButton.addEventListener("mouseout", _onButtonOut, false);
+		restartButton.addEventListener("click", _onRestartClick, false);
+		restartButton.addEventListener("mouseover", _onButtonOver, false);
+		restartButton.addEventListener("mouseout", _onButtonOut, false);
+		pauseMainMenuButton.addEventListener("click", _onMainMenuButtonClick, false);
+		pauseMainMenuButton.addEventListener("mouseover", _onButtonOver, false);
+		pauseMainMenuButton.addEventListener("mouseout", _onButtonOut, false);
+
+		// Custom play screen buttons
+		playGameButton.addEventListener("click", _onCustomPlayPlayGameClick, false);
+		playGameButton.addEventListener("mouseover", _onButtonOver, false);
+		playGameButton.addEventListener("mouseout", _onButtonOut, false);
+		customPlayMainMenuButton.addEventListener("click", _onMainMenuButtonClick, false);
+		customPlayMainMenuButton.addEventListener("mouseover", _onButtonOver, false);
+		customPlayMainMenuButton.addEventListener("mouseout", _onButtonOut, false);
 
 		_setHighestCompletedChapter(0);
 
@@ -246,16 +252,14 @@
 		log.d("-->main._playGame");
 
 		// Set up the pause screen content
+		var mainMenuScreen = document.getElementById("mainMenuScreen");
+		mainMenuScreen.style.display = "none";
+		var gameOverScreen = document.getElementById("gameOverScreen");
+		gameOverScreen.style.display = "none";
 		var pauseScreen = document.getElementById("pauseScreen");
 		pauseScreen.style.display = "none";
-		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
-		pauseScreenTitle.style.display = "block";
-		pauseScreenTitle.innerHTML = "Game Paused";
-		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.style.marginTop = "0px";
-		unpauseButton.src = _buttonManifest["unpauseButton"].unpauseNormal;
-		var statsTable = document.getElementById("statsTable");
-		statsTable.style.display = "block";
+		var customPlayScreen = document.getElementById("customPlayScreen");
+		customPlayScreen.style.display = "none";
 		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
 		topLevelDisplayArea.style.display = "block";
 		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
@@ -313,12 +317,8 @@
 		log.d("-->main._onGameEnd");
 
 		// Set up the game over screen content
-		var pauseScreen = document.getElementById("pauseScreen");
-		pauseScreen.style.display = "block";
-		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
-		pauseScreenTitle.innerHTML = "Game Over";
-		var unpauseButton = document.getElementById("unpauseButton");
-		unpauseButton.src = _buttonManifest["unpauseButton"].playAgainNormal;
+		var gameOverScreen = document.getElementById("gameOverScreen");
+		gameOverScreen.style.display = "block";
 
 		_populateStatsTable();
 
@@ -609,7 +609,31 @@
 
 	function _onCustomPlayClick() {
 		_showCustomControls();
-		//****// TODO: show the custom play screen
+		****// TODO: show the custom play screen
+	}
+
+	function _onNextChapterClick() {
+		****
+	}
+
+	function _onPlayAgainClick() {
+		****
+	}
+
+	function _onRestartClick() {
+		****// TODO: trigger a confirmation dialogue
+		****
+	}
+
+	function _onCustomPlayPlayGameClick() {
+		****
+	}
+
+	function _onMainMenuButtonClick() {
+		if (this.id === "pauseMainMenuButton") {
+			****// TODO: trigger a confirmation dialogue
+		}
+		****
 	}
 
 	function _showCustomControls() {
@@ -620,7 +644,7 @@
 		}
 	}
 
-	function _onNextChapterClick() {
+	function _onNextClick() {
 		if (_selectedChapterIndex < _NUMBER_OF_CHAPTERS) {
 			++_selectedChapterIndex;
 
@@ -628,19 +652,19 @@
 		}
 
 		if (_selectedChapterIndex === _NUMBER_OF_CHAPTERS) {
-			var nextChapterButton = document.getElementById("nextChapterButton");
-			nextChapterButton.style.display = "none";
+			var nextButton = document.getElementById("nextButton");
+			nextButton.style.display = "none";
 		}
 
 		if (_selectedChapterIndex === 2) {
-			var prevChapterButton = document.getElementById("prevChapterButton");
-			prevChapterButton.style.display = "block";
+			var prevButton = document.getElementById("prevButton");
+			prevButton.style.display = "block";
 		}
 
 		_updateChapterProgressIndicator();
 	}
 
-	function _onPrevChapterClick() {
+	function _onPrevClick() {
 		if (_selectedChapterIndex > 1) {
 			--_selectedChapterIndex;
 
@@ -648,13 +672,13 @@
 		}
 
 		if (_selectedChapterIndex === 1) {
-			var prevChapterButton = document.getElementById("prevChapterButton");
-			prevChapterButton.style.display = "none";
+			var prevButton = document.getElementById("prevButton");
+			prevButton.style.display = "none";
 		}
 
 		if (_selectedChapterIndex === _NUMBER_OF_CHAPTERS - 1) {
-			var nextChapterButton = document.getElementById("nextChapterButton");
-			nextChapterButton.style.display = "block";
+			var nextButton = document.getElementById("nextButton");
+			nextButton.style.display = "block";
 		}
 
 		_updateChapterProgressIndicator();
@@ -688,28 +712,6 @@
 
 	function _onButtonOut(event) {
 		document.getElementById(this.id).src = _buttonManifest[this.id].normal;
-	}
-
-	function _onUnpauseOver(event) {
-		var unpauseButton = document.getElementById("unpauseButton");
-		if (!game.hasAGameStarted) {
-			unpauseButton.src = _buttonManifest["unpauseButton"].playGameHover;
-		} else if (!game.isEnded) {
-			unpauseButton.src = _buttonManifest["unpauseButton"].unpauseHover;
-		} else {
-			unpauseButton.src = _buttonManifest["unpauseButton"].playAgainHover;
-		}
-	}
-
-	function _onUnpauseOut(event) {
-		var unpauseButton = document.getElementById("unpauseButton");
-		if (!game.hasAGameStarted) {
-			unpauseButton.src = _buttonManifest["unpauseButton"].playGameNormal;
-		} else if (!game.isEnded) {
-			unpauseButton.src = _buttonManifest["unpauseButton"].unpauseNormal;
-		} else {
-			unpauseButton.src = _buttonManifest["unpauseButton"].playAgainNormal;
-		}
 	}
 
 	// This function is needed, because the music and SFX toggle buttons are 
@@ -813,11 +815,18 @@
 		playArea.style.width = size + "px";
 		playArea.style.height = size + "px";
 
+		// TODO: refactor the screen layout to all use percentages and get rid of these following functions
+		_adjustScreenHeaders(size);
 		_adjustMainMenuScreen(size);
 		_adjustPauseScreen(size);
 		_adjustGameOverScreen(size);
+		_adjustCustomPlayScreen(size);
 
 		window.scrollTo(0, verticalScroll);
+	}
+
+	function _adjustScreenHeaders(size) {
+		**** // TODO: adjust all h3 and h4 font-sizes
 	}
 
 	function _adjustGameAreaElements(size) {
@@ -845,8 +854,8 @@
 	function _adjustMainMenuScreen(size) {
 		var quickPlayButton = document.getElementById("quickPlayButton");
 		var customPlayButton = document.getElementById("customPlayButton");
-		var prevChapterButton = document.getElementById("prevChapterButton");
-		var nextChapterButton = document.getElementById("nextChapterButton");
+		var prevButton = document.getElementById("prevButton");
+		var nextButton = document.getElementById("nextButton");
 		var chapterList = document.getElementById("chapterList");
 		var chapterProgressIndicator = document.getElementById("chapterProgressIndicator");
 
@@ -879,10 +888,10 @@
 		h = sideButtonHeight;
 		x = 10;
 		y = y + (_chapterItemWidth - sideButtonHeight) / 2;
-		utils.setRect(prevChapterButton, x, y, w, h);
+		utils.setRect(prevButton, x, y, w, h);
 
 		x = size - 10 - w;
-		utils.setRect(nextChapterButton, x, y, w, h);
+		utils.setRect(nextButton, x, y, w, h);
 
 		w = progressIndicatorWidth;
 		h = progressIndicatorWidth / 4;
@@ -895,20 +904,86 @@
 	function _adjustPauseScreen(size) {
 		var pauseScreen = document.getElementById("pauseScreen");
 		var unpauseButton = document.getElementById("unpauseButton");
-		var pauseScreenTitle = document.getElementById("pauseScreenTitle");
+		var restartButton = document.getElementById("restartButton");
+		var pauseMainMenuButton = document.getElementById("pauseMainMenuButton");
 
 		var pauseScreenRect = utils.standardizeClientRect(pauseScreen);
 		var unpauseButtonRect = utils.standardizeClientRect(unpauseButton);
-		var pauseScreenTitleRect = utils.standardizeClientRect(pauseScreenTitle);
 
-		var y;
+		var y, w;
 
 		y = pauseScreenRect.height / 2 - unpauseButtonRect.height - pauseScreenTitleRect.height - pauseScreenTitle.style.marginBottom;
 		pauseScreenTitle.style.marginTop = y + "px";
+
+		w = ;
+		unpauseButton.style.width = w + "px";
+		restartButton.style.width = w + "px";
+		pauseMainMenuButton.style.width = w + "px";
+		****
+	}
+
+			// <div id="gameOverScreen">
+				// <h3>Game Over</h3>
+				// <h4 class="currentChapterSubTitle"></h4>
+				// <img id="nextChapterButton" class="button" src="img/next_chapter.png" alt="Next chapter button">
+				// <img id="playAgainButton" class="button" src="img/play_again.png" alt="Play again button">
+				// <img id="gameOverMainMenuButton" class="button" src="img/main_menu.png" alt="Main menu button">
+				// <table id="statsTable">
+					// <tr>
+						// <td>Score:</td>
+						// <td id="scoreData"></td>
+					// </tr>
+					// <tr>
+						// <td>Level:</td>
+						// <td id="levelData"></td>
+					// </tr>
+					// <tr>
+						// <td>Time:</td>
+						// <td id="timeData"></td>
+					// </tr>
+					// <tr>
+						// <td>Layers destroyed:</td>
+						// <td id="layersCollapsedData"></td>
+					// </tr>
+					// <tr>
+						// <td>Squares destroyed:</td>
+						// <td id="squaresCollapsedData"></td>
+					// </tr>
+					// <tr>
+						// <td>Blocks used:</td>
+						// <td id="blocksHandledData"></td>
+					// </tr>
+					// <tr>
+						// <td>Collapse bombs used:</td>
+						// <td id="collapseBombsUsedData"></td>
+					// </tr>
+					// <tr>
+						// <td>Settle bombs used:</td>
+						// <td id="settleBombsUsedData"></td>
+					// </tr>
+				// </table>
+			// </div>
+
+			// <div id="pauseScreen">
+				// <h3>Game Paused</h3>
+				// <h4 class="currentChapterSubTitle"></h4>
+				// <img id="unpauseButton" class="button" src="img/unpause.png" alt="Unpause game button">
+				// <img id="restartButton" class="confirmationButton button" src="img/restart.png" alt="Restart game button">
+				// <img id="pauseMainMenuButton" class="confirmationButton button" src="img/main_menu.png" alt="Main menu button">
+			// </div>
+
+			// <div id="customPlayScreen">
+				// <h3>Custom Play</h3>
+				// <h4>Change the game parameters with the controls below</h4>
+				// <img id="playGameButton" class="button" src="img/play_game.png" alt="Play game button">
+				// <img id="customPlayMainMenuButton" class="button" src="img/main_menu.png" alt="Main menu button">
+			// </div>
+
+	function _adjustGameOverScreen(size) {
 		//****
 	}
 
-	function _adjustGameOverScreen(size) {
+	function _adjustCustomPlayScreen(size) {
 		//****
 	}
 

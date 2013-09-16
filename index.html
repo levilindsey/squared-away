@@ -38,9 +38,39 @@
 				Score: <span id="topScoreDisplayData">0</span>
 			</div>
 
-			<div id="pauseScreen">
-				<h3 id="pauseScreenTitle">Game Paused</h3>
-				<img id="unpauseButton" class="button" src="img/play_game.png" alt="Start game button">
+			<img id="helpButton" class="canvasButton button" src="img/help.png" alt="help">
+			<img id="musicButton" class="canvasButton button" src="img/music_on.png" alt="toggle music">
+			<img id="sfxButton" class="canvasButton button" src="img/sfx_on.png" alt="toggle sfx">
+
+			<div id="mainMenuScreen" class="screen">
+				<img id="quickPlayButton" class="button" src="img/quick_play.png" alt="Quick play button">
+				<img id="customPlayButton" src="img/top_button_locked.png" alt="Custom play button">
+
+				<img id="prevButton" class="button" src="img/prev.png" alt="Previous chapter button">
+				<img id="nextButton" class="button" src="img/next.png" alt="Next chapter button">
+
+				<div id="chapterList">
+					<img id="chapter1" class="chapterItem" src="img/chapter_1.png" alt="Chapter 1">
+					<img id="chapter2" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 2">
+					<img id="chapter3" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 3">
+					<img id="chapter4" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 4">
+					<img id="chapter5" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 5">
+					<img id="chapter6" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 6">
+					<img id="chapter7" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 7">
+					<img id="chapter8" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 8">
+					<img id="chapter9" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 9">
+					<img id="chapter10" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 10">
+				</div>
+
+				<div id="chapterProgressIndicator">1/10</div>
+			</div>
+
+			<div id="gameOverScreen" class="screen">
+				<h3>Game Over</h3>
+				<h4 class="currentChapterSubTitle"></h4>****// TODO: set this innerHTML from somewhere (the same place as below)
+				<img id="nextChapterButton" class="button" src="img/next_chapter.png" alt="Next chapter button">
+				<img id="playAgainButton" class="button" src="img/play_again.png" alt="Play again button">
+				<img id="gameOverMainMenuButton" class="button" src="img/main_menu.png" alt="Main menu button">
 				<table id="statsTable">
 					<tr>
 						<td>Score:</td>
@@ -77,32 +107,20 @@
 				</table>
 			</div>
 
-			<div id="mainMenuScreen">
-				<img id="quickPlayButton" class="button" src="img/quick_play.png" alt="Quick play button">
-				<img id="customPlayButton" src="img/top_button_locked.png" alt="Custom play button">
-
-				<img id="prevChapterButton" class="button" src="img/prev_chapter.png" alt="Previous chapter button">
-				<img id="nextChapterButton" class="button" src="img/next_chapter.png" alt="Next chapter button">
-
-				<div id="chapterList">
-					<img id="chapter1" class="chapterItem" src="img/chapter_1.png" alt="Chapter 1">
-					<img id="chapter2" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 2">
-					<img id="chapter3" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 3">
-					<img id="chapter4" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 4">
-					<img id="chapter5" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 5">
-					<img id="chapter6" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 6">
-					<img id="chapter7" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 7">
-					<img id="chapter8" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 8">
-					<img id="chapter9" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 9">
-					<img id="chapter10" class="chapterItem" src="img/chapter_locked.png" alt="Chapter 10">
-				</div>
-
-				<div id="chapterProgressIndicator">1/10</div>
+			<div id="pauseScreen" class="screen">
+				<h3>Game Paused</h3>
+				<h4 class="currentChapterSubTitle"></h4>****// TODO: set this innerHTML from somewhere (the same place as above)
+				<img id="unpauseButton" class="button" src="img/unpause.png" alt="Unpause game button">
+				<img id="restartButton" class="confirmationButton button" src="img/restart.png" alt="Restart game button">
+				<img id="pauseMainMenuButton" class="confirmationButton button" src="img/main_menu.png" alt="Main menu button">
 			</div>
 
-			<img id="helpButton" class="canvasButton button" src="img/help.png" alt="help">
-			<img id="musicButton" class="canvasButton button" src="img/music_on.png" alt="toggle music">
-			<img id="sfxButton" class="canvasButton button" src="img/sfx_on.png" alt="toggle sfx">
+			<div id="customPlayScreen" class="screen">
+				<h3>Custom Play</h3>
+				<h4>Change the game parameters with the controls below</h4>
+				<img id="playGameButton" class="button" src="img/play_game.png" alt="Play game button">
+				<img id="customPlayMainMenuButton" class="button" src="img/main_menu.png" alt="Main menu button">
+			</div>
 		</div>
 
 		<div id="infoArea">

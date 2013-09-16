@@ -45,6 +45,7 @@ h1, h2, h3 {
 	font-weight: bold;
 	margin-bottom: 15px;
 	text-align: center;
+	width: 100%;
 }
 
 h1 {
@@ -59,19 +60,18 @@ h2 {
 
 h3 {
 	color: #DADAFA;
-	font-size: 16pt;
+	font-size: 60px;
+}
+
+h4 {
+	color: #FADADA;
+	font-size: 25px;
 }
 
 /* ---------- Chapter select screen ---------- */
 
-#mainMenuScreen {
-	position: absolute;
-	background-color: rgba(2,2,2,0.65);
-	left: 0px;
-	top: 0px;
-	height: 100%;
-	width: 100%;
-	z-index: 3;
+div#mainMenuScreen {
+	display: block;
 }
 
 #mainMenuScreen>* {
@@ -84,30 +84,24 @@ h3 {
 #quickPlayButton {
 	left: 10px;
 	top: 10px;
-	width: 252px;
-	height: 90px;
 }
 
 #customPlayButton {
 	left: 458px;
 	top: 10px;
-	width: 252px;
-	height: 90px;
 }
 
-#prevChapterButton {
+#prevButton {
 	display: none;
 	left: 10px;
 	top: 315px;
 	width: 69px;
-	height: 90px;
 }
 
-#nextChapterButton {
+#nextButton {
 	left: 641px;
 	top: 330px;
 	width: 69px;
-	height: 90px;
 }
 
 #chapterProgressIndicator {
@@ -128,7 +122,7 @@ h3 {
 	overflow: hidden;
 }
 
-.chapterItem {
+img.chapterItem {
 	position: absolute;
 	left: 500px;
 	top: 0px;
@@ -147,40 +141,30 @@ h3 {
 
 /* ---------- Pause screen ---------- */
 
-#pauseScreen {
-	position: absolute;
-	display: none;
-	left: 0px;
-	top: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(2,2,2,0.65);
-	z-index: 3;
+#pauseScreen>* {
+	margin: 15px auto;
 }
 
-#pauseScreenTitle {
-	display: none;
-	margin: 180px auto 10px auto;
-	width: 300px;
+/* ---------- Game over screen ---------- */
+
+#gameOverScreen>* {
+	margin: 15px auto;
 }
 
 #statsTable {
-	display: none;
-	margin: 10px auto;
 	width: 300px;
 }
 
 #statsTable>td {
 	width: 150px;
+	font-size: 25px;
 	text-align: left;
 }
 
-#unpauseButton {
-	display: block;
-	width: 252px;
-	height: 90px;
-	font-size: 18pt;
-	margin: 315px auto 0px auto;
+/* ---------- Custom play screen ---------- */
+
+#customPlayScreen>* {
+	margin: 15px auto;
 }
 
 /* ---------- Game area ---------- */
@@ -233,6 +217,23 @@ h3 {
 }
 
 /* ---------- Miscellaneous ---------- */
+
+.screen {
+	position: absolute;
+	display: none;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(2,2,2,0.65);
+	z-index: 3;
+}
+
+.button {
+	display: block;
+	width: 252px;
+	height: 90px;
+}
 
 .button:hover {
 	cursor: pointer;
