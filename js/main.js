@@ -644,9 +644,6 @@
 			var result = confirm(_ABANDON_CONFIRMATION_MSG);
 			if (!result) {
 				return;
-			} else {
-				game.isEnded = true;
-				_clearGameArea();
 			}
 		} else if (_selectedChapterIndex < 1) {
 			_selectedChapterIndex = _highestCompletedChapter + 1;
@@ -654,6 +651,10 @@
 				_selectedChapterIndex = 1;
 			}
 		}
+
+		// Stop showing anything in the game area
+		game.isEnded = true;
+		_clearGameArea();
 
 		_showScreen("mainMenuScreen");
 	}
@@ -807,10 +808,10 @@
 		playArea.style.width = screenSize + "px";
 		playArea.style.height = screenSize + "px";
 
-		var h3Height = screenSize * 0.1;
-		var h4Height = h3Height * 0.5;
-		var screenElemMarginBottom = h4Height * 0.6;
-		var screenButtonWidth = screenSize * 0.35;
+		var h3Height = screenSize * 0.06;
+		var h4Height = screenSize * 0.03;
+		var screenElemMarginBottom = screenSize * 0.01;
+		var screenButtonWidth = screenSize * 0.22;
 		var screenButtonHeight = screenButtonWidth * 90 / 252;
 		var headerAreaHeight = h3Height + h4Height + screenElemMarginBottom * 2;
 
@@ -831,18 +832,25 @@
 		var h4s = document.getElementsByTagName("h4");
 		var i;
 
+		var h3FontSize = h3Height;
+		var h4FontSize = h4Height;
+
 		h3Height += "px";
 		h4Height += "px";
+		h3FontSize += "px";
+		h4FontSize += "px";
 		screenElemMarginBottom += "px";
 
 		for (i = 0; i < h3s.length; ++i) {
 			h3s[i].style.height = h3Height;
 			h3s[i].style.marginBottom = screenElemMarginBottom;
+			h3s[i].style.fontSize = h3FontSize;
 		}
 
 		for (i = 0; i < h4s.length; ++i) {
 			h4s[i].style.height = h4Height;
 			h4s[i].style.marginBottom = screenElemMarginBottom;
+			h4s[i].style.fontSize = h4FontSize;
 		}
 	}
 
@@ -946,9 +954,9 @@
 		var gameOverMainMenuButton = document.getElementById("gameOverMainMenuButton");
 		var statsTable = document.getElementById("statsTable");
 
-		var tableWidth = screenButtonWidth * 2;
-		var tableFontSize = screenButtonHeight / 3;
-		var tableRowHeight = tableFontSize * 1.5;
+		var tableWidth = screenButtonWidth * 1.7;
+		var tableFontSize = screenButtonHeight / 4;
+		var tableRowHeight = tableFontSize * 1.05;
 		var overallHeight = headerAreaHeight + screenButtonHeight * 3 + screenElemMarginBottom * 2 + tableRowHeight * 8;
 		var headerTop = (screenSize - overallHeight) / 2;
 

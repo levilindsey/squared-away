@@ -372,7 +372,7 @@
 
 	var _prevTime = 0;
 
-	var _clearCanvas = false;
+	var _keepCanvasClear = false;
 
 	var _score = 0;
 	var _level = 1;
@@ -462,7 +462,7 @@
 	}
 
 	function _draw() {
-		if (!_clearCanvas) {
+		if (!_keepCanvasClear) {
 			// Clear the canvas
 			_context.clearRect(0, 0, _canvas.width, _canvas.height);
 
@@ -621,7 +621,7 @@
 	}
 
 	function _play() {
-		_clearCanvas = false;
+		_keepCanvasClear = false;
 
 		// Reset game state if a game is not currently in progress
 		if (game.isEnded) {
@@ -900,7 +900,7 @@
 	}
 
 	function _clearCanvas() {
-		_clearCanvas = true;
+		_keepCanvasClear = true;
 		_context.clearRect(0, 0, _canvas.width, _canvas.height);
 	}
 
