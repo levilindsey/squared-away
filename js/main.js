@@ -300,10 +300,12 @@
 			sound.playSfx("pause");
 			sound.pauseMusic();
 
-			// If this was the effect of a help-button press, then scroll to the 
-			// help area
+			// If this was the effect of a help-button press, then scroll to 
+			// the help area.  But, in quick play and custom play, there is no 
+			// guiding info on the pause screen, so show the user the 
+			// directions table
 			var helpButton = document.getElementById("helpButton");
-			if (this === helpButton) {
+			if (this === helpButton && _selectedChapterIndex <= 0) {
 				var infoAreaRect = utils.standardizeClientRect(infoArea);
 				window.scrollTo(0, infoAreaRect.top);
 			}
@@ -652,7 +654,9 @@
 			if (!result) {
 				return;
 			}
-		} else if (_selectedChapterIndex < 1) {
+		}
+
+		if (_selectedChapterIndex < 1) {
 			_selectedChapterIndex = _highestCompletedChapter + 1;
 			if (_selectedChapterIndex > _NUMBER_OF_CHAPTERS) {
 				_selectedChapterIndex = 1;
@@ -829,11 +833,7 @@
 		_adjustGameOverScreen(screenSize, headerAreaHeight, screenButtonWidth, screenButtonHeight, screenElemMarginBottom);
 		_adjustCustomPlayScreen(screenSize, headerAreaHeight, screenButtonWidth, screenButtonHeight, screenElemMarginBottom);
 
-		// In quick play and custom play, there is no guiding info on the 
-		// pause screen, so show the user the directions table
-		if (_selectedChapterIndex <= 0) {
-			window.scrollTo(0, verticalScroll);
-		}
+		window.scrollTo(0, verticalScroll);
 
 		return screenSize;
 	}
