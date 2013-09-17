@@ -93,9 +93,9 @@
 		},
 		{ // Chapter 1
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: simple. look at the directions below.  you can move blocks sideways, move blocks downward, and rotate blocks&gt;" + 
-				"<br><br>Complete 3 layers to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Let&apos;s start things off nice and simple. The goal is to arrange the falling blocks so they form complete layers. You can move blocks sideways, move blocks downward, and rotate blocks. Find directions for each of the controls below the game area." + 
+				"<br><br>Complete 5 layers to pass this chapter.",
+			hintText: "TIP: You might also want to try out keyboard mode! (enable it below)",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: false,
@@ -115,16 +115,17 @@
 			blockFallSpeed: 0.0015, // in squares per millis
 			previewWindowSpeed: 1 / 17000, // in blocks per millis
 			levelColorIndexOffset: 1,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layersToEndChapter: 5
 		},
 		{ // Chapter 2
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: falling from two sides and with 2, 3, and 4 squares in a block.  hint: you can also complete layers along the other two sides of the center square.  your blocks will not be allowed to fall past the back side of the center square.&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Blocks now fall from two different sides. Also, there are now 2, 3, and 4 squares in a block."+
+				"<br><br>TIP: you can also complete layers along the other two sides of the center square. Your blocks will not be allowed to fall past the back side of the center square." + 
+				"<br><br> Complete ten layers to pass this chapter.",
+			hintText: "TIP: Use the preview windows to plan for the upcoming block.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: false,
@@ -142,18 +143,18 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 2,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layersToEndChapter: 10
 		},
 		{ // Chapter 3
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: falling from all sides.  you can change which direction blocks are falling from.&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Blocks now fall from all sides. Also, you can now change the direction blocks are falling from. When you change a block&apos;s fall direction, the block also moves to the next quadrant of the game area." + 
+				"<br><br>Get 3000 points to pass this chapter.",
+			hintText: "TIP: Changing a block&apos;s fall direction can be helpful for fitting an oddly shaped block into the best side.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: true,
@@ -171,18 +172,18 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 50000, // in blocks per millis
 			levelColorIndexOffset: 3,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
-			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			scoreToEndChapter: 3000,
+			layersToEndChapter: -1
 		},
 		{ // Chapter 4
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: 2, 3, 4, and 5 squares in a block&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"There are now two, three, four, and five squares in a block." + 
+				"<br><br>Complete ten layers to pass this chapter.",
+			hintText: "TIP: Changing a block&apos;s fall direction may now be even more helpful for fitting an oddly shaped block into the best side.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: true,
@@ -200,25 +201,25 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 50000, // in blocks per millis
 			levelColorIndexOffset: 4,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layersToEndChapter: 10
 		},
 		{ // Chapter 5
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: now when you change a block&apos;s falling direction, it doesn&apos;t move to the next quadrant.  also, the barrier against falling past the center block is now gone.&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Ka-boom!!<br><br>To use a bomb, first tap on which bomb you want to use (below the game area) and then tap on a window you want to send it from. The black squares are collapse bombs; when these land, they collapse all nearby squares. The white squares are settle bombs; when they collapse, all unsupported squares in the entire game area settle both downward and inward. You are awarded more bombs when you earn enough points. Bombs also have a small chance of appearing naturally just like any other block." + 
+				"<br><br>Get 3000 points to pass this chapter.",
+			hintText: "TIP: With the collapse bomb, be careful to not destroy blocks which are buried underneath higher layers.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: true,
 			changeFallDirectionCB: true,
-			changeQuadrantWithFallDirectionCB: false,
+			changeQuadrantWithFallDirectionCB: true,
 			settleWithCollapseCB: false,
 			settleInwardCB: false,
-			bombsCB: false,
+			bombsCB: true,
 			fallOutwardCB: false,
 
 			gameWindowSize: 40,
@@ -229,18 +230,18 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 40000, // in blocks per millis
 			levelColorIndexOffset: 5,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
-			initialBombCount: 0,
-			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layerCountForNextLevel: 9999,
+			initialBombCount: 3,
+			scoreToEndChapter: 3000,
+			layersToEndChapter: -1
 		},
 		{ // Chapter 6
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: ka-boom!!&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Now when you change a block&apos;s falling direction, it doesn&apos;t move to the next quadrant. Also, the barrier preventing blocks from falling past the center square is now gone." + 
+				"<br><br>Get 2000 points to pass this chapter.",
+			hintText: "TIP: Be careful to not let a block fall into the far edge!",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: true,
 			changeFallDirectionCB: true,
@@ -258,18 +259,18 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 30000, // in blocks per millis
 			levelColorIndexOffset: 6,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
-			initialBombCount: 0,
-			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layerCountForNextLevel: 9999,
+			initialBombCount: 2,
+			scoreToEndChapter: 2000,
+			layersToEndChapter: -1
 		},
 		{ // Chapter 7
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: now you need to complete whole squares rather than just single lines&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
+				"Now you need to complete whole squares rather than just single lines." + 
+				"<br><br>Complete ten layers to pass this chapter.",
+			hintText: "TIP: The more squares/layers you collapse simultaneously, the more points you&apos;re awarded.",
 			completeSquaresCB: true,
 			blocksFallPastCenterCB: true,
 			changeFallDirectionCB: true,
@@ -287,19 +288,19 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 7,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
-			initialBombCount: 0,
+			layerCountForNextLevel: 9999,
+			initialBombCount: 1,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layersToEndChapter: 10
 		},
 		{ // Chapter 8
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE: gravity reversal&gt;" + 
-				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			hintText: "&lt;HINT TEXT HERE&gt;",
-			completeSquaresCB: true,
+				"Gravity reversal." + 
+				"<br><br>Complete seven single-line layers to pass this chapter.",
+			hintText: "TIP: Layers now take longer to complete, and mistakes also take longer to fix.",
+			completeSquaresCB: false,
 			blocksFallPastCenterCB: true,
 			changeFallDirectionCB: true,
 			changeQuadrantWithFallDirectionCB: false,
@@ -308,7 +309,7 @@
 			bombsCB: true,
 			fallOutwardCB: true,
 
-			gameWindowSize: 40,
+			gameWindowSize: 30,
 			centerSquareSize: 4,
 			numberOfSquaresInABlock: 8, // 2-5
 			numberOfSidesBlocksFallFrom: 4,
@@ -316,12 +317,12 @@
 
 			musicId: "chibiNinja",
 			blockFallSpeed: 0.001, // in squares per millis
-			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 7,
-			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
-			initialBombCount: 0,
+			layerCountForNextLevel: 9999,
+			initialBombCount: 2,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 3
+			layersToEndChapter: 7
 		}
 	];
 
@@ -1084,7 +1085,7 @@
 		peanutGalleryOn: false,
 
 		startingLevel: 1,
-		numberOfSquaresInABlock: 7,
+		numberOfSquaresInABlock: 8,
 		numberOfSidesBlocksFallFrom: 4,
 
 		positionOfGameOver: null,

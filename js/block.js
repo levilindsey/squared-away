@@ -436,7 +436,7 @@
 						if (!_hasLanded) {
 							_hasCollidedWithBackLineOfCenterSquare = 
 									_checkForCollisionWithBackLineOfCenterSquare();
-							if (!game.canFallPastCenterOn && 
+							if (game.canFallPastCenterOn || 
 									!_hasCollidedWithBackLineOfCenterSquare) {
 								_fall();
 

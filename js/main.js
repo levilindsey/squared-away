@@ -41,7 +41,7 @@
 	var _gestureInProgress = false;
 
 	var _selectedChapterIndex = 1;
-	var _highestCompletedChapter = 0;
+	var _highestCompletedChapter = 8;
 
 	var _prevChapterWasSuccessful = false;
 
@@ -239,7 +239,7 @@
 		customPlayMainMenuButton.addEventListener("mouseover", _onButtonOver, false);
 		customPlayMainMenuButton.addEventListener("mouseout", _onButtonOut, false);
 
-		_setHighestCompletedChapter(0);
+		_setHighestCompletedChapter(_highestCompletedChapter);
 
 		// Initialize the various modes and game parameters
 		_setInitialModesAndParamsToHtmlValues();
@@ -1393,6 +1393,8 @@
 					pauseScreenPlayGameButton.style.display = "block";
 					unpauseButton.style.display = "none";
 					restartButton.style.display = "none";
+
+					_clearGameArea();
 				} else {
 					pauseScreenHeader.innerHTML = "Pause Game";
 					pauseScreenSubHeader.style.display = "block";
