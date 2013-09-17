@@ -632,7 +632,7 @@
 		_selectedChapterIndex = -1;
 		// Start by showing the default parameters in the controls
 		game.setChapterParameters(0);
-		_showCustomControls();
+		_setCustomControlsVisibility(true);
 		_showScreen("customPlayScreen", false);
 	}
 
@@ -668,6 +668,8 @@
 				return;
 			}
 		}
+
+		_setCustomControlsVisibility(false);
 
 		// This will set up the positions/appearance of the chapter buttons
 		_setHighestCompletedChapter(_highestCompletedChapter);
@@ -1496,11 +1498,12 @@
 		return currentChapterStr;
 	}
 
-	function _showCustomControls() {
+	function _setCustomControlsVisibility(isVisible) {
 		var customControls = document.getElementsByClassName("customControl");
+		var displayStyle = isVisible ? "block" : "none";
 		var i;
 		for (i = 0; i < customControls.length; ++i) {
-			customControls[i].style.display = "block";
+			customControls[i].style.display = displayStyle;
 		}
 	}
 
