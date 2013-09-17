@@ -93,7 +93,7 @@
 		},
 		{ // Chapter 1
 			explanationText: 
-				"Let&apos;s start things off nice and simple. The goal is to arrange the falling blocks so they form complete layers. You can move blocks sideways, move blocks downward, and rotate blocks. Find directions for each of the controls below the game area." + 
+				"Let&apos;s start things off nice and simple. The goal is to arrange the falling blocks so they form complete layers. The guidelines show how far a complete layer needs to extend. You can move blocks sideways, move blocks downward, and rotate blocks. Find directions for each of these controls below the game area." + 
 				"<br><br>Complete 5 layers to pass this chapter.",
 			hintText: "TIP: You might also want to try out keyboard mode! (enable it below)",
 			completeSquaresCB: false,
@@ -153,7 +153,7 @@
 		{ // Chapter 3
 			explanationText: 
 				"Blocks now fall from all sides. Also, you can now change the direction blocks are falling from. When you change a block&apos;s fall direction, the block also moves to the next quadrant of the game area." + 
-				"<br><br>Get 3000 points to pass this chapter.",
+				"<br><br>Get 2000 points to pass this chapter.",
 			hintText: "TIP: Changing a block&apos;s fall direction can be helpful for fitting an oddly shaped block into the best side.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
@@ -176,7 +176,7 @@
 			levelColorIndexOffset: 3,
 			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
-			scoreToEndChapter: 3000,
+			scoreToEndChapter: 2000,
 			layersToEndChapter: -1
 		},
 		{ // Chapter 4
@@ -214,7 +214,7 @@
 				"<br><br>Get 3000 points to pass this chapter.",
 			hintText: "TIP: With the collapse bomb, be careful to not destroy blocks which are buried underneath higher layers.",
 			completeSquaresCB: false,
-			blocksFallPastCenterCB: true,
+			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: true,
 			changeQuadrantWithFallDirectionCB: true,
 			settleWithCollapseCB: false,
@@ -229,7 +229,7 @@
 			startingLevel: 1,
 
 			musicId: "allOfUs",
-			blockFallSpeed: 0.001, // in squares per millis
+			blockFallSpeed: 0.0015, // in squares per millis
 			previewWindowSpeed: 1 / 40000, // in blocks per millis
 			levelColorIndexOffset: 5,
 			layerCountForNextLevel: 9999,
@@ -239,13 +239,13 @@
 		},
 		{ // Chapter 6
 			explanationText: 
-				"Now when you change a block&apos;s falling direction, it doesn&apos;t move to the next quadrant. Also, the barrier preventing blocks from falling past the center square is now gone." + 
-				"<br><br>Get 2000 points to pass this chapter.",
-			hintText: "TIP: Be careful to not let a block fall into the far edge!",
-			completeSquaresCB: false,
-			blocksFallPastCenterCB: true,
+				"Now you need to complete whole squares rather than just single lines." + 
+				"<br><br>Complete ten layers to pass this chapter.",
+			hintText: "TIP: The more squares/layers you collapse simultaneously, the more points you&apos;re awarded.",
+			completeSquaresCB: true,
+			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: true,
-			changeQuadrantWithFallDirectionCB: false,
+			changeQuadrantWithFallDirectionCB: true,
 			settleWithCollapseCB: false,
 			settleInwardCB: false,
 			bombsCB: true,
@@ -257,20 +257,20 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "comeAndFindMe",
-			blockFallSpeed: 0.001, // in squares per millis
+			musicId: "hhavokMain",
+			blockFallSpeed: 0.0015, // in squares per millis
 			previewWindowSpeed: 1 / 30000, // in blocks per millis
 			levelColorIndexOffset: 6,
 			layerCountForNextLevel: 9999,
 			initialBombCount: 2,
-			scoreToEndChapter: 2000,
-			layersToEndChapter: -1
+			scoreToEndChapter: -1,
+			layersToEndChapter: 10
 		},
 		{ // Chapter 7
 			explanationText: 
-				"Now you need to complete whole squares rather than just single lines." + 
-				"<br><br>Complete ten layers to pass this chapter.",
-			hintText: "TIP: The more squares/layers you collapse simultaneously, the more points you&apos;re awarded.",
+				"Now when you change a block&apos;s falling direction, it doesn&apos;t move to the next quadrant. Also, the barrier preventing blocks from falling past the center square is now gone." + 
+				"<br><br>Get 3000 points to pass this chapter.",
+			hintText: "TIP: Be careful to not let a block fall into the far edge!",
 			completeSquaresCB: true,
 			blocksFallPastCenterCB: true,
 			changeFallDirectionCB: true,
@@ -286,19 +286,19 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "hhavokMain",
-			blockFallSpeed: 0.001, // in squares per millis
+			musicId: "comeAndFindMe",
+			blockFallSpeed: 0.002, // in squares per millis
 			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 7,
 			layerCountForNextLevel: 9999,
 			initialBombCount: 1,
-			scoreToEndChapter: -1,
-			layersToEndChapter: 10
+			scoreToEndChapter: 3000,
+			layersToEndChapter: -1
 		},
 		{ // Chapter 8
 			explanationText: 
 				"Gravity reversal." + 
-				"<br><br>Complete seven single-line layers to pass this chapter.",
+				"<br><br>Complete ten single-line layers to pass this chapter.",
 			hintText: "TIP: Layers now take longer to complete, and mistakes also take longer to fix.",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: true,
@@ -322,7 +322,7 @@
 			layerCountForNextLevel: 9999,
 			initialBombCount: 2,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 7
+			layersToEndChapter: 10
 		}
 	];
 
@@ -551,10 +551,33 @@
 		var deltaCoolDown = _currentPreviewWindowCoolDownTime / 4;
 
 		// Start each of the preview windows
-		for (var i = 0, coolDown = PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD; 
-				i < 4; 
-				++i, coolDown += deltaCoolDown) {
-			game.previewWindows[i].startNewBlock(coolDown, -1);
+		switch (game.numberOfSidesBlocksFallFrom) {
+		case 4:
+			for (var i = 0, coolDown = PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD;
+					i < 4; ++i, coolDown += deltaCoolDown) {
+				game.previewWindows[i].startNewBlock(coolDown, -1);
+			}
+			break;
+		case 3:
+			game.previewWindows[0].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[1].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD + deltaCoolDown, -1);
+			game.previewWindows[3].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD + deltaCoolDown * 2, -1);
+			game.previewWindows[2].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			break;
+		case 2:
+			game.previewWindows[1].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[3].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD + deltaCoolDown, -1);
+			game.previewWindows[0].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[2].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			break;
+		case 1:
+			game.previewWindows[0].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[1].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[2].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			game.previewWindows[3].startNewBlock(PreviewWindow.prototype.START_OF_GAME_INITIAL_COOL_DOWN_PERIOD, -1);
+			break;
+		default:
+			return;
 		}
 
 		_recentCollapsesCount = 0;
