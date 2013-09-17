@@ -100,7 +100,7 @@
 				// Draw the bomb block in the center of the window
 				var x = _positionOfWindowCenter.x - 0.5 * gameWindow.squarePixelSize;
 				var y = _positionOfWindowCenter.y - 0.5 * gameWindow.squarePixelSize;
-				Block.prototype.drawSquare(context, 7 + game.primedBombType, x, y);
+				Block.prototype.drawSquare(context, 7 + game.primedBombType, x, y, 0);
 			} else {
 				// Draw the block in the center of the window
 				_currentBlock.draw(context);

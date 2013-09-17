@@ -542,6 +542,8 @@
 
 		_setLevel(game.startingLevel);
 
+		_scoreDisplay.innerHTML = _score;
+
 		_layersCollapsedCount = 0;
 		_squaresCollapsedCount = 0;
 		_collapseBombsUsedCount = 0;

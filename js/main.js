@@ -24,7 +24,7 @@
 	var _ANIMATION_STEP_SIZE = 25;
 
 	var _VIEWPORT_MARGIN = 20;
-	var _HINT_TEXT_MARGIN = 10;
+	var _HINT_TEXT_MARGIN = 0;
 
 	var _ABANDON_CONFIRMATION_MSG = "Are you sure you want to abandon your progress in the current game?";
 
@@ -891,13 +891,13 @@
 		utils.setRect(musicButton, audioRect.left, audioRect.top, audioRect.width, audioRect.height);
 		utils.setRect(sfxButton, audioRect.left, audioRect.top, audioRect.width, audioRect.height);
 
-		x = gameWindow.gameWindowPosition.x + (gameWindow.gameWindowPixelSize + game.previewWindowSizePixels) / 2 + _HINT_TEXT_MARGIN * 3;
-		y = 10 + topDisplayAreaFontSize + _HINT_TEXT_MARGIN;
-		w = gameWindow.gameWindowPixelSize / 2;
+		x = _HINT_TEXT_MARGIN;
+		y = _HINT_TEXT_MARGIN;
+		w = gameWindow.gameWindowPixelSize / 2.2;
 		hintTextArea.style.left = x + "px";
 		hintTextArea.style.top = y + "px";
 		hintTextArea.style.width = w + "px";
-		hintTextArea.style.fontSize = screenSize * 0.013 + "px";
+		hintTextArea.style.fontSize = screenSize * 0.017 + "px";
 	}
 
 	function _adjustMainMenuScreen(screenSize) {
@@ -1491,13 +1491,14 @@
 	}
 
 	function _showGameTopElements() {
-		var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
-		topLevelDisplayArea.style.display = "block";
 		var topScoreDisplayArea = document.getElementById("topScoreDisplayArea");
 		topScoreDisplayArea.style.display = "block";
 		if (_selectedChapterIndex > 0) {
 			var hintTextArea = document.getElementById("hintTextArea");
 			hintTextArea.style.display = "block";
+		} else {
+			var topLevelDisplayArea = document.getElementById("topLevelDisplayArea");
+			topLevelDisplayArea.style.display = "block";
 		}
 	}
 
