@@ -21,8 +21,6 @@
 
 	log.d("-->main.LOADING_MODULE");
 
-	var _ANIMATION_STEP_SIZE = 25;
-
 	var _VIEWPORT_MARGIN = 20;
 	var _HINT_TEXT_MARGIN = 0;
 
@@ -161,7 +159,7 @@
 
 		// ---------- Hook up the event handlers ---------- //
 
-		window.addEventListener("resize", _onWindowResize, false)
+		window.addEventListener("resize", _onWindowResize, false);
 		window.addEventListener("blur", _pauseGame, false);
 
 		document.addEventListener("keydown", _onKeyDown, false);
@@ -721,11 +719,11 @@
 		newChapterItemElem.style.visibility = "visible";
 	}
 
-	function _onButtonOver(event) {
+	function _onButtonOver() {
 		document.getElementById(this.id).src = _buttonManifest[this.id].hover;
 	}
 
-	function _onButtonOut(event) {
+	function _onButtonOut() {
 		document.getElementById(this.id).src = _buttonManifest[this.id].normal;
 	}
 
@@ -825,7 +823,7 @@
 		var verticalScroll = canvasRect.top - _VIEWPORT_MARGIN;
 		var screenSize = Math.min(viewportWidth, viewportHeight) - _VIEWPORT_MARGIN * 2;
 
-		pageColumn.style.width = screenSize + "px"
+		pageColumn.style.width = screenSize + "px";
 
 		playArea.style.width = screenSize + "px";
 		playArea.style.height = screenSize + "px";
@@ -1396,7 +1394,6 @@
 				pauseScreenSubHeader.innerHTML = _getCurrentChapterStr();
 
 				var pauseScreenHeader = document.getElementById("pauseScreenHeader");
-				var pauseScreenSubHeader = document.getElementById("pauseScreenSubHeader");
 				var explanationTextArea = document.getElementById("explanationTextArea");
 				var pauseScreenPlayGameButton = document.getElementById("pauseScreenPlayGameButton");
 				var unpauseButton = document.getElementById("unpauseButton");

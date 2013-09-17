@@ -61,7 +61,6 @@
 	var _INITIAL_SETTLE_BOMB_COUNT = 2; // TODO: test/tweak this
 
 	var _GAME_OVER_CIRCLE_RADIUS = 48;
-	var _GAME_OVER_CIRCLE_STROKE_WIDTH = 4;
 
 	var _CHAPTER_PARAMETERS = [
 		{ // Quick play

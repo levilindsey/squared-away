@@ -27,8 +27,6 @@
 	var _NORMAL_STROKE_WIDTH = 1; // in pixels
 	var _PRIMED_STROKE_WIDTH = 6; // in pixels
 
-	var _COOL_DOWN_SIZE_INCREASE = 0.4; // ratio
-
 	var _PRIMED_SIZE_RATIO = 1.75;
 
 	function BombWindow(bombType, bombCount) {

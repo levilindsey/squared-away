@@ -382,7 +382,7 @@
 		}
 	}
 
-	function _toggleMusic(event) {
+	function _toggleMusic() {
 		if (!game.isMobile && game.musicOn) {
 			game.musicOn = false;
 			_pauseMusic();
@@ -394,7 +394,7 @@
 		_onAudioToggle();
 	}
 
-	function _toggleSfx(event) {
+	function _toggleSfx() {
 		if (!game.isMobile && game.sfxOn) {
 			game.sfxOn = false;
 		} else {
@@ -570,7 +570,7 @@
 		setTimeout(_startNewRandomMusic, _SOUND_ERROR_PLAY_AGAIN_DELAY);
 	}
 
-	function _onMusicSelectionChange(event) {
+	function _onMusicSelectionChange() {
 		var index = _selectedMusicIds.indexOf(this.value);
 
 		if (this.checked) {

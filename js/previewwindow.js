@@ -236,8 +236,6 @@
 			}
 			fallDirection = orientation;
 
-			var cellOffsetFromTopLeftOfBlockToCenter = Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter(blockType, orientation);
-
 			_currentBlock = new Block(blockType, orientation, fallDirection, bombType);
 
 			_updateBlockPosition();

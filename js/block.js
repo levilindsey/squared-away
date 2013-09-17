@@ -362,8 +362,6 @@
 	var _TWO_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.8;
 	var _ONE_SQUARE_BLOCK_FALL_PERIOD_RATIO = 0.7;
 
-	var _HALF_PI = Math.PI / 2;
-
 	var _oneSquareBlockFallPeriod; // millis / blocks
 	var _twoSquareBlockFallPeriod; // millis / blocks
 	var _threeSquareBlockFallPeriod; // millis / blocks

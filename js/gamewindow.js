@@ -256,7 +256,6 @@
 		var shimmerAnimationProgress;
 		var animationIndex;
 		var i;
-		var rotateSprite = false;
 
 		// Draw each of the falling blocks
 		for (i = 0; i < gameWindow.blocksOnGameWindow.length; ++i) {
@@ -1033,10 +1032,10 @@
 		var updateEndCellDeltaI;
 		var firstInwardSettleStop;
 		var secondInwardSettleStop;
+		var startX;
+		var startY;
 
 		if (game.completingSquaresOn || forceEntireSquare) { // Collapsing whole squares
-			var startX;
-			var startY;
 			var startI;
 			var endX;
 			var endY;
@@ -1077,8 +1076,6 @@
 			var side = collapsedLayer.side;
 			var startCell = collapsedLayer.startCell;
 			var endCell = collapsedLayer.endCell;
-			var startX;
-			var startY;
 
 			// De-construct the x and y coords from the index if we need them
 			if (game.layersAlsoSettleInwardsOn || forceInwardSettling) {
@@ -1189,7 +1186,6 @@
 		var updateEndCellDeltaI;
 		var firstInwardSettleStop;
 		var secondInwardSettleStop;
-		var i;
 
 		switch (side) {
 		case Block.prototype.TOP_SIDE:
@@ -1487,16 +1483,14 @@
 	}
 
 	function _handleSettleBomb() {
-		var layersWereCollapsed = _forceCollapseAnyPendingLayers();
+		_forceCollapseAnyPendingLayers();
 
 		// TODO: should I continue to force inward settling?
 		_settleHigherLayers(0, true, true);
 
 		// Settling layers has the potential to complete additional layers, so 
 		// we should check for that now
-		if (layersWereCollapsed) {
-			_checkForCompleteLayers();
-		}
+		_checkForCompleteLayers();
 	}
 
 	function _forceCollapseAnyPendingLayers() {
