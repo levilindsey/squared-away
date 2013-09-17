@@ -30,7 +30,7 @@
 
 	var _IMAGE_PATH = "img/";
 
-	var _NUMBER_OF_CHAPTERS = 10;
+	var _NUMBER_OF_CHAPTERS = 8;
 
 	var _pauseScreenHeaderTop = 0;
 	var _chapterItemWidth = 500;
@@ -625,7 +625,8 @@
 	}
 
 	function _onNextChapterClick() {
-		_playGame();
+		game.setChapterParameters(_selectedChapterIndex);
+		_showScreen("pauseScreen", true);
 	}
 
 	function _onPlayAgainClick() {

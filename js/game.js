@@ -93,7 +93,7 @@
 		},
 		{ // Chapter 1
 			explanationText: 
-				"&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				"&lt;EXPLANATIAN TEXT HERE: simple. look at the directions below.  you can move blocks sideways, move blocks downward, and rotate blocks&gt;" + 
 				"<br><br>Complete 3 layers to complete this chapter.",
 			hintText: "&lt;HINT TEXT HERE&gt;",
 			completeSquaresCB: false,
@@ -112,276 +112,217 @@
 			startingLevel: 1,
 
 			musicId: "chibiNinja",
-			blockFallSpeed: 0.002, // in squares per millis
+			blockFallSpeed: 0.0015, // in squares per millis
 			previewWindowSpeed: 1 / 17000, // in blocks per millis
 			levelColorIndexOffset: 1,
 			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
 			layersToEndChapter: 3
-		}//,
-		// { // Chapter 2
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+		},
+		{ // Chapter 2
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: falling from two sides and with 2, 3, and 4 squares in a block.  hint: you can also complete layers along the other two sides of the center square.  your blocks will not be allowed to fall past the back side of the center square.&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: false,
+			changeFallDirectionCB: false,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: false,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 50,
+			centerSquareSize: 10,
+			numberOfSquaresInABlock: 6, // 2-4
+			numberOfSidesBlocksFallFrom: 2,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 3
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 2,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 3
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: falling from all sides.  you can change which direction blocks are falling from.&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: false,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: true,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: false,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 50,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 6, // 2-4
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 4
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 3,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 4
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: 2, 3, 4, and 5 squares in a block&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: false,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: true,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: false,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 8, // 2-5
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 5
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 4,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 5
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: now when you change a block&apos;s falling direction, it doesn&apos;t move to the next quadrant.  also, the barrier against falling past the center block is now gone.&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: true,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: false,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 8, // 2-5
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 6
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 5,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 6
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: ka-boom!!&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: false,
+			blocksFallPastCenterCB: true,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: true,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 8, // 2-5
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 7
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 6,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 7
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: now you need to complete whole squares rather than just single lines&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: true,
+			blocksFallPastCenterCB: true,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: true,
+			fallOutwardCB: false,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 6,
+			numberOfSquaresInABlock: 8, // 2-5
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 8
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 7,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		},
+		{ // Chapter 8
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE: gravity reversal&gt;" + 
+				"<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
+			completeSquaresCB: true,
+			blocksFallPastCenterCB: true,
+			changeFallDirectionCB: true,
+			changeQuadrantWithFallDirectionCB: false,
+			settleWithCollapseCB: false,
+			settleInwardCB: false,
+			bombsCB: true,
+			fallOutwardCB: true,
 
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
+			gameWindowSize: 40,
+			centerSquareSize: 4,
+			numberOfSquaresInABlock: 8, // 2-5
+			numberOfSidesBlocksFallFrom: 4,
+			startingLevel: 1,
 
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 9
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
-
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
-
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// },
-		// { // Chapter 10
-			// explanationText: 
-				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
-				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
-			// hintText: "&lt;HINT TEXT HERE&gt;",
-			// completeSquaresCB: ,
-			// blocksFallPastCenterCB: ,
-			// changeFallDirectionCB: ,
-			// changeQuadrantWithFallDirectionCB: ,
-			// settleWithCollapseCB: ,
-			// settleInwardCB: ,
-			// bombsCB: ,
-			// fallOutwardCB: ,
-
-			// gameWindowSize: ,
-			// centerSquareSize: ,
-			// numberOfSquaresInABlock: ,
-			// numberOfSidesBlocksFallFrom: ,
-			// startingLevel: ,
-
-			// musicId: ,
-			// blockFallSpeed: ,
-			// previewWindowSpeed: ,
-			// levelColorIndexOffset: ,
-			// layerCountForNextLevel: ,
-			// initialBombCount: ,
-			// scoreToEndChapter: ,
-			// layersToEndChapter: 
-		// }
-		// ****
+			musicId: "chibiNinja",
+			blockFallSpeed: 0.001, // in squares per millis
+			previewWindowSpeed: 1 / 17000, // in blocks per millis
+			levelColorIndexOffset: 7,
+			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
+			initialBombCount: 0,
+			scoreToEndChapter: -1,
+			layersToEndChapter: 3
+		}
 	];
 
 	// A cross-browser compatible requestAnimationFrame. From
