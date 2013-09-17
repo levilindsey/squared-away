@@ -70,7 +70,7 @@
 		// single timer for any number of pending layers.
 		gameWindow.ellapsedCollapseTime += deltaTime;
 		if (gameWindow.ellapsedCollapseTime >= gameWindow.layerCollapseDelay) {
-			_forceCollapseAnyPendingLayers();
+			layersWereCollapsed = _forceCollapseAnyPendingLayers();
 		}
 
 		if (layersWereCollapsed) {
@@ -1460,7 +1460,7 @@
 	}
 
 	function _handleCollapseBomb(cellPos, fallDirection) {
-		_forceCollapseAnyPendingLayers();
+		var layersWereCollapsed = _forceCollapseAnyPendingLayers();
 
 		var minXIValue = cellPos.x - BombWindow.prototype.COLLAPSE_BOMB_RADIUS;
 		var minYIValue = (cellPos.y - BombWindow.prototype.COLLAPSE_BOMB_RADIUS) * gameWindow.gameWindowCellSize;
@@ -1478,17 +1478,25 @@
 
 		// TODO: should I add settling here? probably not...
 		//		- OR, should I instead DROP all blocks above the blast?
+
+		// It's possible that a collapse at the beginning of this function led 
+		// to the completion of a layer
+		if (layersWereCollapsed) {
+			_checkForCompleteLayers();
+		}
 	}
 
 	function _handleSettleBomb() {
-		_forceCollapseAnyPendingLayers();
+		var layersWereCollapsed = _forceCollapseAnyPendingLayers();
 
 		// TODO: should I continue to force inward settling?
 		_settleHigherLayers(0, true, true);
 
 		// Settling layers has the potential to complete additional layers, so 
 		// we should check for that now
-		_checkForCompleteLayers();
+		if (layersWereCollapsed) {
+			_checkForCompleteLayers();
+		}
 	}
 
 	function _forceCollapseAnyPendingLayers() {
