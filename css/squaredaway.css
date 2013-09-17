@@ -145,6 +145,13 @@ img.chapterItem {
 	margin: 15px auto;
 }
 
+#explanationTextArea {
+	display: none;
+	width: 500px;
+	font-size: 30px;
+	text-align: left;
+}
+
 /* ---------- Game over screen ---------- */
 
 #gameOverScreen>* {
@@ -239,6 +246,19 @@ img.chapterItem {
 
 .button:hover {
 	cursor: pointer;
+}
+
+#hintTextArea {
+	position: absolute;
+	display: none;
+	left: 420px;
+	top: 10px;
+	width: 250px;
+	padding: 10px;
+	background-color: rgba(2,2,2,0.65);
+	border: 3px solid #999999;
+	font-size: 20px;
+	text-align: left;
 }
 
 .customControl {

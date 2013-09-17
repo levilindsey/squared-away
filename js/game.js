@@ -65,6 +65,8 @@
 
 	var _CHAPTER_PARAMETERS = [
 		{ // Quick play
+			explanationText: null,
+			hintText: null,
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: true,
@@ -90,6 +92,10 @@
 			layersToEndChapter: -1
 		},
 		{ // Chapter 1
+			explanationText: 
+				"&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				"<br><br>Complete 3 layers to complete this chapter.",
+			hintText: "&lt;HINT TEXT HERE&gt;",
 			completeSquaresCB: false,
 			blocksFallPastCenterCB: false,
 			changeFallDirectionCB: false,
@@ -112,9 +118,13 @@
 			layerCountForNextLevel: _INITIAL_LAYER_COUNT_FOR_NEXT_LEVEL,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 2
+			layersToEndChapter: 3
 		}//,
 		// { // Chapter 2
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -140,6 +150,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 3
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -165,6 +179,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 4
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -190,6 +208,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 5
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -215,6 +237,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 6
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -240,6 +266,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 7
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -265,6 +295,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 8
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -290,6 +324,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 9
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -315,6 +353,10 @@
 			// layersToEndChapter: 
 		// },
 		// { // Chapter 10
+			// explanationText: 
+				// "&lt;EXPLANATIAN TEXT HERE&gt;" + 
+				// "<br><br>&lt;DO SOMETHING&gt; to complete this chapter.",
+			// hintText: "&lt;HINT TEXT HERE&gt;",
 			// completeSquaresCB: ,
 			// blocksFallPastCenterCB: ,
 			// changeFallDirectionCB: ,
@@ -580,6 +622,15 @@
 		if (chapterIndex >= 0) {
 			var p = _CHAPTER_PARAMETERS[chapterIndex];
 
+			var hintTextArea = document.getElementById("hintTextArea");
+			var explanationTextArea = document.getElementById("explanationTextArea");
+			if (p.explanationText) {
+				explanationTextArea.innerHTML = p.explanationText;
+			}
+			if (p.hintText) {
+				hintTextArea.innerHTML = p.hintText;
+			}
+
 			_toggleMode("completeSquaresCB", p.completeSquaresCB, null);
 			_toggleMode("blocksFallPastCenterCB", p.blocksFallPastCenterCB, null);
 			_toggleMode("changeFallDirectionCB", p.changeFallDirectionCB, null);
@@ -611,12 +662,6 @@
 
 			game.collapseBombWindow.setBombCount(_initialBombCount);
 			game.settleBombWindow.setBombCount(_initialBombCount);
-
-			//****
-			// TODO:
-			//		- set the text in the explanation box
-			//		- set the text in the intermediate screen
-			//		- set the text in the progress-to-complete-chapter box
 		}
 	}
 
