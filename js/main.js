@@ -51,7 +51,7 @@
 
 	var _buttonManifest = {
 		quickPlayButton: { normal: "img/quick_play.png", hover: "img/quick_play_hover.png" },
-		customPlayButton: { normal: "img/custom_play.png", hover: "img/custom_play_hover.png" },
+		mainMenuScreenCustomPlayButton: { normal: "img/custom_play.png", hover: "img/custom_play_hover.png" },
 		prevButton: { normal: "img/prev.png", hover: "img/prev_hover.png" },
 		nextButton: { normal: "img/next.png", hover: "img/next_hover.png" },
 		helpButton: { normal: "img/help.png", hover: "img/help_hover.png" },
@@ -72,6 +72,7 @@
 		restartButton: { normal: "img/restart.png", hover: "img/restart_hover.png" },
 		pauseMainMenuButton: { normal: "img/main_menu.png", hover: "img/main_menu_hover.png" },
 		nextChapterButton: { normal: "img/next_chapter.png", hover: "img/next_chapter_hover.png" },
+		gameOverScreenCustomPlayButton: { normal: "img/custom_play.png", hover: "img/custom_play_hover.png" },
 		playAgainButton: { normal: "img/play_again.png", hover: "img/play_again_hover.png" },
 		gameOverMainMenuButton: { normal: "img/main_menu.png", hover: "img/main_menu_hover.png" },
 		musicButton: {
@@ -141,6 +142,7 @@
 		var musicButton = document.getElementById("musicButton");
 		var sfxButton = document.getElementById("sfxButton");
 		var nextChapterButton = document.getElementById("nextChapterButton");
+		var gameOverScreenCustomPlayButton = document.getElementById("gameOverScreenCustomPlayButton");
 		var playAgainButton = document.getElementById("playAgainButton");
 		var gameOverMainMenuButton = document.getElementById("gameOverMainMenuButton");
 		var pauseScreenPlayGameButton = document.getElementById("pauseScreenPlayGameButton");
@@ -210,6 +212,9 @@
 		nextChapterButton.addEventListener("click", _onNextChapterClick, false);
 		nextChapterButton.addEventListener("mouseover", _onButtonOver, false);
 		nextChapterButton.addEventListener("mouseout", _onButtonOut, false);
+		gameOverScreenCustomPlayButton.addEventListener("click", _onCustomPlayClick, false);
+		gameOverScreenCustomPlayButton.addEventListener("mouseover", _onButtonOver, false);
+		gameOverScreenCustomPlayButton.addEventListener("mouseout", _onButtonOut, false);
 		playAgainButton.addEventListener("click", _onPlayAgainClick, false);
 		playAgainButton.addEventListener("mouseover", _onButtonOver, false);
 		playAgainButton.addEventListener("mouseout", _onButtonOut, false);
@@ -322,6 +327,11 @@
 		if (chapterComplete) {
 			if (_selectedChapterIndex > _highestCompletedChapter) {
 				_setHighestCompletedChapter(_selectedChapterIndex);
+			} else {
+				++_selectedChapterIndex;
+				if (_selectedChapterIndex > _NUMBER_OF_CHAPTERS) {
+					_selectedChapterIndex = 1;
+				}
 			}
 			_prevChapterWasSuccessful = true;
 			sound.playSfx("chapterComplete");
@@ -902,7 +912,7 @@
 
 	function _adjustMainMenuScreen(screenSize) {
 		var quickPlayButton = document.getElementById("quickPlayButton");
-		var customPlayButton = document.getElementById("customPlayButton");
+		var mainMenuScreenCustomPlayButton = document.getElementById("mainMenuScreenCustomPlayButton");
 		var prevButton = document.getElementById("prevButton");
 		var nextButton = document.getElementById("nextButton");
 		var chapterList = document.getElementById("chapterList");
@@ -925,7 +935,7 @@
 		utils.setRect(quickPlayButton, x, y, w, h);
 
 		x = screenSize - 10 - w;
-		utils.setRect(customPlayButton, x, y, w, h);
+		utils.setRect(mainMenuScreenCustomPlayButton, x, y, w, h);
 
 		w = _chapterItemWidth;
 		h = _chapterItemWidth;
@@ -996,6 +1006,7 @@
 	function _adjustGameOverScreen(screenSize, headerAreaHeight, screenButtonWidth, screenButtonHeight, screenElemMarginBottom) {
 		var gameOverScreenHeader = document.getElementById("gameOverScreenHeader");
 		var nextChapterButton = document.getElementById("nextChapterButton");
+		var gameOverScreenCustomPlayButton = document.getElementById("gameOverScreenCustomPlayButton");
 		var playAgainButton = document.getElementById("playAgainButton");
 		var gameOverMainMenuButton = document.getElementById("gameOverMainMenuButton");
 		var statsTable = document.getElementById("statsTable");
@@ -1010,6 +1021,9 @@
 		nextChapterButton.style.width = screenButtonWidth + "px";
 		nextChapterButton.style.height = screenButtonHeight + "px";
 		nextChapterButton.style.marginBottom = screenElemMarginBottom + "px";
+		gameOverScreenCustomPlayButton.style.width = screenButtonWidth + "px";
+		gameOverScreenCustomPlayButton.style.height = screenButtonHeight + "px";
+		gameOverScreenCustomPlayButton.style.marginBottom = screenElemMarginBottom + "px";
 		playAgainButton.style.width = screenButtonWidth + "px";
 		playAgainButton.style.height = screenButtonHeight + "px";
 		playAgainButton.style.marginBottom = screenElemMarginBottom + "px";
@@ -1324,9 +1338,9 @@
 
 		// Unlock custom play if all chapters have been completed
 		if (_highestCompletedChapter >= _NUMBER_OF_CHAPTERS) {
-			var customPlayButton = document.getElementById("customPlayButton");
-			_unlockButton(customPlayButton);
-			customPlayButton.onclick = _onCustomPlayClick;
+			var mainMenuScreenCustomPlayButton = document.getElementById("mainMenuScreenCustomPlayButton");
+			_unlockButton(mainMenuScreenCustomPlayButton);
+			mainMenuScreenCustomPlayButton.onclick = _onCustomPlayClick;
 		}
 
 		_showPrevAndNextButtons();
@@ -1419,15 +1433,25 @@
 
 				var gameOverScreenHeader = document.getElementById("gameOverScreenHeader");
 				var nextChapterButton = document.getElementById("nextChapterButton");
+				var gameOverScreenCustomPlayButton = document.getElementById("gameOverScreenCustomPlayButton");
 
 				// Set some appropriate content depending on whether the 
 				// chapter was successfully completed
 				if (_prevChapterWasSuccessful) {
 					gameOverScreenHeader.innerHTML = "Chapter Complete";
-					nextChapterButton.style.display = "block";
+					// If we just completed the final chapter, then give the 
+					// player the option to play custom play
+					if (_selectedChapterIndex === 1) {
+						nextChapterButton.style.display = "none";
+						gameOverScreenCustomPlayButton.style.display = "block";
+					} else {
+						nextChapterButton.style.display = "block";
+						gameOverScreenCustomPlayButton.style.display = "none";
+					}
 				} else {
 					gameOverScreenHeader.innerHTML = "Game Over";
 					nextChapterButton.style.display = "none";
+					gameOverScreenCustomPlayButton.style.display = "none";
 				}
 
 				var collapseBombCountRow = document.getElementById("collapseBombCountRow");
