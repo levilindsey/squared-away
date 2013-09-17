@@ -141,7 +141,7 @@
 			numberOfSidesBlocksFallFrom: 2,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "jumpshot",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 2,
@@ -170,7 +170,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "arpanauts",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 50000, // in blocks per millis
 			levelColorIndexOffset: 3,
@@ -199,7 +199,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "aNightOfDizzySpells",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 50000, // in blocks per millis
 			levelColorIndexOffset: 4,
@@ -228,7 +228,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "allOfUs",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 40000, // in blocks per millis
 			levelColorIndexOffset: 5,
@@ -257,7 +257,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "comeAndFindMe",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 30000, // in blocks per millis
 			levelColorIndexOffset: 6,
@@ -286,7 +286,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "hhavokMain",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 7,
@@ -315,7 +315,7 @@
 			numberOfSidesBlocksFallFrom: 4,
 			startingLevel: 1,
 
-			musicId: "chibiNinja",
+			musicId: "underclocked",
 			blockFallSpeed: 0.001, // in squares per millis
 			previewWindowSpeed: 1 / 25000, // in blocks per millis
 			levelColorIndexOffset: 7,

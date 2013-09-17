@@ -619,9 +619,11 @@
 	}
 
 	function _onCustomPlayClick() {
-		_showScreen("customPlayScreen", false);
-		_showCustomControls();
 		_selectedChapterIndex = -1;
+		// Start by showing the default parameters in the controls
+		game.setChapterParameters(0);
+		_showCustomControls();
+		_showScreen("customPlayScreen", false);
 	}
 
 	function _onNextChapterClick() {
