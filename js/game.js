@@ -206,7 +206,7 @@
 			layerCountForNextLevel: 9999,
 			initialBombCount: 0,
 			scoreToEndChapter: -1,
-			layersToEndChapter: 1
+			layersToEndChapter: 10
 		},
 		{ // Chapter 5
 			explanationText: 
@@ -234,7 +234,7 @@
 			levelColorIndexOffset: 5,
 			layerCountForNextLevel: 9999,
 			initialBombCount: 3,
-			scoreToEndChapter: 1,
+			scoreToEndChapter: 3000,
 			layersToEndChapter: -1
 		},
 		{ // Chapter 6
