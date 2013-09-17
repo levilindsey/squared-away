@@ -490,15 +490,47 @@
 			game.settleBombWindow.update(deltaTime);
 
 			// Update the preview windows
-			for (i = 0; i < 4; ++i) {
-				game.previewWindows[i].update(deltaTime);
-
-				// If the preview window has finished its cool down, then add 
-				// its block to the game area and start a new block in preview 
-				// window
-				if (game.previewWindows[i].isCoolDownFinished()) {
-					_setupNextBlock(game.previewWindows[i]);
+			switch (game.numberOfSidesBlocksFallFrom) {
+			case 4:
+				for (i = 0; i < 4; ++i) {
+					game.previewWindows[i].update(deltaTime);
+					if (game.previewWindows[i].isCoolDownFinished()) {
+						_setupNextBlock(game.previewWindows[i]);
+					}
 				}
+				break;
+			case 3:
+				game.previewWindows[0].update(deltaTime);
+				if (game.previewWindows[0].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[0]);
+				}
+				game.previewWindows[1].update(deltaTime);
+				if (game.previewWindows[1].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[1]);
+				}
+				game.previewWindows[3].update(deltaTime);
+				if (game.previewWindows[3].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[3]);
+				}
+				break;
+			case 2:
+				game.previewWindows[1].update(deltaTime);
+				if (game.previewWindows[1].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[1]);
+				}
+				game.previewWindows[3].update(deltaTime);
+				if (game.previewWindows[3].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[3]);
+				}
+				break;
+			case 1:
+				game.previewWindows[0].update(deltaTime);
+				if (game.previewWindows[0].isCoolDownFinished()) {
+					_setupNextBlock(game.previewWindows[0]);
+				}
+				break;
+			default:
+				return;
 			}
 		}
 	}
@@ -514,8 +546,26 @@
 			game.settleBombWindow.draw(_context);
 
 			// Draw the preview windows
-			for (i = 0; i < 4; ++i) {
-				game.previewWindows[i].draw(_context);
+			switch (game.numberOfSidesBlocksFallFrom) {
+			case 4:
+				for (i = 0; i < 4; ++i) {
+					game.previewWindows[i].draw(_context);
+				}
+				break;
+			case 3:
+				game.previewWindows[0].draw(_context);
+				game.previewWindows[1].draw(_context);
+				game.previewWindows[3].draw(_context);
+				break;
+			case 2:
+				game.previewWindows[1].draw(_context);
+				game.previewWindows[3].draw(_context);
+				break;
+			case 1:
+				game.previewWindows[0].draw(_context);
+				break;
+			default:
+				return;
 			}
 
 			// Draw the game window
@@ -782,16 +832,49 @@
 
 	function _forceNextBlock() {
 		// Determine which preview window is next
-		var nextPreviewWindow = game.previewWindows[0];
-		var longestTime = game.previewWindows[0].getTimeSinceLastBlock();
+		var nextPreviewWindow;
+		var longestTime;
 		var currentTime;
 		var i;
-		for (i = 0; i < 4; ++i) {
-			currentTime = game.previewWindows[i].getTimeSinceLastBlock();
+		switch (game.numberOfSidesBlocksFallFrom) {
+		case 4:
+			longestTime = game.previewWindows[0].getTimeSinceLastBlock();
+			nextPreviewWindow = game.previewWindows[0];
+			for (i = 1; i < 4; ++i) {
+				currentTime = game.previewWindows[i].getTimeSinceLastBlock();
+				if (currentTime > longestTime) {
+					longestTime = currentTime;
+					nextPreviewWindow = game.previewWindows[i];
+				}
+			}
+			break;
+		case 3:
+			longestTime = game.previewWindows[0].getTimeSinceLastBlock();
+			nextPreviewWindow = game.previewWindows[0];
+			currentTime = game.previewWindows[1].getTimeSinceLastBlock();
 			if (currentTime > longestTime) {
 				longestTime = currentTime;
-				nextPreviewWindow = game.previewWindows[i];
+				nextPreviewWindow = game.previewWindows[1];
 			}
+			currentTime = game.previewWindows[3].getTimeSinceLastBlock();
+			if (currentTime > longestTime) {
+				longestTime = currentTime;
+				nextPreviewWindow = game.previewWindows[3];
+			}
+			break;
+		case 2:
+			if (game.previewWindows[1].getTimeSinceLastBlock() > 
+					game.previewWindows[3].getTimeSinceLastBlock()) {
+				nextPreviewWindow = game.previewWindows[1];
+			} else {
+				nextPreviewWindow = game.previewWindows[3];
+			}
+			break;
+		case 1:
+			nextPreviewWindow = game.previewWindows[0];
+			break;
+		default:
+			return;
 		}
 
 		// Force the next preview window to release its block now

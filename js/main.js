@@ -656,12 +656,8 @@
 			}
 		}
 
-		if (_selectedChapterIndex < 1) {
-			_selectedChapterIndex = _highestCompletedChapter + 1;
-			if (_selectedChapterIndex > _NUMBER_OF_CHAPTERS) {
-				_selectedChapterIndex = 1;
-			}
-		}
+		// This will set up the positions/appearance of the chapter buttons
+		_setHighestCompletedChapter(_highestCompletedChapter);
 
 		// Stop showing anything in the game area
 		game.isEnded = true;
@@ -898,7 +894,7 @@
 		hintTextArea.style.left = x + "px";
 		hintTextArea.style.top = y + "px";
 		hintTextArea.style.width = w + "px";
-		hintTextArea.style.fontSize = screenSize * 0.02 + "px";
+		hintTextArea.style.fontSize = screenSize * 0.013 + "px";
 	}
 
 	function _adjustMainMenuScreen(screenSize) {
@@ -1427,6 +1423,18 @@
 				} else {
 					gameOverScreenHeader.innerHTML = "Game Over";
 					nextChapterButton.style.display = "none";
+				}
+
+				var collapseBombCountRow = document.getElementById("collapseBombCountRow");
+				var settleBombCountRow = document.getElementById("settleBombCountRow");
+
+				// Only show the bomb counts if bombs are on
+				if (game.bombsOn) {
+					collapseBombCountRow.style.display = "block";
+					settleBombCountRow.style.display = "block";
+				} else {
+					collapseBombCountRow.style.display = "none";
+					settleBombCountRow.style.display = "none";
 				}
 			}
 		} else {
