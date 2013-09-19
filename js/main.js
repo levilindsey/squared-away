@@ -618,6 +618,7 @@
 
 	function _onQuickPlayClick() {
 		_selectedChapterIndex = 0;
+		game.setChapterParameters(_selectedChapterIndex);
 		_playGame();
 	}
 
