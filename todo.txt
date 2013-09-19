@@ -103,6 +103,8 @@ NEXT:
 			- proportion of players who even bother touching the modes
 --------------------------------------------
 - increase volume of fall sfx slightly
+- the Blow my mind check box is not switching through different peanut gallery messages
+- increase the requirement to complete all level-based chapters by x2 and all point-based chapters by +1000
 --------------------------------------------
 ****- fix up jackie and my pages:
 	- update/change/remove all of my wording
