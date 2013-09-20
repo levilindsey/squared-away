@@ -1,0 +1,27 @@
+{
+  "name": "squared-away",
+  "preferGlobal": true,
+  "version": "0.5.0",
+  "author": "Levi Lindsey <levisl176@gmail.com>",
+  "description": "A tile-matching puzzle game",
+  "scripts": {
+    "start": "node squaredaway.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/levisl176/squared_away"
+  },
+  "keywords": [
+    "puzzle",
+    "game"
+  ],
+  "dependencies": {
+    "express": "3.4.0",
+    "jade": "*"
+  },
+  "analyze": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  }
+}
