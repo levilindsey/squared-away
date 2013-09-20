@@ -101,7 +101,11 @@ NEXT:
 			- average level before dying/quitting
 			- proportion of players using the various modes
 			- proportion of players who even bother touching the modes
+- add a diagonal "Fork me on GitHub" img/link in the top-right corner of the page
 --------------------------------------------
+- there is a bug with the songs ending early
+- there is a big with the collapse bomb removing squares from slightly the wrong cells
+   - I dropped from the bottom onto the right end of a long chain sticking out from the top side, and blocks from the center of this chain (rather than from the right end) were removed
 - increase volume of fall sfx slightly
 - the Blow my mind check box is not switching through different peanut gallery messages
 - increase the requirement to complete all level-based chapters by x2 and all point-based chapters by +1000
