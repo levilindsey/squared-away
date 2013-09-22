@@ -2,7 +2,11 @@
   "name": "squared-away",
   "preferGlobal": true,
   "version": "0.5.0",
-  "author": "Levi Lindsey <levisl176@gmail.com>",
+  "author": {
+    "name": "Levi Lindsey",
+    "email": "levisl176@gmail.com",
+    "url": "http://jackieandlevi.com/levi"
+  },
   "description": "A tile-matching puzzle game",
   "scripts": {
     "start": "node squaredaway.js"
@@ -15,9 +19,19 @@
     "puzzle",
     "game"
   ],
+  "homepage": "http://jackieandlevi.com/squaredaway",
+  "bugs": {
+    "url": "http://github.com/levisl176/squared_away/issues",
+    "email": "levisl176@gmail.com"
+  },
   "dependencies": {
     "express": "3.4.0",
-    "jade": "*"
+    "underscore": "1.4.4",
+    "mongodb": "1.3.10"
+  },
+  "devDependencies": {
+    "mocha": "0.3.x",
+    "should": "1.3.x"
   },
   "analyze": false,
   "license": "MIT",

@@ -1,38 +1,52 @@
-
-/**
- * Module dependencies.
- */
-
+// Module dependencies.
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var config = require('./config')();
 
 var app = express();
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
+var MongoClient = require('mongodb').MongoClient;
+var Admin = require('./controllers/Admin');
+var Home = require('./controllers/Home');
+
+// All environments
+app.set('views', __dirname + '/templates');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
+app.use(express.cookieParser('squared-away-secret-176'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
+// Development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port + '/fastdelivery', function(err, db) {
+  if (err) {
+    console.log('Sorry, there is no mongo db server running.');
+  } else {
+    var attachDB = function(req, res, next) {
+      req.db = db;
+      next();
+    };
 
-http.createServer(app).listen(config.port, function(){
-  console.log('Express server listening on port ' + config.port);
+    // Add the routes for each of the controllers
+    app.all('/admin*', attachDB, function(req, res, next) {
+      Admin.run(req, res, next);
+    });
+    app.all('/', attachDB, function(req, res, next) {
+      Home.run(req, res, next);
+    });
+
+    http.createServer(app).listen(config.port, function(){
+      console.log('Successfully connected to mongodb://' + config.mongo.host + ':' + config.mongo.port);
+      console.log('Express server listening on port ' + config.port);
+    });
+  }
 });

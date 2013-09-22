@@ -2,58 +2,31 @@
 // ---------- SOON
 // ------------------------------------------------------------------------- //
 
-- change the squares-on-the-game-area implementation to instead be a mapping with ONLY the actual squares that are in the game
-    - hopefully, this fixes the severe slow-down I am seeing
 
-- add the guts to the different game-logic JS prototypes
+// ---------- SINCE LINUX
 
-- have circular progress indicators around the borders of the preview windows which indicate how soon it will be before the shown block is dropped
-
-- add the shimmer animation to the tiles
-    - make this a regularly occurring thing for each entire BLOCK
-	- make this a completely randomly occuring thing for each stationary SQUARE
-
-- UNIT TESTS:
-	- test for a long list of things that the browser needs to support (for each of these things, tell the player what is missing):
-		- canvas
-		- audio stuff...
-		- transparency in CSS colors
-		- 
-	- add proper unit tests for classes:
-		- google how to go about doing this
-
-- brighten:
-	- blocks
-	- title
-	- background
-
-- make the game area size dynamically adjust with the size of the window
-
-- move the Sprite functionality to Block and then delete the Sprite file
-
-- use blocks of 5 instead of 4? (could be more fun; definitely less likely to infringe on copyright)
-    - have this be another mode in the web version
-	- use a different sprite sheet for the 5-square possibilities
-	    - will need to make many additional colors
-
-- add an additional ability somehow to occasionally destroy blocks in a special way:
-    - this could mean clearing the lowest level on all sides
-	- this could mean clearing all of the blocks in a certain diameter
-	- this could mean "settling" all blocks on a certain side or within a diameter
-	    *- this could be available every so many points and could mean "settling" a certain number of layers on ALL sides
-	- this ability could be available every so many points, levels, or seconds
-	*- this ability could appear randomly as a special "block" that needs to be placed and then tapped to detonate
-	- or try a multiple of these ideas...
-- *add jitter/shimmer animation that occurs to the center square every time a block lands
-    - have an inner center square appear that is slightly smaller than the main one
-	- have this start centered, but then quickly move around in random directions in and out of the center position (alternate center with random offset)
-	- have this be mostly transparent, with a 2px stroke, and have the fill color change randomly and quickly between the seven options
-- 
+- I am now working on the entire website, not just the squaredaway page
+- translate all of the views/models/controllers/templates to fit with OUR website:
+  - templates:
+    - add our pages
+    - translate things to not be html or hjs, but to instead be Angular-type
+  - models:
+    - 
+  - controllers:
+    - 
+  - views:
+    - ?? (what does his view file even do for him?)
+  - keep the admin panel
+    - somehow incorporate entire site and squaredaway needs
+- plan what I will want to store in the database for the entire site
+  - will this at all relate to the database used specifically with squaredaway?
+    - can I even have multiple simultaneous databases?
+- make sure that database/admin stuff is truely secure
+- add templates/database structure for logging in to squaredaway
+- add some retrospective unit tests
+  - look up how to test the other parts of the MVC pattern
 
 // ------------------------------------------------------------------------- //
-// ---------- DESKTOP POST-IT NOTE
-// ------------------------------------------------------------------------- //
-
 - litter box
 - shave
 - laundry
