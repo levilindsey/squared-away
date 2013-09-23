@@ -36,16 +36,19 @@
 - write next app (js version of gesture recognizers) with angular.js
 --------------------------------------------
 NEXT:
-	- hook up jackie speakers
-	- advertise via email to Alden, Justin, Ben, and Chris
-	- add the server-side database
-	- add email address?
-	- add follow-me icons
-	- add pictures
-	- add thesis
-	- fix the email creation of the web app
-	- fix the email receiving/forwarding on the server
-	- animate collapse bombs with the square collapse animation
+  - somehow add conditions via config.mode that allow the squared away app to be stand-alone if in development, BUT dependent upon home jackieandlevi.com for staging/production
+    - database/cookies?
+    - ...
+  - hook up jackie speakers
+  - advertise via email to Alden, Justin, Ben, and Chris
+  - add the server-side database
+  - add email address?
+  - add follow-me icons
+  - add pictures
+  - add thesis
+  - fix the email creation of the web app
+  - fix the email receiving/forwarding on the server
+  - animate collapse bombs with the square collapse animation
 --------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well
@@ -210,6 +213,15 @@ NEXT:
 - how can I improve efficiency?
 - add a test for older (non-supported) browsers, and tell the user
 - make the github/android icons be links
+- add a comments section using some tech like disqus
+- research how to be secure:
+  - encryption
+  - sessions vs signed cookies vs cookies vs cookieSession
+  - express.basicAuth
+  - express.csrf
+- make sure that logging happens correctly:
+  - maybe switch what stdio is depending on config.mode
+- how to measure and benchmark my app? (to find bottlenecks)
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING

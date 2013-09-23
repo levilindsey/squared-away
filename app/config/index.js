@@ -24,6 +24,7 @@ var config = {
     }
   }
 }
-module.exports = function(mode) {
+
+module.exports = function setMode(mode) {
   return config[mode || process.argv[2] || 'local'] || config.local;
 }
