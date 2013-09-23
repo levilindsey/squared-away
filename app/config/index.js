@@ -1,6 +1,6 @@
 var config = {
   local: {
-    mode: 'local',
+    mode: "local",
     port: 3000,
     mongo: {
       host: "127.0.0.1",
@@ -8,7 +8,7 @@ var config = {
     }
   },
   staging: {
-    mode: 'staging',
+    mode: "staging",
     port: 4000,
     mongo: {
       host: "127.0.0.1",
@@ -16,7 +16,7 @@ var config = {
     }
   },
   production: {
-    mode: 'production',
+    mode: "production",
     port: 5000,
     mongo: {
       host: "127.0.0.1",
@@ -26,5 +26,5 @@ var config = {
 }
 
 module.exports = function setMode(mode) {
-  return config[mode || process.argv[2] || 'local'] || config.local;
+  return config[mode || process.argv[2] || "local"];
 }
