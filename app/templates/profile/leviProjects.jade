@@ -3,50 +3,72 @@ extends leviLayout
 block content
   h2 Projects
   dl
-    dt A Tile-Matching Puzzle Game Web App (2013)
+    dt
+      | A Tile-Matching Puzzle Game Web App (2013)
     dd
-      a(href='../squaredaway') This web app
-      | was simply a toy project, which gave Levi the opportunity to practice his web development skills. Levi will soon create a separate Android app version of this game.
-    dt Sketch Recognition (2013)
+      a(href='/squaredaway')
+        | This web app
+      |  was simply a toy project, which gave Levi the opportunity to practice his web development skills. Levi will soon create a separate Android app version of this game.
+    dt
+      | Sketch Recognition (2013)
     dd
       | Levi developed a novel algorithm for real-time gesture recognition from ink data. This was extended from work done in a UCR course on Pen-Based Computing algorithms and techniques.
-    dt Wedding Website (2012)
+    dt
+      | Wedding Website (2012)
     dd
-      a(href='../wedding') This website
-      | was used as the invite, RSVP system, and source of general information for Jackie and Levi&apos;s wedding.
-    dt Blind-Accessible Android Navigation Application (2011)
+      a(href='/wedding')
+        | This website
+      |  was used as the invite, RSVP system, and source of general information for Jackie and Levi&apos;s wedding.
+    dt
+      | Blind-Accessible Android Navigation Application (2011)
     dd
-      | In the UW CS accessibility capstone course (CSE 481h) Levi co-developed a route-orienting application which would guide a blind user via vibrational feedback. This application would first geocode the user&apos;s current location and a user-entered destination and then query the Google Directions API for a route from the one to the other. This route was then displayed on a map with the user’s current location. The user could then rotate the phone around, and the phone would vibrate when pointed in the direction of the current step in the user&apos;s route. This involved the creation of a completely novel blind-accessible soft keyboard in addition to the implementation of a database for storing previously entered destinations. The PhoneWand code is open source and online at: <a href="http://code.google.com/p/mobileaccessibility/source/browse/#svn%2Ftrunk%2FPhoneWand" target="_blank">http://code.google.com/p/mobileaccessibility/source/browse/#svn%2Ftrunk%2FPhoneWand</a>.
+      | In the UW CS accessibility capstone course (CSE 481h) Levi co-developed a route-orienting application which would guide a blind user via vibrational feedback. This application would first geocode the user&apos;s current location and a user-entered destination and then query the Google Directions API for a route from the one to the other. This route was then displayed on a map with the user’s current location. The user could then rotate the phone around, and the phone would vibrate when pointed in the direction of the current step in the user&apos;s route. This involved the creation of a completely novel blind-accessible soft keyboard in addition to the implementation of a database for storing previously entered destinations. The PhoneWand code is open source and online at: 
+      a(href='http://code.google.com/p/mobileaccessibility/source/browse/#svn%2Ftrunk%2FPhoneWand', target='_blank')
+        | http://code.google.com/p/mobileaccessibility/source/browse/#svn%2Ftrunk%2FPhoneWand
+      | .
 
   h2 Work Experience
   dl
-    dt Graduate Student Researcher (2011-2013)
+    dt
+      | Graduate Student Researcher (2011-2013)
     dd
-      | At UCR, Levi worked with Professor
-      a(href='http://www.engr.ucr.edu/faculty/me/stahovich.html', target='_blank') Tom Stahovich
-      | in the
-      a(href='http://smarttools.engr.ucr.edu/', target='_blank') Smart Tools lab
-      | (10/11-6/13).  Levi led the development of pair of a statics tutorial systems which were used in undergraduate classes to help students tackle the difficult tasks of constructing free-body diagrams and deriving their corresponding equilibrium equations. The first version of this system runs on tablet computers with a standard computer interface, and the other runs on
-      a(href="http://www.livescribe.com', target='_blank') Livescribe smartpens
-      | with specially designed paper worksheets.  Here is his
-      a(href'../documents/levi_thesis.pdf') Master&apos;s thesis
-      | discussing this research.
-    dt Teaching Assistant (2012-2013)
+      | At UCR, Levi worked with Professor 
+      a(href='http://www.engr.ucr.edu/faculty/me/stahovich.html', target='_blank')
+        | Tom Stahovich
+      |  in the 
+      a(href='http://smarttools.engr.ucr.edu/', target='_blank')
+        | Smart Tools lab
+      |  (10/11-6/13).  Levi led the development of pair of a statics tutorial systems which were used in undergraduate classes to help students tackle the difficult tasks of constructing free-body diagrams and deriving their corresponding equilibrium equations. The first version of this system runs on tablet computers with a standard computer interface, and the other runs on 
+      a(href='http://www.livescribe.com', target='_blank')
+        | Livescribe smartpens
+      |  with specially designed paper worksheets.  Here is his 
+      a(href='/documents/levi_thesis.pdf')
+        | Master&apos;s thesis
+      |  discussing this research.
+    dt
+      | Teaching Assistant (2012-2013)
     dd
       | At UCR, Levi taught two courses for two quarters each. The first was Introduction to Computer Science and the second was Software Construction.
-    dt Software Developer Intern (2011)
+    dt
+      | Software Developer Intern (2011)
     dd
-      | Levi spent the summer of 2011 as an intern at
-      a(href='http://www.voicebox.com/', target='_blank') VoiceBox Technologies
-      | in Bellevue, Washington, where he implemented a noise suppression algorithm and incorporated noise suppression functionality into VBT's original voice activity detection module.
-    dt Undergraduate Researcher (2010-2011)
+      | Levi spent the summer of 2011 as an intern at 
+      a(href='http://www.voicebox.com/', target='_blank')
+        | VoiceBox Technologies
+      |  in Bellevue, Washington, where he implemented a noise suppression algorithm and incorporated noise suppression functionality into VBT's original voice activity detection module.
+    dt
+      | Undergraduate Researcher (2010-2011)
     dd
-      | During his undergraduate studies at UW, Levi spent more than a year (4/10-6/11) working with Professor
-      a(href='http://www.ee.washington.edu/faculty/mamishev/', target='_blank') Alexander Mamishev
-      | in the
-      a(href='http://www.ee.washington.edu/research/seal/', target='_blank') Sensors Energy and AutomationLaboratory
-      | . The lab had been hired by the
-      a(href='http://www.fhcrc.org/', target='_blank') Fred Hutchinson Cancer Research Center
-      | to create a Dietary Data Recording device which would better record the dietary intake of their study participants. The lab&apos;s work revolved around the development of an application that was run on Android devices. Levi was originally the sole developer for this, and some of the application&apos;s functionalities include: recording accelerometer and magnetometer measurements and associating them with individual video frames in order to analyze the volume of some food; firing a laser grid via an external, custom-made, Bluetooth-compatible device; recording and playing audio and video; scanning barcodes; uploading and downloading data from the databases on our server; recording dietary info in an SQLite database; parsing SQL data to and from an XML file.
-
-  include footer
+      | During his undergraduate studies at UW, Levi spent more than a year (4/10-6/11) working with Professor 
+      a(href='http://www.ee.washington.edu/faculty/mamishev/', target='_blank')
+        | Alexander Mamishev
+      |  in the 
+      a(href='http://www.ee.washington.edu/research/seal/', target='_blank')
+        | Sensors Energy and AutomationLaboratory
+      | . The lab had been hired by the 
+      a(href='http://www.fhcrc.org/', target='_blank')
+        | Fred Hutchinson Cancer Research Center
+      |  to create a Dietary Data Recording device which would better record the dietary intake of their study participants. The lab&apos;s work revolved around the development of an application that was run on Android devices. Levi was originally the sole developer for this, and some of the application&apos;s functionalities include: recording accelerometer and magnetometer measurements and associating them with individual video frames in order to analyze the volume of some food; firing a laser grid via an external, custom-made, Bluetooth-compatible device; recording and playing audio and video; scanning barcodes; uploading and downloading data from the databases on our server; recording dietary info in an SQLite database; parsing SQL data to and from an XML file.  Here is an article Levi co-authored on this research: 
+      a(href='http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5766890&isnumber=5766834', target='_blank')
+        | A Pervasive Dietary Data Recording System
+      | .

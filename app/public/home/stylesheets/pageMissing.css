@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'SassoonSansStd';
+  src: url("fonts/SassoonSansStd.eot");
+/* For IE */
+  src: local('SassoonSansStd'), url("fonts/SassoonSansStd.woff") format('woff'), url("fonts/SassoonSansStd.ttf") format('truetype'), url("fonts/SassoonSansStd.svg") format('svg');
+/* For all other web browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background: #fff;
+  color: #888;
+  font-family: 'SassoonSansStd', sans-serif;
+  width: 100%;
+}
+img {
+  display: block;
+  margin: 80px auto 20px auto;
+}
+h1 {
+  font-size: 32pt;
+  text-align: center;
+  width: 100%;
+}
+p {
+  font-size: 18pt;
+  text-align: center;
+  width: 100%;
+}

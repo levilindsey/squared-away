@@ -3,8 +3,9 @@ extends jackieLayout
 block content
   h2 Resume
   p
-    | Here is Jackie&apos;s
-    a(href='../documents/jackie_resume.doc') resume
+    a(href='/documents/jackie_resume.pdf')
+      | Jackie&apos;s resume (PDF)
+    | .<br>
+    a(href='/documents/jackie_resume.doc')
+      | Jackie&apos;s resume (Word doc)
     | .
-
-  include footer

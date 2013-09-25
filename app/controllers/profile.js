@@ -4,9 +4,34 @@ var View = require('../views/Base');
 var profileController = baseController.extend({
   name: 'profile',
   content: null,
-  run: function(req, res, next) {
+  run: function(req, res, next, person) {
     getContent(function sendContent() {
-      res.render('profile', profileController.content);
+      var template;
+      var dirs = req.path.split('/');
+
+      if (dirs[2] === '' || dirs.length === 2) {
+        template = 'profile/' + person + 'About';
+      } else {
+        switch (dirs[2]) {
+        case 'about':
+          template = 'profile/' + person + 'About';
+          break;
+        case 'projects':
+          template = 'profile/' + person + 'Projects';
+          break;
+        case 'resume':
+          template = 'profile/' + person + 'Resume';
+          break;
+        case 'follow':
+          template = 'profile/' + person + 'Follow';
+          break;
+        default:
+          next();
+          return;
+        }
+      }
+
+      res.render(template, profileController.content);
     });
   }
 });

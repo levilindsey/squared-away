@@ -2,9 +2,18 @@ doctype 5
 html
   head
     title Page Missing
+
+    meta(charset='utf-8')
+    meta(name='description', content='Jackie and Levi Lindsey&apos;s personal website')
+    meta(name='viewport', content='width=device-width')
+
+    link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/stylesheets/pageMissing.css')
   body
     img(src='/images/maya.jpg', alt='A cat')
     h1 Page Missing
-    | Sorry, we couldn't find your page...<br><br>
-    | So here's a picture of a cat!
+    p
+      | Sorry, we couldn't find your page at #{pageName}.<br><br>
+      | ...so here's a picture of a cat instead!
+
+    script(src='/javascripts/googleanalytics.js')

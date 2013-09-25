@@ -3,25 +3,32 @@ html
   head
     title #{upperName} Lindsey&apos;s webpage
 
-    //- TODO: ?? <meta name="description" content="Levi Lindsey&apos;s personal webpage">
-    //- TODO: ?? <meta name="viewport" content="width=device-width">
+    meta(charset='utf-8')
+    meta(name='description', content='Jackie and Levi Lindsey&apos;s personal website')
+    meta(name='viewport', content='width=device-width')
 
-    link(rel='shortcut icon', href='/images/favicon.css')
-    link(rel='stylesheet', href='/stylesheets/profile.css')
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/#{lowerName}Profile.css')
   body
     #contentColumn
       #banner
         #titleCircle
-          img(src='../img/#{lowerName}_circle.png', alt='Circle')
-          h1 #{name}<br>Lindsey
+          img(src='/images/#{lowerName}_circle.png', alt='Circle')
+          h1
+            | #{upperName}<br>Lindsey
 
-          a#ribbon(href='#{ribbonLink}'): img(src='../images/#{lowerName}_ribbon.png', alt='#{ribbonAlt}')
+        a#ribbon(href='#{ribbonLink}')
+          img(src='/images/#{lowerName}_ribbon.png', alt='#{ribbonAlt}')
 
         #internalLinks
-          - var profilePages = [{link: 'about', name: 'About'}, {link: 'projects', name: 'Projects'}, {link: 'resume', name: 'Resume'}, {link: 'follow', name: 'Follow Me'}, {link: '../', name: 'J &amp; L Home'}];
+          - var profilePages = [{link: 'about', name: 'About'}, {link: 'projects', name: 'Projects'}, {link: 'resume', name: 'Resume'}, {link: 'follow', name: 'Follow Me'}, {link: '../', name: 'J & L Home'}];
           ul
-            each var in profilePages
-              li: a(href='./#{var.link}') #{var.name}
+            each page in profilePages
+              li
+                a(href='/#{lowerName}/#{page.link}')
+                  | #{page.name}
 
       #mainArea
         block content
+
+      include footer
