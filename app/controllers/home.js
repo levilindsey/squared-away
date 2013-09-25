@@ -6,7 +6,7 @@ var homeController = baseController.extend({
   content: null,
   run: function(req, res, next) {
     getContent(function sendContent() {
-      res.render('home', homeController.content);
+      res.render('home/home', homeController.content);
     });
   }
 });

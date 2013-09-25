@@ -2,11 +2,11 @@ var baseController = require('./base');
 var View = require('../views/Base');
 
 var squaredAwayController = baseController.extend({
-  name: 'squaredAway',
+  name: 'squaredaway',
   content: null,
   run: function(req, res, next) {
     getContent(function sendContent() {
-      res.render('squaredAway', squaredAwayController.content);
+      res.render('squaredaway/squaredaway', squaredAwayController.content);
     });
   }
 });

@@ -10,20 +10,20 @@ var profileController = baseController.extend({
       var dirs = req.path.split('/');
 
       if (dirs[2] === '' || dirs.length === 2) {
-        template = 'profile/' + person + 'About';
+        template = 'home/profile/' + person + 'About';
       } else {
         switch (dirs[2]) {
         case 'about':
-          template = 'profile/' + person + 'About';
+          template = 'home/profile/' + person + 'About';
           break;
         case 'projects':
-          template = 'profile/' + person + 'Projects';
+          template = 'home/profile/' + person + 'Projects';
           break;
         case 'resume':
-          template = 'profile/' + person + 'Resume';
+          template = 'home/profile/' + person + 'Resume';
           break;
         case 'follow':
-          template = 'profile/' + person + 'Follow';
+          template = 'home/profile/' + person + 'Follow';
           break;
         default:
           next();

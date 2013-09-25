@@ -6,7 +6,7 @@ var weddingController = baseController.extend({
   content: null,
   run: function(req, res, next) {
     getContent(function sendContent() {
-      res.render('wedding', weddingController.content);
+      res.render('wedding/wedding', weddingController.content);
     });
   }
 });
