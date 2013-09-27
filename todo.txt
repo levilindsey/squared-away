@@ -5,17 +5,6 @@
 
 // ---------- SINCE LINUX
 
-- I am now working on the entire website, not just the squaredaway page
-- translate all of the views/models/controllers/templates to fit with OUR website:
-  - templates:
-    - add our pages
-    - translate things to not be html or hjs, but to instead be Angular-type
-  - models:
-    - 
-  - controllers:
-    - 
-  - views:
-    - ?? (what does his view file even do for him?)
   - keep the admin panel
     - somehow incorporate entire site and squaredaway needs
 - plan what I will want to store in the database for the entire site
@@ -39,13 +28,11 @@ NEXT:
   - somehow add conditions via config.mode that allow the squared away app to be stand-alone if in development, BUT dependent upon home jackieandlevi.com for staging/production
     - database/cookies?
     - ...
-  - hook up jackie speakers
   - advertise via email to Alden, Justin, Ben, and Chris
   - add the server-side database
   - add email address?
   - add follow-me icons
   - add pictures
-  - add thesis
   - fix the email creation of the web app
   - fix the email receiving/forwarding on the server
   - animate collapse bombs with the square collapse animation
@@ -223,6 +210,8 @@ NEXT:
 - make sure that logging happens correctly:
   - maybe switch what stdio is depending on config.mode
 - how to measure and benchmark my app? (to find bottlenecks)
+- add hook to github for continuous deployment on nodejitsu (https://www.nodejitsu.com/documentation/features/webhooks/)
+- 
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
