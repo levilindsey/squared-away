@@ -49,6 +49,7 @@ NEXT:
   - fix the email creation of the web app
   - fix the email receiving/forwarding on the server
   - animate collapse bombs with the square collapse animation
+  - decrease the distance needed to change direction by half
 --------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well

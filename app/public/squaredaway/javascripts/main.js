@@ -841,7 +841,7 @@
       if (game.sfxOn) {
         sfxElement.src = _buttonManifest[sfxId].onHover;
       } else {
-        sfxElement.src = _buttonManifest[sfxId].onHover;
+        sfxElement.src = _buttonManifest[sfxId].offHover;
       }
 
       if (game.musicOn) {

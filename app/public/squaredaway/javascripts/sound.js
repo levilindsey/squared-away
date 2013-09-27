@@ -17,8 +17,8 @@
 
   log.d('-->sound.LOADING_MODULE');
 
-  var _SFX_PATH = 'sfx/';
-  var _MUSIC_PATH = 'music/';
+  var _SFX_PATH = './sfx/';
+  var _MUSIC_PATH = './music/';
 
   var _onAudioToggle;
 
@@ -418,9 +418,11 @@
 
       var nextSong = _chooseRandomNextSong();
 
-      _nextMusicInstance = _getSoundInstance(nextSong.id);
+      if (nextSong) {
+        _nextMusicInstance = _getSoundInstance(nextSong.id);
 
-      _onSongEnd(true);
+        _onSongEnd(true);
+      }
     }
   }
 
@@ -476,7 +478,12 @@
       if (_singleLoopMusicId) {
         nextSongId = _singleLoopMusicId;
       } else {
-        nextSongId = _chooseRandomNextSong().id;
+        var nextSong = _chooseRandomNextSong();
+        if (nextSong) {
+          nextSongId = nextSong.id;
+        } else {
+          return;
+        }
       }
       _nextMusicInstance = _getSoundInstance(nextSongId);
 

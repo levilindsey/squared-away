@@ -39,4 +39,10 @@ Thumbs.db
 
 # node dependencies #
 #####################
-app/node_modules/*
+node_modules/*
+
+# test files #
+##############
+tests/*
+
+Makefile
