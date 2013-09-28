@@ -99,9 +99,43 @@
 
   div(id='loginScreen', class='screen')
     h3
-      | Please enter your username: 
+      | Username: 
     input(type='text', size='20', placeholder='your username')
-    // img(id='submitNameButton', class='button', src='./images/.png', alt='Submit')
+    p.credentialsErrorMsg
+      | Invalid username
+    h3
+      | Password: 
+    input(type='text', size='20', placeholder='your username')
+    p.credentialsErrorMsg
+      | Password does not match username
+    img(id='loginSubmitButton', class='button', src='./images/.png', alt='Submit')
+
+  div(id='createAccountScreen', class='screen')
+    h3
+      | Username: 
+    input(type='text', size='20', placeholder='your username')
+    p.credentialsErrorMsg
+      | That username is unavailable
+    h3
+      | Password: 
+    input(type='text', size='20', placeholder='your username')
+    p(id='', class='credentialsErrorMsg')
+      | Passwords must be at least six characters long
+    img(id='createAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
+
+  div(id='editAccountScreen', class='screen')
+    h3
+      | Username: 
+    input(type='text', size='20', placeholder='your username')
+    p.credentialsErrorMsg
+      | Invalid username
+    h3
+      | Password: 
+    input(type='text', size='20', placeholder='your username')
+    p.credentialsErrorMsg
+      | Password does not match username
+    img(id='editAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
+    img(id='deleteAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
 
   div(id='profileStatsScreen', class='screen')
     h3
