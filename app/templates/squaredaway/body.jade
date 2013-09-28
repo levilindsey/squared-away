@@ -1,0 +1,38 @@
+body
+  #pageColumn
+    #banner
+      img(src='./images/title.png', alt='Squared Away')
+
+    #betaLabel
+      h2
+        | ALPHA
+
+    #noJavaScriptArea
+      p
+        | Hey! This spiffy web app needs JavaScript in order to run. Come back with a browser that has JavaScript turned on!
+
+    include playarea
+
+    #infoArea
+      include directions
+      include options
+      include music
+      include about
+
+  script(src='/javascripts/googleanalytics.js')
+
+  script(src='./javascripts/stacktrace-min-0.4.js')
+  script(src='./javascripts/soundjs-0.4.1.min.js')
+
+  script(src='./javascripts/logger.js')
+  script(src='./javascripts/utils.js')
+  script(src='./javascripts/resources.js')
+  script(src='./javascripts/block.js')
+  script(src='./javascripts/previewwindow.js')
+  script(src='./javascripts/bombwindow.js')
+  script(src='./javascripts/centersquare.js')
+  script(src='./javascripts/gamewindow.js')
+  script(src='./javascripts/input.js')
+  script(src='./javascripts/sound.js')
+  script(src='./javascripts/game.js')
+  script(src='./javascripts/main.js')

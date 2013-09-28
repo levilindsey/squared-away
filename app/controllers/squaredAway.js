@@ -6,7 +6,7 @@ var squaredAwayController = baseController.extend({
   content: null,
   run: function(req, res, next) {
     getContent(function sendContent() {
-      res.render('squaredaway/squaredaway', squaredAwayController.content);
+      res.render('squaredaway/layout', squaredAwayController.content);
     });
   }
 });

@@ -1,0 +1,155 @@
+#optionsArea
+  h2
+    | Options
+  div
+    label
+      input(type='checkbox', name='keyboardControlCB', id='keyboardControlCB', class='modeCB', value='keyboardControlCB')
+      |  Enable keyboard control
+    span(id='keyboardControlCBDefaultComment', class='peanutGallery')
+      | Guaranteed to increase your WPM or your money back!
+    
+    .customControl
+      label
+        input(type='checkbox', name='completeSquaresCB', id='completeSquaresCB', class='modeCB', value='completeSquaresCB')
+        |  Completing squares instead of lines
+        span(id='completeSquaresCBDefaultComment', class='peanutGallery')
+          | Totally four times as much fun
+      
+      br
+      label
+        input(type='checkbox', name='blocksFallPastCenterCB', id='blocksFallPastCenterCB', class='modeCB', value='blocksFallPastCenterCB')
+        |  Blocks are allowed to fall past the center
+        span(id='blocksFallPastCenterCBOffComment', class='peanutGallery')
+          | I&apos;ll bet you also need bumpers when you bowl...
+        span(id='blocksFallPastCenterCBOnComment', class='peanutGallery')
+          | You&apos;re gonna miss the center...
+      
+      br
+      label
+        input(type='checkbox', name='changeFallDirectionCB', id='changeFallDirectionCB', class='modeCB', value='changeFallDirectionCB', checked)
+        |  Able to change falling direction of blocks
+        span(id='changeFallDirectionCBOffComment', class='peanutGallery')
+          | Aw, don&apos;t be constrained to just one dimension
+        span(id='changeFallDirectionCBOnComment', class='peanutGallery')
+          | Whoo hoo! Now we can spin around in circles!
+      
+      br
+      label
+        input(type='checkbox', name='changeQuadrantWithFallDirectionCB', id='changeQuadrantWithFallDirectionCB', class='modeCB', value='changeQuadrantWithFallDirectionCB', checked)
+        |  Changing direction moves block to next quadrant
+        span(id='changeQuadrantWithFallDirectionCBDefaultComment', class='peanutGallery')
+          | Where&apos;d it go?!
+      
+      br
+      label
+        input(type='checkbox', name='settleWithCollapseCB', id='settleWithCollapseCB', class='modeCB', value='settleWithCollapseCB')
+        |  Collapsing a layer causes higher layers to &quot;settle&quot;
+        span(id='settleWithCollapseCBDefaultComment', class='peanutGallery')
+          | Whoo hoo! An auto mistake fixer!
+      
+      br
+      label
+        input(type='checkbox', name='settleInwardCB', id='settleInwardCB', class='modeCB', value='settleInwardCB')
+        |  Layers &quot;settle&quot; inwards as well as downwards
+        span(id='settleInwardCBDefaultComment', class='peanutGallery')
+          | Well, that&apos;s just confusing
+      
+      br
+      label
+        input(type='checkbox', name='bombsCB', id='bombsCB', class='modeCB', value='bombsCB', checked)
+        |  Bombs on
+        span(id='bombsCBOffComment', class='peanutGallery')
+          | You&apos;re no fun...
+        span(id='bombsCBOnComment', class='peanutGallery')
+          | Well, duh...
+      
+      br
+      label
+        input(type='checkbox', name='fallOutwardCB', id='fallOutwardCB', class='modeCB', value='fallOutwardCB')
+        |  Blow my mind
+        span(id='fallOutwardCBDefaultComment', class='peanutGallery')
+          | Wait, what?
+        span(id='fallOutwardCBOffComment', class='peanutGallery')
+          | Booooooring
+        span(id='fallOutwardCBOnComment', class='peanutGallery')
+          | Well, aren&apos;t you brave...
+      
+      br
+      label
+        input(type='checkbox', name='consoleCB', id='consoleCB', class='modeCB', value='consoleCB')
+        |  Show the debug console
+        span(id='consoleCBDefaultComment', class='peanutGallery')
+          | Not that there are any bugs or anything...
+      
+      br
+      label
+        input(type='checkbox', name='peanutGalleryCB', id='peanutGalleryCB', class='modeCB', value='peanutGalleryCB')
+        |  Peanut gallery
+        span(id='peanutGalleryCBDefaultComment', class='peanutGallery')
+          | What? My app wasn&apos;t entertaining enough for you before?!?
+      
+      br
+      | Size of game area: 
+      select(id='gameWindowSize', class='gameParameterSelect')
+        option(value='10') 10
+        option(value='20') 20
+        option(value='30') 30
+        option(value='40', selected) 40
+        option(value='50') 50
+        option(value='60') 60
+        option(value='70') 70
+        option(value='80') 80
+        option(value='90') 90
+        option(value='100') 100
+        option(value='120') 120
+        option(value='140') 140
+        option(value='160') 160
+        option(value='180') 180
+        option(value='200') 200
+      br
+      | Size of center square: 
+      select(id='centerSquareSize', class='gameParameterSelect')
+        option(value='2') 2
+        option(value='4') 4
+        option(value='6', selected) 6
+        option(value='8') 8
+        option(value='10') 10
+        option(value='12') 12
+        option(value='14') 14
+        option(value='16') 16
+        option(value='18') 18
+        option(value='20') 20
+      br
+      | Number of squares in a block: 
+      select(id='numberOfSquaresInABlock', class='gameParameterSelect')
+        option(value='8', selected) 2-5
+        option(value='7') 4-5
+        option(value='6') 2-4
+        option(value='5') 5
+        option(value='4') 4
+        option(value='3') 3
+        option(value='2') 2
+      br
+      | Number of sides blocks fall from: 
+      select(id='numberOfSidesBlocksFallFrom', class='gameParameterSelect')
+        option(value='4', selected) 4
+        option(value='3') 3
+        option(value='2') 2
+        option(value='1') 1
+      br
+      | Starting level: 
+      select(id='startingLevel', class='gameParameterSelect')
+        option(value='1', selected) 1
+        option(value='2') 2
+        option(value='3') 3
+        option(value='4') 4
+        option(value='5') 5
+        option(value='6') 6
+        option(value='7') 7
+        option(value='8') 8
+        option(value='9') 9
+        option(value='10') 10
+        option(value='15') 15
+        option(value='20') 20
+
+hr
