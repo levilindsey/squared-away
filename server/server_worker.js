@@ -13,28 +13,28 @@ var pageMissingController = require('./apps/home/controllers/pagemissing');
 var squaredAwayController = require('./apps/squaredaway/controllers/index');
 var weddingController = require('./apps/wedding/controllers/index');
 var APPS = [
-'squaredaway',
+  'squaredaway',
   'wedding'
-  ];
+];
 
-  var app = express();
+var app = express();
 
-  var config;
-  var server;
-  var cluster;
+var config;
+var server;
+var cluster;
 
-  setUpMiddleware();
-  setUpRoutes();
+setUpMiddleware();
+setUpRoutes();
 
-  function start(cluster, config) {
-    this.cluster = cluster;
-    this.config = config;
-    this.server = http.createServer(app);
+function start(cluster, config) {
+  this.cluster = cluster;
+  this.config = config;
+  this.server = http.createServer(app);
 
-    this.server.listen(config.port, function() {
-      console.log('Express server listening on port ' + config.port);
-    });
-  }
+  this.server.listen(config.port, function() {
+    console.log('Express server listening on port ' + config.port);
+  });
+}
 
 function setUpMiddleware() {
   // Set some settings to use with express
@@ -92,15 +92,17 @@ function setUpMiddleware() {
 
 function setUpStaticFiles() {
   // Set up the home/general site files
+  var mountPath;
   var staticPath = __dirname + '/apps/home/public';
   app.use(stylus.middleware(staticPath));
   app.use(express.static(staticPath));
 
   // Set up each of the apps' specific files
   for (var i = 0; i < APPS.length; ++i) {
+    mountPath = '/' + APPS[i];
     staticPath = __dirname + '/apps/' + APPS[i] + '/public';
-    app.use(stylus.middleware(staticPath));
-    app.use(express.static(staticPath));
+    app.use(mountPath, stylus.middleware(staticPath));
+    app.use(mountPath, express.static(staticPath));
   }
 }
 
