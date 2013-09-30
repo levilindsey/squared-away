@@ -211,6 +211,7 @@ NEXT:
   - maybe switch what stdio is depending on config.mode
 - how to measure and benchmark my app? (to find bottlenecks)
 - add hook to github for continuous deployment on nodejitsu (https://www.nodejitsu.com/documentation/features/webhooks/)
+- use d3.js!!
 - 
 
 // ------------------------------------------------------------------------- //
