@@ -1379,7 +1379,7 @@
     var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
     var sourceX = animationIndex * _SOURCE_SQUARE_SIZE;
 
-    context.drawImage(resources.get('./images/sprites.png'), 
+    context.drawImage(resources.get('/squaredaway/images/sprites.png'), 
         sourceX, sourceY, 
         _SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
         x, y, 

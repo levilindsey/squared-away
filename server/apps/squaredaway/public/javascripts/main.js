@@ -26,7 +26,7 @@
 
   var _ABANDON_CONFIRMATION_MSG = 'Are you sure you want to abandon your progress in the current game?';
 
-  var _IMAGE_PATH = './images/';
+  var _IMAGE_PATH = '/squaredaway/images/';
 
   var _NUMBER_OF_CHAPTERS = 8;
 

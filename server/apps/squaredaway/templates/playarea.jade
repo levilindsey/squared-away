@@ -13,26 +13,26 @@
 
   #hintTextArea
 
-  img(id='helpButton', class='canvasButton button', src='./images/help.png', alt='help')
-  img(id='musicButton', class='canvasButton button', src='./images/music_on.png', alt='toggle music')
-  img(id='sfxButton', class='canvasButton button', src='./images/sfx_on.png', alt='toggle sfx')
+  img(id='helpButton', class='canvasButton button', src='#{BASE_DIR}/images/help.png', alt='help')
+  img(id='musicButton', class='canvasButton button', src='#{BASE_DIR}/images/music_on.png', alt='toggle music')
+  img(id='sfxButton', class='canvasButton button', src='#{BASE_DIR}/images/sfx_on.png', alt='toggle sfx')
 
   div(id='mainMenuScreen', class='screen')
-    img(id='quickPlayButton', class='button', src='./images/quick_play.png', alt='Quick play button')
-    img(id='mainMenuScreenCustomPlayButton', src='./images/top_button_locked.png', alt='Custom play button')
+    img(id='quickPlayButton', class='button', src='#{BASE_DIR}/images/quick_play.png', alt='Quick play button')
+    img(id='mainMenuScreenCustomPlayButton', src='#{BASE_DIR}/images/top_button_locked.png', alt='Custom play button')
 
-    img(id='prevButton', class='button', src='./images/prev.png', alt='Previous chapter button')
-    img(id='nextButton', class='button', src='./images/next.png', alt='Next chapter button')
+    img(id='prevButton', class='button', src='#{BASE_DIR}/images/prev.png', alt='Previous chapter button')
+    img(id='nextButton', class='button', src='#{BASE_DIR}/images/next.png', alt='Next chapter button')
 
     #chapterList
-      img(id='chapter1', class='chapterItem', src='./images/chapter_1.png', alt='Chapter 1')
-      img(id='chapter2', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 2')
-      img(id='chapter3', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 3')
-      img(id='chapter4', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 4')
-      img(id='chapter5', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 5')
-      img(id='chapter6', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 6')
-      img(id='chapter7', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 7')
-      img(id='chapter8', class='chapterItem', src='./images/chapter_locked.png', alt='Chapter 8')
+      img(id='chapter1', class='chapterItem', src='#{BASE_DIR}/images/chapter_1.png', alt='Chapter 1')
+      img(id='chapter2', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 2')
+      img(id='chapter3', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 3')
+      img(id='chapter4', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 4')
+      img(id='chapter5', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 5')
+      img(id='chapter6', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 6')
+      img(id='chapter7', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 7')
+      img(id='chapter8', class='chapterItem', src='#{BASE_DIR}/images/chapter_locked.png', alt='Chapter 8')
 
     #chapterProgressIndicator
       | 1/8
@@ -41,10 +41,10 @@
     h3#gameOverScreenHeader
       | Game Over
     h4#gameOverScreenSubHeader
-    img(id='nextChapterButton', class='button', src='./images/next_chapter.png', alt='Next chapter button')
-    img(id='gameOverScreenCustomPlayButton', src='./images/custom_play.png', alt='Custom play button')
-    img(id='playAgainButton', class='button', src='./images/play_again.png', alt='Play again button')
-    img(id='gameOverMainMenuButton', class='button', src='./images/main_menu.png', alt='Main menu button')
+    img(id='nextChapterButton', class='button', src='#{BASE_DIR}/images/next_chapter.png', alt='Next chapter button')
+    img(id='gameOverScreenCustomPlayButton', src='#{BASE_DIR}/images/custom_play.png', alt='Custom play button')
+    img(id='playAgainButton', class='button', src='#{BASE_DIR}/images/play_again.png', alt='Play again button')
+    img(id='gameOverMainMenuButton', class='button', src='#{BASE_DIR}/images/main_menu.png', alt='Main menu button')
     table#statsTable
       tr
         td
@@ -84,18 +84,18 @@
       | Game Paused
     h4#pauseScreenSubHeader
     #explanationTextArea
-    img(id='pauseScreenPlayGameButton', class='button', src='./images/play_game.png', alt='Play game button')
-    img(id='unpauseButton', class='button', src='./images/unpause.png', alt='Unpause game button')
-    img(id='restartButton', class='confirmationButton button', src='./images/restart.png', alt='Restart game button')
-    img(id='pauseMainMenuButton', class='confirmationButton button', src='./images/main_menu.png', alt='Main menu button')
+    img(id='pauseScreenPlayGameButton', class='button', src='#{BASE_DIR}/images/play_game.png', alt='Play game button')
+    img(id='unpauseButton', class='button', src='#{BASE_DIR}/images/unpause.png', alt='Unpause game button')
+    img(id='restartButton', class='confirmationButton button', src='#{BASE_DIR}/images/restart.png', alt='Restart game button')
+    img(id='pauseMainMenuButton', class='confirmationButton button', src='#{BASE_DIR}/images/main_menu.png', alt='Main menu button')
 
   div(id='customPlayScreen', class='screen')
     h3#customPlayScreenHeader
       | Custom Play
     h4
       | Change the game parameters with the controls below.
-    img(id='customPlayScreenPlayGameButton', class='button', src='./images/play_game.png', alt='Play game button')
-    img(id='customPlayMainMenuButton', class='button', src='./images/main_menu.png', alt='Main menu button')
+    img(id='customPlayScreenPlayGameButton', class='button', src='#{BASE_DIR}/images/play_game.png', alt='Play game button')
+    img(id='customPlayMainMenuButton', class='button', src='#{BASE_DIR}/images/main_menu.png', alt='Main menu button')
 
   div(id='loginScreen', class='screen')
     h3
@@ -108,7 +108,7 @@
     input(type='text', size='20', placeholder='your username')
     p.credentialsErrorMsg
       | Password does not match username
-    img(id='loginSubmitButton', class='button', src='./images/.png', alt='Submit')
+    img(id='loginSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
 
   div(id='createAccountScreen', class='screen')
     h3
@@ -121,7 +121,7 @@
     input(type='text', size='20', placeholder='your username')
     p(id='', class='credentialsErrorMsg')
       | Passwords must be at least six characters long
-    img(id='createAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
+    img(id='createAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
 
   div(id='editAccountScreen', class='screen')
     h3
@@ -134,8 +134,8 @@
     input(type='text', size='20', placeholder='your username')
     p.credentialsErrorMsg
       | Password does not match username
-    img(id='editAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
-    img(id='deleteAccountSubmitButton', class='button', src='./images/.png', alt='Submit')
+    img(id='editAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
+    img(id='deleteAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
 
   div(id='profileStatsScreen', class='screen')
     h3

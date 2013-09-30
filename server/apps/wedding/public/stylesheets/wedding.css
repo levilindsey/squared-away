@@ -19,17 +19,17 @@ a:visited {
 }
 @font-face {
   font-family: 'Monotype Corsiva';
-  src: url("../fonts/MTCORSVA.TTF");
+  src: url("/wedding/fonts/MTCORSVA.TTF");
 /* For IE */
-  src: local('Monotype Corsiva'), url("../fonts/MTCORSVA.TTF") format('truetype');
+  src: local('Monotype Corsiva'), url("/wedding/fonts/MTCORSVA.TTF") format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Edwardian Script ITC';
-  src: url("../fonts/ITCEdscr.TTF");
+  src: url("/wedding/fonts/ITCEdscr.TTF");
 /* For IE */
-  src: local('Edwardian Script ITC'), url("../fonts/ITCEdscr.TTF") format('truetype');
+  src: local('Edwardian Script ITC'), url("/wedding/fonts/ITCEdscr.TTF") format('truetype');
   font-weight: bold;
   font-style: normal;
 }
@@ -46,7 +46,7 @@ table {
   padding: 0px;
 }
 body {
-  background-image: url("../images/background.jpg?v=0.5.1");
+  background-image: url("/wedding/images/background.jpg?v=0.5.1");
   background-repeat: repeat;
   background-attachment: scroll;
   background-position: left top;

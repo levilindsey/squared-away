@@ -25,7 +25,7 @@ html {
 }
 body {
   background-color: #020202;
-  background-image: url("../images/background.png");
+  background-image: url("/squaredaway/images/background.png");
   background-repeat: repeat;
   color: #dafada;
   font-family: monospace;

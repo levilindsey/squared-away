@@ -17,8 +17,8 @@
 
   log.d('-->sound.LOADING_MODULE');
 
-  var _SFX_PATH = './sfx/';
-  var _MUSIC_PATH = './music/';
+  var _SFX_PATH = '/squaredaway/sfx/';
+  var _MUSIC_PATH = '/squaredaway/music/';
 
   var _onAudioToggle;
 

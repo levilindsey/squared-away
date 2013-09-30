@@ -1,4 +1,5 @@
 - var currentVersion = '?v=2.3.0';
+- var BASE_DIR = '/wedding';
 
 doctype 5
 html
@@ -11,7 +12,7 @@ html
     meta(name='keywords', content='Levi Lindsey, Jackie Schwartzstein, Jackie Lindsey, marriage, wedding')
     meta(name='author', content='Levi Lindsey, Jackie Schwartzstein')
 
-    link(href='./stylesheets/wedding.css#{currentVersion}', type='text/css', rel='stylesheet')
-    link(href='./images/icon.ico#{currentVersion}', type='image/gif', rel='shortcut icon')
+    link(href='#{BASE_DIR}/stylesheets/wedding.css#{currentVersion}', type='text/css', rel='stylesheet')
+    link(href='#{BASE_DIR}/images/icon.ico#{currentVersion}', type='image/gif', rel='shortcut icon')
   body
     block content

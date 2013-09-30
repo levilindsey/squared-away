@@ -6,7 +6,7 @@ var VERSION_STRING = '?v=0.3.2';
 // ------------------------------------------------------------------------- //
 // ELEMENT IDS AND CLASSES
 
-var SHADOW_FILENAME = './images/shadow.png';
+var SHADOW_FILENAME = '/wedding/images/shadow.png';
 
 // ------------------------------------------------------------------------- //
 // ELEMENT IDS AND CLASSES
