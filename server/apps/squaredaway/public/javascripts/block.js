@@ -1376,14 +1376,16 @@
 
   Block.prototype.drawSquare = function(context, colorIndex, x, y, 
       animationIndex) {
-    var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
-    var sourceX = animationIndex * _SOURCE_SQUARE_SIZE;
+    if (colorIndex >= 0) {
+      var sourceY = colorIndex * _SOURCE_SQUARE_SIZE;
+      var sourceX = animationIndex * _SOURCE_SQUARE_SIZE;
 
-    context.drawImage(resources.get('/squaredaway/images/sprites.png'), 
+      context.drawImage(resources.get('/squaredaway/images/sprites.png'), 
         sourceX, sourceY, 
         _SOURCE_SQUARE_SIZE, _SOURCE_SQUARE_SIZE, 
         x, y, 
         gameWindow.squarePixelSize, gameWindow.squarePixelSize);
+    }
   };
 
   Block.prototype.getCellOffsetFromTopLeftOfBlockToCenter = function(blockType, orientation) {
