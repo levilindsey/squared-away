@@ -74,19 +74,7 @@ NEXT:
 - the Blow my mind check box is not switching through different peanut gallery messages
 - increase the requirement to complete all level-based chapters by x2 and all point-based chapters by +1000
 --------------------------------------------
-****- fix up jackie and my pages:
-	- update/change/remove all of my wording
-	- give it some structure:
-		- a banner image
-			- include the circle face image from the homepage
-		- a horizontal navigation bar under the banner
-		- a vertical bar on the left with links to all of my external sites
-		- 
-	- get rid of the background gradient
-	- change all of the external links in the entire website to open in a new tab
-	- when we get the digital wedding pics, use them for the circle face images
-	- add my thesis
-	- add a back-to-home button
+- when we get the digital wedding pics, use them for the circle face images
 --------------------------------------------
 **- add the random shimmer to entire blocks (but be careful about the bomb blocks)
 **- handle the event of layers waiting to be collapsed when a settle bomb or collapse bamb detonates
@@ -95,20 +83,14 @@ NEXT:
 - refactor my collapse/drop code.  it is way too duplicative.
 - change the logic to allow the player to both drop AND move sideways a block in the same gesture?
 - add a count of how many times the game has been played in total
-- figure out why it doesn't work on the iPad
-- prevent the body re-sizing on Android
 --------------------------------------------
-**- resume:
-	- add my github link to my resume
-	- correct the wedding page link
-	- add the blurb about the app
-	- add a bit about familiarity with node.js?
-**- fix whatever it is that crashes on the wedding page
 ***- go through all of my old school code/projects, clean them up a LITTLE, and add them to my github!
 ***- NEXT PROJECT: finish my recognizer and port it over as a javascript app!
 **- let blocks fall outward
 
 - Node.js
+- AngularJS
+- TDD!!
 - Spring framework
 - small jsfiddle projects
 
