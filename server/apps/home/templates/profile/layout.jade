@@ -1,5 +1,5 @@
 doctype 5
-html
+html(lang='en')
   head
     title #{upperName} Lindsey&apos;s webpage
 
@@ -11,7 +11,7 @@ html
     link(rel='stylesheet', href='/stylesheets/#{lowerName}Profile.css')
   body
     #contentColumn
-      #banner
+      header#banner
         #titleCircle
           img(src='/images/#{lowerName}_circle.png', alt='Circle')
           h1
@@ -20,7 +20,7 @@ html
         a#ribbon(href='#{ribbonLink}')
           img(src='/images/#{lowerName}_ribbon.png', alt='#{ribbonAlt}')
 
-        #internalLinks
+        nav#internalLinks
           - var profilePages = [{link: 'about', name: 'About'}, {link: 'projects', name: 'Projects'}, {link: 'resume', name: 'Resume'}, {link: 'follow', name: 'Follow Me'}, {link: '../', name: 'J & L Home'}];
           ul
             each page in profilePages

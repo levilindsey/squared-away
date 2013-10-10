@@ -46,20 +46,12 @@ h4 {
   width: 100%;
 }
 h1 {
-  color: #dadafa;
-  font-size: 24pt;
-}
-h2 {
   color: #fadada;
   font-size: 18pt;
 }
-h3 {
+h2 {
   color: #dadafa;
   font-size: 60px;
-}
-h4 {
-  color: #fadada;
-  font-size: 25px;
 }
 /* ---------- Chapter select screen ---------- */
 div#mainMenuScreen {
@@ -239,17 +231,15 @@ img.chapterItem {
   margin-bottom: 10px;
   overflow: auto;
 }
+#mainTitle {
+  background-color: rgba(2,2,2,0.4);
+  padding: 10px 0px;
+  width: 100%;
+}
 #betaLabel {
-  background-color: rgba(2,2,2,0.4);
   padding: 10px 0px;
-  width: 100%;
 }
-#banner {
-  background-color: rgba(2,2,2,0.4);
-  padding: 10px 0px;
-  width: 100%;
-}
-#banner img {
+#title {
   display: block;
   margin: 0px auto;
   height: 56px;
@@ -260,7 +250,7 @@ img.chapterItem {
   padding: 10px 0px;
   width: 100%;
 }
-#console>h2 {
+#console>h1 {
   background-color: #141414;
 }
 .directionsTable td {
@@ -318,6 +308,10 @@ img.chapterItem {
   height: 720px;
   margin: 10px 0px;
   width: 100%;
+}
+#gameScreen {
+  width: 100%;
+  height: 100%;
 }
 #problemScreen {
   display: none;

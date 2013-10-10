@@ -1,0 +1,18 @@
+div(id='gameScreen')
+  canvas#gameCanvas
+
+  #topLevelDisplayArea
+    | Level: 
+    span#topLevelDisplayData
+      | 1
+
+  #topScoreDisplayArea
+    | Score: 
+    span#topScoreDisplayData
+      | 0
+
+  #hintTextArea
+
+  img(id='helpButton', class='canvasButton button', src='#{BASE_DIR}/images/help.png', alt='help')
+  img(id='musicButton', class='canvasButton button', src='#{BASE_DIR}/images/music_on.png', alt='toggle music')
+  img(id='sfxButton', class='canvasButton button', src='#{BASE_DIR}/images/sfx_on.png', alt='toggle sfx')

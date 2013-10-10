@@ -1,0 +1,42 @@
+div(id='gameOverScreen', class='screen')
+  hgroup
+    h1(id='gameOverScreenHeader', class='screenTitle')
+      | Game Over
+    h2(id='gameOverScreenSubHeader', class='screenSubTitle')
+  img(id='nextChapterButton', class='button', src='#{BASE_DIR}/images/next_chapter.png', alt='Next chapter button')
+  img(id='gameOverScreenCustomPlayButton', src='#{BASE_DIR}/images/custom_play.png', alt='Custom play button')
+  img(id='playAgainButton', class='button', src='#{BASE_DIR}/images/play_again.png', alt='Play again button')
+  img(id='gameOverMainMenuButton', class='button', src='#{BASE_DIR}/images/main_menu.png', alt='Main menu button')
+  table#statsTable
+    tr
+      td
+        | Score:
+      td#scoreData
+    tr
+      td
+        | Level:
+      td#levelData
+    tr
+      td
+        | Time:
+      td#timeData
+    tr
+      td
+        | Layers destroyed:
+      td#layersCollapsedData
+    tr
+      td
+        | Squares destroyed:
+      td#squaresCollapsedData
+    tr
+      td
+        | Blocks used:
+      td#blocksHandledData
+    tr#collapseBombCountRow
+      td
+        | Collapse bombs used:
+      td#collapseBombsUsedData
+    tr#settleBombCountRow
+      td
+        | Settle bombs used:
+      td#settleBombsUsedData

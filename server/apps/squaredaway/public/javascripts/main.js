@@ -908,15 +908,15 @@
     playArea.style.width = screenSize + 'px';
     playArea.style.height = screenSize + 'px';
 
-    var h3Height = screenSize * 0.04;
-    var h4Height = screenSize * 0.02;
+    var h1Height = screenSize * 0.04;
+    var h2Height = screenSize * 0.02;
     var screenElemMarginBottom = screenSize * 0.01;
     var screenButtonWidth = screenSize * 0.22;
     var screenButtonHeight = screenButtonWidth * 90 / 252;
-    var headerAreaHeight = h3Height + h4Height + screenElemMarginBottom * 2;
+    var headerAreaHeight = h1Height + h2Height + screenElemMarginBottom * 2;
 
     // TODO: refactor the screen layout to all use percentages and get rid of these following functions
-    _adjustScreenHeaders(screenSize, h3Height, h4Height, screenElemMarginBottom);
+    _adjustScreenHeaders(screenSize, h1Height, h2Height, screenElemMarginBottom);
     _adjustMainMenuScreen(screenSize);
     _adjustPauseScreen(screenSize, headerAreaHeight, screenButtonWidth, screenButtonHeight, screenElemMarginBottom);
     _adjustGameOverScreen(screenSize, headerAreaHeight, screenButtonWidth, screenButtonHeight, screenElemMarginBottom);
@@ -927,30 +927,30 @@
     return screenSize;
   }
 
-  function _adjustScreenHeaders(size, h3Height, h4Height, screenElemMarginBottom) {
-    var h3s = document.getElementsByTagName('h3');
-    var h4s = document.getElementsByTagName('h4');
+  function _adjustScreenHeaders(size, h1Height, h2Height, screenElemMarginBottom) {
+    var h1s = document.getElementsByClassName('screenTitle');
+    var h2s = document.getElementsByClassName('screenSubTitle');
     var i;
 
-    var h3FontSize = h3Height;
-    var h4FontSize = h4Height;
+    var h1FontSize = h1Height;
+    var h2FontSize = h2Height;
 
-    h3Height += 'px';
-    h4Height += 'px';
-    h3FontSize += 'px';
-    h4FontSize += 'px';
+    h1Height += 'px';
+    h2Height += 'px';
+    h1FontSize += 'px';
+    h2FontSize += 'px';
     screenElemMarginBottom += 'px';
 
-    for (i = 0; i < h3s.length; ++i) {
-      h3s[i].style.height = h3Height;
-      h3s[i].style.marginBottom = screenElemMarginBottom;
-      h3s[i].style.fontSize = h3FontSize;
+    for (i = 0; i < h1s.length; ++i) {
+      h1s[i].style.height = h1Height;
+      h1s[i].style.marginBottom = screenElemMarginBottom;
+      h1s[i].style.fontSize = h1FontSize;
     }
 
-    for (i = 0; i < h4s.length; ++i) {
-      h4s[i].style.height = h4Height;
-      h4s[i].style.marginBottom = screenElemMarginBottom;
-      h4s[i].style.fontSize = h4FontSize;
+    for (i = 0; i < h2s.length; ++i) {
+      h2s[i].style.height = h2Height;
+      h2s[i].style.marginBottom = screenElemMarginBottom;
+      h2s[i].style.fontSize = h2FontSize;
     }
   }
 

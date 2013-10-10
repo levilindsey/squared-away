@@ -40,3 +40,7 @@ Thumbs.db
 # node dependencies #
 #####################
 **/node_modules/
+
+
+
+**/selenium/

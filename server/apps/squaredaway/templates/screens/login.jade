@@ -1,0 +1,14 @@
+div(id='loginScreen', class='screen')
+  h1.screenTitle
+    | Login
+  p
+    | Username: 
+  input(type='text', size='20', placeholder='your username')
+  p.credentialsErrorMsg
+    | Invalid username
+  p
+    | Password: 
+  input(type='text', size='20', placeholder='your username')
+  p.credentialsErrorMsg
+    | Password does not match username
+  img(id='loginSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')

@@ -45,8 +45,12 @@ Thumbs.db
 ##############
 **/tests/
 
+
+
 **/scripts/
 
 **/misc/
+
+**/selenium/
 
 Makefile

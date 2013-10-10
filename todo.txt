@@ -5,8 +5,6 @@
 
 // ---------- SINCE LINUX
 
-  - keep the admin panel
-    - somehow incorporate entire site and squaredaway needs
 - plan what I will want to store in the database for the entire site
   - will this at all relate to the database used specifically with squaredaway?
     - can I even have multiple simultaneous databases?
@@ -37,6 +35,10 @@ NEXT:
   - fix the email receiving/forwarding on the server
   - animate collapse bombs with the square collapse animation
   - decrease the distance needed to change direction by half
+
+- add the test for browser compliance and let the user know when they use an unsupported browser
+- refactor the main.js code to do all of the re-sizing immediately and only set up the game objects once all of the page has finished loading
+- add pretty d3 graphs!!
 --------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well

@@ -1,13 +1,11 @@
 body
   #pageColumn
-    #banner
-      img(src='#{BASE_DIR}/images/title.png', alt='Squared Away')
-
-    #betaLabel
-      h2
+    header#mainTitle
+      img(id='title', src='#{BASE_DIR}/images/title.png', alt='Squared Away Title')
+      h2#betaLabel
         | ALPHA
 
-    #noJavaScriptArea
+    section#noJavaScriptArea
       p
         | Hey! This spiffy web app needs JavaScript in order to run. Come back with a browser that has JavaScript turned on!
 

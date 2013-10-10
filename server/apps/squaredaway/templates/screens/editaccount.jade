@@ -1,0 +1,15 @@
+div(id='editAccountScreen', class='screen')
+  h1.screenTitle
+    | Edit Account
+  p
+    | Username: 
+  input(type='text', size='20', placeholder='your username')
+  p.credentialsErrorMsg
+    | Invalid username
+  p
+    | Password: 
+  input(type='text', size='20', placeholder='your username')
+  p.credentialsErrorMsg
+    | Password does not match username
+  img(id='editAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
+  img(id='deleteAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')

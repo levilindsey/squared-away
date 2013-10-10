@@ -1,0 +1,14 @@
+div(id='createAccountScreen', class='screen')
+  h1.screenTitle
+    | Create Account
+  p
+    | Username: 
+  input(type='text', size='20', placeholder='your username')
+  p.credentialsErrorMsg
+    | That username is unavailable
+  p
+    | Password: 
+  input(type='text', size='20', placeholder='your username')
+  p(id='', class='credentialsErrorMsg')
+    | Passwords must be at least six characters long
+  img(id='createAccountSubmitButton', class='button', src='#{BASE_DIR}/images/.png', alt='Submit')
