@@ -26,19 +26,16 @@ NEXT:
   - somehow add conditions via config.mode that allow the squared away app to be stand-alone if in development, BUT dependent upon home jackieandlevi.com for staging/production
     - database/cookies?
     - ...
-  - advertise via email to Alden, Justin, Ben, and Chris
   - add the server-side database
-  - add email address?
   - add follow-me icons
   - add pictures
-  - fix the email creation of the web app
-  - fix the email receiving/forwarding on the server
   - animate collapse bombs with the square collapse animation
   - decrease the distance needed to change direction by half
 
 - add the test for browser compliance and let the user know when they use an unsupported browser
 - refactor the main.js code to do all of the re-sizing immediately and only set up the game objects once all of the page has finished loading
 - add pretty d3 graphs!!
+- change the songs to use for certain levels to only use songs which are currently available on the server (and make sure I upload the others someday...)
 --------------------------------------------
 ****- ADD THE DATABASE!!!!:
 	- change the logger code to handle this as well
@@ -196,7 +193,7 @@ NEXT:
 - how to measure and benchmark my app? (to find bottlenecks)
 - add hook to github for continuous deployment on nodejitsu (https://www.nodejitsu.com/documentation/features/webhooks/)
 - use d3.js!!
-- 
+- move the squaredaway app to its own server?
 
 // ------------------------------------------------------------------------- //
 // ---------- PLANNING
