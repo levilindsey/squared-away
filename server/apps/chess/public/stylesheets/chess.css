@@ -1,0 +1,63 @@
+body {
+  background-color: #fce9c9;
+}
+
+#mainArea {
+  width: 800px;
+  margin: 0px auto;
+}
+
+h1, h2, p {
+  width: 100%;
+  margin: 20px 0px;
+  text-align: center;
+}
+
+em {
+  font-weight: bold;
+}
+
+button {
+  display: block;
+  width: 200px;
+  height: 40px;
+  margin: 20px auto;
+}
+
+#notification, #status {
+  height: 1em;
+}
+
+#chessBoard {
+  width: 800px;
+  height: 800px;
+  margin: 30px auto;
+  border: 2px solid black;
+}
+
+#chessBoard>div {
+  float: left;
+  width: 12.5%;
+  height: 12.5%;
+  margin: 0px;
+  padding: 0px;
+}
+
+#chessBoard>div>img {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
+#promotion {
+  display: none;
+  text-align: center;
+}
+
+#promotion img {
+  border: 0px solid blue;
+}
+
+#promotion img:hover {
+  border-width: 4px;
+}

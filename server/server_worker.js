@@ -12,9 +12,11 @@ var pageMissingController = require('./apps/home/controllers/pagemissing');
 // Connect with each of the apps
 var squaredAwayController = require('./apps/squaredaway/controllers/index');
 var weddingController = require('./apps/wedding/controllers/index');
+var chessController = require('./apps/chess/controllers/index');
 var APPS = [
   'squaredaway',
-  'wedding'
+  'wedding',
+  'chess'
 ];
 
 var app = express();
@@ -122,6 +124,9 @@ function setUpRoutes() {
   });
   app.get(/^\/wedding(?:\/.*)?$/, function(req, res, next) {
     weddingController.run(req, res, next);
+  });
+  app.get(/^\/chess(?:\/.*)?$/, function(req, res, next) {
+    chessController.run(req, res, next);
   });
   app.all('*', function(req, res, next) {
     pageMissingController.run(req, res, next);

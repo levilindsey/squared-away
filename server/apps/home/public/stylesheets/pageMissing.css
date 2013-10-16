@@ -2,7 +2,7 @@
   font-family: 'SassoonSansStd';
   src: url("fonts/SassoonSansStd.eot");
 /* For IE */
-  src: local('SassoonSansStd'), url("fonts/SassoonSansStd.woff") format('woff'), url("fonts/SassoonSansStd.ttf") format('truetype'), url("fonts/SassoonSansStd.svg") format('svg');
+  src: local('SassoonSansStd'), url("fonts/SassoonSansStd.ttf") format('truetype'), url("fonts/SassoonSansStd.svg") format('svg');
 /* For all other web browsers */
   font-weight: normal;
   font-style: normal;

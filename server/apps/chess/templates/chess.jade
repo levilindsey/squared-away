@@ -1,0 +1,55 @@
+doctype 5
+html(lang='en')
+  head
+    title
+      | Chess
+    meta(charset='utf-8')
+    meta(name='description', content='A two-player game of chess')
+    link(rel='shortcut icon', href='/chess/images/favicon.ico')
+    link(rel='stylesheet', href='/chess/stylesheets/chess.css')
+  body
+    div#mainArea
+      p#turnDisplay
+        | It is 
+        span#playerColor
+          | white
+        | &apos;s turn
+
+      p#status
+
+      p#notification
+
+      #chessBoard
+        | Sorry, but JavaScript must be enabled to play this game!
+
+      button(id='randomMove', type='button')
+        | Make Random Move
+
+      button(id='startNewGame', type='button')
+        | Start New Game
+
+      #promotion
+        h2
+          | Select how to promote your pawn
+        img(id='promoteToQueen', src='/chess/images/whitequeen.png', alt='Promote to queen')
+        img(id='promoteToRook', src='/chess/images/whiterook.png', alt='Promote to rook')
+        img(id='promoteToKnight', src='/chess/images/whiteknight.png', alt='Promote to knight')
+        img(id='promoteToBishop', src='/chess/images/whitebishop.png', alt='Promote to bishop')
+
+      h2
+        | Directions
+      p
+        | First, tap a piece to select it. Then, tap on whichever square you want to move the piece to.
+      p
+        em
+          | Note:
+        |  Remember that once you have touched a piece, you must use that piece if at all possible.
+      p
+        em
+          | Note:
+        | In order to castle, select the king as the piece to move.
+
+    script(src='/chess/javascripts/chessboard.js')
+    script(src='/chess/javascripts/chesspieces.js')
+    script(src='/chess/javascripts/chessgame.js')
+    script(src='/chess/javascripts/main.js')

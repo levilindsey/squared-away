@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg2985"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="chesspieces.svg"
+   inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackpawn.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs2987" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.375"
+     inkscape:cx="-58.769356"
+     inkscape:cy="-186.69302"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="2560"
+     inkscape:window-height="1378"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata2990">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       id="g4041"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whitebishop.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="-11.672718"
+         height="142"
+         width="142"
+         id="rect3905-7-2"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="36"
+         height="98"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAABiCAYAAAA4AXHpAAAABHNCSVQICAgIfAhkiAAAAlxJREFU
+aIHtWlFyxCAIhU6vmL19vIr96OIQNihgssm2vJmdjiUKeT4hJmKttUIAiNi1B4eFr1CvJ9Z1hVpr
++1F7BjjDkNa1ZxvhO9SLOT4a4SnjDNCU7dneFtCe83VdZ4eb05AMiNsuWWXktJQyM8wGIYYsDERZ
+cjPEV5Zk5gim3Ax57jzCUkhDkonH46HavbnKxVDkjr19plZZKQUQ8eXH7V6YS4e8U+5Y/l/mKA9L
+IYb2HPJAlmVxB9LGtmiIB7AnUo253nUazAxRMLJ28XYp5aXQWgMhmBni7HjyEF1vnb4hQ3IKaq3m
+PEQBSHvX34ihmcodGcu1yka164ja9pkMeWqXxd7DZzJESA31BuKIaMr6XOSuZRF4+psY4lWdw6Ih
+7824t9JnbJ85XKuMKvmyLLtvPTS7By6GODsjpqJMup6H6K/GzF6b97Xgb+w6jqxdEmaGZlfXKbsO
+i2Zm3zmaatmRmKplFMwoz1jtfEzVZ4+h2RoWGe92UzbM1HJXmnmoe/FdGSJc8ky9ufiuDHn3ZR78
+DYYIqSENmYesSA1pyDxkRWpIQ+YhK1JDGjIPWZEa0pB5yIrUkIbMQ1akhjRkHrLiX2hoE9DZH+c0
+8IDbW9ij30lbQQehyO9GQ/Is6+x3ektbEtCm7EqGuN/GEA/k6LMeI/vm5fzdRN0Y4tR5v4fNtLlv
+AKGhd+unBaGtMor0bM1wu5TJi4auWGW7or5K0AQK6psHc6WGiKlb5CE6OwvwnLIrV1gLhBjynLE/
+u42IgADgeSQ6FYj4q6F3a6Z7hh9uxhACwD2ieeIHJLxIemfmi/gAAAAASUVORK5CYII=
+"
+         id="image3781"
+         x="41.327282"
+         y="363.36365" />
+    </g>
+    <g
+       id="g4033"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whiteking.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="-301.81818"
+         height="142"
+         width="142"
+         id="rect3905-8"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="49"
+         height="134"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAACGCAYAAAB0U2LRAAAABHNCSVQICAgIfAhkiAAAAy9JREFU
+eJztXN2aqyAMDPvtK7Zvb18l52bjoRS1JBMFzNyxdMPPMIRENDEzkwNSSh9/c2qKflys/oGZiZlp
+WRbPZih5MpGbLstIuDLxfD49za+YgolfhJGaiHO8Xq/N3yEGBmFCO8sodqCaKDUgDGzVowBZTkT/
+l0q+ZEpNlPUoQAZRWxJ5Z4URL2FPsTuFn9g1PDoTpXj3/ASkPQ8mtmbdiw04E7Vdaase1iaaiaPZ
+9mDDRRMlAzVGkIAxoVkmKEYgTMgAlmVZozlmpsfj8VbO6/P/M7evYcJrq9Qy08yEDGBrhi3llJJq
+gpqYyAfgBU0bXzNRM34UL2jqVcHVt0x4nn2s7al2pyM/gC4f4X5MeGhgr/5b3I8JQWjiS7gxsRWx
+CVAaaZ2wZo99Bhut7XSpiVZ0d3aSdtyYKA17+AnNkm2OJ7x1obGv0sTRLqUta4MtdWTnwYbWrinG
+vuqsVEKd7UCzYbEHyXYM5Sc+/hnEhtX/QDOAFo1YJsPMhLkDABsmJqRhqwasS9Kci7XMJOosBllO
+CFgGon4EjDzRSvry1N2pHIBVE3IfSsus6WG8V3a8Ferd6ej5g6Zei/ueYuVZggBxdrIszTjFRjwB
+tHfveGIaJpC5Vwu6iewuiycEZ2ugRDBRYjg/QTQZE6EJgJ1u8k4WXJ53EjtD550QSxKSd7JmAK2D
+CD9BNBETQ/sJoomYEAzpJ4gmYiI00QsTgvATBoQmiCZiQhB+woDQBNFETAjCTxgQmiCaiAlB+AkD
+QhOQxNfVN89KaPwEJCF9NRMIO6GJqZgQDOknpmIiNAGwo2aidh9DG0+UN9ma+3L7WzaCuO8EsNfF
+fScr7suE13t2Wtz3hrKg23uxvdzE30PJVpUJ1LdpPMo1vDFx9ncItCj7uasJ7+9yoDQ0HxNymkTv
++8hybaLn253Kr2hZ3xHyqM/7ufZ7Ok3ID3rSQFmuLfeqJnpm41DYI4hakA9kfePxrK+jIFC+q/rh
+J4j60kCtXH67PzEzj8SCIO/zygQzX34W0n7TYGViJBYE0u+f2o509Zpv9RuJiCzp2MuRUnrfnXrW
+wF79FEwkIhp3BH/4B2DorJ2ox0a+AAAAAElFTkSuQmCC
+"
+         id="image3792"
+         x="-255.31818"
+         y="345.36365" />
+    </g>
+    <g
+       id="g4045"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whiteknight.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="133.40001"
+         height="142"
+         width="142"
+         id="rect3905-4-4"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="46"
+         height="84"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAABUCAYAAAD9AAWQAAAABHNCSVQICAgIfAhkiAAAA2RJREFU
+aIHdWu2OJCEIxMm9Yvfbz7wK92OCh4gKfvZcJZusa7fQZS0iGhARYQAhBPXvg8M28fK+EEJIfgC+
+Tr7fb0DE6LD23EwEK+PceA+b/CNnwMS4ZJbj8/nEZzR2qV/OxCiajLeY0mZCOibfncF+lXFu4L7v
+TLe8/7quxFHSPI0jn9c+0IMi4yEElSlp1MNayfEe5lXGORNcw9IYImaapee1Ns3EDKmojEu2uaHS
+THgdGXU+Y5wcu+87McCjSQgh9pNxGW14P0A+E6NIGLdqcFZM1mbPioxxyZwWt7mxmqYt7V5Exj1s
+82dGdd3LesK4HIC3KY4TJPMtTct/cN7fE88TxltMjGhSOk6/yz4rXvxFgC9TtTg+qmktl+lZSQMi
+4mq2PbCyHzUumZWalWhpurffmkVmjM9aGWegZreZj0smRjXuadfYNzO+m20Jyf6rpOlZmp3Vf11X
+EkrD9yPsq+VpkI9mjZ9qy90T5U4J4/TgU6KKtE2+hRDgpeUOAJDl2xK7NF9aVU1Rhb94SuvSR3cc
+L9VNVrelfTPjHL3sa0t4zxiI+I9xjyb5br1VwdJqKrLGSOPzZzX73EYX4yWUkiLvDNaqY3HllIPw
+ugeAP7eQVVsLCXIPq5VG5HPmfLwHnnFaFQXZl+XjhBlxmOcWLWh1xpLTAIsZp7E0w613zDsgwuw4
+HHMLx37S8pFqVLG+7MHscdU4johL8mmAsZo4R1ZXWZ17zxp/ez4u14lebGecbAEsOgNamW/3VK4k
+1Grt06pWGiLjJ+smPchOJHYyTjYB/B9R1Piuukmv3o8zLm1bsTxX8ewp3fXx5A8PqaG0oGpc+/od
+mnelvhrjp3TO7bdgPsvf1bbmMo/SONl3M15jend9vAX1LJ/wMxqXVSaAfRpvnbJJ/Kl1ztpmeWCd
+5WKuwitRskKFiPFMZla/x2mAwg2h2LkpwnSf5ZegDbS6/m2F6d7hDsan5eMSq+O4F/8/44TVcd2K
+n2W8ekV1NzzOV1fOJ+87H3eWb4XrNvNqTGOc63x1HB+qq4wMNANTcxWZ1a1sD9VVYscva5xj9x60
+habGn1q1rS5AfMCnQXX8VG2FNszdlSyA/Kb+jrrK8J7z5D3DbsZP3bmq+aChWK09ia7bE4TTd2lb
++FnGq+HwyfgLmHCS/FPCO/4AAAAASUVORK5CYII=
+"
+         id="image3803"
+         x="181.40001"
+         y="370.36365" />
+    </g>
+    <g
+       id="g4053"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whitepawn.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="423.54547"
+         height="142"
+         width="142"
+         id="rect3905-9-5"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="29"
+         height="54"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAA2CAYAAAA7+JL6AAAABHNCSVQICAgIfAhkiAAAAVpJREFU
+WIXtWFsSgyAM3Di9ot5er5J+VBxKyYOHyrTdrzKBJNslGCBmZgggIslkQnGLyQrIzGBmrOt6/LbG
+VsIkMSUiNVsL2nqRacC2bW/jZVmK7NmENKaAro3o1FgrMk0XpIyssZasyBSoY+tZo2qa24maht4k
+VaaxMw9b9zxrI7VASuChBWytU4n5mHXagqo6jc9Sz9mbW5fDLbvX1DRFjYYpxmZaevZqGJNp6kir
+U2Z2lZrJtLSD8MwfU9NbmQZcUqd/TVvmF2tqfU89GJvp72n6nXUaO/Bq6vnSmHeZ2ltb9V0GuLjv
+BW5kGnBanfbo6iXEzA+mIWDauc/zrHb2HntK6GDa+ppiIfY/pYaAUg21cSrbGJr20DB3m/tNTT/e
+HM7UNWCKA/XSMGeP4xAz89l6BoQ4h6Y9NbTGBICBtjejEhDRi6n3/tnDDuxMr2IJ7C9p2P/eK/EE
+Ft2iM+jJ1PUAAAAASUVORK5CYII=
+"
+         id="image3814"
+         x="480.04547"
+         y="385.36365" />
+    </g>
+    <g
+       id="g4037"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whitequeen.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="-156.74545"
+         height="142"
+         width="142"
+         id="rect3905-1-8"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="42"
+         height="110"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAABuCAYAAABRCoEhAAAABHNCSVQICAgIfAhkiAAAAqdJREFU
+eJztW2nOqzAMHFffFent4Sp5P56MTNjiBZpARqrUNJsZxo4bAqWUEgJBRACA4GHxCR3tQnRDo9GM
+oX/eAdh5zn73OpfL0FIPJyIQkctY863fMvL7/S7aTNO0aLPHfgmKGD2aYKtO276E6VNGJXP8yScZ
+x3HFmmw/juOiD7fXME1nK9OeDvc0d6TFrbpSnZ8yKq9aXnlKaVOTR5qVzMrxSm79KaOLxkHruGUc
+ldfvaYq9u6RsvVgVo+7JHHfEFEd5opy5vTi61VcLE6OAnh2vvs0rk5ywVKMeJzQzChzHTE/bLYSm
+eWea9eBdjGriqBXNMOoK+FZYDFZn+N54aM32VRplI/P8UqNRa7Zvyp6icFn2xIPzZxiGVSZfWq+F
+mtGoPSXtWOp8lIjUcTMvWySkDk8RrF7u9Tm0+ahn7X82o16NWvBsRhlaTU7TZF40zEmJZ62/7V9o
+jio1CjTIaNVxFGiQUUbXqMDtcdSKW3fzuO/tu3mMUo26JOPZzbPsj96+mwdcq8kc72CUUW0cBRpj
+9Mq1Pcc7GGV0jQr0OBrVh9E1GtWH0eNoVB9G12hUH0aPo1F9GF2jUX0YPY5G9WE8W6NWZm4/98TQ
+xtFhGMxzvWM3j/E4jXr6Pn9/tClGGV2jAmpG5bNMy3MmPkWhnvfRT5f78/oDPDeONsEoe2v1Gm3m
+JFmOnz2vjz7N6IVkfMVo2ji1+ItyjpnRSP1FQdq0YNSruej6hdHNMSqzGm+cjCjnxK1Ojdfm+YyZ
+0b23D2XZc6ZZWy9tAlrUKFcA9Wh0YVu+MtXCarPONBsa9c5nFPJ3Sj78I7D/duIvyrnnU0op1aTN
+HGzbwut/vbYf1ROABNSjzRx86z+A7/2kq8uzVv9/r5NNBhHVnY/K+mYYnZ2pdvwDNMLx2y7bAYEA
+AAAASUVORK5CYII=
+"
+         id="image3825"
+         x="-106.74545"
+         y="357.36365" />
+    </g>
+    <g
+       id="g4049"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\whiterook.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="341.36365"
+         x="278.47275"
+         height="142"
+         width="142"
+         id="rect3905-0-5"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="34"
+         height="76"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAABMCAYAAAAIuWXoAAAABHNCSVQICAgIfAhkiAAAAZpJREFU
+aIHtmlGOgzAMRMdVrwi3L1fx/uAoGDvJFhJA9ZP6Qe0SM0wcRErMzFghIlhkKYmzc186OE0TmDl9
+SjAzPp9Pcy4zp/PvitWK6CTrux65O0WEZVm80Ff5tXiTIh5Hc4uK6Mq1Z7Qn5nneDJbHLU94ylQV
+6UVVEZFXV37msXULN4pYlfbAGsOdNYK+stwTZ8RTcbdWhIi6ecSb4jtFvIrPwjv3u/SDkbiFAPZK
+eoTSxVVnjXDUIzWFTUVEibNvT0nhoiL5mqLXDmvtseL6PB7mrNklHZhFrb8d5pEaz1NE+O/a0srz
+FAmPeHz7vFHjeYqERzyijwjhEY/oI0J4xCP6iBAe8Yg+IoRHPKKPCOERj+gjQnjEI/qI8DMeSYWM
+fvcObF8Av73ACHK1mvd9ex9vbs1tFLF2rs7ew/N2sm5j1pcOeLsOPY7zi7+nR4B+nvDiqSjtkVGq
+6PF2W2lXmBZYCxmthkBEySfJI1LEqD6SjwmsHrlixqQCRJER/xepHRMRCEDLI0lXiOj6PpLWHtxE
+EQJwbRUrf1iRfErKzvgRAAAAAElFTkSuQmCC
+"
+         id="image3836"
+         x="332.47275"
+         y="374.36365" />
+    </g>
+    <g
+       id="g4017"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackbishop.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="196.63635"
+         x="-11.672718"
+         height="142"
+         width="142"
+         id="rect3905-7"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="36"
+         height="98"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAABiCAYAAAA4AXHpAAAABHNCSVQICAgIfAhkiAAAA39JREFU
+aIHtW+2RqzAMXGeuAXpyC6oyLbgnSvD7kSdGOP6QBCZk7jSTOQUSs6xXH3a4kHPOcFgIoXveOSx+
+XN/6b0SEdV2xLAsAbP7z+XSP+TgCCACWZcG6rm++18LdpszNkLwgEYGIDoM5BIgtxgjgpR8Jymtu
+UYcQNgAsZtZPCOH6KWOTUbYsy2GWXICYnZIZ/ktEQ9GfCogvLpkp8xEDnw6I2SmZKfMRi30qIHnH
+EoRkSp6bDgh4Lxc1DfExj5bMYS/B1GpWCdhqakB8p2XxlLkopbSdY2DMkjovZaUByESUAbz58lV+
+ht+rr6MF03oRUY4xNgHGGDdfY2pRlxmYC6rUS4xx9zkiQkrJlL3VGpJ9jgQiQ19GF1AX/cjUDDEL
+rS6x5kvBA7rMPWzQanWrVipGPvBibHA5HUParNwDo21tVYA0WbnnWxKlmiE5sGW6rFlbzVCrfo18
+60rEFGW1KZAXbbFlAaUGNGJI5qEaCO20qcIewFtOsUQZF15gvEQaMsQDcNbtMdHytWBUgGqgLFHG
+39GAAQxLae8qgk0LyNQxxhjN2rHuhnwvQzlnhBDMLGkKqjTzqsMaYVZzrVxngvpeDQH1NZdWR1pT
+l46zbMRUl6FaHbOyUzI1WjSaGrRRCyJ9r7i/a8rKAeS+ItCfQn6fUpqbGFubVK33VnNn6tZ2nqex
+PwRIM03lXuNUQNppumzKJKjWNF0+ZRJECcCzFjsEqLUEKsFcxlALFPvlsUsA9cqGPHZJlPVqVWvL
+Ziogy+6Hx27Xwp6uocsTo0ZDpT8VUCnYWzAk/57NkPnXoF525vPyuNVOi7LRDtpUQH9R1rNfF2VT
+a9lHo6znTwd0K4ZuGWW3YkiCkn6rhFwCqMZErcH/eE/d6q2nAmpl6o+vXDWLxUsAaaLsb+X6q1au
+u13Ys3dctSY3RbcmX26Sa8uB51zpp5R2m+m7KfOAaSVIba0rny3apszCkIYNC0MA3hniA1owrYjy
+dAO7zfmvEDWg6216U9cbQ/rlL0RVUQP9Z4FqF6h9rlXfpK8SdTmIRrDeVDEUdfmlUa2qCb3XW9fG
+q4r6U4JmY1A/EozlkcCjGbqVrbcps4I5mqGlL4W9izKNDkY6GoHu6QsAHrWnyEe+lkHrdIcQXgzV
+/gNB0/NYGez5/Az/w3tXRxlsjfXw3tVIL56xACDg9fD1bewfJg3KuB1Y7y4AAAAASUVORK5CYII=
+"
+         id="image3847"
+         x="41.327282"
+         y="218.63635" />
+    </g>
+    <g
+       id="g4009">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackking.png"
+         y="196.63635"
+         x="-301.81818"
+         height="142"
+         width="142"
+         id="rect3905"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackking.png"
+         width="49"
+         height="134"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAACGCAYAAAB0U2LRAAAABHNCSVQICAgIfAhkiAAABVRJREFU
+eJztXNu1ozoM3T7rNkBPaYEqaSE9pQTmY8YZRVi29XKSu2b/YAIBy1svC0w5z/NEAkopl9+SboX/
+Uq76B/u+4/F4YNs2HMeRdp+ftCv/wbZteDweqfdIF6IykYlUIVYIAATZRMuIATwFqOqUZewlwjuV
+Ul6MGLiy0Dp2HEeIEGHq1OpkZaAnXATCmGhhxsVGMBFiE62OlFIuo54V7FK904oYAfwLdnP42mBX
+DZ0LIDkAL9KY2Pf9RZX2fc+6VbwQdLR5fODHo5DCBI0PtfPbtuF2u2XcLkcIKkBmpK4IidiATU2i
+gl9oFnu73S6jLbFxHAdKKe/NYrPcpaU7aiZq5zWp92ifJokWdlSG3RKAeh+ees/u13aNJVqWVerU
+mvzQTvG2dp+n7bNdm2ZCmr0BGDIinSv9VxvdVeokjbikHjPnRsQSlRDSiNNOj9jh50rnpQkxGt3a
+Ec25PZZShJgZ6VkmetfUqlS4Tcwy8c8mGExxArCNPm9Lx9LiBEXLOKX2aLSlY5rUQy3ErE7X9sgD
+LbcJABcGNHbQ+p+kSmlCnOf5vEmETUgMpGaxFCM1scYUC9STotYszhonvF6pQs1EvQEf3dZvlphi
+mdmZ1amVZkfZhBYmIc7zxP1+f+mA1yY8T41cdaeZjFRqWzPWFtzVjl7BQMpOufp4n92Z607neV6e
+BllzJy/cZcyWbQDzNlH/74FLiKoC3jjhrQKGFJTraGrjRNRLK66CcmQp8y2GTb0T4JsQeYvLJnWS
+BNAadd23li+f/bGoU1ZFHFhUFa9oqRHft6iVBa4EEOjXXkcutsKbfpiFuN/vU2nFTAZbr7fUsKU5
+xTtmdUBgFuud1XngEsJb6eDHrVjGxGxabsEyJmbOtcIlxHEc7jn1W5mg7nB2pKXj3pmdOxWfnUuM
+Ap4HbiF4oUBq89/4eR6EMFG3Go/E/+NBCBO9Ts+y40GYTdDO0fasx/IgjAnAVxn3IKRQwEfdkkN5
+EGbYM/Egq+LhrjtJhWX6W69dr+NB2IuMmhwpMtABSesnLFNUD0KE4J2aYYJuvQjzTnUrjbgUsSMQ
+qk6APOK9QOhFqDrRNh/t6DkERWiwo21py8+PQLiLpe0ZW4lAmDoB+W+YSUhTJ97+eJsA1teaKJas
+eOzlVBFIidiaPCoC4REbmM+jPtI7aecWH+mdejO3j7cJYH39lSLcO2mqHR9nE72yTatNt16Eeidg
+/pkF3XoR7p00c+yPY8JT7fAi1DvV7VdXO+r2q6odfPG4ZBM997vvu/tdETcTdfE47xzwV7iRqnkR
++pAF0D+vixAk9CELoHuDIMpLLZmeZnup9LrTVzAhdWplvAh7BMwZWBm507LYr2BiZmmzhglPwAt9
+empte7+ukmbYX2MTFt3PsAnXdzu0us+np1HZ7FKbqMlg9Fw7xSZo+i2dU9t0u/xdcf7tjtZoao3b
++gZayDq7Vspt8VRWXJjIfCM/CpytpnfSLOwY7Ue3Wy+0vKgT1XVA9xjLo0ajNJ62W3Pyi01ob9ZK
+/LzCaKP7RQit36cGGRW9tdG9adhWm4hSpZFNcMP+/3mn2UWx7/JMQPtbaRebGH1FS+uZImyEtlvf
+EnxRJ75+rje6swyMjluYACAzQRfE0q3HM0UzwQUABCa+AVSQp2Fb1pKO9rPa9/v9xbhf1MkTH1YJ
+sG3bxWZ/KAvaqNpKOaJtoGcbtd9PJlpfRJHamRG7d08qCGXjKYQ1Z2oxktHuMfLT+t7xTHskUEa7
+9Vsp5TcT/HvHszq52iYklXqqk0U/OQPZNiF5SZdN8Iu3zpUY0jLX9VIAcj6AvxC/AEBtNyCPj6rr
+AAAAAElFTkSuQmCC
+"
+         id="image3858"
+         x="-255.31818"
+         y="200.63635" />
+    </g>
+    <g
+       id="g4021"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackknight.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="196.63635"
+         x="133.40001"
+         height="142"
+         width="142"
+         id="rect3905-4"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="46"
+         height="84"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAABUCAYAAAD9AAWQAAAABHNCSVQICAgIfAhkiAAABPdJREFU
+aIHtW9Gt2zAMpIMukJ28gqb0CtkpI7hfdM/MkSJppy2KCniIolDx6XwiKTpv2fd9ly+2ZVno+NXL
+/rg0mzQGdF1XeT6fIiLyfr/l+Xx+2FUXstzJuIIZYxwAteF723+9XoddFs4twJE9BK2v27YdnzP2
+taldBtJl4IxlBIoLYgvwFjmDdUnjCNqCHWOIyJlVZJstDm2WZQnBt4Ez0AgWQesr9tm8bdsOmzFG
+CP4S43jxdV0pWBH50DQC1kXqmNW9B/7RBb3vu2zbJmMMGWNQsMi8jlnQaDfGODyMsu61NnBtVhY4
+bhejYKy7RHcowiVzG/BlWT6YZovAcda3d4DpXa93C3BtDKS3CK+vYJFltGGSaQHX1eNmU+aYb/YY
+1z2CzKMN6h2v2wKuk9Eni/zyMHqL7SJwodq3Wt+27YNlj/UScPTdVqPKirZI12xR6k5xYex9GTiC
+1i9CxtEzZHTt9S3r9r3imAYgL4GyG8k2Fi1nfQXqxQQkymV8WZYTy1aPtm9fu4yz97hvQuAImIVy
+ZMEykrGLbESERs9Q48gybhYvCrK+Z4eAo+Dk7SG7uAO4lYX9Uu9Cth8tyMtfZn0EfwJuDwMMQAQq
+c0dmdsz9Wd0jyQ92gvE0mPXJ0fxoLoLD9+u6HrpXCR/uEMO3Nub+sh4i4zW877ZzcLPq2EMBRqAr
+epzthxnzLGdBjNoeIp/nP+uzqz55dhdme8YrbyDWBxpi63qA2R6JbJDASPP7vsuPfd+PQwGreXSj
+4Oxza8OOdAy8tlOu4m0YNmaPWyLnVNebZ/vs4Gxt7OIP4Mo6Y5wVcXAMT+CYkHkVq0z9hd01BP3B
++Ov1OlZuGbVFH1Yy8BYRAZ3dFZQK9g/gyrouQJs96VQqdiyjZKBxzPaZDz8Bt+AtO0zTmRYFmgzj
+FgcFbsF79b1Zw8VnIujMjo3RfHzf99MfjmVBzyJvNiprs2OpM2e62B4kbBZsRuN2Y04Z7zTvaUQm
+gs7s0ke3u0CLxJLIaBwP42WpZBrTdIb5mcYRLHq2y8BtOc4C0zZLvDL5jsiv/XYJOKtsMZAVXXsL
+v03jXmVrlr52sk16/c5TN28zZoNIBbwNgpelkgXdyU/sovWuIsftMrNIT68zOxZ8WCs9dWP1lyx7
+Vxhniygz7h2toj6ORSyzBeB3tIAzf32XxrObuwzc89d3avxrUonOhpl+BNCbi8WhNvAss0zH+Hkm
+7CPDrOaTAq4yyTLr5RgVr4LgWUqbAo5Ov+MVqn4c50XP8tN+fMZYBrRnE9nrZyLnX1KkNd71Csxm
+5n1QJiKfP1IQSTKOJ/9OfbEaOe0GZXlgKTv0qlPfbgxiKVfByq6nxWwUzNhu2+ZWGFpprf0tSSWS
+Zm1nxagycGSgmu1Vo26k4vZBopuvVOZFrQ28k69U530FOF7kGxr/GvCObqt35yvAK7nHNzReLk/8
+iSB0OQBp8BHJJVjMrmL7fvtPQlpSsbc9q92MLbO7BThLhu7SubWLWhk4+7XbXZ7FjkVh///mtGOz
+TZe9Qx7rLY2LXIuGd/jzMvAr0bDqhaIN2joBRcX87ObMzIn+Q+XfP7pFjwRFerc8yzr7B4+Sxme/
+hpj1O3O8olBrc17J+jx9Vz1LqcyMF7IXvRI5M/Pt/kptTluS6Gr8SlCypYpSmZmx8ztAs3ZL7bAa
+CVkwqmo8LZW/oSHUn6b2w9Q6zZJZAAAAAElFTkSuQmCC
+"
+         id="image3869"
+         x="181.40001"
+         y="225.63635" />
+    </g>
+    <g
+       id="g4029"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackpawn.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="196.63635"
+         x="423.54547"
+         height="142"
+         width="142"
+         id="rect3905-9"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="29"
+         height="54"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAA2CAYAAAA7+JL6AAAABHNCSVQICAgIfAhkiAAAAgBJREFU
+WIXNWNGxAyEIXN6kgespLVilLaQnS7j3hSEEEC9kJnzpmbguC8gdned5wjEi8paWFmyL2wqwtQYA
+GGPgOI7UuPcOInKB/6LTttYwxgAAHMeRHvNBPQtBd9jp8WXQx+PxslmWae/9GijrIQF3mEaBFDIF
+nmyzTFcsAYCilAGeUXy/30N2Y4x5wMWWa6a8wYppxq2TiMf0k8KgD6zNLA6yMOg0iFJEzqMCkcpT
+dqWnpbUW2e+4V/+BiNzoldZ7TwXSMnrZvOgdYyzdqc1l6gEzkE6VHUsztQJGMy4HtZhdZZwGlcAS
+UD8vAeXIlUBejrbWUqmWYqpd6M2zlgKNyp2cZ4G3mFoAmnEZqAT2XPwV90ogfuZVqRJQq+ZGfVMJ
+qNw0uuayth29q86wDFTrFfVLZaA7HUQZqOVaqxssda+VJl5El4FGtfbKnRqCEtF87ctomr1plkyt
+qLUitlRTr/Tp3CyvSBlNvxK9mVeLLPBLh1/R1Xsmm/DZ9175mpJd0y9TL+7d/ZoS3anyANzYTYLs
+3l2mVrRGTKWLf0fTSj2B9xdkU1Pv2trVk+f6C1pKU3363TVX02/qycagNwn4DT2tXJ2aSsCq/JS/
+k7pOUKsDWOWnV/i9/SYoX9RWB7DaNPKG11EQ0TvTjKY7Y8vFEzTq9D4ZW1IQgPWHn2L7BzSSPB17
++Ra4AAAAAElFTkSuQmCC
+"
+         id="image3880"
+         x="480.04547"
+         y="240.63635" />
+    </g>
+    <g
+       id="g4013"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackqueen.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="196.63635"
+         x="-156.74545"
+         height="142"
+         width="142"
+         id="rect3905-1"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="42"
+         height="110"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAABuCAYAAABRCoEhAAAABHNCSVQICAgIfAhkiAAABBdJREFU
+eJztXNuNqzAQPUS3AfeUFlwlLaSnlMD9WA0aHD/mZeKVdqQVjg3mcOaJ4+x2HMeBQNm2DQAQPC0e
+obNNlD+g0fJrgP7zTkDOM+r3OpcLKIHJOeP9fiOlBAAf7dfrhW3bXGDNqpeCTCkh53y5xiSHQACo
+/nLOqvMlso0Cfo25fd/PcWKrNSbtH5mFSvUpJbzf7xMc3bA3RmbwfD6r/VIZMgpcbYvfqDwC6Pbx
+NmdY4mQioCVgYk0DrAZSEwVUQEuwNRXOAAkYwhPdYN/3k0kCAuDSV7atIE1AyxtJ1E5grSABg+rP
+Cwt7naVyEnNm4jeUOJIHJBBQPZXqbbW94gZKjEkY9UgIo/y4NKMar7dKSIU/stEI9ZvCk6uuhM37
+1RW+pmAm4Z/3fTdV+yrVa0ByJ+Nj1mrfVD1FiYZVteo1KicZ1aMSMXm9JBOVqvfGVpPqn8+nqKJv
+OdW+73OdiSZvxcpeX3mdVkyqb9llq68WAW4BOrLLFpOeDGVOoVIb5Z+pfRvQGoCejUaUfSagr9fr
+A5zGbm8BSp4v8fraeZbQZAJK0ivnotXuAtoCWwKPqvZdQCUvdksxKsn9SzBKQMq+JRitBXUCvBSj
+ZaBfllG6OQc7amuLZTfQ4zjOZUcCPHs17xZGIxYh3OEJkNmldxHittW8rzI6yumtd6fbgfZqUd6O
+WHsKcaaep0c4EjAx10eDDc31syonN9Daq8iMPO8GykFIqyirhGemJRmVviN9ndESxLI2OloRWYbR
+WvG8JKNAfSGC+pdhlAOUtq3i2qDFgdDnJRlNKd3GaGh4WpZR4JfYKDCuRctzrDJlkaxnu18Betcq
+iRko/05UY6M5Z/P3qWZGpduIyrZVXKt5wH1eH/Y9k6TtATt9aZza/HgrUE1VH7GsE7aQK2l/jVE6
+Lu31vap+xkqJaTsRxVBtZiKw07cTkXB2tDbK90dPBzp685wR9KfY6Ayw0+JotPe7N7+0GFuCUc5K
+y0ZHjGrLPfUmQv77EKuNWjxfzWiNtV66jLLRy5a36N2MXuFJ4SMzaXcz9sYtY9Quv+A9Vc/tTxIH
+JeOWsdb71cVGpXFQktNb81hj7QWolDFJTm/NY421H87UslFL3em1Ue5Mv8/re7ttSbSseK4rt8Ff
+bDTnLPZUaXlnvY5+9XgSSaqX7l8esRdxHTEK4JPR0f5lmqh1Tm289GBNTOaYLoxyVleRrjPVFr/K
+zxrHsc5VdaYWyJ4DSM6zzEXt8jcl23EcRy3Ql09vcaAWk5rkQYH/UU5SYwNo5+WZILk8iFptzi7P
+a43VHngUPUrv37bth9FeDSploTVmtVG6hmz1VH3tiTRP3soytQeWzsv7mjaaUlI9+Yh5jXZqvvHo
+sTEak9qop03HDT//MGJ5+Q9Aijr0t+jXCgAAAABJRU5ErkJggg==
+"
+         id="image3891"
+         x="-106.74545"
+         y="212.63635" />
+    </g>
+    <g
+       id="g4025"
+       inkscape:export-filename="E:\Repositories\anvato_interview_chess\misc\blackrook.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="196.63635"
+         x="278.47275"
+         height="142"
+         width="142"
+         id="rect3905-0"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <image
+         width="34"
+         height="76"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAABMCAYAAAAIuWXoAAAABHNCSVQICAgIfAhkiAAAAsNJREFU
+aIHtWu1xwzAIRbkuoJ28gqf0CtnJI7g/WjkYIXhSUHy9K3+qWNg8w+MjUdNxHAf9SkqJNGEqp0Tr
+fsnNdV2JiGjfd8o507Zt6kOidR/yhn3fiYgo53yuWxKpWwHJOV+QWxKpW4VGU27F+F1dLkmSdVmW
+Cj1/gLdGdZ/P54WsamhkPLVr7+q6HiGqGd5yb2vt6ZaMaXqEb8i3Qz2C6EpbFRDtTaI50kpzFYh8
+u0iOQFlDVPMkwgt8rfFD9UhR4C6MypSyVvuR9Aj3yizRgKiVtci6riHpijRFlaxFtm2DYo+A8EQN
+zbkZHCLDlB2acmNKSa228m1b4bAAFDFDI8XKEGsPERiIrLbSuKzEXC8USKuXyD3tcyiQVhWVe/zz
+FCAt17ca5FSPlL+tjtriSigQq69oxnvDM5w1XgpP5YhXM0bD0gXEM2gBDQXSqpieZ8KBeG+vrXtk
+KDR8jUxk4UBG59VwIBYfPtZ9uTFrPd0jKB+mewT9FncbRyTIkaGoGwjKERmmUCA9HJleWflfjyPl
+ejgQKys0jkwjK1pFp88j3Ii1nj6zciOt9ShRu4AgWTOaul1ARjgyremhs8cIYYdHRfT7TTgQ6QGL
+IyPj4nBobp1HOJjb5xEJphj/n0dum0ekkdvqCBHWa+ReOJCeXjPSfdUTrE9KMX/+4Ft+1EVS0NNB
+SL3vPweMRR7eA2QGWA/uASHBX4BodcDqI0gtQbKsAiJPI6RBtJIimcXDQvSXyYpcQ7nBD5Kgk/Dy
+EPQaOu1zUf9tA+ECMsV7xY/LyRF+zIq61gNj3S+PXSsgn5YLWUcOnTW9nntLZU0p0XEcL46UkLRu
+tohZ1j0gcs6XF1crq1VhLb23KivnRisjLM+g1dYKb0rpxyMyUyyDaFqi3lmW5RUardMi05e37tl/
+aDxAurDnnR7vERElIvKPqT8g31jKpMU50xeKAAAAAElFTkSuQmCC
+"
+         id="image3902"
+         x="332.47275"
+         y="229.63635" />
+    </g>
+  </g>
+</svg>
