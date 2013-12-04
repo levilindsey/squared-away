@@ -92,6 +92,35 @@ NEXT:
 - TDD!!
 - Spring framework
 - small jsfiddle projects
+----------------------------------------------------------------------------------------------------
+------ from gmail:
+- fix the game over message when starting a new game
+- cache-control max-age
+- get set up with a CDN
+- clear and prepass boarding
+And use the gzip header
+Split content across two domains
+- requirejs
+- minify code
+- check whether redirects (301) are caused when visiting www.jackieandlevi.com/Levi instead of www.jackieandlevi.com/Levi/.
+- Use far-future expires headers and use some tool to append version numbers to the ends of filenames
+- check my yslow score
+- integrate some sort of forum system for people to talk/ask about it
+- do link to and mention the guthub code
+- just redraw the "dirty" regions of the canvas that have changed between frames
+- test for a long list of things that the browser needs to support (for each of these things, tell the user what is missing):
+    - canvas
+    - audio stuff...
+    - transparency in CSS colors
+    - 
+- add proper unit tests for classes:
+    - google how to go about doing this
+- set font family to use Courier New before monospace
+- add a p:first-letter css property
+- add a url attribute to each of the song checkboxes, and use the css :after pseudo-element to append the play button link (using the attr(url) content property)
+- use CSS image sprites to handle all of the buttons (http://www.w3schools.com/css/css_image_sprites.asp)
+- use google fonts
+- sprite sheet for images
 
 
 // ------------------------------------------------------------------------- //
