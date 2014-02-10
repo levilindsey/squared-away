@@ -1,4 +1,4 @@
-Squared Away
+squared-away
 =======
 
 A tile-matching puzzle game.
