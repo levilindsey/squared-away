@@ -2,7 +2,7 @@
 
 #### A tile-matching puzzle game.
 
-_See the app running at www.jackieandlevi.com/squared-away!_
+_See the app running at [www.jackieandlevi.com/squared-away](http://www.jackieandlevi.com/squared-away)!_
 
 This app was designed with emphasis on native JavaScript code without the use of external libraries. (That being said, it does use SoundJS, due to the limited functionality of the currently supported HTML5 audio utilities.)
 
