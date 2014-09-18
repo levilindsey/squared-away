@@ -2,40 +2,49 @@ body div a:active {
   color: #ea566b;
   text-decoration: none;
 }
+
 a:link {
   color: #569fea;
   text-decoration: none;
 }
+
 body a:hover {
   text-decoration: underline;
 }
+
 a:visited {
   color: #be56ea;
   text-decoration: none;
 }
+
 a img {
   border: none;
 }
+
 * {
   margin: 0px;
   padding: 0px;
 }
+
 html {
   height: 100%;
 }
+
 body {
   background-color: #020202;
-  background-image: url("/squaredaway/images/background.png");
+  background-image: url('/squared-away/images/background.png');
   background-repeat: repeat;
   color: #dafada;
   font-family: monospace;
   font-size: 12pt;
   height: 100%;
 }
+
 hr {
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
 h1,
 h2,
 h3,
@@ -45,43 +54,53 @@ h4 {
   text-align: center;
   width: 100%;
 }
+
 h1 {
   color: #fadada;
   font-size: 18pt;
 }
+
 h2 {
   color: #dadafa;
   font-size: 14pt;
 }
+
 /* ---------- Chapter select screen ---------- */
+
 div#mainMenuScreen {
   display: block;
 }
+
 #mainMenuScreen>* {
   position: absolute;
   left: 0px;
   top: 0px;
   display: block;
 }
+
 #quickPlayButton {
   left: 10px;
   top: 10px;
 }
+
 #mainMenuScreenCustomPlayButton {
   left: 458px;
   top: 10px;
 }
+
 #prevButton {
   display: none;
   left: 10px;
   top: 315px;
   width: 69px;
 }
+
 #nextButton {
   left: 641px;
   top: 330px;
   width: 69px;
 }
+
 #chapterProgressIndicator {
   color: #fff;
   font-size: 22px;
@@ -91,6 +110,7 @@ div#mainMenuScreen {
   width: 100px;
   height: 30px;
 }
+
 #chapterList {
   left: 110px;
   top: 110px;
@@ -98,6 +118,7 @@ div#mainMenuScreen {
   height: 500px;
   overflow: hidden;
 }
+
 img.chapterItem {
   position: absolute;
   left: 500px;
@@ -114,38 +135,50 @@ img.chapterItem {
   -webkit-transition-timing-function: cubic-bezier(0.7, 0.15, 0.75, 1);
   -webkit-transition-delay: 0s;
 }
+
 /* ---------- Pause screen ---------- */
+
 #pauseScreen>* {
   margin: 15px auto;
 }
+
 #explanationTextArea {
   display: none;
   width: 500px;
   font-size: 30px;
   text-align: left;
 }
+
 /* ---------- Game over screen ---------- */
+
 #gameOverScreen>* {
   margin: 15px auto;
 }
+
 #statsTable {
   width: 300px;
   font-size: 25px;
   text-align: left;
 }
+
 #statsTable>td {
   width: 50%;
 }
+
 /* ---------- Custom play screen ---------- */
+
 #customPlayScreen>* {
   margin: 15px auto;
 }
+
 /* ---------- Game area ---------- */
+
 #gameCanvas {
   height: 100%;
   width: 100%;
   z-index: 1;
 }
+
 .canvasButton {
   display: none;
   position: absolute;
@@ -154,15 +187,18 @@ img.chapterItem {
   width: 70px;
   z-index: 5;
 }
+
 #helpButton {
 /* Left-side button */
   left: 10px;
 }
+
 #musicButton,
 #sfxButton {
 /* Right-side button */
   left: 640px;
 }
+
 #topLevelDisplayArea {
   display: none;
   position: absolute;
@@ -174,6 +210,7 @@ img.chapterItem {
   width: 700px;
   z-index: 2;
 }
+
 #topScoreDisplayArea {
   display: none;
   position: absolute;
@@ -185,7 +222,9 @@ img.chapterItem {
   width: 700px;
   z-index: 2;
 }
+
 /* ---------- Miscellaneous ---------- */
+
 .screen {
   position: absolute;
   display: none;
@@ -198,14 +237,17 @@ img.chapterItem {
   transition: visibility 0.2s ease 0s;
   -webkit-transition: visibility 0.2s ease 0s;
 }
+
 .button {
   display: block;
   width: 252px;
   height: 90px;
 }
+
 .button:hover {
   cursor: pointer;
 }
+
 #hintTextArea {
   position: absolute;
   display: none;
@@ -218,90 +260,110 @@ img.chapterItem {
   font-size: 20px;
   text-align: left;
 }
+
 .customControl {
   display: none;
 }
+
 #aboutArea img {
   float: left;
   margin-right: 10px;
   height: 64px;
   width: 64px;
 }
+
 #aboutArea p {
   margin-bottom: 10px;
   overflow: auto;
 }
+
 #mainTitle {
   background-color: rgba(2,2,2,0.4);
   padding: 10px 0px;
   width: 100%;
 }
+
 #betaLabel {
   padding: 10px 0px;
 }
+
 #title {
   display: block;
   margin: 0px auto;
   height: 56px;
 }
+
 #console {
   background-color: #141414;
   margin: 10px 0px;
   padding: 10px 0px;
   width: 100%;
 }
+
 #console>h1 {
   background-color: #141414;
 }
+
 .directionsTable td {
   border: 1px;
   border-color: #fff;
   border-style: solid;
   padding: 5px;
 }
+
 .directionsTable {
   border-collapse: collapse;
 }
+
 #infoArea {
   background-color: rgba(2,2,2,0.4);
   padding: 1px 0px;
   width: 100%;
 }
+
 #infoArea>* {
   clear: both;
   margin: 10px;
 }
+
 #musicArea>p {
   clear: both;
   text-align: center;
 }
+
 #noJavaScriptArea {
   background-color: rgba(2,2,2,0.4);
   margin: 10px 0px;
   padding: 1px 0px;
   width: 720px;
 }
+
 #noJavaScriptArea>* {
   margin: 10px;
 }
+
 #nowPlaying {
   font-style: italic;
 }
+
 #optionsArea>p {
   margin: 0px auto;
   width: 100%;
 }
+
 #pageColumn {
   height: 100%;
   padding: 10px;
   margin: 0px auto;
   width: 720px;
 }
+
 .peanutGallery {
   color: #fafada;
   font-style: italic;
   margin: 0px 0px -1em 50px;
 }
+
 #playArea {
   position: relative;
   font-weight: bold;
@@ -309,10 +371,12 @@ img.chapterItem {
   margin: 10px 0px;
   width: 100%;
 }
+
 #gameScreen {
   width: 100%;
   height: 100%;
 }
+
 #problemScreen {
   display: none;
   position: absolute;
@@ -323,6 +387,7 @@ img.chapterItem {
   width: 100%;
   z-index: 4;
 }
+
 #problemText {
   color: #d00;
   font-size: 20pt;
@@ -331,6 +396,7 @@ img.chapterItem {
   text-align: center;
   width: 100%;
 }
+
 .textColumn {
   float: left;
   text-align: left;
