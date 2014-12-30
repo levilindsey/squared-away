@@ -31,7 +31,7 @@
         else {
       // Given a single url
 
-            _loadURL(urlOrArr);
+            _loadURL(urlOrArray);
         }
 
     log.d('<--resources._loadURLOrArray');

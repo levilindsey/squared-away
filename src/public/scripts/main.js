@@ -26,7 +26,7 @@
 
   var _ABANDON_CONFIRMATION_MSG = 'Are you sure you want to abandon your progress in the current game?';
 
-  var _IMAGE_PATH = '/squaredaway/images/';
+  var _IMAGE_PATH = '/squared-away/images/';
 
   var _NUMBER_OF_CHAPTERS = 8;
 
@@ -388,6 +388,7 @@
       // directions table
       var helpButton = document.getElementById('helpButton');
       if (this === helpButton && _selectedChapterIndex <= 0) {
+        var infoArea = document.getElementById('infoArea');
         var infoAreaRect = utils.standardizeClientRect(infoArea);
         window.scrollTo(0, infoAreaRect.top);
       }
