@@ -344,6 +344,9 @@
 
     sound.init(_onAudioOut);
 
+    // Start on the custom play screen
+    _onCustomPlayClick();
+
     log.i('<--main._init');
   }
 
