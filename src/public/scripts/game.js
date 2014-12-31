@@ -1092,8 +1092,6 @@
     isPaused: true,
     isEnded: true,
 
-    isMobile: false,
-
     musicOn: true,
     sfxOn: true,
 

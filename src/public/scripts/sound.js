@@ -47,102 +47,102 @@
   var _sfxManifest = [
     {
       id: 'blockSelect',
-      src: _SFX_PATH + 'block_select.ogg|' + _SFX_PATH + 'block_select.m4a',
+      src: 'block_select.ogg',
       data: 2
     },
     {
       id: 'bombPrimed',
-      src: _SFX_PATH + 'bomb_primed.ogg|' + _SFX_PATH + 'bomb_primed.m4a',
+      src: 'bomb_primed.ogg',
       data: 2
     },
     {
       id: 'bombReleased',
-      src: _SFX_PATH + 'bomb_released.ogg|' + _SFX_PATH + 'bomb_released.m4a',
+      src: 'bomb_released.ogg',
       data: 2
     },
     {
       id: 'changeFallDirection',
-      src: _SFX_PATH + 'change_fall_direction.ogg|' + _SFX_PATH + 'change_fall_direction.m4a',
+      src: 'change_fall_direction.ogg',
       data: 2
     },
     {
       id: 'chapterComplete',
-      src: _SFX_PATH + 'earned_bonus.ogg|' + _SFX_PATH + 'earned_bonus.m4a',// TODO: add a new sound file for this
+      src: 'earned_bonus.ogg',// TODO: add a new sound file for this
       data: 1
     },
     {
       id: 'collapse',
-      src: _SFX_PATH + 'collapse.ogg|' + _SFX_PATH + 'collapse.m4a',
+      src: 'collapse.ogg',
       data: 3
     },
     {
       id: 'collapseBombDetonate',
-      src: _SFX_PATH + 'collapse_bomb_detonate.ogg|' + _SFX_PATH + 'collapse_bomb_detonate.m4a',
+      src: 'collapse_bomb_detonate.ogg',
       data: 2
     },
     {
       id: 'earnedBonus',
-      src: _SFX_PATH + 'earned_bonus.ogg|' + _SFX_PATH + 'earned_bonus.m4a',
+      src: 'earned_bonus.ogg',
       data: 1
     },
     {
       id: 'fall',
-      src: _SFX_PATH + 'fall.ogg|' + _SFX_PATH + 'fall.m4a',
+      src: 'fall.ogg',
       data: 4
     },
     {
       id: 'gameOver',
-      src: _SFX_PATH + 'game_over.ogg|' + _SFX_PATH + 'game_over.m4a',
+      src: 'game_over.ogg',
       data: 1
     },
     {
       id: 'gameStart',
-      src: _SFX_PATH + 'unpause.ogg|' + _SFX_PATH + 'unpause.m4a',// TODO: add a new sound file for this
+      src: 'unpause.ogg',// TODO: add a new sound file for this
       data: 1
     },
     {
       id: 'land',
-      src: _SFX_PATH + 'land.ogg|' + _SFX_PATH + 'land.m4a',
+      src: 'land.ogg',
       data: 3
     },
     {
       id: 'level',
-      src: _SFX_PATH + 'level.ogg|' + _SFX_PATH + 'level.m4a',
+      src: 'level.ogg',
       data: 1
     },
     {
       id: 'move',
-      src: _SFX_PATH + 'move.ogg|' + _SFX_PATH + 'move.m4a',
+      src: 'move.ogg',
       data: 3
     },
     {
       id: 'newBlock',
-      src: _SFX_PATH + 'new_block.ogg|' + _SFX_PATH + 'new_block.m4a',
+      src: 'new_block.ogg',
       data: 3
     },
     {
       id: 'pause',
-      src: _SFX_PATH + 'pause.ogg|' + _SFX_PATH + 'pause.m4a',
+      src: 'pause.ogg',
       data: 1
     },
     {
       id: 'rotate',
-      src: _SFX_PATH + 'rotate.ogg|' + _SFX_PATH + 'rotate.m4a',
+      src: 'rotate.ogg',
       data: 3
     },
     {
       id: 'settleBombDetonate',
-      src: _SFX_PATH + 'settle_bomb_detonate.ogg|' + _SFX_PATH + 'settle_bomb_detonate.m4a',
+      src: 'settle_bomb_detonate.ogg',
       data: 2
     },
     {
       id: 'unableToMove',
-      src: _SFX_PATH + 'unable_to_move.ogg|' + _SFX_PATH + 'unable_to_move.m4a',
+      src: 'unable_to_move.ogg',
       data: 3
     },
     {
       id: 'unpause',
-      src: _SFX_PATH + 'unpause.ogg|' + _SFX_PATH + 'unpause.m4a',
+      src: 'unpause.ogg',
       data: 1
     }
   ];
@@ -150,97 +150,97 @@
   var _musicManifest = [
     {
       id: 'aNightOfDizzySpells',
-      src: _MUSIC_PATH + 'a_night_of_dizzy_spells.ogg|' + _MUSIC_PATH + 'a_night_of_dizzy_spells.m4a',
+      src: 'a_night_of_dizzy_spells.ogg',
       data: 1,
       title: 'A Night of Dizzy Spells'
     },
     {
       id: 'allOfUs',
-      src: _MUSIC_PATH + 'all_of_us.ogg|' + _MUSIC_PATH + 'all_of_us.m4a',
+      src: 'all_of_us.ogg',
       data: 1,
       title: 'All of Us'
     },
     {
       id: 'arpanauts',
-      src: _MUSIC_PATH + 'arpanauts.ogg|' + _MUSIC_PATH + 'arpanauts.m4a',
+      src: 'arpanauts.ogg',
       data: 1,
       title: 'Arpanauts'
     },
     {
       id: 'ascending',
-      src: _MUSIC_PATH + 'ascending.ogg|' + _MUSIC_PATH + 'ascending.m4a',
+      src: 'ascending.ogg',
       data: 1,
       title: 'Ascending'
     },
     {
       id: 'chibiNinja',
-      src: _MUSIC_PATH + 'chibi_ninja.ogg|' + _MUSIC_PATH + 'chibi_ninja.m4a',
+      src: 'chibi_ninja.ogg',
       data: 1,
       title: 'Chibi Ninja'
     },
     {
       id: 'comeAndFindMe',
-      src: _MUSIC_PATH + 'come_and_find_me.ogg|' + _MUSIC_PATH + 'come_and_find_me.m4a',
+      src: 'come_and_find_me.ogg',
       data: 1,
       title: 'Come and Find Me'
     },
     {
       id: 'comeAndFindMeB',
-      src: _MUSIC_PATH + 'come_and_find_me_b_mix.ogg|' + _MUSIC_PATH + 'come_and_find_me_b_mix.m4a',
+      src: 'come_and_find_me_b_mix.ogg',
       data: 1,
       title: 'Come and Find Me (B Mix)'
     },
     {
       id: 'digitalNative',
-      src: _MUSIC_PATH + 'digital_native.ogg|' + _MUSIC_PATH + 'digital_native.m4a',
+      src: 'digital_native.ogg',
       data: 1,
       title: 'Digital Native'
     },
     {
       id: 'hhavokIntro',
-      src: _MUSIC_PATH + 'hhavok_intro.ogg|' + _MUSIC_PATH + 'hhavok_intro.m4a',
+      src: 'hhavok_intro.ogg',
       data: 1,
       title: 'HHavok (Intro)'
     },
     {
       id: 'hhavokMain',
-      src: _MUSIC_PATH + 'hhavok_main.ogg|' + _MUSIC_PATH + 'hhavok_main.m4a',
+      src: 'hhavok_main.ogg',
       data: 1,
       title: 'HHavok (Main)'
     },
     {
       id: 'jumpshot',
-      src: _MUSIC_PATH + 'jumpshot.ogg|' + _MUSIC_PATH + 'jumpshot.m4a',
+      src: 'jumpshot.ogg',
       data: 1,
       title: 'Jumpshot'
     },
     {
       id: 'prologue',
-      src: _MUSIC_PATH + 'prologue.ogg|' + _MUSIC_PATH + 'prologue.m4a',
+      src: 'prologue.ogg',
       data: 1,
       title: 'Prologue'
     },
     {
       id: 'searching',
-      src: _MUSIC_PATH + 'searching.ogg|' + _MUSIC_PATH + 'searching.m4a',
+      src: 'searching.ogg',
       data: 1,
       title: 'Searching'
     },
     {
       id: 'underclocked',
-      src: _MUSIC_PATH + 'underclocked.ogg|' + _MUSIC_PATH + 'underclocked.m4a',
+      src: 'underclocked.ogg',
       data: 1,
       title: 'Underclocked (Underunderclocked Mix)'
     },
     {
       id: 'wereAllUnderTheStars',
-      src: _MUSIC_PATH + 'were_all_under_the_stars.ogg|' + _MUSIC_PATH + 'were_all_under_the_stars.m4a',
+      src: 'were_all_under_the_stars.ogg',
       data: 1,
       title: 'We&apos;re All Under the Stars'
     },
     {
       id: 'wereTheResistors',
-      src: _MUSIC_PATH + 'were_the_resistors.ogg|' + _MUSIC_PATH + 'were_the_resistors.m4a',
+      src: 'were_the_resistors.ogg',
       data: 1,
       title: 'We&apos;re the Resistors'
     }
@@ -251,16 +251,18 @@
 
     _onAudioToggle = onAudioToggle;
 
-    // If this is on a mobile device, sounds need to be played inside of a touch event
-    if (createjs.Sound.BrowserDetect.isIOS || 
-        createjs.Sound.BrowserDetect.isAndroid || 
-        createjs.Sound.BrowserDetect.isBlackberry) {
-      // TODO: sound may not work... (look at the MobileSafe demo for an example of how I might be able to fix this)
-      game.isMobile = true;
-      log.w('---sound._init: sound will not be played on mobile browsers');
-    }
+    createjs.Sound.alternateExtensions = ['m4a'];
+
+    //// If this is on a mobile device, sounds need to be played inside of a touch event
+    //if (createjs.Sound.BrowserDetect.isIOS ||
+    //    createjs.Sound.BrowserDetect.isAndroid ||
+    //    createjs.Sound.BrowserDetect.isBlackberry) {
+    //  // TODO: sound may not work... (look at the MobileSafe demo for an example of how I might be able to fix this)
+    //  game.isMobile = true;
+    //  log.w('---sound._init: sound will not be played on mobile browsers');
+    //} else
     // Test that the browser supports sound
-    else if (!createjs.Sound.initializeDefaultPlugins()) {
+    if (!createjs.Sound.initializeDefaultPlugins()) {
       // TODO: notify the actual user somehow
       log.e('---sound._init: Browser does not support audio');
     }
@@ -281,21 +283,21 @@
 
   function _registerSounds() {
     // Register (prepare and preload) all sound effects
-    createjs.Sound.addEventListener('loadComplete', _onLoadingAudioComplete);
-    createjs.Sound.registerManifest(_sfxManifest);
-    createjs.Sound.registerManifest(_musicManifest);
+    createjs.Sound.on('fileload', _onLoadingAudioComplete);
+    createjs.Sound.registerSounds(_sfxManifest, _SFX_PATH);
+    createjs.Sound.registerSounds(_musicManifest, _MUSIC_PATH);
 
     // Periodically try to re-register any songs which did not register 
     // successfully before
-    setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
-    setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
+    //setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
+    //setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
   }
 
   function _registerRemainingMusic() {
     if (_registeredMusicIds.length < _musicManifest.length) {
       setTimeout(_registerRemainingMusic, _RE_REGISTER_MUSIC_DELAY);
 
-      var unregisteredSoundIds = _registerRemainingSounds(_registeredMusicIds, _musicManifest);
+      var unregisteredSoundIds = _registerRemainingSounds(_registeredMusicIds, _musicManifest, _MUSIC_PATH);
 
       _logUnregisteredSounds(unregisteredSoundIds);
     }
@@ -305,7 +307,7 @@
     if (_registeredSfxIds.length < _sfxManifest.length) {
       setTimeout(_registerRemainingSfx, _RE_REGISTER_SFX_DELAY);
 
-      var unregisteredSoundIds = _registerRemainingSounds(_registeredSfxIds, _sfxManifest);
+      var unregisteredSoundIds = _registerRemainingSounds(_registeredSfxIds, _sfxManifest, _SFX_PATH);
 
       _logUnregisteredSounds(unregisteredSoundIds);
     }
@@ -330,7 +332,7 @@
     return utils.getDifference(manifestIds, registeredSoundIds);
   }
 
-  function _registerRemainingSounds(registeredSoundIds, manifest) {
+  function _registerRemainingSounds(registeredSoundIds, manifest, basePath) {
     if (registeredSoundIds.length < manifest.length) {
       var unregisteredSoundIds = _getUnregisteredSoundIds(registeredSoundIds, manifest);
       var soundIndex;
@@ -339,7 +341,7 @@
       for (i = 0; i < unregisteredSoundIds.length; ++i) {
         soundIndex = _getManifestIndex(unregisteredSoundIds[i], manifest);
         sound = manifest[soundIndex];
-        createjs.Sound.registerSound(sound.src, sound.id, sound.data);
+        createjs.Sound.registerSound(sound.src, sound.id, sound.data, basePath);
       }
       return unregisteredSoundIds;
     }
@@ -377,13 +379,13 @@
   }
 
   function _playSfx(soundId) {
-    if (!game.isMobile && game.sfxOn) {
+    if (game.sfxOn) {
       createjs.Sound.play(soundId, createjs.Sound.INTERRUPT_ANY, 0, 0, 0, sound.sfxVolume, 0);
     }
   }
 
   function _toggleMusic() {
-    if (!game.isMobile && game.musicOn) {
+    if (game.musicOn) {
       game.musicOn = false;
       _pauseMusic();
     } else {
@@ -395,7 +397,7 @@
   }
 
   function _toggleSfx() {
-    if (!game.isMobile && game.sfxOn) {
+    if (game.sfxOn) {
       game.sfxOn = false;
     } else {
       game.sfxOn = true;
@@ -434,8 +436,8 @@
 
   function _getSoundInstance(soundId) {
     var soundInstance = createjs.Sound.createInstance(soundId);
-    soundInstance.addEventListener('complete', _onSongEnd);
-    soundInstance.addEventListener('failed', _onSoundError);
+    soundInstance.on('complete', _onSongEnd);
+    soundInstance.on('failed', _onSoundError);
     return soundInstance;
   }
 
@@ -532,7 +534,7 @@
   }
 
   function _playCurrentMusic(playEvenIfNotSelected) {
-    if (!game.isMobile && _currentMusicInstance) {
+    if (_currentMusicInstance) {
       var currSong = _musicManifest[_currMusicIndex];
       var selectedMusicIndex = _selectedMusicIds.indexOf(currSong.id);
 
